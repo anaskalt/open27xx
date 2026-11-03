@@ -1,0 +1,29 @@
+name: Bug report
+description: A problem with the tools, scripts or documentation
+labels: [bug]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem
+      description: What happened, and what you expected instead.
+    validations:
+      required: true
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Steps to reproduce
+      description: Commands, input files and their versions or SHA-256.
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: open27xx version or commit
+    validations:
+      required: true
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      description: Host OS and Python version; board and bootloader version for hardware issues.
