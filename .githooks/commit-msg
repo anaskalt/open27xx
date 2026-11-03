@@ -1,0 +1,39 @@
+#!/bin/sh
+# SPDX-FileCopyrightText: 2026 The open27xx Authors
+# SPDX-License-Identifier: GPL-2.0-or-later
+#
+# Check that a commit message follows the rules in CONTRIBUTING.md.
+# Usage: commit-msg <message file>
+
+set -eu
+
+# Drop the comment lines and the diff below the scissors line that git
+# leaves in the file when the message is written in an editor.
+msg=$(sed '/^# -* >8 -*$/,$d' "$1" | git stripspace --strip-comments)
+header=$(printf '%s\n' "$msg" | sed -n '1p')
+second=$(printf '%s\n' "$msg" | sed -n '2p')
+
+case $header in
+  "Merge "* | "Revert \""* | "fixup! "* | "squash! "* | "amend! "*) exit 0 ;;
+esac
+
+fail() {
+  echo "commit-msg: $1" >&2
+  echo "commit-msg: header: $header" >&2
+  exit 1
+}
+
+types='feat|fix|docs|test|refactor|perf|build|ci|chore|revert'
+printf '%s\n' "$header" | grep -Eq "^($types)(\([a-z0-9-]+\))?!?: [a-z0-9]" ||
+  fail "expected 'type(scope): summary' with a lower-case summary"
+
+case $header in
+  *.) fail "no period at the end of the header" ;;
+esac
+
+summary=${header#*: }
+[ ${#summary} -le 60 ] || fail "summary has ${#summary} characters, at most 60 allowed"
+
+[ -z "$second" ] || fail "leave the second line empty"
+
+exit 0
