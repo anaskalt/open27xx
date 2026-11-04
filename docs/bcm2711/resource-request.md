@@ -254,13 +254,19 @@ it must not be silently converted into host validation failure. An absent
 host API pointer must not silently select the vendor-null case. Identity
 tokens express the observed comparison without asserting ownership.
 
-Require a callback provider only when the selected path calls it. A true
-condition needs no context fields or provider. An unavailable context on
-a false condition is outside the vendor-return contract; it must not be
-treated as an implicit zero reply. Host validation errors remain distinct
-from vendor raw words and the pre-`BKPT` outcome. Callback identity tokens
-label the selected boundary; incidental argument-register contents and
-native callback addresses do not prescribe a host calling convention.
+The portable input supplies the literal reply words before execution, as
+the fixtures do. Preflight the providers reachable under that declared
+reply plan before emitting calls or changing state. A fresh request whose
+first enable reply is 7 therefore requires the context provider in advance;
+a true condition needs no context fields or provider. Providers that may
+return an undeclared word or mutate state are outside this contract. No
+error or rollback policy for such providers is defined here.
+
+An unavailable context on a reachable false-condition path must not become
+an implicit zero reply. Host validation errors remain distinct from vendor
+raw words and the pre-`BKPT` outcome. Callback identity tokens label the
+selected boundary; incidental argument-register contents and native callback
+addresses do not prescribe a host calling convention.
 
 The fixtures cover fresh, shared, held and duplicate states, unchanged-state
 diagnostic/mutex replies zero, enable replies zero or first reply 7, and
