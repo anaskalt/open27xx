@@ -6,7 +6,7 @@ JOBS ?= 2
 TOOLCHAIN_PREFIX ?= vc4-elf-
 ARM64_TOOLCHAIN_PREFIX ?= aarch64-linux-gnu-
 
-.PHONY: all fetch check armstub check-armstub-metadata check-boot-info check-arm-control check-memory-capacity check-memory-layout check-resource-request check-clock-request check-clock-driver check-clock-composition check-resource-composition check-arm-start-composition stage
+.PHONY: all fetch check armstub check-armstub-metadata check-boot-info check-arm-control check-memory-capacity check-memory-layout check-resource-request check-clock-request check-clock-driver check-clock-composition check-resource-composition check-arm-start-composition check-arm-object stage
 all:
 	$(PYTHON) ../../tools/start4.py build --jobs $(JOBS) --toolchain-prefix $(TOOLCHAIN_PREFIX)
 
@@ -73,6 +73,11 @@ check-arm-start-composition: check-resource-composition
 	mkdir -p ../../build/start4
 	$(TOOLCHAIN_PREFIX)gcc -std=c99 -Os -ffixed-lr -ffreestanding -fno-builtin \
 		-Wall -Wextra -Werror -pedantic -c arm_start_composition.c -o ../../build/start4/arm-start-composition.o
+
+check-arm-object:
+	mkdir -p ../../build/start4
+	$(TOOLCHAIN_PREFIX)gcc -std=c99 -Os -ffixed-lr -ffreestanding -fno-builtin \
+		-Wall -Wextra -Werror -pedantic -c arm_object.c -o ../../build/start4/arm-object.o
 
 stage:
 	$(PYTHON) ../../tools/start4.py stage

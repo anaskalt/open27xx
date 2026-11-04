@@ -94,6 +94,67 @@ device-tree pointer, while secondary cores wait on release slots.
 artifacts. The VPU image does not embed, patch, load or execute this stub.
 The build checks its 256-byte padding and the four-word header at 0xF0.
 
+## ARM object registration and repeated open
+
+[`arm_object.h`](arm_object.h) exposes two freestanding operations from
+[`arm_object.c`](arm_object.c), bounded by the complete profiles in the
+[ARM object contract](../../docs/bcm2711/arm-object.md).
+`arm_object_register` accepts an explicit output-presence word, a writable
+record byte view and its full declared length, a separate object-output
+word, an observer plan and a separate raw-result destination.
+
+Present-output registration accepts the four documented 896-byte record
+profiles and incoming output 0xA5A5A5A5. It clears the output before acquire,
+scans the self words, preserves request and retained words, and stores the
+selected identity, index and fixed metadata before diagnostic and release.
+The token base is 0xE40DA4C4; it is independent of the host buffer address.
+Full registration returns raw 0xFFFFFFFF after acquire and release, without
+a diagnostic. Successful selection returns raw zero.
+
+`output_present` zero represents the vendor-null output argument. It needs
+only the raw-result destination and produces raw 0xFFFFFFFF without any
+observation. The other pointers may be null; null records require length
+zero. Optional supplied objects and declared extents still participate in
+address and overlap checks, but their contents are not accessed.
+A missing host raw-result pointer is always an error.
+
+`arm_object_reopen` accepts parameter word 0x400 and byte 2, caller-owned
+count/object state 1/0x11223344, handle output 0xA5A5A5A5, an observer plan
+and a raw-result destination. Acquire sees the initial state. Release sees
+count 2 and the unchanged handle output. The helper then writes handle
+0x61726D11 and raw zero. The object stays unchanged. The first-open prefix
+has no portable API, and this helper does not establish prior initialization.
+
+Both operations validate the complete input before any state write or
+observation. `ARM_OBJECT_INVALID`, `ARM_OBJECT_UNSUPPORTED`,
+`ARM_OBJECT_BOUNDS` and `ARM_OBJECT_OVERLAP` preserve all state and output.
+`ARM_OBJECT_OK` means the host call completed; the separate raw result
+retains the actual operation result. Raw-result storage follows the last
+release. Its incoming value has no profile constraint.
+
+All API objects and complete declared extents, including the plan and
+result, are disjoint. Record buffers permit unaligned byte addresses and
+preserve any declared tail beyond 896 bytes. Typed objects require suitable
+alignment. The caller supplies actual backing, writability and lifetime.
+Observers receive only the documented semantic arguments and the fixed
+zero reply; they cannot choose another reply. They return normally,
+preserve the arguments and API objects, use separate bookkeeping and
+indirect storage, and avoid reentry, concurrent mutation and hardware.
+No actual mutex operation or diagnostic rendering occurs.
+
+```sh
+python3 -m unittest tests.test_arm_object
+make -C src/start4 check-arm-object
+```
+
+The host tests compare six complete fixtures, observer order, all record
+bytes, retained fields and raw results. They also check exact input
+profiles, every pair of declared object spans, full buffer tails, address
+wrap, missing observers and unaligned record buffers. The isolated VPU
+target writes `build/start4/arm-object.o`; the runtime does not link it.
+Registration followed by ARM start requires a separate contract preserving
+the actual registration metadata and request words.
+
 ## ARM stub metadata preparation
 
 [`armstub.h`](armstub.h) exposes the freestanding `armstub_prepare` helper
