@@ -94,6 +94,37 @@ device-tree pointer, while secondary cores wait on release slots.
 artifacts. The VPU image does not embed, patch, load or execute this stub.
 The build checks its 256-byte padding and the four-word header at 0xF0.
 
+## ARM stub metadata preparation
+
+[`armstub.h`](armstub.h) exposes the freestanding `armstub_prepare` helper
+from [`armstub.c`](armstub.c). The caller supplies a writable buffer and
+its byte length, followed by the DTB value, DTB-presence flag, kernel value
+and kernel-load result. Both values are 32-bit fields; the helper neither
+translates nor dereferences them.
+
+| Result | Buffer effect |
+|---|---|
+| `ARMSTUB_INVALID` | Null buffer or length below 256 bytes; no access |
+| `ARMSTUB_UNCHANGED` | Magic does not match; no writes |
+| `ARMSTUB_PREPARED` | Metadata at 0xF0–0xFF is prepared; every other byte is unchanged |
+
+The helper uses byte accesses so the buffer does not require pointer
+alignment. The [metadata contract](../../docs/bcm2711/arm-handoff.md)
+defines the little-endian fields and the presence/result rules.
+
+```sh
+python3 -m unittest tests.test_armstub
+make -C src/start4 check-armstub-metadata
+```
+
+The host test compiles the firmware C helper with `CC` (default `cc`),
+then compares it with all five recorded metadata cases. It also checks
+guard bytes, short and null buffers, unaligned buffers and field limits.
+The Make target compiles the same helper with the VPU compiler and writes
+`build/start4/armstub-metadata.o`. It does not link it into `start4.elf`.
+Connecting this helper to a loader still requires contracts for buffer
+placement, cache visibility and ARM release.
+
 ## Host staging
 
 ```sh
