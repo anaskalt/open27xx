@@ -10,6 +10,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 - Repeatable headless Ghidra imports and metadata exports for four BCM2711 firmware stages.
 - Scalar calling-convention observations and library entry points for the pinned firmware.
+- Boot-flow documentation and synthetic execution vectors for resource loading,
+  digest checks, SDRAM selection, configuration, boot modes and firmware loading.
+- Scalar fixture capture with explicit memory and device-call boundaries.
 
 ## [0.1.0] - 2026-11-04
 
