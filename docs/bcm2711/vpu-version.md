@@ -3,8 +3,11 @@
 `VERSION` reads CPU version and core information into a scalar register.
 The pinned VideoCoreIV extension represents that result as an unresolved
 instruction operation. `CaptureScalarVectors.java` accepts an explicit
-result through the opt-in interface below;
-an absent plan still rejects VERSION. The supplied result does not
+result through the opt-in interface below; an absent plan still rejects
+VERSION. The same interface is specified for `CaptureClockVectors.java`,
+but that recorder's VERSION support is not yet implemented. Its existing
+finite MMIO and native-cell guards remain requirements of the extension.
+The supplied result does not
 supply a BCM2711 hardware value or execute a physical CPU-identification
 instruction.
 
@@ -65,7 +68,8 @@ The exact source paths and pins are in [references](../references.md).
 
 ## Input schema
 
-A scalar case may add this member to its existing `execution` object:
+A scalar case may add this member to its existing `execution` object.
+The Clock recorder extension uses exactly the same object:
 
 ```json
 "version_input": {
@@ -143,8 +147,40 @@ Apart from explicitly bound VERSION, mnemonics beginning with `v` and
 all other `CALLOTHER` operations remain rejected. Other instructions keep
 the existing scalar guards; this extension adds no RTI restriction or
 physical interrupt semantics. Preserve the existing source, memory,
-code-integrity, stub-consumption and step-limit guards. This extension
-introduces no MMIO read support or native RAM allowance.
+code-integrity, stub-consumption and step-limit guards. Scalar gains no
+MMIO read support or native RAM allowance. Clock retains only its existing
+MMIO and native-cell facilities, as specified below.
+
+## Clock recorder integration
+
+Apply the complete VERSION schema, preflight, operation binding, natural
+step and ordered-consumption rules above to `CaptureClockVectors.java`.
+Do not add another input format or broaden either recorder's memory policy.
+An absent `version_input` must preserve Clock's existing results and
+VERSION rejection byte for byte.
+
+Clock still requires the pinned `start4.elf` identity, the original
+descriptor pointer at 0x0EDDD694 and its existing mapped-block checks for
+0x0EE056B0. Those checks apply even when the case does not supply that
+cell. VERSION neither supplies the cell nor changes its initial or final
+value. The allowed four-byte cell, exact block bounds, uninitialized
+read/write/non-executable permissions and instruction-byte exclusion
+remain as described in the [clock observation contract](clock-driver.md#replay-and-strict-boundaries).
+
+Preserve the independent, finite MMIO read plan and per-case word-write
+allowlist. A supplied read must still match its declared PC, address,
+size and bytes. Unknown, mismatched or unused reads and undeclared writes
+fail without a result artifact. VERSION must not consume a read reply,
+authorize a write or create a physical MMIO observation.
+
+VERSION, function replies, MMIO reads/writes and declared native-cell
+accesses use the existing shared event array in actual execution order.
+The VERSION site cursor and `site_index` are independent of MMIO
+`reply_index` and each function's reply cursor. VERSION retains its
+pre-instruction `step` value and counts as one instruction. Existing
+event shapes, instruction counting and no-plan results remain unchanged.
+At the return stop, all VERSION sites, MMIO responses and function replies
+must be consumed under their respective existing rules.
 
 ## Ordered observation
 
@@ -168,8 +204,8 @@ excluding function-stub dispatches. Check the instruction budget first.
 The callback records the accepted input, and successful execution then
 increments the instruction count once. One VERSION is one instruction;
 it produces no function-stub event. The example's index 15 corresponds
-to the already observed selected-handle prefix, not a recorded complete
-call with this extension.
+to the selected-handle control path documented in
+[ARM configuration control](arm-configuration.md).
 
 Consume the site only once. Any instruction or callback failure aborts
 without a result artifact. At a normal stop, every declared site must be
@@ -200,12 +236,57 @@ service reply does not determine that raw return in the static sequence.
 Mutex and service replies remain explicit external inputs. Their physical
 effects are unverified.
 
-These complete continuations are recorder acceptance targets, not
-completed differential results. The existing complete invalid-handle
-case and the selected-handle prefixes establish the pre-VERSION state;
-they do not execute VERSION. The first new captures must enter the real
-function with an external return sentinel and execute its actual frames
-and unwind, using the supplied word only at the named instruction.
+The two complete matching-handle/control-1 continuations are recorded in
+the [finite ARM configuration profiles](arm-configuration.md). They do not
+extend the native input domain to every control argument or handle.
+The earlier invalid-handle call and selected-handle prefixes remain
+separate observations; the prefixes do not execute VERSION.
+
+## First-open acceptance target
+
+The Clock extension has a separate target in the same pinned `start4.elf`:
+entry 0x0EC59D24, VERSION at 0x0EC59DE0, file offset 0x597E0, original
+bytes `E4 00`, destination `r4`. The supplied word is bound by the same
+original-instruction and compiled-operation checks; its bit-6 test has
+no assigned hardware meaning.
+
+The static first-open continuation selects these routes:
+
+| Supplied CPU word | Secondary word at GP+0xCC934 | Service 0x0ED65284 |
+|---|---|---|
+| 0x00000000 | Not consumed | Use service index at GP+0x3B490 and the current configuration word at GP+0x3B51C |
+| 0x00000040 | 0 | Skip the service |
+| 0x00000040 | 1 | Use that service index and value 0x200 |
+
+When called, the service receives four further zero words. Its reply is
+an explicit external input. Each route then reads 32 bits at 0x7E00B44C
+from instruction 0x0EC59E12. Use one explicit synthetic MMIO response,
+with no claim that its value is a real device observation. The VERSION
+event precedes this read; the conditional service event lies between them.
+
+The following call at 0x0EC59E22 targets the real scalar helper
+0x0ED651FC with code 0x5E, callback token 0x0EC5716E and an old-callback
+output at GP+0x3B488. That helper clears the output, loads the selected
+table word at GP+0xE3D4 and returns raw 0xFFFFFFFF for a zero table word.
+It overwrites incoming r3 with the code before using it; the preceding
+MMIO read is not a fourth defined helper argument. Execute the helper
+normally, with explicit table and output backing. Do not substitute a
+return-only callback for its computation.
+
+The initial acceptance profiles use a zero selected table word and the
+three paired CPU/secondary-word routes above. Enter the actual first-open
+function with fresh storage and an external return sentinel. Retain the
+actual object-registration, configuration and frame effects across the
+VERSION, optional service, MMIO and scalar registration operations.
+Capture the resulting outer return and state, including whether the
+higher release is reached; do not copy an internal-prefix frame or invent
+a successful-open result. Keep predictions separate from captured output.
+
+These are pending complete first-open acceptance targets. No Clock
+VERSION execution, physical mapping or successful first open is claimed
+by this specification. The existing
+[first-open prefix](arm-object.md#first-open-observation-and-runtime-gap)
+ends before VERSION.
 
 ## Acceptance requirements
 
@@ -226,6 +307,14 @@ and unwind, using the supplied word only at the named instruction.
   and rejection of other unsupported operations. Require the diagnostic
   and absent output artifact for every negative control.
 - Reproduce existing captures without `version_input` unchanged.
+- For Clock, repeat VERSION instruction/result and malformed-plan checks
+  without bypassing its existing source, descriptor or memory checks.
+  Check ordered interleaving with finite MMIO responses and function
+  replies, as well as the independent exhaustion and unused-plan errors.
+- Keep Clock's missing/mismatched/unused read, undeclared-write and
+  native-cell controls effective. Reproduce the existing clock fixtures
+  without a VERSION plan unchanged, then execute the three first-open
+  targets only after their input and full-state predictions are fixed.
 
 ## Open questions
 
