@@ -10,6 +10,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 - Freestanding fixed clock-request and cold-initializer helpers with declared
   replies, bounded profiles and 12 complete synthetic fixture comparisons.
+- Fixed source, selected-word and divider clock contracts with 22 synthetic
+  cases and a strict public recorder for finite MMIO replies and one RAM cell.
 - Fixed clock-request contract and 12 synthetic cases for planning,
   cache order, notification replies and separate lazy initialization, with
   lookup-miss ordering at diagnostic and notification boundaries and

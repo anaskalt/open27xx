@@ -1,0 +1,7153 @@
+{
+  "schema": 1,
+  "source": {
+    "file": "start4.elf",
+    "repository": "raspberrypi/firmware",
+    "version": "ab5c7f86283ceb58b7adb269cae1d16092a31bf6",
+    "sha256": "38b179897c4514ad11bc915c3fd2d4b68c51e05df2e42240717655ab92d91aeb"
+  },
+  "cases": [
+    {
+      "id": "initial-zero",
+      "function": {
+        "entry": "0x0EC7D5EA",
+        "language": "vc4:LE:32:default"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "gp": "0xE4000000",
+          "sp": "0x24010000",
+          "r0": "0xC10C1234",
+          "r1": "0x00000005",
+          "r2": "0x00000002"
+        },
+        "memory": [
+          {
+            "address": "0x2400FC00",
+            "size": 1088,
+            "fill": "a5"
+          },
+          {
+            "address": "0xE403E494",
+            "hex": "34120cc1"
+          },
+          {
+            "address": "0xE4001564",
+            "hex": "01000000"
+          },
+          {
+            "address": "0xE403E71C",
+            "hex": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a57856341221436587a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24030000",
+        "step_limit": 12000,
+        "stubs": [],
+        "mmio_responses": [
+          {
+            "pc": "0x0EC7D656",
+            "address": "0x7E1023E0",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D6B6",
+            "address": "0x7E101170",
+            "hex": "7a563400"
+          }
+        ],
+        "mmio_write_addresses": [
+          "0x7E1023E0",
+          "0x7E101170"
+        ]
+      },
+      "expected": {
+        "registers": {
+          "r0": "0x00000000",
+          "sp": "0x24010000",
+          "r6": "0x00000000",
+          "r7": "0x00000000",
+          "r8": "0x00000000",
+          "r9": "0x00000000"
+        },
+        "memory": [
+          {
+            "address": "0xE403E494",
+            "hex": "34120cc1"
+          },
+          {
+            "address": "0xE4001564",
+            "hex": "01000000"
+          },
+          {
+            "address": "0xE403E71C",
+            "hex": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a50100000002000000a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+          }
+        ],
+        "events": [
+          {
+            "pc": "0x0EC7D656",
+            "address": "0x7E1023E0",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 0
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D6B0",
+            "address": "0x7E1023E0",
+            "hex": "0200005a"
+          },
+          {
+            "pc": "0x0EC7D6B6",
+            "address": "0x7E101170",
+            "hex": "7a563400",
+            "kind": "supplied_mmio_read",
+            "reply_index": 1
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D6C0",
+            "address": "0x7E101170",
+            "hex": "7856345a"
+          }
+        ]
+      },
+      "steps": 42,
+      "scope": [
+        "Fixed divider index 5/count 2 under original raw-file descriptor bytes and finite explicit synthetic MMIO values."
+      ],
+      "limitations": [
+        "No actual clock rate, device state, live descriptor initialization, or hardware completion is measured."
+      ]
+    },
+    {
+      "id": "initial-one",
+      "function": {
+        "entry": "0x0EC7D5EA",
+        "language": "vc4:LE:32:default"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "gp": "0xE4000000",
+          "sp": "0x24010000",
+          "r0": "0xC10C1234",
+          "r1": "0x00000005",
+          "r2": "0x00000002"
+        },
+        "memory": [
+          {
+            "address": "0x2400FC00",
+            "size": 1088,
+            "fill": "a5"
+          },
+          {
+            "address": "0xE403E494",
+            "hex": "34120cc1"
+          },
+          {
+            "address": "0xE4001564",
+            "hex": "01000000"
+          },
+          {
+            "address": "0xE403E71C",
+            "hex": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a57856341221436587a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24030000",
+        "step_limit": 12000,
+        "stubs": [],
+        "mmio_responses": [
+          {
+            "pc": "0x0EC7D656",
+            "address": "0x7E1023E0",
+            "hex": "01000000"
+          },
+          {
+            "pc": "0x0EC7D6B6",
+            "address": "0x7E101170",
+            "hex": "7a563400"
+          }
+        ],
+        "mmio_write_addresses": [
+          "0x7E1023E0",
+          "0x7E101170"
+        ]
+      },
+      "expected": {
+        "registers": {
+          "r0": "0x00000000",
+          "sp": "0x24010000",
+          "r6": "0x00000000",
+          "r7": "0x00000000",
+          "r8": "0x00000000",
+          "r9": "0x00000000"
+        },
+        "memory": [
+          {
+            "address": "0xE403E494",
+            "hex": "34120cc1"
+          },
+          {
+            "address": "0xE4001564",
+            "hex": "01000000"
+          },
+          {
+            "address": "0xE403E71C",
+            "hex": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a50100000002000000a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+          }
+        ],
+        "events": [
+          {
+            "pc": "0x0EC7D656",
+            "address": "0x7E1023E0",
+            "hex": "01000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 0
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D6B0",
+            "address": "0x7E1023E0",
+            "hex": "0200005a"
+          },
+          {
+            "pc": "0x0EC7D6B6",
+            "address": "0x7E101170",
+            "hex": "7a563400",
+            "kind": "supplied_mmio_read",
+            "reply_index": 1
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D6C0",
+            "address": "0x7E101170",
+            "hex": "7856345a"
+          }
+        ]
+      },
+      "steps": 42,
+      "scope": [
+        "Fixed divider index 5/count 2 under original raw-file descriptor bytes and finite explicit synthetic MMIO values."
+      ],
+      "limitations": [
+        "No actual clock rate, device state, live descriptor initialization, or hardware completion is measured."
+      ]
+    },
+    {
+      "id": "initial-equal",
+      "function": {
+        "entry": "0x0EC7D5EA",
+        "language": "vc4:LE:32:default"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "gp": "0xE4000000",
+          "sp": "0x24010000",
+          "r0": "0xC10C1234",
+          "r1": "0x00000005",
+          "r2": "0x00000002"
+        },
+        "memory": [
+          {
+            "address": "0x2400FC00",
+            "size": 1088,
+            "fill": "a5"
+          },
+          {
+            "address": "0xE403E494",
+            "hex": "34120cc1"
+          },
+          {
+            "address": "0xE4001564",
+            "hex": "01000000"
+          },
+          {
+            "address": "0xE403E71C",
+            "hex": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a57856341221436587a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24030000",
+        "step_limit": 12000,
+        "stubs": [],
+        "mmio_responses": [
+          {
+            "pc": "0x0EC7D656",
+            "address": "0x7E1023E0",
+            "hex": "02000000"
+          },
+          {
+            "pc": "0x0EC7D6B6",
+            "address": "0x7E101170",
+            "hex": "7a563400"
+          }
+        ],
+        "mmio_write_addresses": [
+          "0x7E1023E0",
+          "0x7E101170"
+        ]
+      },
+      "expected": {
+        "registers": {
+          "r0": "0x00000000",
+          "sp": "0x24010000",
+          "r6": "0x00000000",
+          "r7": "0x00000000",
+          "r8": "0x00000000",
+          "r9": "0x00000000"
+        },
+        "memory": [
+          {
+            "address": "0xE403E494",
+            "hex": "34120cc1"
+          },
+          {
+            "address": "0xE4001564",
+            "hex": "01000000"
+          },
+          {
+            "address": "0xE403E71C",
+            "hex": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a50100000002000000a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+          }
+        ],
+        "events": [
+          {
+            "pc": "0x0EC7D656",
+            "address": "0x7E1023E0",
+            "hex": "02000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 0
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D6B0",
+            "address": "0x7E1023E0",
+            "hex": "0200005a"
+          },
+          {
+            "pc": "0x0EC7D6B6",
+            "address": "0x7E101170",
+            "hex": "7a563400",
+            "kind": "supplied_mmio_read",
+            "reply_index": 1
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D6C0",
+            "address": "0x7E101170",
+            "hex": "7856345a"
+          }
+        ]
+      },
+      "steps": 42,
+      "scope": [
+        "Fixed divider index 5/count 2 under original raw-file descriptor bytes and finite explicit synthetic MMIO values."
+      ],
+      "limitations": [
+        "No actual clock rate, device state, live descriptor initialization, or hardware completion is measured."
+      ]
+    },
+    {
+      "id": "initial-higher",
+      "function": {
+        "entry": "0x0EC7D5EA",
+        "language": "vc4:LE:32:default"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "gp": "0xE4000000",
+          "sp": "0x24010000",
+          "r0": "0xC10C1234",
+          "r1": "0x00000005",
+          "r2": "0x00000002"
+        },
+        "memory": [
+          {
+            "address": "0x2400FC00",
+            "size": 1088,
+            "fill": "a5"
+          },
+          {
+            "address": "0xE403E494",
+            "hex": "34120cc1"
+          },
+          {
+            "address": "0xE4001564",
+            "hex": "01000000"
+          },
+          {
+            "address": "0xE403E71C",
+            "hex": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a57856341221436587a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24030000",
+        "step_limit": 12000,
+        "stubs": [],
+        "mmio_responses": [
+          {
+            "pc": "0x0EC7D656",
+            "address": "0x7E1023E0",
+            "hex": "05000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D6B6",
+            "address": "0x7E101170",
+            "hex": "7a563400"
+          }
+        ],
+        "mmio_write_addresses": [
+          "0x7E1023E0",
+          "0x7E101170",
+          "0x7E101100"
+        ]
+      },
+      "expected": {
+        "registers": {
+          "r0": "0x00000000",
+          "sp": "0x24010000",
+          "r6": "0x00000000",
+          "r7": "0x00000000",
+          "r8": "0x00000000",
+          "r9": "0x00000000"
+        },
+        "memory": [
+          {
+            "address": "0xE403E494",
+            "hex": "34120cc1"
+          },
+          {
+            "address": "0xE4001564",
+            "hex": "01000000"
+          },
+          {
+            "address": "0xE403E71C",
+            "hex": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a50100000002000000a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+          }
+        ],
+        "events": [
+          {
+            "pc": "0x0EC7D656",
+            "address": "0x7E1023E0",
+            "hex": "05000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 0
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "0400005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 1
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "0300005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 2
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "0200005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 3
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D6B0",
+            "address": "0x7E1023E0",
+            "hex": "0200005a"
+          },
+          {
+            "pc": "0x0EC7D6B6",
+            "address": "0x7E101170",
+            "hex": "7a563400",
+            "kind": "supplied_mmio_read",
+            "reply_index": 4
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D6C0",
+            "address": "0x7E101170",
+            "hex": "7856345a"
+          }
+        ]
+      },
+      "steps": 87,
+      "scope": [
+        "Fixed divider index 5/count 2 under original raw-file descriptor bytes and finite explicit synthetic MMIO values."
+      ],
+      "limitations": [
+        "No actual clock rate, device state, live descriptor initialization, or hardware completion is measured."
+      ]
+    },
+    {
+      "id": "initial-maximum",
+      "function": {
+        "entry": "0x0EC7D5EA",
+        "language": "vc4:LE:32:default"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "gp": "0xE4000000",
+          "sp": "0x24010000",
+          "r0": "0xC10C1234",
+          "r1": "0x00000005",
+          "r2": "0x00000002"
+        },
+        "memory": [
+          {
+            "address": "0x2400FC00",
+            "size": 1088,
+            "fill": "a5"
+          },
+          {
+            "address": "0xE403E494",
+            "hex": "34120cc1"
+          },
+          {
+            "address": "0xE4001564",
+            "hex": "01000000"
+          },
+          {
+            "address": "0xE403E71C",
+            "hex": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a57856341221436587a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24030000",
+        "step_limit": 12000,
+        "stubs": [],
+        "mmio_responses": [
+          {
+            "pc": "0x0EC7D656",
+            "address": "0x7E1023E0",
+            "hex": "ff000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D6B6",
+            "address": "0x7E101170",
+            "hex": "7a563400"
+          }
+        ],
+        "mmio_write_addresses": [
+          "0x7E1023E0",
+          "0x7E101170",
+          "0x7E101100"
+        ]
+      },
+      "expected": {
+        "registers": {
+          "r0": "0x00000000",
+          "sp": "0x24010000",
+          "r6": "0x00000000",
+          "r7": "0x00000000",
+          "r8": "0x00000000",
+          "r9": "0x00000000"
+        },
+        "memory": [
+          {
+            "address": "0xE403E494",
+            "hex": "34120cc1"
+          },
+          {
+            "address": "0xE4001564",
+            "hex": "01000000"
+          },
+          {
+            "address": "0xE403E71C",
+            "hex": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a50100000002000000a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+          }
+        ],
+        "events": [
+          {
+            "pc": "0x0EC7D656",
+            "address": "0x7E1023E0",
+            "hex": "ff000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 0
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "fe00005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 1
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "fd00005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 2
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "fc00005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 3
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "fb00005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 4
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "fa00005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 5
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "f900005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 6
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "f800005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 7
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "f700005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 8
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "f600005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 9
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "f500005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 10
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "f400005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 11
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "f300005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 12
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "f200005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 13
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "f100005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 14
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "f000005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 15
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "ef00005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 16
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "ee00005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 17
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "ed00005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 18
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "ec00005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 19
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "eb00005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 20
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "ea00005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 21
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "e900005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 22
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "e800005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 23
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "e700005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 24
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "e600005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 25
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "e500005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 26
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "e400005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 27
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "e300005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 28
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "e200005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 29
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "e100005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 30
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "e000005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 31
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "df00005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 32
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "de00005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 33
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "dd00005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 34
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "dc00005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 35
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "db00005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 36
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "da00005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 37
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "d900005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 38
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "d800005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 39
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "d700005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 40
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "d600005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 41
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "d500005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 42
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "d400005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 43
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "d300005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 44
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "d200005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 45
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "d100005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 46
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "d000005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 47
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "cf00005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 48
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "ce00005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 49
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "cd00005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 50
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "cc00005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 51
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "cb00005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 52
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "ca00005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 53
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "c900005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 54
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "c800005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 55
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "c700005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 56
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "c600005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 57
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "c500005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 58
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "c400005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 59
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "c300005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 60
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "c200005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 61
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "c100005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 62
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "c000005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 63
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "bf00005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 64
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "be00005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 65
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "bd00005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 66
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "bc00005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 67
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "bb00005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 68
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "ba00005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 69
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "b900005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 70
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "b800005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 71
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "b700005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 72
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "b600005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 73
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "b500005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 74
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "b400005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 75
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "b300005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 76
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "b200005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 77
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "b100005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 78
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "b000005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 79
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "af00005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 80
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "ae00005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 81
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "ad00005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 82
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "ac00005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 83
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "ab00005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 84
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "aa00005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 85
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "a900005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 86
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "a800005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 87
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "a700005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 88
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "a600005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 89
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "a500005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 90
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "a400005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 91
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "a300005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 92
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "a200005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 93
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "a100005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 94
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "a000005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 95
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "9f00005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 96
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "9e00005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 97
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "9d00005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 98
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "9c00005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 99
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "9b00005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 100
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "9a00005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 101
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "9900005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 102
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "9800005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 103
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "9700005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 104
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "9600005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 105
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "9500005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 106
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "9400005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 107
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "9300005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 108
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "9200005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 109
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "9100005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 110
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "9000005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 111
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "8f00005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 112
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "8e00005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 113
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "8d00005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 114
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "8c00005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 115
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "8b00005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 116
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "8a00005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 117
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "8900005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 118
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "8800005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 119
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "8700005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 120
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "8600005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 121
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "8500005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 122
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "8400005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 123
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "8300005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 124
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "8200005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 125
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "8100005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 126
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "8000005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 127
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "7f00005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 128
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "7e00005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 129
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "7d00005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 130
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "7c00005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 131
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "7b00005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 132
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "7a00005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 133
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "7900005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 134
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "7800005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 135
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "7700005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 136
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "7600005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 137
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "7500005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 138
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "7400005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 139
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "7300005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 140
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "7200005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 141
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "7100005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 142
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "7000005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 143
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "6f00005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 144
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "6e00005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 145
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "6d00005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 146
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "6c00005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 147
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "6b00005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 148
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "6a00005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 149
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "6900005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 150
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "6800005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 151
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "6700005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 152
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "6600005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 153
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "6500005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 154
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "6400005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 155
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "6300005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 156
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "6200005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 157
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "6100005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 158
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "6000005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 159
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "5f00005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 160
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "5e00005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 161
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "5d00005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 162
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "5c00005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 163
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "5b00005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 164
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "5a00005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 165
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "5900005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 166
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "5800005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 167
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "5700005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 168
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "5600005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 169
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "5500005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 170
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "5400005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 171
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "5300005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 172
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "5200005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 173
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "5100005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 174
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "5000005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 175
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "4f00005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 176
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "4e00005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 177
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "4d00005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 178
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "4c00005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 179
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "4b00005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 180
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "4a00005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 181
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "4900005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 182
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "4800005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 183
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "4700005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 184
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "4600005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 185
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "4500005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 186
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "4400005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 187
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "4300005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 188
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "4200005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 189
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "4100005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 190
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "4000005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 191
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "3f00005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 192
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "3e00005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 193
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "3d00005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 194
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "3c00005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 195
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "3b00005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 196
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "3a00005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 197
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "3900005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 198
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "3800005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 199
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "3700005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 200
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "3600005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 201
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "3500005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 202
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "3400005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 203
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "3300005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 204
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "3200005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 205
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "3100005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 206
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "3000005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 207
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "2f00005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 208
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "2e00005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 209
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "2d00005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 210
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "2c00005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 211
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "2b00005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 212
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "2a00005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 213
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "2900005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 214
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "2800005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 215
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "2700005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 216
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "2600005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 217
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "2500005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 218
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "2400005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 219
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "2300005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 220
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "2200005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 221
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "2100005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 222
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "2000005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 223
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "1f00005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 224
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "1e00005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 225
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "1d00005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 226
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "1c00005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 227
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "1b00005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 228
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "1a00005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 229
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "1900005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 230
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "1800005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 231
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "1700005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 232
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "1600005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 233
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "1500005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 234
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "1400005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 235
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "1300005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 236
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "1200005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 237
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "1100005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 238
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "1000005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 239
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "0f00005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 240
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "0e00005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 241
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "0d00005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 242
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "0c00005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 243
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "0b00005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 244
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "0a00005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 245
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "0900005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 246
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "0800005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 247
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "0700005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 248
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "0600005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 249
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "0500005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 250
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "0400005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 251
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "0300005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 252
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "0200005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 253
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D6B0",
+            "address": "0x7E1023E0",
+            "hex": "0200005a"
+          },
+          {
+            "pc": "0x0EC7D6B6",
+            "address": "0x7E101170",
+            "hex": "7a563400",
+            "kind": "supplied_mmio_read",
+            "reply_index": 254
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D6C0",
+            "address": "0x7E101170",
+            "hex": "7856345a"
+          }
+        ]
+      },
+      "steps": 3587,
+      "scope": [
+        "Fixed divider index 5/count 2 under original raw-file descriptor bytes and finite explicit synthetic MMIO values."
+      ],
+      "limitations": [
+        "No actual clock rate, device state, live descriptor initialization, or hardware completion is measured."
+      ]
+    },
+    {
+      "id": "higher-delayed",
+      "function": {
+        "entry": "0x0EC7D5EA",
+        "language": "vc4:LE:32:default"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "gp": "0xE4000000",
+          "sp": "0x24010000",
+          "r0": "0xC10C1234",
+          "r1": "0x00000005",
+          "r2": "0x00000002"
+        },
+        "memory": [
+          {
+            "address": "0x2400FC00",
+            "size": 1088,
+            "fill": "a5"
+          },
+          {
+            "address": "0xE403E494",
+            "hex": "34120cc1"
+          },
+          {
+            "address": "0xE4001564",
+            "hex": "01000000"
+          },
+          {
+            "address": "0xE403E71C",
+            "hex": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a57856341221436587a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24030000",
+        "step_limit": 12000,
+        "stubs": [],
+        "mmio_responses": [
+          {
+            "pc": "0x0EC7D656",
+            "address": "0x7E1023E0",
+            "hex": "05000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "21030000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "21030000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "21030000"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000"
+          },
+          {
+            "pc": "0x0EC7D6B6",
+            "address": "0x7E101170",
+            "hex": "7a563400"
+          }
+        ],
+        "mmio_write_addresses": [
+          "0x7E1023E0",
+          "0x7E101170",
+          "0x7E101100"
+        ]
+      },
+      "expected": {
+        "registers": {
+          "r0": "0x00000000",
+          "sp": "0x24010000",
+          "r6": "0x00000000",
+          "r7": "0x00000000",
+          "r8": "0x00000000",
+          "r9": "0x00000000"
+        },
+        "memory": [
+          {
+            "address": "0xE403E494",
+            "hex": "34120cc1"
+          },
+          {
+            "address": "0xE4001564",
+            "hex": "01000000"
+          },
+          {
+            "address": "0xE403E71C",
+            "hex": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a50100000002000000a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+          }
+        ],
+        "events": [
+          {
+            "pc": "0x0EC7D656",
+            "address": "0x7E1023E0",
+            "hex": "05000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 0
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "0400005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "21030000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 1
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 2
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "0300005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "21030000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 3
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 4
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D67C",
+            "address": "0x7E1023E0",
+            "hex": "0200005a"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D69C",
+            "address": "0x7E101100",
+            "hex": "1c02005a"
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "21030000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 5
+          },
+          {
+            "pc": "0x0EC7D69E",
+            "address": "0x7E101100",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 6
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D6B0",
+            "address": "0x7E1023E0",
+            "hex": "0200005a"
+          },
+          {
+            "pc": "0x0EC7D6B6",
+            "address": "0x7E101170",
+            "hex": "7a563400",
+            "kind": "supplied_mmio_read",
+            "reply_index": 7
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D6C0",
+            "address": "0x7E101170",
+            "hex": "7856345a"
+          }
+        ]
+      },
+      "steps": 93,
+      "scope": [
+        "Fixed divider index 5/count 2 under original raw-file descriptor bytes and finite explicit synthetic MMIO values."
+      ],
+      "limitations": [
+        "No actual clock rate, device state, live descriptor initialization, or hardware completion is measured."
+      ]
+    },
+    {
+      "id": "masked-equal",
+      "function": {
+        "entry": "0x0EC7D5EA",
+        "language": "vc4:LE:32:default"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "gp": "0xE4000000",
+          "sp": "0x24010000",
+          "r0": "0xC10C1234",
+          "r1": "0x00000005",
+          "r2": "0x00000002"
+        },
+        "memory": [
+          {
+            "address": "0x2400FC00",
+            "size": 1088,
+            "fill": "a5"
+          },
+          {
+            "address": "0xE403E494",
+            "hex": "34120cc1"
+          },
+          {
+            "address": "0xE4001564",
+            "hex": "01000000"
+          },
+          {
+            "address": "0xE403E71C",
+            "hex": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a57856341221436587a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24030000",
+        "step_limit": 12000,
+        "stubs": [],
+        "mmio_responses": [
+          {
+            "pc": "0x0EC7D656",
+            "address": "0x7E1023E0",
+            "hex": "02013412"
+          },
+          {
+            "pc": "0x0EC7D6B6",
+            "address": "0x7E101170",
+            "hex": "78563400"
+          }
+        ],
+        "mmio_write_addresses": [
+          "0x7E1023E0",
+          "0x7E101170"
+        ]
+      },
+      "expected": {
+        "registers": {
+          "r0": "0x00000000",
+          "sp": "0x24010000",
+          "r6": "0x00000000",
+          "r7": "0x00000000",
+          "r8": "0x00000000",
+          "r9": "0x00000000"
+        },
+        "memory": [
+          {
+            "address": "0xE403E494",
+            "hex": "34120cc1"
+          },
+          {
+            "address": "0xE4001564",
+            "hex": "01000000"
+          },
+          {
+            "address": "0xE403E71C",
+            "hex": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a50100000002000000a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+          }
+        ],
+        "events": [
+          {
+            "pc": "0x0EC7D656",
+            "address": "0x7E1023E0",
+            "hex": "02013412",
+            "kind": "supplied_mmio_read",
+            "reply_index": 0
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D6B0",
+            "address": "0x7E1023E0",
+            "hex": "0200005a"
+          },
+          {
+            "pc": "0x0EC7D6B6",
+            "address": "0x7E101170",
+            "hex": "78563400",
+            "kind": "supplied_mmio_read",
+            "reply_index": 1
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0x0EC7D6C0",
+            "address": "0x7E101170",
+            "hex": "7856345a"
+          }
+        ]
+      },
+      "steps": 42,
+      "scope": [
+        "Fixed divider index 5/count 2 under original raw-file descriptor bytes and finite explicit synthetic MMIO values."
+      ],
+      "limitations": [
+        "No actual clock rate, device state, live descriptor initialization, or hardware completion is measured."
+      ]
+    },
+    {
+      "id": "unequal-handle",
+      "function": {
+        "entry": "0x0EC7D5EA",
+        "language": "vc4:LE:32:default"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "gp": "0xE4000000",
+          "sp": "0x24010000",
+          "r0": "0xC10C1235",
+          "r1": "0x00000005",
+          "r2": "0x00000002"
+        },
+        "memory": [
+          {
+            "address": "0x2400FC00",
+            "size": 1088,
+            "fill": "a5"
+          },
+          {
+            "address": "0xE403E494",
+            "hex": "34120cc1"
+          },
+          {
+            "address": "0xE4001564",
+            "hex": "01000000"
+          },
+          {
+            "address": "0xE403E71C",
+            "hex": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a57856341221436587a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24030000",
+        "step_limit": 12000,
+        "stubs": [],
+        "mmio_responses": [],
+        "mmio_write_addresses": []
+      },
+      "expected": {
+        "registers": {
+          "r0": "0xFFFFFFFF",
+          "sp": "0x24010000",
+          "r6": "0x00000000",
+          "r7": "0x00000000",
+          "r8": "0x00000000",
+          "r9": "0x00000000"
+        },
+        "memory": [
+          {
+            "address": "0xE403E494",
+            "hex": "34120cc1"
+          },
+          {
+            "address": "0xE4001564",
+            "hex": "01000000"
+          },
+          {
+            "address": "0xE403E71C",
+            "hex": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a57856341221436587a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+          }
+        ],
+        "events": []
+      },
+      "steps": 7,
+      "scope": [
+        "Fixed divider index 5/count 2 under original raw-file descriptor bytes and finite explicit synthetic MMIO values."
+      ],
+      "limitations": [
+        "No actual clock rate, device state, live descriptor initialization, or hardware completion is measured."
+      ]
+    }
+  ]
+}
