@@ -1,18 +1,52 @@
 # USB boot and recovery.bin
 
-When nRPIBOOT is held low, the Compute Module 4 boot ROM enters USB device mode. The host tool rpiboot from usbboot then sends a loader that carries the same signature footer as bootsys. For bootloader updates that loader is `recovery.bin`.
+raspberrypi/usbboot `Readme.md`, section "Compute Module 4", at commit
+`fdb604d018693465c9aa6ec69879df866d2820da` documents the nRPIBOOT selection of
+ROM USB boot. Its `recovery/README.md` describes `recovery.bin` as the
+bootloader EEPROM update loader. These are documented hardware functions;
+the byte checks below do not exercise them.
 
 ## recovery.bin
 
-- 83842 bytes of raw VPU code with the bootsys footer: 83558 signed bytes, key index 1 ([bootsys.md](bootsys.md)).
-- `firmware-2711/default/recovery.bin` and `firmware-2711/latest/recovery.bin` in rpi-eeprom are the same file. usbboot reaches it through symlinks as `recovery/bootcode4.bin` and `secure-boot-recovery/bootcode4.bin`.
-- Like bootsys it starts with 0x200 zero bytes, and its first 22 bytes of code at 0x200 match those of bootsys. Comparing the two locates shared code: start-up, UART and SHA-256.
-- Its log messages cover an SD host driver; reading, erasing, writing and verifying the bootloader EEPROM and the VL805 EEPROM; EEPROM write protection; and a check of the RSA key stored in the EEPROM.
+The file is `firmware-2711/default/recovery.bin` from raspberrypi/rpi-eeprom
+commit `236b4406753e604fde3315cb521a2f843c9f8f85`: 83842 bytes, SHA-256
+`d2496ef5dd106f250197f1cdf9fc2eecda90acdc0fc420a63b20940c06130ce1`.
+`firmware-2711/latest/recovery.bin` at the same commit is byte-identical.
+The commit identifies this sample; no build date is inferred from its name.
 
-## Update flow
+| File offset | Size (bytes) | Observation |
+|---|---|---|
+| 0x00000 | 512 | zero bytes |
+| 0x00200 | 22 | equals `bootcode4.bin` at `0x0200`, identified in [bootsys.md](bootsys.md) |
+| 0x14666 | 4 | little-endian body length: 83558 |
+| 0x1466A | 4 | little-endian key index: 1 |
+| 0x1466E | 256 | RSA signature field in the documented footer layout |
+| 0x1476E | 20 | legacy checksum field in the documented footer layout |
 
-`recovery/update-pieeprom.sh` in usbboot builds `pieeprom.bin` from `pieeprom.original.bin` and `boot.conf`. `rpiboot -d recovery` sends `recovery.bin` as `bootcode4.bin`; `recovery.bin` then requests `pieeprom.bin` over USB and writes it to the SPI EEPROM. On a Raspberry Pi 4 Model B the same file runs from an SD card to update the bootloader.
+The 284-byte footer follows the field layout cited in
+[bootsys.md](bootsys.md). Equality of the 22 body bytes does not identify
+shared UART, hashing or initialization functions.
 
 ## Host side
 
-`main.c` in usbboot (Apache-2.0) implements the host side of the USB protocol and documents the requests that `recovery.bin` and bootmain send in USB device mode.
+At the pinned usbboot commit, `recovery/bootcode4.bin` and
+`secure-boot-recovery/bootcode4.bin` point to
+`firmware/2711/recovery.bin`. That path points into the rpi-eeprom submodule.
+[vendor-files.md](vendor-files.md) records the repository paths.
+
+`recovery/update-pieeprom.sh` delegates to `tools/update-pieeprom.sh`.
+The latter defaults to `pieeprom.original.bin` and `boot.conf` as inputs,
+and produces `pieeprom.bin` and `pieeprom.sig`. This describes host file
+preparation; it does not verify the device-side update sequence.
+
+The Apache-2.0 source in usbboot `main.c` implements the rpiboot host.
+Device-side request handling in the pinned `recovery.bin` needs separate
+verification.
+
+## Open questions
+
+- USB request sequence. Identify the request handlers in the body at
+  `0x00200`–`0x14665` and compare emulated requests with usbboot `main.c`.
+- EEPROM update behavior. Trace the load, validation and write paths in
+  the same body and test them against an emulated EEPROM. String presence
+  or host-side filenames do not establish write order or failure behavior.
