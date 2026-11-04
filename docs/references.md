@@ -22,7 +22,7 @@
 | [Bootloader configuration](https://www.raspberrypi.com/documentation/computers/raspberry-pi.html#raspberry-pi-bootloader-configuration) | configuration keys |
 | [Compute Module hardware](https://www.raspberrypi.com/documentation/computers/compute-module.html) | rpiboot and the bootloader on the Compute Module 4 |
 | [raspberrypi/documentation `computers/config_txt/boot.adoc`](https://github.com/raspberrypi/documentation/blob/master/documentation/asciidoc/computers/config_txt/boot.adoc) | `start_file`, `fixup_file` and firmware variants |
-| [BCM2711 ARM Peripherals](https://datasheets.raspberrypi.com/bcm2711/bcm2711-peripherals.pdf) | memory map and ARM-side peripherals |
+| [BCM2711 ARM Peripherals](https://datasheets.raspberrypi.org/bcm2711/bcm2711-peripherals.pdf) | release 4, build 2022-01-18 (`cfcff44-clean`); memory map, ARM-side peripherals and general-purpose clock password fields; [source identity](bcm2711/clocks.md#source-identities) |
 | [Mailbox property interface](https://github.com/raspberrypi/firmware/wiki/Mailbox-property-interface) | firmware property tags |
 | [raspberrypi/utils](https://github.com/raspberrypi/utils) | `vcmailbox`, raw mailbox requests from Linux |
 | [armstubs](https://github.com/raspberrypi/tools/tree/master/armstubs) | ARM entry code (BSD-3-Clause) |
@@ -47,6 +47,8 @@
 | [itszor/vc4-toolchain](https://github.com/itszor/vc4-toolchain) | binutils, GCC and newlib for the VPU |
 | [vc4-toolchain `2f57f093`](https://github.com/itszor/vc4-toolchain/tree/2f57f093ef6bc77470152f00e98f38843e8fbbc3), [binutils-vc4 `708acc85`](https://github.com/puppeh/binutils-vc4/tree/708acc851880dbeda1dd18aca4fd0a95b2573b36), [gcc-vc4 `0fe4b838`](https://github.com/puppeh/gcc-vc4/tree/0fe4b83897341742f9df65797474cb0feab4b377), [newlib-vc4 `89abe4a5`](https://github.com/puppeh/newlib-vc4/tree/89abe4a5263d216e923fbbc80495743ff269a510), [resim `cdc7808c`](https://github.com/puppeh/resim/tree/cdc7808ceb7ba4ac00d0d08ca646b58615059150) | VPU compiler source pins for the start4 host build |
 | [Linux `brcmstb_dpfe.c`](https://github.com/torvalds/linux/blob/v6.12/drivers/memory/brcmstb_dpfe.c) | DPFE and DCPU of Broadcom set-top-box SoCs |
+| [Linux `drivers/clk/bcm/clk-bcm2835.c`](https://github.com/torvalds/linux/blob/adc218676eef25575469234709c2d87185ca223a/drivers/clk/bcm/clk-bcm2835.c) | v6.12 PLLB register fields, channel operations and BCM2711 analog-control differences |
+| [Linux `arch/arm/boot/dts/broadcom/bcm283x.dtsi`](https://github.com/torvalds/linux/blob/adc218676eef25575469234709c2d87185ca223a/arch/arm/boot/dts/broadcom/bcm283x.dtsi), [`bcm2711.dtsi`](https://github.com/torvalds/linux/blob/adc218676eef25575469234709c2d87185ca223a/arch/arm/boot/dts/broadcom/bcm2711.dtsi) | v6.12 CPRMAN register base and BCM2711 driver selection; [clock-register reference](bcm2711/clocks.md) |
 | [Linux `raspberrypi-firmware.h`](https://github.com/torvalds/linux/blob/master/include/soc/bcm2835/raspberrypi-firmware.h) | mailbox property tags |
 | [Mbed TLS](https://github.com/Mbed-TLS/mbedtls) | cryptographic library source and API reference |
 | [Mbed TLS 2.28.10 `library/sha256.c`](https://github.com/Mbed-TLS/mbedtls/blob/2fc8413bfcb51354c8e679141b17b3f1a5942561/library/sha256.c) | SHA-224 and SHA-256 implementation used for comparison |
