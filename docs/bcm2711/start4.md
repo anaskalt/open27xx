@@ -64,6 +64,11 @@ The loader behavior in this section belongs to `bootmain` from raspberrypi/usbbo
 
 The completion path at 0x00086754 validates the image with 0x0008E2A2, looks up `.text.firmware_rev` and `.text.bootloader_state` through 0x0008E19C, processes an available fixup and validates the result again. It then calls 0x0008E1EA to place segments in memory. [elf-section.json](../../tests/vectors/bootmain/elf-section.json) records successful and missing section-name lookups using a synthetic section table.
 
+The [boot-information contract](boot-information.md) describes the state-pointer
+store in `.text.bootloader_state` and the supplied-record parser in `start4.elf`.
+Its vectors cover copy bounds, cached records and allocation zeroing. Record
+production and complete platform initialization remain outside that contract.
+
 ### Header checks
 
 In the identified `bootmain`, 0x0008E2A2 takes the image pointer in `r0` and byte length in `r1`. It returns zero for the accepted header and 0xFFFFFFFF for a rejected header. [elf-header.json](../../tests/vectors/bootmain/elf-header.json) records ten cases.

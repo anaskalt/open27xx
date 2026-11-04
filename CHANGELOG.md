@@ -8,6 +8,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ### Added
 
+- Boot-information record layouts, copy bounds, allocation zeroing and
+  state-pointer execution vectors.
 - Pinned VPU bring-up build with ELF bounds checks and a separate BCM2711
   ARM entry stub build; ARM handoff and Linux loading remain unimplemented.
 - Freestanding ARM stub metadata preparation with five synthetic fixture
