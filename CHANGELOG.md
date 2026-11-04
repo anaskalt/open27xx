@@ -8,6 +8,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ### Added
 
+- Opt-in VERSION observations in the finite Clock recorder with independent
+  site consumption, preserved MMIO/native-cell guards and schema tests.
 - Explicit VERSION input contract for finite Clock observations, with
   preserved memory guards and conditional first-open acceptance targets.
 - Freestanding ARM configuration control with explicit CPU and reply inputs,

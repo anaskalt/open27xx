@@ -2,12 +2,10 @@
 
 `VERSION` reads CPU version and core information into a scalar register.
 The pinned VideoCoreIV extension represents that result as an unresolved
-instruction operation. `CaptureScalarVectors.java` accepts an explicit
-result through the opt-in interface below; an absent plan still rejects
-VERSION. The same interface is specified for `CaptureClockVectors.java`,
-but that recorder's VERSION support is not yet implemented. Its existing
-finite MMIO and native-cell guards remain requirements of the extension.
-The supplied result does not
+instruction operation. `CaptureScalarVectors.java` and
+`CaptureClockVectors.java` accept an explicit result through the opt-in
+interface below; an absent plan still rejects VERSION. Clock retains its
+existing finite MMIO and native-cell guards. The supplied result does not
 supply a BCM2711 hardware value or execute a physical CPU-identification
 instruction.
 

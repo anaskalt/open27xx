@@ -88,9 +88,12 @@ Captures without the object retain the existing VERSION rejection and
 scalar guards. Supplied words do not identify hardware or establish a
 completed native continuation.
 
-The same [VERSION contract](bcm2711/vpu-version.md#clock-recorder-integration)
-specifies a pending `CaptureClockVectors.java` extension. It retains that
-recorder's existing finite MMIO plans and native-cell guards. The
+`CaptureClockVectors.java` implements the same
+[VERSION contract](bcm2711/vpu-version.md#clock-recorder-integration).
+Its VERSION cursor remains independent of the existing finite MMIO and
+function reply plans. The source identity, descriptor, native-cell and
+MMIO guards still apply. VERSION joins the shared event array without
+consuming a device reply or authorizing a memory access. The
 [first-open routes](bcm2711/vpu-version.md#first-open-acceptance-target)
 are acceptance targets, not completed Clock observations.
 
@@ -98,13 +101,16 @@ The schema tests compile against an explicitly selected public Ghidra
 installation and require its supported JDK:
 
 ```sh
-OPEN27XX_GHIDRA_HOME=/opt/ghidra python3 -m unittest tests.test_scalar_version
+OPEN27XX_GHIDRA_HOME=/opt/ghidra python3 -m unittest \
+  tests.test_scalar_version tests.test_clock_version
 ```
 
 These tests check JSON types, exact members, complete words, site ordering
-and canonical register names. They do not run native instructions. Without
-`OPEN27XX_GHIDRA_HOME`, the optional API-dependent test is skipped. Instruction
-binding, execution and continuation checks require the headless recorder.
+and canonical register names. Clock's schema test also checks preservation
+of separate MMIO and function plans. They do not run native instructions.
+Without `OPEN27XX_GHIDRA_HOME`, the optional API-dependent tests are skipped.
+Instruction binding, execution and continuation checks require the headless
+recorder.
 
 `CaptureScalarVectors.java` runs the synthetic cases in
 `tests/vectors/bootsys/`, `tests/vectors/bootmain/` and
