@@ -8,6 +8,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ### Added
 
+- Opt-in IRQ and p16 observations in both scalar recorders, with complete
+  instruction binding, finite occurrences, natural SR/COPY execution and schema tests.
+
 - Conditional IRQ and p16 observation contract for both scalar recorders,
   with explicit inputs, natural instruction steps and unchanged memory guards.
 - Suspend lookup, string-length and bounded-copy contracts with general

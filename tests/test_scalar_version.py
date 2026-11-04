@@ -28,6 +28,7 @@ class ScalarVersionSchemaTest(unittest.TestCase):
         with tempfile.TemporaryDirectory(prefix="scalar-version-", dir=build) as temporary:
             classpath = os.pathsep.join(map(str, jars))
             subprocess.run([javac, "-cp", classpath, "-d", temporary,
+                str(ROOT / "tools/ghidra/IrqP16Observations.java"),
                 str(ROOT / "tools/ghidra/CaptureScalarVectors.java"),
                 str(ROOT / "tests/ScalarVersionSchemaTest.java")],
                 check=True, capture_output=True, text=True)

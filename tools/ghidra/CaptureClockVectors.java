@@ -255,8 +255,35 @@ public class CaptureClockVectors extends GhidraScript {
         }
         VersionInput version = parseVersionInput(execution);
         validateVersionInput(version, stubs);
+        IrqP16Observations irq = IrqP16Observations.parse(execution);
+        if (irq != null) {
+            AddressSet declaredMemory = new AddressSet(allowedMemory);
+            List<JsonObject> assignments = new ArrayList<>();
+            assignments.add(setup.getAsJsonObject("registers"));
+            for (JsonObject stub : stubs.values()) {
+                for (JsonElement element : stub.getAsJsonArray("replies")) {
+                    JsonObject reply = element.getAsJsonObject();
+                    assignments.add(reply.getAsJsonObject("registers"));
+                    for (JsonElement value : reply.getAsJsonArray("memory")) {
+                        JsonObject region = value.getAsJsonObject();
+                        long start = number(region.get("address"));
+                        int size = bytes(region).length;
+                        check(start <= 0xffffffffL && start + size <= 0x100000000L,
+                            "Wrapping IRQ/p16 reply memory span");
+                        if (size > 0) {
+                            declaredMemory.add(toAddr(start), toAddr(start + size - 1));
+                        }
+                    }
+                }
+            }
+            irq.preflight(currentProgram, declaredMemory, stubs.keySet(),
+                version == null ? Set.of() : version.byPc.keySet(), assignments);
+        }
         EmulatorHelper emulator = new EmulatorHelper(currentProgram);
         try {
+            if (irq != null) {
+                irq.install(emulator, events);
+            }
             if (version != null) {
                 emulator.registerCallOtherCallback("version", new BreakCallBack() {
                     @Override
@@ -396,6 +423,7 @@ public class CaptureClockVectors extends GhidraScript {
                 VersionSite site = version == null ? null : version.byPc.get(pc);
                 boolean versionInstruction = version != null
                     && (site != null || instruction.getMnemonicString().equalsIgnoreCase("version"));
+                boolean irqInstruction = irq != null && irq.before(instruction, emulator, steps);
                 if (versionInstruction) {
                     check(site != null, id + ": undeclared VERSION site at " + hex(pc));
                     check(site.index >= version.consumed, id + ": exhausted VERSION site at " + hex(pc));
@@ -403,7 +431,7 @@ public class CaptureClockVectors extends GhidraScript {
                     versionInstruction(site, emulator);
                     version.pending = site;
                     version.step = steps;
-                } else {
+                } else if (!irqInstruction) {
                     check(!instruction.getMnemonicString().toLowerCase().startsWith("v"),
                         id + ": vector instruction at " + hex(pc));
                     for (PcodeOp operation : instruction.getPcode()) {
@@ -429,7 +457,13 @@ public class CaptureClockVectors extends GhidraScript {
                     check(emulator.getExecutionAddress().equals(instruction.getFallThrough()),
                         id + ": VERSION did not reach natural fallthrough at " + hex(pc));
                 }
+                if (irqInstruction) {
+                    irq.after(emulator);
+                }
                 steps++;
+            }
+            if (irq != null) {
+                irq.finish();
             }
             check(version == null || version.consumed == version.sites.size(), id + ": unused VERSION sites");
             executing[0] = false;

@@ -97,19 +97,21 @@ consuming a device reply or authorizing a memory access. The
 [first-open routes](bcm2711/arm-first-open.md) include three recorded complete
 table-zero returns. Successful open and physical effects remain unresolved.
 
-The pending [IRQ and p16 contract](bcm2711/vpu-irq.md) specifies a separate
+The [IRQ and p16 contract](bcm2711/vpu-irq.md) specifies a separate
 `execution.irq_p16` plan for both recorders. It requires an explicit
 no-interrupt-arrival premise and finite ordered instruction occurrences.
 It preserves the native SR calculation, supplies each p16 read and records
-actual writes. Neither recorder implements that interface yet; existing
-DI rejection and no-plan behavior remain unchanged.
+actual writes. Both recorders use `IrqP16Observations.java` for schema,
+instruction binding and ordered consumption. DI rejects without the plan;
+other no-plan behavior remains unchanged. The interface supplies no physical
+interrupt or mutex behavior.
 
 The schema tests compile against an explicitly selected public Ghidra
 installation and require its supported JDK:
 
 ```sh
 OPEN27XX_GHIDRA_HOME=/opt/ghidra python3 -m unittest \
-  tests.test_scalar_version tests.test_clock_version
+  tests.test_scalar_version tests.test_clock_version tests.test_irq_p16
 ```
 
 These tests check JSON types, exact members, complete words, site ordering
