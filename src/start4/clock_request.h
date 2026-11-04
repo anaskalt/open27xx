@@ -94,6 +94,14 @@ enum clock_request_status clock_request_initialize(
     struct clock_request_state *state,
     const struct clock_request_open_plan *plan, uint32_t *raw_return);
 
+enum clock_request_status clock_request_execute_cold(
+    const struct clock_request_inputs *inputs, uint32_t table,
+    uint8_t *manager, size_t manager_length,
+    struct clock_request_state *state,
+    uint8_t *output, size_t output_length,
+    const struct clock_request_open_plan *open_plan,
+    const struct clock_request_plan *plan, uint32_t *raw_return);
+
 /*
  * Host errors preserve all state/output bytes and emit no boundary call.
  * The manager uses the documented little-endian layout; rates are unsigned
@@ -105,6 +113,8 @@ enum clock_request_status clock_request_initialize(
  * Identity words label observations; they are never executable host pointers.
  * The initializer supplies manager+8 to its observer and applies the declared
  * handle write after it returns. It never continues into a request.
+ * The cold request preflights both plans before clearing the manager and
+ * composes only the documented zero-open-result first-request profile.
  * See README.md for the fixed profiles, callback arguments and scope limits.
  */
 

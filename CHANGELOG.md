@@ -8,6 +8,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ### Added
 
+- Cold clock-request composition and completed-cache repeated requests with
+  full provider preflight and four additional synthetic fixture comparisons.
 - Freestanding fixed source, native-word and divider clock helpers with
   complete read-plan preflight and 22 synthetic fixture comparisons.
 - Fixed clock-request state contracts and four synthetic cases for cold
