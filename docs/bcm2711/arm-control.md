@@ -131,6 +131,9 @@ The [resource-request contract](resource-request.md) follows the fixed
 logical index 23 through record aggregation, dependency selection and
 conditional check callbacks. It distinguishes completed software calls
 from stops before unsupported operations.
+The [complete resource composition](resource-composition.md) connects the
+two selected bodies under fixed premises. It does not execute this higher
+ARM-start wrapper or turn a tagged stop into a scalar result.
 
 ## Callback return words
 

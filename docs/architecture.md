@@ -90,6 +90,9 @@ extracted files and disassembly are excluded from the repository.
   with supplied replies, not a complete hardware transition.
   The [resource-request contract](bcm2711/resource-request.md) specifies
   fixed logical-index dependencies and conditional software call outcomes.
+  The [fixed resource composition](bcm2711/resource-composition.md) joins
+  two clock requests and selected body operations under explicit state
+  and readback premises; it does not establish a complete ARM launch.
   The [first clock composition](bcm2711/clock-composition.md) specifies
   the initialized request at 0x0ED55EFA in the pinned `start4.elf`, with
   actual source, native-word and divider bodies under finite supplied
