@@ -166,6 +166,12 @@ The separate [configuration-control contract](arm-configuration.md) covers
 complete calls to slot 0x30 at 0x0EC59EBE with an explicit CPU word and
 supplied configuration. It does not complete first open or acquire its state.
 
+The separate [first-open return contract](arm-first-open.md) executes three
+complete paths through actual object and callback registration, with a supplied
+zero callback-table word. It preserves the effects of this prefix and returns
+0xFFFFFFFF. It does not establish successful initialization or extend the
+repeated-open operation above.
+
 ## Portable storage and preflight
 
 Registration and repeated open are separate complete operations. The

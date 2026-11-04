@@ -192,6 +192,10 @@ The [ARM object contract](arm-object.md) specifies registration at
 first-open prefix stops before `VERSION` and does not prove runtime
 initialization or ownership.
 
+The [callback registration and first-open returns](arm-first-open.md) cover
+three fixed callback-table states and three complete first-open returns
+with a zero selected table word. They do not establish successful open.
+
 The [ARM configuration-control contract](arm-configuration.md) covers complete
 slot-0x30 calls at 0x0EC59EBE with explicit CPU inputs and ordered service
 observations. It does not establish the physical effect of those requests.

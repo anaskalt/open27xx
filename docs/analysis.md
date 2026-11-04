@@ -94,8 +94,8 @@ Its VERSION cursor remains independent of the existing finite MMIO and
 function reply plans. The source identity, descriptor, native-cell and
 MMIO guards still apply. VERSION joins the shared event array without
 consuming a device reply or authorizing a memory access. The
-[first-open routes](bcm2711/vpu-version.md#first-open-acceptance-target)
-are acceptance targets, not completed Clock observations.
+[first-open routes](bcm2711/arm-first-open.md) include three recorded complete
+table-zero returns. Successful open and physical effects remain unresolved.
 
 The schema tests compile against an explicitly selected public Ghidra
 installation and require its supported JDK:
@@ -198,6 +198,9 @@ calls and a separate first-open prefix before `VERSION`.
 The [ARM configuration replay](bcm2711/arm-configuration.md#recorded-cases-and-replay)
 executes two complete control calls with explicit VERSION instruction results
 and literal mutex/service replies.
+The [ARM first-open replay](bcm2711/arm-first-open.md#recorded-cases-and-replay)
+executes three callback-registration calls and three complete table-zero
+first-open returns with actual nested registration and explicit CPU/MMIO inputs.
 The [ARM mapping replay](bcm2711/arm-mapping.md#recorded-cases-and-replay)
 uses two decoder entries and the same recorder for twelve complete
 software-table calls, including the actual fresh-to-repeat state relation.

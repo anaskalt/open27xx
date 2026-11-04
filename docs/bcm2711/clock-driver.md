@@ -376,8 +376,8 @@ be supplied outside the ordinary synthetic RAM ranges. The existing
 adds only an explicit instruction-result boundary and preserves every
 guard described here. The clock fixtures below contain no VERSION plan
 and retain their expected observations unchanged. The
-[native first-open routes](vpu-version.md#first-open-acceptance-target)
-remain pending acceptance targets.
+[native first-open routes](arm-first-open.md) record three complete
+table-zero returns; successful open and physical effects remain unresolved.
 
 Run from the repository root with three unused output paths:
 
