@@ -75,6 +75,77 @@ unverified. The check requires only `PT_LOAD` nonzero program headers
 because the documented bootmain helper copies every
 nonzero type. These structural checks do not establish hardware bootability.
 
+## ARM callback registration and first open
+
+[`arm_first_open.h`](arm_first_open.h) exposes `arm_callback_register` and
+`arm_first_open_execute` from [`arm_first_open.c`](arm_first_open.c). The
+[first-open contract](../../docs/bcm2711/arm-first-open.md) defines their
+six complete profiles. Tokens and observation addresses are unsigned
+identities, never callable addresses or host pointers.
+
+Callback registration accepts code 0x5E, new token 0x0EC5716E, a selected
+word, old-callback output 0xA5A5A5A5 and a separate raw-result word. It
+clears the old output and computes the documented replacement for initial
+selected words 0, 0x0EC3EA48 and 0x11223344. Zero preserves the selected
+word and returns raw 0xFFFFFFFF. The other two profiles replace it and
+return raw zero. The operation has no observers or handler execution.
+
+First open takes parameter word 0x400, byte 2, configuration source
+0x12345678, count zero, zero selected callback, 896 zero record bytes,
+and object/capacity/configuration/old-callback/handle words 0xA5A5A5A5.
+It reuses `arm_object_register` for record 0, calculates configuration,
+observes VERSION and an optional service, observes one supplied MMIO read,
+then calls `arm_callback_register` and publishes its actual raw result.
+
+| CPU word | Secondary word | Index | Service value | Function replies |
+|---|---|---|---|---|
+| 0 | Unused | 1 | 0x1230FC1B | Five zero words |
+| 0x40 | 0 | Unused | No service | Four zero words |
+| 0x40 | 1 | 1 | 0x200 | Five zero words |
+
+The read plan contains exactly `(0x0EC59E12,0x7E00B44C,4,0x11223344)`.
+VERSION has a separate observer with site 0x0EC59DE0 and destination
+register index 4. The CPU and read words are explicit input results;
+observers cannot supply dynamic replies. Higher acquire precedes count
+storage. Registrar acquire sees the cleared object output; diagnostic
+and registrar release see its completed record. VERSION, service and
+read see capacity 0x400 and configuration 0x1230FC1B, with old-callback
+output still incoming. All observers see the incoming raw result and
+unchanged handle. No higher release occurs. Raw 0xFFFFFFFF retains all
+earlier stores, clears old-callback output and leaves the handle unchanged.
+
+Whole-call preflight checks every pointer, full span, address/size wrap,
+pairwise overlap, exact initial domain, reachable observer and planned
+reply/read before higher acquire. All supplied API objects are disjoint,
+including immutable inputs, plans, their complete arrays and outputs.
+Unused optional secondary/index pointers may be null. Supplied unused
+words still contribute their storage spans without content access. The
+full declared record extent is protected; bytes beyond 896 are untouched.
+Record bytes permit unaligned addresses. Typed alignment, actual backing,
+writability and lifetime are caller requirements.
+
+`ARM_FIRST_OPEN_INVALID` identifies missing required storage or observers;
+`ARM_FIRST_OPEN_BOUNDS` covers short record/plan extents and wrap;
+`ARM_FIRST_OPEN_UNSUPPORTED` covers other domains or extra plan entries;
+`ARM_FIRST_OPEN_OVERLAP` identifies intersecting spans. Every host error
+preserves all API objects and emits no events. `ARM_FIRST_OPEN_OK` means
+the finite operation completed, including raw 0xFFFFFFFF with retained
+effects. Observers preserve API objects/arguments, return normally, keep
+writable bookkeeping separate and avoid reentry, concurrent mutation and
+hardware access. No storage is allocated and no pointer is retained.
+
+```sh
+python3 -m unittest tests.test_arm_first_open
+make -C src/start4 check-arm-first-open
+```
+
+Tests compare all six fixtures, every first-open observer's state and
+record bytes, unaligned records, unused inputs, late reply/read failures,
+complete spans and host overflow. The target compiles `arm-first-open.o`
+and its `arm-object.o` dependency under `build/start4/`. Both stay unlinked
+from runtime. These profiles establish no successful first open, acquired
+handle, live initialization or physical synchronization/MMIO behavior.
+
 ## ARM configuration control
 
 [`arm_configuration.h`](arm_configuration.h) exposes
