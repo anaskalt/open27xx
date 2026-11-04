@@ -304,6 +304,75 @@ that toolchain; native host builds omit it. The target does not link the
 helper into `start4.elf`. Runtime integration needs acquisition, path
 selection and memory-ownership contracts.
 
+## Memory-bank serializer
+
+[`memory_layout.h`](memory_layout.h) exposes `memory_layout_serialize` in
+[`memory_layout.c`](memory_layout.c). The
+[serialization contract](../../docs/bcm2711/memory-layout.md) defines the
+ordered numeric tuples and big-endian cell encoding. These bytes do not
+establish physical banks, usable ownership, reserved ranges or payload
+placement. The helper performs no device-tree insertion or hardware access.
+
+The input structure contains address and size cell counts, a lower-span
+byte count, total MiB, a control word and an optional decoded record. A null
+record means absent. A present `memory_layout_record` supplies the flags
+and selector words from offsets 0x80 and 0x88. The helper does not acquire,
+copy or parse a raw record. A caller decoding those offsets must independently
+establish at least 140 readable bytes; the record's own length is insufficient.
+
+The helper accepts total values from 0 through `MEMORY_LAYOUT_MAX_TOTAL_MIB`
+(16384 MiB), every unsigned 32-bit lower-span, control and record word, and
+cell counts of 1 or 2. The total bound is a comparison limit. Lower-span
+fractional MiB are discarded; zero still emits the first tuple. No minimum
+total or cached-capacity limit is applied. With one address cell, every
+selected base must be below 4096 MiB, including any base advanced by size
+splitting. This condition depends on the selected branch, so a clipped
+selector-24 case can accept a total above 4096 MiB.
+
+`output` is a caller-owned byte buffer with the supplied `capacity`.
+`written` points to a `size_t` output. Success writes the complete payload,
+stores its length in bytes and preserves all bytes after that extent. The
+helper checks the complete encoded extent and every emitted base before
+writing. It does not produce partial output.
+
+| Host status | Meaning |
+|---|---|
+| `MEMORY_LAYOUT_OK` | The complete payload and its byte count are written |
+| `MEMORY_LAYOUT_INVALID` | A required pointer is null or an extent cannot be represented |
+| `MEMORY_LAYOUT_UNSUPPORTED` | A cell count, total or emitted one-cell base is outside the supported domain |
+| `MEMORY_LAYOUT_CAPACITY` | The supplied output capacity is smaller than the encoded extent |
+| `MEMORY_LAYOUT_OVERLAP` | Mutable output storage overlaps another argument |
+
+These statuses are host API rules, separate from the returned byte count.
+Every error preserves the output buffer and `written`. All pointers except
+the optional record are required, including when capacity is zero. Input,
+record and length objects must have the declared type, alignment and extent.
+The byte buffer requires no additional alignment. Objects remain valid for
+the entire synchronous call; none is retained, allocated or freed.
+
+The entire declared output capacity and the `written` object must not
+overlap each other, the input structure or a present record. The helper
+checks these overlaps and rejects address-range wrap before access. The
+caller enforces actual backing, alignment, lifetime and immutability of the
+inputs. Concurrent mutation of any argument is unsupported.
+
+```sh
+python3 -m unittest tests.test_memory_layout
+make -C src/start4 check-memory-layout
+```
+
+Host tests compare all 44 complete serializer fixtures: every output byte,
+returned length, unchanged inputs, output tail and guards. The four internal
+cached-capacity caller slices remain outside this API. Separate tests cover
+exact and short capacities, null and overlapping arguments, wrapping extents,
+numeric limits, full-width record/control words and repeated size splitting.
+
+The Make target writes `build/start4/memory-layout.o` with the pinned VPU
+compiler using `-Os -ffixed-lr`. Preserve that LR reservation when integrating
+with this toolchain; native host builds omit it. The helper remains unlinked
+from `start4.elf`. Runtime use requires separate acquisition, ownership,
+placement and complete tree-mutation contracts.
+
 ## ARM control request helpers
 
 [`arm_control.h`](arm_control.h) exposes the freestanding configuration and
