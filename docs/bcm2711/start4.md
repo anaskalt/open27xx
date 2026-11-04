@@ -192,6 +192,10 @@ index 23, record aggregation, dependency order and conditional check
 callbacks. Its complete calls and bounded prefixes use explicit software
 state and callback replies.
 
+The [fixed clock-request contract](clock-request.md) specifies software
+planning, cache changes and notification outcomes for clock 0x30 and
+requested value 600000000, with explicit driver boundaries.
+
 ## Restoring the boot partition
 
 Before an approved hardware test, make an offline copy of the complete

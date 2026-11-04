@@ -8,6 +8,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ### Added
 
+- Fixed clock-request contract and 12 synthetic cases for planning,
+  cache order, notification replies and separate lazy initialization.
 - Freestanding fixed resource-request helper with literal boundary replies,
   tagged return/stop outcomes and 16 synthetic fixture comparisons.
 - Fixed resource-request contract and 17 synthetic cases for dependency
