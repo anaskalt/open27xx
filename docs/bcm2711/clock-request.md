@@ -28,7 +28,7 @@ not a success or failure code produced by a driver.
 With skip word zero, wrapper 0x0EC7EA02 calls initializer 0x0EC7E764,
 requests acquisition of mutex GP+0x3E810 at 0x0EC7EA1C, executes request
 body 0x0EC7EA3C, releases the same mutex at 0x0EC7EA34 and restores the
-body's raw result to `r0` at 0x0EC7EA38. The request fixtures supply
+body's raw result to `r0` at 0x0EC7EA38. The original request fixtures supply
 initialized flag GP+0x184C equal to 1, so initialization returns without
 changing the supplied state. Mutex and diagnostic replies are zero and
 have no memory effects; their actual implementations are not executed.
@@ -49,7 +49,9 @@ then stores little-endian 54000000 at state+0x24, regardless of that reply.
 Both are complete initializer calls with restored SP. They do not continue
 into a clock request, acquire a real driver handle or establish that the
 initialized flag implies a usable handle. The value 7 is not assigned an
-open-error enum. The real open body remains an explicit callback boundary.
+open-error enum. The real open body remains an explicit callback boundary. The separate
+[cold-wrapper profile](#first-and-repeated-request-states) below composes
+only the zero-open-result/handle-write plan with a request.
 
 ## Diagnostic boundary
 
@@ -137,7 +139,8 @@ no missing field is inferred from zero-filled firmware memory.
 ## Descriptor and fixed numerical plan
 
 In the identified `start4.elf`, descriptor callback 0x0EC7AE8A calls
-0x0ED479FE. Empty override lookup through 0x0ED4714E marks descriptor-miss
+0x0ED479FE. With the supplied miss bytes initially zero, empty override
+lookup through 0x0ED4714E marks descriptor-miss
 byte 0x30 at GP+0xD1B88. The default branch at 0x0ED47C56 selects clock
 byte 0x30, source index 7 and divider index 5, with the remaining descriptor
 fields zero. Descriptor metadata at 0x0EDDD690 supplies its count constraints.
@@ -168,7 +171,7 @@ The numerical settings are requested values, not observed hardware rates.
 
 ## Lookup-miss ordering
 
-For the fixed initialized request in the identified `start4.elf`, diagnostic
+For the original initialized profiles in the identified `start4.elf`, diagnostic
 call 0x0EC7EAC2 occurs before descriptor call 0x0EC7EAE8. The descriptor
 lookup stores 1 into miss byte GP+0xD1B88+0x30 at 0x0ED4719C. The body
 then calls the pre-change notifier at 0x0EC7EB1A; the first matching callback
@@ -208,7 +211,7 @@ the supplied old source values produce these orders:
 | 2000000000 | 500000000 | Source, clock, divider |
 | 1200000000 | 300000000 | Clock, divider |
 
-Every case starts with divider count zero and requested-clock cache
+Each profile in this table starts with divider count zero and requested-clock cache
 500000000. These combinations are explicitly supplied state, not asserted
 to be normal live cache contents. The 1500 case starts with zero source
 and divider-rate caches and uses source, clock, divider order with count 3.
@@ -221,7 +224,7 @@ callback has already run at 0x0EC7ED44. For a lower old source, the cache
 write precedes the delayed source call at 0x0EC7EEBC.
 
 The divider-rate cache is updated at 0x0EC7EDC2/+0x04 before the clock
-callback at 0x0EC7EE4A. The fixed cases retain a pending final divider
+callback at 0x0EC7EE4A. These initial profiles retain a pending final divider
 request, called at 0x0EC7EECE. Thus the lower-source case makes two divider
 calls, both with count 2. Equal source skips the source callback but still
 updates the divider rate and calls the divider under its supplied old state.
@@ -303,14 +306,130 @@ open reply. Its handle write is the only supplied callback memory effect.
 Other callbacks preserve memory. The observed source/code bytes and scalar
 instruction semantics remain unchanged.
 
+## First and repeated request states
+
+Four additional complete calls to the same `start4.elf` wrapper 0x0ED55EFA
+cover the state after cold initialization and after a completed request.
+They keep identifier 0x30, value 600000000, selection 1, planner input 1200,
+zero skip/options and empty override heads. The request body operates on
+empty notification records; the cold wrapper establishes that state by
+clearing the supplied 0xA5 manager bytes before planning. Every programming,
+mutex and diagnostic reply is zero and preserves memory.
+Only the cold-wrapper profile has an open reply, returning zero and writing
+handle 0xC10C1234 into state+0x08. The supplied driver comparison word at
+GP+0x3E494 already equals that handle; its actual initialization is not
+established by the open boundary.
+
+| Profile | Initial flag/reference | Source / divider-rate / count / requested-clock cache | Initial miss state |
+|---|---|---|---|
+| Request from initializer output | 1 / 54000000 | 0 / 0 / 0 / 0 | Descriptor byte 0x30 and both bitmaps zero |
+| Actual cold wrapper | 0 / supplied 0xA5 contents | The 1156 supplied state bytes are 0xA5; actual initializer clears them before planning | Descriptor byte 0x30 and both bitmaps zero |
+| Repeat with reference zero | 1 / 0 | 1200000000 / 600000000 / 2 / 600000000 | Descriptor byte 0x30 = 1, bitmaps 0x20/0x80 |
+| Repeat with initialized reference | 1 / 54000000 | 1200000000 / 600000000 / 2 / 600000000 | Descriptor byte 0x30 = 1, bitmaps 0x20/0x80 |
+
+Initialized profiles use table 0x0EDE7F04 and handle 0xC10C1234. Represent
+these identities as opaque tokens in the portable operation. The
+reference-zero repeat preserves the completed cache state of a prior
+reference-zero request. The initialized-reference repeat preserves the
+state produced by the actual cold-wrapper call. These are distinct declared
+origins; reference zero is not inferred from loader memory, and no actual
+live acquisition follows from either profile.
+
+### Cold-wrapper order
+
+The identified `start4.elf` wrapper calls initializer 0x0EC7E764 at
+0x0EC7EA10. The static store and call sequence is:
+
+1. Set flag 1 at 0x0EC7E776, then clear all 1156 state bytes.
+2. Store the selected table at state+0x04 at 0x0EC7E78A.
+3. Call open at 0x0EC7E794 with defined arguments `(0,state+0x08)`.
+   At this boundary the table is installed, while handle, reference and
+   numerical caches remain zero. The literal reply writes the handle.
+4. Store reference 54000000 at 0x0EC7E7B0/0x0EC7E7B2.
+5. Acquire the mutex at 0x0EC7EA1C, with the manager state now initialized,
+   then restore request arguments and enter body 0x0EC7EA3C.
+
+Only the manager pointer is a defined argument to each acquire/release
+boundary. At cold acquisition, recorded `r1..r5` retain initializer words
+`0,54000000,0x0EC7B978,1,1`. Warm acquisition instead records
+`600000000,0,0,0,output` in those registers. They are incidental register
+values, not additional mutex arguments or a portable calling convention.
+The diagnostic boundary retains its seven logical words defined above.
+
+The cold wrapper and the request beginning from initializer output both
+call source, selected-clock and divider boundaries in that order. Their
+final state and observed preserved registers match. The extra open event
+and incidental acquisition words distinguish their traces. No nonzero-open
+continuation, actual open body, interrupt operation or driver acquisition
+is added by this composition.
+
+### Completed caches and callback-visible state
+
+Both repeated profiles still execute the real descriptor/planner path.
+The comparison at 0x0EC7EC70–0x0EC7ECA0 finds source 1200000000 already
+cached. Multiplication at 0x0EC7ED98–0x0EC7EDA8 finds that the supplied
+divider rate 600000000 times count 2 equals that source. Store 0x0EC7EDAC
+clears the pending divider request; branch 0x0EC7EEC0 skips its final call.
+Only the selected-clock boundary at 0x0EC7EE4A remains between diagnostic
+and release. A repeated request still requires the supplied planner input.
+
+For the first two profiles, diagnostic sees all three miss fields zero;
+lookup then sets descriptor byte 1 and planning sets bitmaps 0x20/0x80.
+For the repeats, those values already exist before diagnostic and persist.
+The original zero-initial-miss table above does not reset repeated state.
+Empty notification records mean there is no external notification callback.
+
+| Boundary | First request after initialization | Repeated request |
+|---|---|---|
+| Diagnostic | Zero numerical caches/count and miss state | Completed numerical caches/count and miss state |
+| Source request | Count 2 stored; source/divider/requested-clock caches still zero | Not called |
+| Selected-clock request | Source 1200000000, divider rate 600000000, count 2; requested-clock cache still zero | All completed cache values persist |
+| Final divider request | Same cache state as selected-clock request | Not called |
+| Release | Requested-clock cache and output are 600000000 | Completed caches persist; fresh output becomes 600000000 |
+
+These positions use the existing static store/call proof, including
+0x0EC7ECD2, 0x0EC7ED44, 0x0EC7ED6E/+2, 0x0EC7EDC2/+4,
+0x0EC7EE4A, 0x0EC7EECE, 0x0EC7EF00/+4 and 0x0EC7EF2A/+2.
+The fixtures record call arguments/order and final memory, not callback-time
+memory snapshots or concurrent visibility. Reference 0 or 54000000 persists
+unchanged across each repeat. The output copy occurs even when caches
+already contain the requested value.
+
+### Additional recorded cases
+
+[clock-request-state.json](../../tests/vectors/start4/clock-request-state.json)
+contains the four additional cases, SHA-256
+`9aca2dd3a1b25b23dbcb66e1b384514c6935a675d006cf058fa1298e4a175f88`.
+All enter 0x0ED55EFA and return to external sentinel 0x24040000 with fresh
+frames and restored SP. Their inputs declare GP 0xE4000000, SP 0x24010000
+and fresh output 0x24020010; no saved stack frame is imported.
+
+| Case | Instructions | Boundary calls | Raw result |
+|---|---:|---:|---|
+| Request from initializer output | 772 | 6 | 0 |
+| Actual cold wrapper, open zero | 1388 | 7 | 0 |
+| Repeat with reference zero | 728 | 4 | 0 |
+| Repeat with initialized reference | 728 | 4 | 0 |
+| Total | 3616 | 21 | Four complete calls |
+
+Each case compares 1330 bytes of non-stack state/output and 128 bytes of
+stack-edge guards, plus `r0`, GP, SP and preserved `r6..r20`. Interior
+saved-stack bytes are not final observations. Every output starts with
+0xA5 bytes, so the repeated cases verify a fresh copy rather than retaining
+a previous output buffer. The three driver bodies remain supplied boundaries;
+no MMIO or native descriptor cell is declared or accessed.
+
 ## Portable state and host preconditions
 
 Represent rates as unsigned 64-bit words, count and skip/initialized fields
 as 32-bit words, and handle/table/callback identities as opaque tokens.
 Keep the descriptor-miss byte, two override-miss bitmaps and notification
-selection separate from the numerical caches. The host operation is either
-the fixed request or a direct cold initializer; do not implicitly compose
-a nonzero-open-reply/zero-handle initializer with a subsequent request.
+selection separate from the numerical caches. The host operation is
+the fixed request or a direct cold initializer. The fixed request accepts
+only the original profiles or the four additional state profiles above.
+Only the documented zero-open-result/handle-write plan may continue from
+cold initialization into a request; do not compose a nonzero-open-reply/
+zero-handle initializer with a subsequent request.
 
 The caller establishes actual backing, writability, required alignment and
 lifetime for all supplied objects. Executable preflight checks required
@@ -320,11 +439,14 @@ The request's external output buffer, manager state and immutable reply-plan
 storage must not overlap. The initializer's declared handle write is an
 explicit write to state+0x08. Preflight errors emit no calls and preserve
 state/output. Report them through a host status separate from vendor raw
-zero, 0x30, 7, 0xFFFFFFFF or a cached-rate result. A nonzero handle token
-must match its supplied comparison token; this relation does not establish
-driver acquisition or ownership. Missing inputs must not become silent zeros.
+zero, 0x30, 7, 0xFFFFFFFF or a cached-rate result. An initialized request
+requires its nonzero handle token to match the supplied comparison token.
+For the cold wrapper, the declared open handle must match that comparison
+token; the initial 0xA5 manager fields are cleared before use. Neither
+relation establishes driver acquisition or ownership. Missing inputs must
+not become silent zeros.
 
-The supported inputs are the fixed profiles above: identifier 0x30,
+The original twelve-case domain uses identifier 0x30,
 requested 600000000 with high word and remaining request words zero;
 selection 1; no overrides; initial miss state zero; initialized flag 1 for
 request cases; the four listed source/divider-rate pairs with count zero
@@ -334,14 +456,22 @@ Notification records are empty or the single first-slot clock-0x30 record
 with the documented reply sequence on the zero-source, planner-1200 profile.
 Nonzero programming replies are covered only by the zero-cache profile
 without notifications. The cold initializer profiles use flag
-zero and the two exact open-result/handle-write pairs. Other combinations
-or repeated-state requests require additional evidence. The listed dimensions
-are not a tested Cartesian product and do not define a general clock API
-or arbitrary-state parity.
+zero and the two exact open-result/handle-write pairs. The four additional
+state profiles permit only the zero-cache initializer result, the actual
+cold open-zero wrapper and the two completed-cache repeats listed above.
+Do not combine their changed state with skip paths, notifications, nonzero
+programming replies, planner input 1500 or other original profiles. Further
+combinations and other repeated-state requests require additional evidence.
+The listed dimensions are not a tested Cartesian product and do not define
+a general clock API or arbitrary-state parity.
 
 Supply the literal reply plan before execution. Preflight only providers
 reachable under the selected profile before changing state or emitting
-calls. Skipped requests need no programming providers. Open replies declare
+calls. The cold wrapper requires its open and subsequent source, clock,
+divider, diagnostic and mutex providers before clearing state; validating
+only the open step is insufficient. Repeated profiles require clock,
+diagnostic and mutex providers; they do not require source or divider
+providers. Skipped requests need no programming providers. Open replies declare
 both the raw word and the permitted four-byte handle write. The other
 providers return the documented literal words and preserve state. Dynamic
 providers that return undeclared words or introduce other memory effects
@@ -376,13 +506,34 @@ GHIDRA_HEADLESS_MAXMEM=2G /opt/ghidra/support/analyzeHeadless \
 cmp tests/vectors/start4/clock-request.json /work/analysis/clock-request.json
 ```
 
+Use the same public preparation for the additional four-case fixture:
+
+```sh
+GHIDRA_HEADLESS_MAXMEM=2G /opt/ghidra/support/analyzeHeadless \
+  /work/analysis/projects firmware_a \
+  -process start4.elf -readOnly -noanalysis -max-cpu 1 \
+  -scriptPath tools/ghidra \
+  -postScript DecodeScalarPaths.java \
+  38b179897c4514ad11bc915c3fd2d4b68c51e05df2e42240717655ab92d91aeb \
+  0x0ED55EFA 0x0EC7EA02 0x0EC7E764 0x0EC7EA3C 0x0EC7AE8A \
+  0x0ED479FE 0x0ED4714E 0x0EC7E8E6 0x0ED47D14 0x0ED4700A \
+  0x0ED47414 0x0EC2F8AE 0x0EC2F8DA 0x0EC2F7D2 0x0EC2F9B8 \
+  0x0EC2FBDA 0x0EC635DA 0x0ED204F6 0x0EC7A7E4 0x0EC79C42 \
+  -postScript CaptureScalarVectors.java \
+  tests/vectors/start4/clock-request-state.json /work/analysis/clock-request-state.json
+cmp tests/vectors/start4/clock-request-state.json /work/analysis/clock-request-state.json
+```
+
 Compare the complete JSON, including state/output bytes, all six boundary
 register arguments, reply indexes and instruction counts. Decoding changes
 transient metadata only. The unchanged recorder rejects unknown reads,
 undeclared writes, modified instruction bytes and unsupported operations.
 Omitting only GP+0x3B938 from the baseline causes an uninitialized four-byte
 read at 0xE403B938 by 0x0EC635E0 and produces no result artifact. This is a
-recorder boundary, not a vendor error return.
+recorder boundary, not a vendor error return. The repeated profile has the
+same planner-read requirement. Extra source or divider replies on that
+profile are rejected as unused; missing open or selected-clock replies
+fail at their actual boundary, without executing the driver body.
 
 ## Open questions
 

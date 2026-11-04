@@ -152,7 +152,10 @@ instruction text. Use it only in the read-only invocation immediately
 before the scalar recorder; transient definitions are discarded afterward.
 The recorder's execution checks remain unchanged. The
 [memory-capacity replay](bcm2711/memory-capacity.md#recorded-cases-and-replay)
-lists the exact source identity and entry points for that fixture.
+lists the exact source identity and entry points for that fixture. The
+[fixed clock-request replay](bcm2711/clock-request.md#replay) uses the same
+unchanged scripts for its original cases and separate four-case
+[cold/repeated state profiles](bcm2711/clock-request.md#first-and-repeated-request-states).
 
 ### Fixed clock recorder
 
