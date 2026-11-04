@@ -237,6 +237,109 @@ helper with the pinned VPU toolchain. Native host builds do not use this
 option. The target does not link the helper into `start4.elf`; acquisition
 and runtime integration require further contracts.
 
+## ARM control request helpers
+
+[`arm_control.h`](arm_control.h) exposes the freestanding configuration and
+start-request helpers in [`arm_control.c`](arm_control.c). The
+[request contract](../../docs/bcm2711/arm-control.md) defines the bounded
+software operations. These helpers issue callbacks over caller-owned state.
+They do not access MMIO, acquire source buffers, implement a resource
+transition or provide clock, reset, memory-visibility or ARM-entry guarantees.
+
+`arm_control_configure` receives `struct arm_control_configuration`, an
+incoming 32-bit result, a service callback, callback context and output
+pointer. The configuration contains opaque driver, selection, handle,
+service-index and A/B/C/D words. The helper never dereferences the driver
+word. A zero driver emits no callback and copies the incoming result to
+the output; this preserved value is not a success status. With a nonzero
+driver, only selection 1 and `ARM_CONTROL_HANDLE` (0x61726D11) are supported.
+Other routing values return `ARM_CONTROL_UNSUPPORTED` before any callback.
+The zero-selection internal boundary has no portable function counterpart.
+
+The service callback receives context followed by service index, selected
+value, relative offset and three zeros, in that order. The helper forwards
+the service index unchanged. A/B/C/D retain their opaque meanings; each is
+tested only for zero or nonzero. Six requests always occur in order, including
+requests whose value is zero. Nonzero D appends the seventh request. The
+configuration remains unchanged. Service return words are ignored, including
+nonzero words. All requests complete and the output is 0.
+
+`arm_control_start` receives `struct arm_control_start_state`, a handle,
+a native mutex-object pointer, `struct arm_control_start_callbacks` and an
+output pointer. The callback table contains acquire, release and resource
+request functions with one shared context. Acquire and release receive
+context followed by the identical mutex pointer. The helper does not
+dereference that pointer. The resource callback receives context, the
+unchanged 32-bit `resource_object`, resource 23 and literals 1 and 1. The
+resource-object word is not converted to a native pointer or entry address.
+
+After acquire, the helper requires the handle to equal `ARM_CONTROL_HANDLE`,
+nonzero `open_count`, nonzero `mapping_marker` and zero `active`. A rejected
+gate selects result 0xFFFFFFFF without calling the resource callback. An
+accepted request preserves the resource reply as the selected result and
+sets `active` to exactly 1 only for reply 0. Release observes that state
+update and runs after both gate rejection and an accepted resource request.
+Mutex return words are ignored. The helper writes the selected result after
+release.
+All other state remains unchanged. An active word of 1 is software state;
+it does not establish ARM execution. The recorded resource replies are 0
+and 7; additional host boundary tests check full-width result preservation.
+
+| Host status | Meaning |
+|---|---|
+| `ARM_CONTROL_OK` | The supported operation completes and writes the function result |
+| `ARM_CONTROL_INVALID` | A required pointer or callback is null; no callback or write occurs |
+| `ARM_CONTROL_UNSUPPORTED` | Nonzero driver with unsupported selection or handle; no callback or write occurs |
+| `ARM_CONTROL_OVERLAP` | Result/state, result/callback-table or state/callback-table overlap; no callback or write occurs |
+
+These statuses are host API rules, separate from the function result.
+A gate rejection or nonzero resource reply returns `ARM_CONTROL_OK` with
+the selected 32-bit result. Ignored configuration-service and mutex words
+are raw boundary returns, with no assigned failure or lock-ownership meaning.
+They do not stop requests, skip gates or change the selected result. The
+callbacks must return normally; the API provides no transport-error channel,
+rollback, retry or recovery from callback exceptions or nonlocal exits. Real
+synchronization and callback side effects require a separate contract. A
+host validation error leaves the output and state untouched and emits no
+callback. The output is valid only with `ARM_CONTROL_OK`.
+
+State, configuration, output and callback-table pointers must refer to
+properly aligned objects of the declared type and extent. Objects and
+callback functions remain valid for the whole synchronous call; the helper
+retains none of them and allocates or frees no storage. Configuration and
+output are always required. The service callback is required only for a
+nonzero driver with supported routing. Start requires state, output, a
+nonnull mutex pointer, a callback table and all three callbacks, even when
+a software gate will reject the request. Context may be null if callbacks
+accept it.
+
+Output, input/state, callback-table, context storage and mutex storage must
+not overlap. The helper checks output/input and output/state overlap, and
+start also checks output/table and state/table overlap. The caller enforces
+the remaining separation, lifetime and extent requirements. Callbacks must
+not modify configuration, state, output or callback-table objects, reenter
+the same state or perform hardware operations. Independent calls must not
+concurrently access the same state. A mutex callback boundary alone provides
+no synchronization guarantee.
+
+```sh
+python3 -m unittest tests.test_arm_control
+make -C src/start4 check-arm-control
+```
+
+The host tests compare all 40 complete function fixtures: 24 configuration
+cases and 16 start-request cases. They compare callback order and arguments,
+object identity, returned values and every represented state field. The
+internal zero-selection boundary remains outside helper functionality.
+Incidental registers and native stack locations are not portable outputs.
+Additional tests cover nonbinary field values, repeated calls, null and
+overlapping arguments and ignored boundary return words.
+
+The Make target compiles `build/start4/arm-control.o` with the pinned VPU
+compiler, `-Os` and `-ffixed-lr`. Preserve the LR reservation for this
+toolchain when integrating the helper. The target does not link it into
+`start4.elf`; the image's advertised features remain unchanged.
+
 ## Host staging
 
 ```sh
