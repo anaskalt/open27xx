@@ -51,6 +51,34 @@ into a clock request, acquire a real driver handle or establish that the
 initialized flag implies a usable handle. The value 7 is not assigned an
 open-error enum. The real open body remains an explicit callback boundary.
 
+## Diagnostic boundary
+
+In the identified `start4.elf`, call 0x0EC7EAC2 targets diagnostic entry
+0x0ED17442. Its defined input is seven 32-bit words in this order:
+
+| Position | Fixed request value | Meaning at the callsite |
+|---:|---|---|
+| 0 | 0x4000 | Opaque diagnostic control word |
+| 1 | 0x0EC7EF38 | Opaque format identity |
+| 2 | 0x30 | Clock identifier |
+| 3 | 600000000 | Requested value, low word |
+| 4 | 0 | Requested value, high word |
+| 5 | 0 | Original request word in incoming `r3` |
+| 6 | 0 | Original request word in incoming `r4` |
+
+The first six words occupy `r0` through `r5` at the boundary. Store
+0x0EC7EAA8 places the seventh at the outgoing stack pointer before the
+register setup at 0x0EC7EAAA–0x0EC7EABE. The caller's output pointer is not
+a diagnostic argument. Preserve all seven logical words in a portable
+callback; represent entry and format identities as opaque tokens, without
+dereferencing the firmware format address or exposing a native stack.
+No logging severity, rendered text or diagnostic implementation is defined.
+
+The fixture records only the six register words in its boundary event.
+The seventh word's placement follows the static callsite stores; it is not
+an extra field captured in that event. The supplied diagnostic reply is
+raw zero with no memory effects, as in the recorded request profiles.
+
 ## Selected table and state
 
 For supplied selection GP+0x1564=1, the identified `start4.elf` resolver
@@ -137,6 +165,35 @@ The source-cache index 7 and source driver's argument 2 are distinct
 values on this fixed route. All six register words are recorded at each
 boundary; unused trailing registers are not extra portable API arguments.
 The numerical settings are requested values, not observed hardware rates.
+
+## Lookup-miss ordering
+
+For the fixed initialized request in the identified `start4.elf`, diagnostic
+call 0x0EC7EAC2 occurs before descriptor call 0x0EC7EAE8. The descriptor
+lookup stores 1 into miss byte GP+0xD1B88+0x30 at 0x0ED4719C. The body
+then calls the pre-change notifier at 0x0EC7EB1A; the first matching callback
+runs at 0x0EC7E920. These boundaries see the following miss state when the
+supplied callbacks preserve memory:
+
+| Boundary | Descriptor-miss byte 0x30 | GP+0xD1BE4 | GP+0xD1BE0 |
+|---|---:|---|---|
+| Diagnostic call | 0 | 0 | 0 |
+| Pre-change notification | 1 | 0 | 0 |
+| First programming call | 1 | 0x20 | 0x80 |
+
+Only after the pre-change notifier returns zero does the body call planner
+0x0ED47D14 at 0x0EC7EC58. Its divider-override lookup sets GP+0xD1BE4 to 0x20 at
+0x0ED47036, followed by the source-override lookup setting GP+0xD1BE0 to
+0x80 at 0x0ED47446. Both stores precede the first programming call for
+all listed profiles. A rejected pre-change request reaches neither store.
+The numerical caches and caller output still have their supplied values
+at the diagnostic and pre-change boundaries.
+
+These intermediate positions follow the static control flow and store
+addresses. The recorded cases capture boundary arguments/order and final
+memory; they do not sample memory inside diagnostic or notification
+callbacks. The table does not extend the contract to callback mutation,
+concurrent readers or hardware visibility.
 
 ## Cache changes and programming order
 
