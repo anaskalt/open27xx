@@ -1,0 +1,628 @@
+{
+  "schema": 1,
+  "source": {
+    "file": "bootmain",
+    "repository": "raspberrypi/usbboot",
+    "version": "fdb604d018693465c9aa6ec69879df866d2820da",
+    "sha256": "4deaac8f1e266a626bb422fd7d17bb69c98cb39be2e7db5e566cae68a8e17e4d"
+  },
+  "cases": [
+    {
+      "id": "signature-file-digest-short",
+      "function": {
+        "entry": "0x000A8024",
+        "language": "vc4:LE:32:default"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "sp": "0x24010000",
+          "gp": "0x24020000",
+          "r0": "0x24000000",
+          "r1": "0x24002000",
+          "r2": "0x00000000",
+          "r3": "0x00000000",
+          "r4": "0x00000000"
+        },
+        "memory": [
+          {
+            "address": "0x2400F800",
+            "size": 2048,
+            "fill": "00"
+          },
+          {
+            "address": "0x24000000",
+            "hex": "4646554200100024040000000500000000000000"
+          },
+          {
+            "address": "0x24001000",
+            "hex": "3132333400"
+          },
+          {
+            "address": "0x24002000",
+            "hex": "4646554200300024000000002000000000000000"
+          },
+          {
+            "address": "0x24002100",
+            "hex": "4646554200400024000000000001000000000000"
+          },
+          {
+            "address": "0x24003000",
+            "size": 32,
+            "fill": "5a"
+          },
+          {
+            "address": "0x24004000",
+            "size": 256,
+            "fill": "5a"
+          },
+          {
+            "address": "0x24005000",
+            "size": 8,
+            "fill": "5a"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24030000",
+        "step_limit": 100000,
+        "stubs": [
+          {
+            "entry": "0x000A71DC",
+            "label": "diagnostic output",
+            "replies": [
+              {
+                "registers": {},
+                "memory": []
+              }
+            ]
+          }
+        ],
+        "mmio_responses": []
+      },
+      "expected": {
+        "registers": {
+          "sp": "0x24010000",
+          "r0": "0xFFFFFFFF"
+        },
+        "memory": [
+          {
+            "address": "0x24002000",
+            "hex": "4646554200300024000000002000000000000000"
+          },
+          {
+            "address": "0x24002100",
+            "hex": "4646554200400024000000000001000000000000"
+          },
+          {
+            "address": "0x24003000",
+            "hex": "5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a"
+          },
+          {
+            "address": "0x24005000",
+            "hex": "5a5a5a5a5a5a5a5a"
+          }
+        ],
+        "events": [
+          {
+            "kind": "stub",
+            "entry": "0x000A71DC",
+            "arguments": [
+              "0x000A8284",
+              "0x00000020",
+              "0x00000000",
+              "0x24003000",
+              "0x00000004",
+              "0x00000040"
+            ],
+            "reply_index": 0
+          }
+        ]
+      },
+      "steps": 113,
+      "scope": [
+        "Parse synthetic signature-file digest or metadata fields and reject truncated encoding."
+      ],
+      "limitations": [
+        "Diagnostic output is intercepted. No valid signature or key payload is supplied, and no cryptographic verification occurs."
+      ]
+    },
+    {
+      "id": "signature-file-digest-valid",
+      "function": {
+        "entry": "0x000A8024",
+        "language": "vc4:LE:32:default"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "sp": "0x24010000",
+          "gp": "0x24020000",
+          "r0": "0x24000000",
+          "r1": "0x24002000",
+          "r2": "0x00000000",
+          "r3": "0x00000000",
+          "r4": "0x00000000"
+        },
+        "memory": [
+          {
+            "address": "0x2400F800",
+            "size": 2048,
+            "fill": "00"
+          },
+          {
+            "address": "0x24000000",
+            "hex": "4646554200100024410000004200000000000000"
+          },
+          {
+            "address": "0x24001000",
+            "hex": "303132333435363738396162636465663031323334353637383961626364656630313233343536373839616263646566303132333435363738396162636465660a00"
+          },
+          {
+            "address": "0x24002000",
+            "hex": "4646554200300024000000002000000000000000"
+          },
+          {
+            "address": "0x24002100",
+            "hex": "4646554200400024000000000001000000000000"
+          },
+          {
+            "address": "0x24003000",
+            "size": 32,
+            "fill": "5a"
+          },
+          {
+            "address": "0x24004000",
+            "size": 256,
+            "fill": "5a"
+          },
+          {
+            "address": "0x24005000",
+            "size": 8,
+            "fill": "5a"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24030000",
+        "step_limit": 100000,
+        "stubs": [
+          {
+            "entry": "0x000B2394",
+            "label": "diagnostic output",
+            "replies": [
+              {
+                "registers": {},
+                "memory": []
+              }
+            ]
+          }
+        ],
+        "mmio_responses": []
+      },
+      "expected": {
+        "registers": {
+          "sp": "0x24010000",
+          "r0": "0x00000000"
+        },
+        "memory": [
+          {
+            "address": "0x24002000",
+            "hex": "4646554200300024200000002000000000000000"
+          },
+          {
+            "address": "0x24002100",
+            "hex": "4646554200400024000000000001000000000000"
+          },
+          {
+            "address": "0x24003000",
+            "hex": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef"
+          },
+          {
+            "address": "0x24005000",
+            "hex": "5a5a5a5a5a5a5a5a"
+          }
+        ],
+        "events": [
+          {
+            "kind": "stub",
+            "entry": "0x000B2394",
+            "arguments": [
+              "0x000A823C",
+              "0x24003000",
+              "0x00000020",
+              "0x24003000",
+              "0x42554646",
+              "0x42554646"
+            ],
+            "reply_index": 0
+          }
+        ]
+      },
+      "steps": 3698,
+      "scope": [
+        "Parse synthetic signature-file digest or metadata fields and reject truncated encoding."
+      ],
+      "limitations": [
+        "Diagnostic output is intercepted. No valid signature or key payload is supplied, and no cryptographic verification occurs."
+      ]
+    },
+    {
+      "id": "signature-file-metadata",
+      "function": {
+        "entry": "0x000A8024",
+        "language": "vc4:LE:32:default"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "sp": "0x24010000",
+          "gp": "0x24020000",
+          "r0": "0x24000000",
+          "r1": "0x00000000",
+          "r2": "0x00000000",
+          "r3": "0x24005000",
+          "r4": "0x24005004"
+        },
+        "memory": [
+          {
+            "address": "0x2400F800",
+            "size": 2048,
+            "fill": "00"
+          },
+          {
+            "address": "0x24000000",
+            "hex": "46465542001000241d0000001e00000000000000"
+          },
+          {
+            "address": "0x24001000",
+            "hex": "0a74733a203132333435360a7461726765742d736f633a20323731320a00"
+          },
+          {
+            "address": "0x24002000",
+            "hex": "4646554200300024000000002000000000000000"
+          },
+          {
+            "address": "0x24002100",
+            "hex": "4646554200400024000000000001000000000000"
+          },
+          {
+            "address": "0x24003000",
+            "size": 32,
+            "fill": "5a"
+          },
+          {
+            "address": "0x24004000",
+            "size": 256,
+            "fill": "5a"
+          },
+          {
+            "address": "0x24005000",
+            "size": 8,
+            "fill": "5a"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24030000",
+        "step_limit": 100000,
+        "stubs": [
+          {
+            "entry": "0x000B2394",
+            "label": "diagnostic output",
+            "replies": [
+              {
+                "registers": {},
+                "memory": []
+              },
+              {
+                "registers": {},
+                "memory": []
+              }
+            ]
+          }
+        ],
+        "mmio_responses": []
+      },
+      "expected": {
+        "registers": {
+          "sp": "0x24010000",
+          "r0": "0x00000000"
+        },
+        "memory": [
+          {
+            "address": "0x24002000",
+            "hex": "4646554200300024000000002000000000000000"
+          },
+          {
+            "address": "0x24002100",
+            "hex": "4646554200400024000000000001000000000000"
+          },
+          {
+            "address": "0x24003000",
+            "hex": "5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a"
+          },
+          {
+            "address": "0x24005000",
+            "hex": "40e20100980a0000"
+          }
+        ],
+        "events": [
+          {
+            "kind": "stub",
+            "entry": "0x000B2394",
+            "arguments": [
+              "0x000A8234",
+              "0x0001E240",
+              "0x00000000",
+              "0x0001E240",
+              "0x2400100B",
+              "0x00000000"
+            ],
+            "reply_index": 0
+          },
+          {
+            "kind": "stub",
+            "entry": "0x000B2394",
+            "arguments": [
+              "0x000A8258",
+              "0x00000A98",
+              "0x00000000",
+              "0x00000A98",
+              "0x2400101C",
+              "0x00000000"
+            ],
+            "reply_index": 1
+          }
+        ]
+      },
+      "steps": 1070,
+      "scope": [
+        "Parse synthetic signature-file digest or metadata fields and reject truncated encoding."
+      ],
+      "limitations": [
+        "Diagnostic output is intercepted. No valid signature or key payload is supplied, and no cryptographic verification occurs."
+      ]
+    },
+    {
+      "id": "signature-file-target-invalid",
+      "function": {
+        "entry": "0x000A8024",
+        "language": "vc4:LE:32:default"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "sp": "0x24010000",
+          "gp": "0x24020000",
+          "r0": "0x24000000",
+          "r1": "0x00000000",
+          "r2": "0x00000000",
+          "r3": "0x00000000",
+          "r4": "0x24005004"
+        },
+        "memory": [
+          {
+            "address": "0x2400F800",
+            "size": 2048,
+            "fill": "00"
+          },
+          {
+            "address": "0x24000000",
+            "hex": "4646554200100024120000001300000000000000"
+          },
+          {
+            "address": "0x24001000",
+            "hex": "0a7461726765742d736f633a20313233340a00"
+          },
+          {
+            "address": "0x24002000",
+            "hex": "4646554200300024000000002000000000000000"
+          },
+          {
+            "address": "0x24002100",
+            "hex": "4646554200400024000000000001000000000000"
+          },
+          {
+            "address": "0x24003000",
+            "size": 32,
+            "fill": "5a"
+          },
+          {
+            "address": "0x24004000",
+            "size": 256,
+            "fill": "5a"
+          },
+          {
+            "address": "0x24005000",
+            "size": 8,
+            "fill": "5a"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24030000",
+        "step_limit": 100000,
+        "stubs": [
+          {
+            "entry": "0x000A71DC",
+            "label": "diagnostic output",
+            "replies": [
+              {
+                "registers": {},
+                "memory": []
+              }
+            ]
+          }
+        ],
+        "mmio_responses": []
+      },
+      "expected": {
+        "registers": {
+          "sp": "0x24010000",
+          "r0": "0x00000000"
+        },
+        "memory": [
+          {
+            "address": "0x24002000",
+            "hex": "4646554200300024000000002000000000000000"
+          },
+          {
+            "address": "0x24002100",
+            "hex": "4646554200400024000000000001000000000000"
+          },
+          {
+            "address": "0x24003000",
+            "hex": "5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a"
+          },
+          {
+            "address": "0x24005000",
+            "hex": "5a5a5a5a00000000"
+          }
+        ],
+        "events": [
+          {
+            "kind": "stub",
+            "entry": "0x000A71DC",
+            "arguments": [
+              "0x000A8268",
+              "0x2400FF8B",
+              "0x00000000",
+              "0x000004D2",
+              "0x24001011",
+              "0x00000000"
+            ],
+            "reply_index": 0
+          }
+        ]
+      },
+      "steps": 517,
+      "scope": [
+        "Parse synthetic signature-file digest or metadata fields and reject truncated encoding."
+      ],
+      "limitations": [
+        "Diagnostic output is intercepted. No valid signature or key payload is supplied, and no cryptographic verification occurs."
+      ]
+    },
+    {
+      "id": "signature-file-rsa-truncated",
+      "function": {
+        "entry": "0x000A8024",
+        "language": "vc4:LE:32:default"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "sp": "0x24010000",
+          "gp": "0x24020000",
+          "r0": "0x24000000",
+          "r1": "0x00000000",
+          "r2": "0x24002100",
+          "r3": "0x00000000",
+          "r4": "0x00000000"
+        },
+        "memory": [
+          {
+            "address": "0x2400F800",
+            "size": 2048,
+            "fill": "00"
+          },
+          {
+            "address": "0x24000000",
+            "hex": "46465542001000240d0000000e00000000000000"
+          },
+          {
+            "address": "0x24001000",
+            "hex": "0a727361323034383a2030300a00"
+          },
+          {
+            "address": "0x24002000",
+            "hex": "4646554200300024000000002000000000000000"
+          },
+          {
+            "address": "0x24002100",
+            "hex": "4646554200400024000000000001000000000000"
+          },
+          {
+            "address": "0x24003000",
+            "size": 32,
+            "fill": "5a"
+          },
+          {
+            "address": "0x24004000",
+            "size": 256,
+            "fill": "5a"
+          },
+          {
+            "address": "0x24005000",
+            "size": 8,
+            "fill": "5a"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24030000",
+        "step_limit": 100000,
+        "stubs": [
+          {
+            "entry": "0x000A71DC",
+            "label": "diagnostic output",
+            "replies": [
+              {
+                "registers": {},
+                "memory": []
+              }
+            ]
+          }
+        ],
+        "mmio_responses": []
+      },
+      "expected": {
+        "registers": {
+          "sp": "0x24010000",
+          "r0": "0xFFFFFFFF"
+        },
+        "memory": [
+          {
+            "address": "0x24002000",
+            "hex": "4646554200300024000000002000000000000000"
+          },
+          {
+            "address": "0x24002100",
+            "hex": "4646554200400024000000000001000000000000"
+          },
+          {
+            "address": "0x24003000",
+            "hex": "5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a"
+          },
+          {
+            "address": "0x24005000",
+            "hex": "5a5a5a5a5a5a5a5a"
+          }
+        ],
+        "events": [
+          {
+            "kind": "stub",
+            "entry": "0x000A71DC",
+            "arguments": [
+              "0x000A8284",
+              "0x00000100",
+              "0x00000000",
+              "0x24004000",
+              "0x00000003",
+              "0x00000200"
+            ],
+            "reply_index": 0
+          }
+        ]
+      },
+      "steps": 278,
+      "scope": [
+        "Parse synthetic signature-file digest or metadata fields and reject truncated encoding."
+      ],
+      "limitations": [
+        "Diagnostic output is intercepted. No valid signature or key payload is supplied, and no cryptographic verification occurs."
+      ]
+    }
+  ]
+}

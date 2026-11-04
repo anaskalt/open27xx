@@ -14,7 +14,7 @@ Early development. Nothing here is ready for production use.
 |---|---|
 | EEPROM image tool | lists, extracts, verifies and rebuilds BCM2711 images |
 | Headless firmware analysis | repeatable imports and metadata exports |
-| Documentation of the BCM2711 boot chain | first revision |
+| Documentation of the BCM2711 boot chain | scalar boot flow and emulator vectors |
 | Open `start4.elf` | planned |
 | bootmain, bootsys, SDRAM initialization | analysis |
 

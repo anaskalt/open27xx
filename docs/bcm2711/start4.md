@@ -58,6 +58,66 @@ These strings occur in `start4.elf` identified above:
 | `interface/vcos/threadx` | 0x1A44A3, 0x1A52B3 |
 | `config.txt` | 0x05F7A8, 0x113A86, 0x1D7850 |
 
+## Loading by bootmain
+
+The loader behavior in this section belongs to `bootmain` from raspberrypi/usbboot commit `fdb604d018693465c9aa6ec69879df866d2820da`, SHA-256 `4deaac8f1e266a626bb422fd7d17bb69c98cb39be2e7db5e566cae68a8e17e4d`. Loader addresses are ELF virtual addresses in that file. The [firmware selection and file requests](bootmain.md#firmware-and-fixup-selection) precede these operations.
+
+The completion path at 0x00086754 validates the image with 0x0008E2A2, looks up `.text.firmware_rev` and `.text.bootloader_state` through 0x0008E19C, processes an available fixup and validates the result again. It then calls 0x0008E1EA to place segments in memory. [elf-section.json](../../tests/vectors/bootmain/elf-section.json) records successful and missing section-name lookups using a synthetic section table.
+
+### Header checks
+
+In the identified `bootmain`, 0x0008E2A2 takes the image pointer in `r0` and byte length in `r1`. It returns zero for the accepted header and 0xFFFFFFFF for a rejected header. [elf-header.json](../../tests/vectors/bootmain/elf-header.json) records ten cases.
+
+| Field or condition | Required value |
+|---|---|
+| Image pointer alignment | Multiple of 4 bytes |
+| `EI_CLASS` at 0x04 | 1, ELF32 |
+| `EI_DATA` at 0x05 | 1, little-endian |
+| `e_type` at 0x10 | 2 |
+| `e_machine` at 0x12 | 137 |
+| `e_phnum` at 0x2C | Nonzero |
+| Program-header table extent | No later than image end |
+| Section-header table extent | No later than image end |
+
+The helper uses the entry sizes stored in the header for those extent calculations. It does not check the ELF magic in the first four bytes; the `elf-header-magic-unchecked` case retains a zero result after those bytes change. These are the checks of this helper, not a complete ELF validity contract.
+
+### Segment placement
+
+In the identified `bootmain`, 0x0008E1EA takes the image in `r0` and an entry-output pointer in `r2`. For each nonzero program-header type, it forms the destination from `p_vaddr | 0xC0000000`, copies `p_filesz` bytes from the image's `p_offset`, then clears the remaining bytes when `p_memsz` exceeds `p_filesz`. A zero program-header type is skipped. On success it writes `e_entry` to the output pointer and returns zero.
+
+[elf-segments.json](../../tests/vectors/bootmain/elf-segments.json) executes the actual copy and clear routines for five synthetic images. The cases cover a copied segment with a zero-filled tail, a zero-only segment, a skipped type-zero header, a nonzero type other than `PT_LOAD`, and two segments. Destination 0xE4008000 is explicitly initialized emulator memory; the fixtures do not model hardware cache aliases.
+
+The `start4.elf` file identified at the top of this document has `.text` address 0x0EC02800 and entry 0xCEC00200. The loader's OR operation places the former at 0xCEC02800. The scalar fixtures establish address formation and data placement; they do not execute the firmware entry or cache maintenance.
+
+## Fixup stream
+
+In the identified `bootmain`, 0x00081294 checks fixup endpoints and 0x000811C6 applies the fixups. Both receive the firmware start, firmware end and fixup-stream pointers in `r0`, `r1` and `r2`. Application additionally receives a pointer to two 32-bit adjustments in `r3`.
+
+A stream contains two consecutive lists. Each list starts with a position two bytes before the firmware image. A record advances that position and selects the operation below. Multi-byte deltas use little-endian byte order.
+
+| First byte | Following bytes | Position increment | Operation before the endpoint |
+|---|---|---|---|
+| 0x02–0xFF | none | Twice the first byte minus two | Add the list adjustment |
+| 0x01 | 24-bit unsigned delta | Twice the delta | Add the list adjustment |
+| 0x00 | 24-bit unsigned delta | Twice the delta | Subtract the list adjustment |
+
+A position equal to the firmware end terminates the current list without modifying a word. The validator returns zero if a position passes the end and one after both lists terminate exactly at the end. Application reads the selected 16-bit word, adds or subtracts the selected adjustment and writes the low 16 bits. The position resets before the second list; it uses the second adjustment.
+
+[fixup-validate.json](../../tests/vectors/bootmain/fixup-validate.json) records empty lists, short and extended deltas, a subtract marker and an overshoot. [fixup-apply.json](../../tests/vectors/bootmain/fixup-apply.json) records positive, negative and wrapping 16-bit updates. The functions have no fixup-stream length argument; each fixture explicitly supplies every byte read.
+
+The caller at 0x00086754 keeps memory-size fields in units of 1048576 bytes. The first adjustment is 16 times the difference between the final and reference total-size fields; the second uses the final and reference ARM-size fields. The standard pair uses reference sizes of 268435456 bytes total and 134217728 bytes ARM; the cut-down pair uses 268435456 bytes total and 251658240 bytes ARM. The caller applies a supplied fixup only when the final sizes are no smaller than the corresponding references.
+
+For the four pairs from raspberrypi/firmware commit `ab5c7f86283ceb58b7adb269cae1d16092a31bf6`, identified by SHA-256 above, decoding from fixup-file offset 0x00 consumes the complete file and both lists terminate at the paired ELF size:
+
+| Fixup file | First-list patches | Second-list patches | Firmware endpoint (bytes) |
+|---|---|---|---|
+| `fixup4.dat` | 5282 | 3 | 2303104 |
+| `fixup4x.dat` | 8199 | 3 | 3050408 |
+| `fixup4cd.dat` | 3139 | 3 | 845820 |
+| `fixup4db.dat` | 8199 | 3 | 3800296 |
+
+Each first list contains six subtract operations. The second lists contain only add operations. These counts describe the pinned files; they are not constants of the stream format.
+
 ## Replacement target
 
 The replacement must initialize UART and clocks, load the kernel, device tree and initramfs, start the Cortex-A72 cores through an armstub, and answer the mailbox property requests needed by Linux. Acceptance requires matching mailbox replies and a recorded boot to Linux userspace on the CM4.
@@ -65,6 +125,6 @@ The replacement must initialize UART and clocks, load the kernel, device tree an
 ## Open questions
 
 - Address aliases and cache behavior. Establish how the 0x0EC00000 and 0xCEC00000 ranges map to memory by checking the VPU memory map and the loader's address handling.
-- Fixup format. Compare the eight files identified above, match fixup entries to ELF section and segment addresses, and test each inferred operation against the loader in emulation.
+- Fixup bounds and compatibility. Test malformed/truncated streams with explicit host-side bounds and execute the caller across every supported memory split before defining a complete replacement loader contract.
 - Runtime initialization. Trace references to the ThreadX, VCOS and `config.txt` strings before assigning scheduler behavior or a configuration-loading sequence to this build.
 - Firmware handoff. Record the entry registers, memory layout and required bootloader state for this build through loader analysis and emulation before defining the replacement entry contract.

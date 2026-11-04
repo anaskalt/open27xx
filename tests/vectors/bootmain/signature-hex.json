@@ -1,0 +1,437 @@
+{
+  "schema": 1,
+  "source": {
+    "file": "bootmain",
+    "repository": "raspberrypi/usbboot",
+    "version": "fdb604d018693465c9aa6ec69879df866d2820da",
+    "sha256": "4deaac8f1e266a626bb422fd7d17bb69c98cb39be2e7db5e566cae68a8e17e4d"
+  },
+  "cases": [
+    {
+      "id": "signature-hex-mixed-case",
+      "function": {
+        "entry": "0x000A7DB6",
+        "language": "vc4:LE:32:default"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "sp": "0x24010000",
+          "gp": "0x24020000",
+          "r0": "0x24000000",
+          "r1": "0x24000100",
+          "r2": "0x00000005"
+        },
+        "memory": [
+          {
+            "address": "0x2400F800",
+            "size": 2048,
+            "fill": "00"
+          },
+          {
+            "address": "0x24000000",
+            "hex": "46465542001000240a0000000b00000000000000"
+          },
+          {
+            "address": "0x24000100",
+            "hex": "4646554200200024010000000800000000000000"
+          },
+          {
+            "address": "0x24001000",
+            "hex": "3031323361426344654600"
+          },
+          {
+            "address": "0x24002000",
+            "size": 8,
+            "fill": "5a"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24030000",
+        "step_limit": 100000,
+        "stubs": [],
+        "mmio_responses": []
+      },
+      "expected": {
+        "registers": {
+          "sp": "0x24010000",
+          "r0": "0x00000000"
+        },
+        "memory": [
+          {
+            "address": "0x24000100",
+            "hex": "4646554200200024050000000800000000000000"
+          },
+          {
+            "address": "0x24002000",
+            "hex": "0123abcdef5a5a5a"
+          }
+        ],
+        "events": []
+      },
+      "steps": 351,
+      "scope": [
+        "Decode hexadecimal text through the helper used by signature-file parsing."
+      ],
+      "limitations": [
+        "Synthetic text contains no key or signature material; cryptographic verification is not exercised."
+      ]
+    },
+    {
+      "id": "signature-hex-invalid-first",
+      "function": {
+        "entry": "0x000A7DB6",
+        "language": "vc4:LE:32:default"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "sp": "0x24010000",
+          "gp": "0x24020000",
+          "r0": "0x24000000",
+          "r1": "0x24000100",
+          "r2": "0x00000002"
+        },
+        "memory": [
+          {
+            "address": "0x2400F800",
+            "size": 2048,
+            "fill": "00"
+          },
+          {
+            "address": "0x24000000",
+            "hex": "4646554200100024040000000500000000000000"
+          },
+          {
+            "address": "0x24000100",
+            "hex": "4646554200200024010000000800000000000000"
+          },
+          {
+            "address": "0x24001000",
+            "hex": "7a31323300"
+          },
+          {
+            "address": "0x24002000",
+            "size": 8,
+            "fill": "5a"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24030000",
+        "step_limit": 100000,
+        "stubs": [],
+        "mmio_responses": []
+      },
+      "expected": {
+        "registers": {
+          "sp": "0x24010000",
+          "r0": "0xFFFFFFFF"
+        },
+        "memory": [
+          {
+            "address": "0x24000100",
+            "hex": "4646554200200024000000000800000000000000"
+          },
+          {
+            "address": "0x24002000",
+            "hex": "5a5a5a5a5a5a5a5a"
+          }
+        ],
+        "events": []
+      },
+      "steps": 89,
+      "scope": [
+        "Decode hexadecimal text through the helper used by signature-file parsing."
+      ],
+      "limitations": [
+        "Synthetic text contains no key or signature material; cryptographic verification is not exercised."
+      ]
+    },
+    {
+      "id": "signature-hex-invalid-later",
+      "function": {
+        "entry": "0x000A7DB6",
+        "language": "vc4:LE:32:default"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "sp": "0x24010000",
+          "gp": "0x24020000",
+          "r0": "0x24000000",
+          "r1": "0x24000100",
+          "r2": "0x00000002"
+        },
+        "memory": [
+          {
+            "address": "0x2400F800",
+            "size": 2048,
+            "fill": "00"
+          },
+          {
+            "address": "0x24000000",
+            "hex": "4646554200100024040000000500000000000000"
+          },
+          {
+            "address": "0x24000100",
+            "hex": "4646554200200024010000000800000000000000"
+          },
+          {
+            "address": "0x24001000",
+            "hex": "3132783400"
+          },
+          {
+            "address": "0x24002000",
+            "size": 8,
+            "fill": "5a"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24030000",
+        "step_limit": 100000,
+        "stubs": [],
+        "mmio_responses": []
+      },
+      "expected": {
+        "registers": {
+          "sp": "0x24010000",
+          "r0": "0xFFFFFFFF"
+        },
+        "memory": [
+          {
+            "address": "0x24000100",
+            "hex": "4646554200200024010000000800000000000000"
+          },
+          {
+            "address": "0x24002000",
+            "hex": "125a5a5a5a5a5a5a"
+          }
+        ],
+        "events": []
+      },
+      "steps": 135,
+      "scope": [
+        "Decode hexadecimal text through the helper used by signature-file parsing."
+      ],
+      "limitations": [
+        "Synthetic text contains no key or signature material; cryptographic verification is not exercised."
+      ]
+    },
+    {
+      "id": "signature-hex-short-input",
+      "function": {
+        "entry": "0x000A7DB6",
+        "language": "vc4:LE:32:default"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "sp": "0x24010000",
+          "gp": "0x24020000",
+          "r0": "0x24000000",
+          "r1": "0x24000100",
+          "r2": "0x00000002"
+        },
+        "memory": [
+          {
+            "address": "0x2400F800",
+            "size": 2048,
+            "fill": "00"
+          },
+          {
+            "address": "0x24000000",
+            "hex": "4646554200100024030000000400000000000000"
+          },
+          {
+            "address": "0x24000100",
+            "hex": "4646554200200024010000000800000000000000"
+          },
+          {
+            "address": "0x24001000",
+            "hex": "31323300"
+          },
+          {
+            "address": "0x24002000",
+            "size": 8,
+            "fill": "5a"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24030000",
+        "step_limit": 100000,
+        "stubs": [],
+        "mmio_responses": []
+      },
+      "expected": {
+        "registers": {
+          "sp": "0x24010000",
+          "r0": "0xFFFFFFFF"
+        },
+        "memory": [
+          {
+            "address": "0x24000100",
+            "hex": "4646554200200024000000000800000000000000"
+          },
+          {
+            "address": "0x24002000",
+            "hex": "5a5a5a5a5a5a5a5a"
+          }
+        ],
+        "events": []
+      },
+      "steps": 61,
+      "scope": [
+        "Decode hexadecimal text through the helper used by signature-file parsing."
+      ],
+      "limitations": [
+        "Synthetic text contains no key or signature material; cryptographic verification is not exercised."
+      ]
+    },
+    {
+      "id": "signature-hex-short-output",
+      "function": {
+        "entry": "0x000A7DB6",
+        "language": "vc4:LE:32:default"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "sp": "0x24010000",
+          "gp": "0x24020000",
+          "r0": "0x24000000",
+          "r1": "0x24000100",
+          "r2": "0x00000003"
+        },
+        "memory": [
+          {
+            "address": "0x2400F800",
+            "size": 2048,
+            "fill": "00"
+          },
+          {
+            "address": "0x24000000",
+            "hex": "4646554200100024060000000700000000000000"
+          },
+          {
+            "address": "0x24000100",
+            "hex": "4646554200200024010000000200000000000000"
+          },
+          {
+            "address": "0x24001000",
+            "hex": "31323334353600"
+          },
+          {
+            "address": "0x24002000",
+            "size": 8,
+            "fill": "5a"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24030000",
+        "step_limit": 100000,
+        "stubs": [],
+        "mmio_responses": []
+      },
+      "expected": {
+        "registers": {
+          "sp": "0x24010000",
+          "r0": "0xFFFFFFFF"
+        },
+        "memory": [
+          {
+            "address": "0x24000100",
+            "hex": "4646554200200024000000000200000000000000"
+          },
+          {
+            "address": "0x24002000",
+            "hex": "5a5a5a5a5a5a5a5a"
+          }
+        ],
+        "events": []
+      },
+      "steps": 65,
+      "scope": [
+        "Decode hexadecimal text through the helper used by signature-file parsing."
+      ],
+      "limitations": [
+        "Synthetic text contains no key or signature material; cryptographic verification is not exercised."
+      ]
+    },
+    {
+      "id": "signature-hex-zero-count",
+      "function": {
+        "entry": "0x000A7DB6",
+        "language": "vc4:LE:32:default"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "sp": "0x24010000",
+          "gp": "0x24020000",
+          "r0": "0x24000000",
+          "r1": "0x24000100",
+          "r2": "0x00000000"
+        },
+        "memory": [
+          {
+            "address": "0x2400F800",
+            "size": 2048,
+            "fill": "00"
+          },
+          {
+            "address": "0x24000000",
+            "hex": "4646554200100024020000000300000000000000"
+          },
+          {
+            "address": "0x24000100",
+            "hex": "4646554200200024010000000800000000000000"
+          },
+          {
+            "address": "0x24001000",
+            "hex": "313200"
+          },
+          {
+            "address": "0x24002000",
+            "size": 8,
+            "fill": "5a"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24030000",
+        "step_limit": 100000,
+        "stubs": [],
+        "mmio_responses": []
+      },
+      "expected": {
+        "registers": {
+          "sp": "0x24010000",
+          "r0": "0x00000000"
+        },
+        "memory": [
+          {
+            "address": "0x24000100",
+            "hex": "4646554200200024000000000800000000000000"
+          },
+          {
+            "address": "0x24002000",
+            "hex": "5a5a5a5a5a5a5a5a"
+          }
+        ],
+        "events": []
+      },
+      "steps": 67,
+      "scope": [
+        "Decode hexadecimal text through the helper used by signature-file parsing."
+      ],
+      "limitations": [
+        "Synthetic text contains no key or signature material; cryptographic verification is not exercised."
+      ]
+    }
+  ]
+}

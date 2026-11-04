@@ -1,0 +1,351 @@
+{
+  "schema": 1,
+  "source": {
+    "file": "bootmain",
+    "repository": "raspberrypi/usbboot",
+    "version": "fdb604d018693465c9aa6ec69879df866d2820da",
+    "sha256": "4deaac8f1e266a626bb422fd7d17bb69c98cb39be2e7db5e566cae68a8e17e4d"
+  },
+  "cases": [
+    {
+      "id": "elf-segments-copy-and-zero",
+      "function": {
+        "entry": "0x0008E1EA",
+        "language": "vc4:LE:32:default"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "sp": "0x24010000",
+          "gp": "0x24020000",
+          "r0": "0x24000000",
+          "r1": "0x00000100",
+          "r2": "0x24002000"
+        },
+        "memory": [
+          {
+            "address": "0x2400F800",
+            "size": 2048,
+            "fill": "00"
+          },
+          {
+            "address": "0x24000000",
+            "hex": "7f454c4601010000000000000000000002008900010000000080002434000000000000000001000034002000010028000000000001000000800000000080002400800024050000000c0000000700000004000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000048454c4c4f000000000000000000000054455354000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+          },
+          {
+            "address": "0xE4008000",
+            "size": 32,
+            "fill": "5a"
+          },
+          {
+            "address": "0x24002000",
+            "size": 4,
+            "fill": "5a"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24030000",
+        "step_limit": 100000,
+        "stubs": [],
+        "mmio_responses": []
+      },
+      "expected": {
+        "registers": {
+          "sp": "0x24010000",
+          "r0": "0x00000000"
+        },
+        "memory": [
+          {
+            "address": "0xE4008000",
+            "hex": "48454c4c4f000000000000005a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a"
+          },
+          {
+            "address": "0x24002000",
+            "hex": "00800024"
+          }
+        ],
+        "events": []
+      },
+      "steps": 80,
+      "scope": [
+        "Load synthetic program-header payloads, zero remaining segment bytes and return the ELF entry value."
+      ],
+      "limitations": [
+        "The destination is explicitly declared emulator memory at the address formed by ORing the virtual address with 0xC0000000. No hardware alias semantics or firmware handoff is exercised."
+      ]
+    },
+    {
+      "id": "elf-segments-zero-only",
+      "function": {
+        "entry": "0x0008E1EA",
+        "language": "vc4:LE:32:default"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "sp": "0x24010000",
+          "gp": "0x24020000",
+          "r0": "0x24000000",
+          "r1": "0x00000100",
+          "r2": "0x24002000"
+        },
+        "memory": [
+          {
+            "address": "0x2400F800",
+            "size": 2048,
+            "fill": "00"
+          },
+          {
+            "address": "0x24000000",
+            "hex": "7f454c4601010000000000000000000002008900010000000080002434000000000000000001000034002000010028000000000001000000800000000080002400800024000000000c0000000700000004000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000048454c4c4f000000000000000000000054455354000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+          },
+          {
+            "address": "0xE4008000",
+            "size": 32,
+            "fill": "5a"
+          },
+          {
+            "address": "0x24002000",
+            "size": 4,
+            "fill": "5a"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24030000",
+        "step_limit": 100000,
+        "stubs": [],
+        "mmio_responses": []
+      },
+      "expected": {
+        "registers": {
+          "sp": "0x24010000",
+          "r0": "0x00000000"
+        },
+        "memory": [
+          {
+            "address": "0xE4008000",
+            "hex": "0000000000000000000000005a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a"
+          },
+          {
+            "address": "0x24002000",
+            "hex": "00800024"
+          }
+        ],
+        "events": []
+      },
+      "steps": 57,
+      "scope": [
+        "Load synthetic program-header payloads, zero remaining segment bytes and return the ELF entry value."
+      ],
+      "limitations": [
+        "The destination is explicitly declared emulator memory at the address formed by ORing the virtual address with 0xC0000000. No hardware alias semantics or firmware handoff is exercised."
+      ]
+    },
+    {
+      "id": "elf-segments-null-segment",
+      "function": {
+        "entry": "0x0008E1EA",
+        "language": "vc4:LE:32:default"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "sp": "0x24010000",
+          "gp": "0x24020000",
+          "r0": "0x24000000",
+          "r1": "0x00000100",
+          "r2": "0x24002000"
+        },
+        "memory": [
+          {
+            "address": "0x2400F800",
+            "size": 2048,
+            "fill": "00"
+          },
+          {
+            "address": "0x24000000",
+            "hex": "7f454c4601010000000000000000000002008900010000000080002434000000000000000001000034002000010028000000000000000000800000000080002400800024050000000c0000000700000004000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000048454c4c4f000000000000000000000054455354000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+          },
+          {
+            "address": "0xE4008000",
+            "size": 32,
+            "fill": "5a"
+          },
+          {
+            "address": "0x24002000",
+            "size": 4,
+            "fill": "5a"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24030000",
+        "step_limit": 100000,
+        "stubs": [],
+        "mmio_responses": []
+      },
+      "expected": {
+        "registers": {
+          "sp": "0x24010000",
+          "r0": "0x00000000"
+        },
+        "memory": [
+          {
+            "address": "0xE4008000",
+            "hex": "5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a"
+          },
+          {
+            "address": "0x24002000",
+            "hex": "00800024"
+          }
+        ],
+        "events": []
+      },
+      "steps": 21,
+      "scope": [
+        "Load synthetic program-header payloads, zero remaining segment bytes and return the ELF entry value."
+      ],
+      "limitations": [
+        "The destination is explicitly declared emulator memory at the address formed by ORing the virtual address with 0xC0000000. No hardware alias semantics or firmware handoff is exercised."
+      ]
+    },
+    {
+      "id": "elf-segments-nonload-type",
+      "function": {
+        "entry": "0x0008E1EA",
+        "language": "vc4:LE:32:default"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "sp": "0x24010000",
+          "gp": "0x24020000",
+          "r0": "0x24000000",
+          "r1": "0x00000100",
+          "r2": "0x24002000"
+        },
+        "memory": [
+          {
+            "address": "0x2400F800",
+            "size": 2048,
+            "fill": "00"
+          },
+          {
+            "address": "0x24000000",
+            "hex": "7f454c460101000000000000000000000200890001000000008000243400000000000000000100003400200001002800000000000400000080000000008000240080002405000000080000000700000004000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000048454c4c4f000000000000000000000054455354000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+          },
+          {
+            "address": "0xE4008000",
+            "size": 32,
+            "fill": "5a"
+          },
+          {
+            "address": "0x24002000",
+            "size": 4,
+            "fill": "5a"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24030000",
+        "step_limit": 100000,
+        "stubs": [],
+        "mmio_responses": []
+      },
+      "expected": {
+        "registers": {
+          "sp": "0x24010000",
+          "r0": "0x00000000"
+        },
+        "memory": [
+          {
+            "address": "0xE4008000",
+            "hex": "48454c4c4f0000005a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a"
+          },
+          {
+            "address": "0x24002000",
+            "hex": "00800024"
+          }
+        ],
+        "events": []
+      },
+      "steps": 72,
+      "scope": [
+        "Load synthetic program-header payloads, zero remaining segment bytes and return the ELF entry value."
+      ],
+      "limitations": [
+        "The destination is explicitly declared emulator memory at the address formed by ORing the virtual address with 0xC0000000. No hardware alias semantics or firmware handoff is exercised."
+      ]
+    },
+    {
+      "id": "elf-segments-two-segments",
+      "function": {
+        "entry": "0x0008E1EA",
+        "language": "vc4:LE:32:default"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "sp": "0x24010000",
+          "gp": "0x24020000",
+          "r0": "0x24000000",
+          "r1": "0x00000100",
+          "r2": "0x24002000"
+        },
+        "memory": [
+          {
+            "address": "0x2400F800",
+            "size": 2048,
+            "fill": "00"
+          },
+          {
+            "address": "0x24000000",
+            "hex": "7f454c460101000000000000000000000200890001000000008000243400000000000000000100003400200002002800000000000100000080000000008000240080002405000000080000000700000004000000010000009000000010800024108000240400000004000000070000000400000000000000000000000000000048454c4c4f000000000000000000000054455354000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+          },
+          {
+            "address": "0xE4008000",
+            "size": 32,
+            "fill": "5a"
+          },
+          {
+            "address": "0x24002000",
+            "size": 4,
+            "fill": "5a"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24030000",
+        "step_limit": 100000,
+        "stubs": [],
+        "mmio_responses": []
+      },
+      "expected": {
+        "registers": {
+          "sp": "0x24010000",
+          "r0": "0x00000000"
+        },
+        "memory": [
+          {
+            "address": "0xE4008000",
+            "hex": "48454c4c4f0000005a5a5a5a5a5a5a5a544553545a5a5a5a5a5a5a5a5a5a5a5a"
+          },
+          {
+            "address": "0x24002000",
+            "hex": "00800024"
+          }
+        ],
+        "events": []
+      },
+      "steps": 110,
+      "scope": [
+        "Load synthetic program-header payloads, zero remaining segment bytes and return the ELF entry value."
+      ],
+      "limitations": [
+        "The destination is explicitly declared emulator memory at the address formed by ORing the virtual address with 0xC0000000. No hardware alias semantics or firmware handoff is exercised."
+      ]
+    }
+  ]
+}

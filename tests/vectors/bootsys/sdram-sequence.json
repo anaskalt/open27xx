@@ -1,0 +1,3272 @@
+{
+  "schema": 1,
+  "source": {
+    "file": "bootcode4.bin",
+    "repository": "raspberrypi/usbboot",
+    "version": "fdb604d018693465c9aa6ec69879df866d2820da",
+    "sha256": "9e1b0b7df904a7fdc22e263d530c6e4c48921229631dd7ea2325271843996f6c"
+  },
+  "cases": [
+    {
+      "id": "sequence-already-initialized",
+      "function": {
+        "entry": "0x80006FE8",
+        "language": "vc4:LE:32:default",
+        "provisional_base": "0x80000000"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "sp": "0x24010000",
+          "gp": "0x24020000",
+          "r0": "0x00000000"
+        },
+        "memory": [
+          {
+            "address": "0x2400FC00",
+            "size": 1024,
+            "fill": "00"
+          },
+          {
+            "address": "0x24020000",
+            "size": 6144,
+            "fill": "00"
+          },
+          {
+            "address": "0x24020048",
+            "hex": "00400024"
+          },
+          {
+            "address": "0x2402007C",
+            "hex": "10000000"
+          },
+          {
+            "address": "0x240200B8",
+            "hex": "01000000"
+          },
+          {
+            "address": "0x240200E0",
+            "hex": "00210024"
+          },
+          {
+            "address": "0x24020108",
+            "hex": "00600024"
+          },
+          {
+            "address": "0x240060A8",
+            "hex": "00000424"
+          },
+          {
+            "address": "0x24001000",
+            "size": 2048,
+            "fill": "00"
+          },
+          {
+            "address": "0x24002100",
+            "hex": "4646554200100024000000000008000000000000"
+          },
+          {
+            "address": "0x24004000",
+            "size": 36,
+            "fill": "00"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24030000",
+        "step_limit": 1000000,
+        "stubs": [],
+        "mmio_responses": []
+      },
+      "expected": {
+        "registers": {
+          "r0": "0x00000000",
+          "sp": "0x24010000"
+        },
+        "memory": [
+          {
+            "address": "0x240200B8",
+            "hex": "01000000"
+          },
+          {
+            "address": "0x24004000",
+            "hex": "000000000000000000000000000000000000000000000000000000000000000000000000"
+          }
+        ],
+        "events": []
+      },
+      "steps": 11,
+      "scope": [
+        "Execute host resource ordering, MCB selection, stage indexes and error propagation.",
+        "Record the loaded resource-name pointers and expected-digest pointers without exporting vendor resource contents."
+      ],
+      "limitations": [
+        "Resource transfer and PHY start/completion are explicit boundaries with literal responses.",
+        "No SDRAM training or device completion behavior is emulated.",
+        "Configuration is synthetic; no OTP values are read."
+      ]
+    },
+    {
+      "id": "sequence-all-stages",
+      "function": {
+        "entry": "0x80006FE8",
+        "language": "vc4:LE:32:default",
+        "provisional_base": "0x80000000"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "sp": "0x24010000",
+          "gp": "0x24020000",
+          "r0": "0x00000000"
+        },
+        "memory": [
+          {
+            "address": "0x2400FC00",
+            "size": 1024,
+            "fill": "00"
+          },
+          {
+            "address": "0x24020000",
+            "size": 6144,
+            "fill": "00"
+          },
+          {
+            "address": "0x24020048",
+            "hex": "00400024"
+          },
+          {
+            "address": "0x2402007C",
+            "hex": "10000000"
+          },
+          {
+            "address": "0x240200B8",
+            "hex": "00000000"
+          },
+          {
+            "address": "0x240200E0",
+            "hex": "00210024"
+          },
+          {
+            "address": "0x24020108",
+            "hex": "00600024"
+          },
+          {
+            "address": "0x240060A8",
+            "hex": "00000424"
+          },
+          {
+            "address": "0x24001000",
+            "size": 2048,
+            "fill": "00"
+          },
+          {
+            "address": "0x24002100",
+            "hex": "4646554200100024000000000008000000000000"
+          },
+          {
+            "address": "0x24004000",
+            "size": 36,
+            "fill": "00"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24030000",
+        "step_limit": 1000000,
+        "stubs": [
+          {
+            "entry": "0x80007384",
+            "label": "resource-transfer-boundary",
+            "replies": [
+              {
+                "registers": {
+                  "r0": "0x00000000"
+                },
+                "memory": [
+                  {
+                    "address": "0x24001000",
+                    "hex": "3042434d7856341260090000100000000000000000000000000000000000000004000000000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b00002211010022110200221103002211"
+                  },
+                  {
+                    "address": "0x24002108",
+                    "hex": "60000000"
+                  }
+                ]
+              },
+              {
+                "registers": {
+                  "r0": "0x00000000"
+                },
+                "memory": [
+                  {
+                    "address": "0x24001000",
+                    "hex": "a1a1a1a1a1a1a1a1"
+                  },
+                  {
+                    "address": "0x24002108",
+                    "hex": "08000000"
+                  }
+                ]
+              },
+              {
+                "registers": {
+                  "r0": "0x00000000"
+                },
+                "memory": [
+                  {
+                    "address": "0x24001000",
+                    "hex": "a2a2a2a2a2a2a2a2"
+                  },
+                  {
+                    "address": "0x24002108",
+                    "hex": "08000000"
+                  }
+                ]
+              },
+              {
+                "registers": {
+                  "r0": "0x00000000"
+                },
+                "memory": [
+                  {
+                    "address": "0x24001000",
+                    "hex": "a3a3a3a3a3a3a3a3"
+                  },
+                  {
+                    "address": "0x24002108",
+                    "hex": "08000000"
+                  }
+                ]
+              },
+              {
+                "registers": {
+                  "r0": "0x00000000"
+                },
+                "memory": [
+                  {
+                    "address": "0x24001000",
+                    "hex": "a4a4a4a4a4a4a4a4"
+                  },
+                  {
+                    "address": "0x24002108",
+                    "hex": "08000000"
+                  }
+                ]
+              },
+              {
+                "registers": {
+                  "r0": "0x00000000"
+                },
+                "memory": [
+                  {
+                    "address": "0x24001000",
+                    "hex": "a5a5a5a5a5a5a5a5"
+                  },
+                  {
+                    "address": "0x24002108",
+                    "hex": "08000000"
+                  }
+                ]
+              },
+              {
+                "registers": {
+                  "r0": "0x00000000"
+                },
+                "memory": [
+                  {
+                    "address": "0x24001000",
+                    "hex": "a6a6a6a6a6a6a6a6"
+                  },
+                  {
+                    "address": "0x24002108",
+                    "hex": "08000000"
+                  }
+                ]
+              },
+              {
+                "registers": {
+                  "r0": "0x00000000"
+                },
+                "memory": [
+                  {
+                    "address": "0x24001000",
+                    "hex": "a7a7a7a7a7a7a7a7"
+                  },
+                  {
+                    "address": "0x24002108",
+                    "hex": "08000000"
+                  }
+                ]
+              },
+              {
+                "registers": {
+                  "r0": "0x00000000"
+                },
+                "memory": [
+                  {
+                    "address": "0x24001000",
+                    "hex": "a8a8a8a8a8a8a8a8"
+                  },
+                  {
+                    "address": "0x24002108",
+                    "hex": "08000000"
+                  }
+                ]
+              },
+              {
+                "registers": {
+                  "r0": "0x00000000"
+                },
+                "memory": [
+                  {
+                    "address": "0x24001000",
+                    "hex": "a9a9a9a9a9a9a9a9"
+                  },
+                  {
+                    "address": "0x24002108",
+                    "hex": "08000000"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "entry": "0x80006F2E",
+            "label": "supplied-sdram-configuration",
+            "replies": [
+              {
+                "registers": {
+                  "r0": "0x00000006"
+                },
+                "memory": []
+              }
+            ]
+          },
+          {
+            "entry": "0x24040000",
+            "label": "board-preparation-boundary",
+            "replies": [
+              {
+                "registers": {
+                  "r0": "0x00000000"
+                },
+                "memory": []
+              }
+            ]
+          },
+          {
+            "entry": "0x8000A968",
+            "label": "diagnostic-output",
+            "replies": [
+              {
+                "registers": {
+                  "r0": "0x00000000"
+                },
+                "memory": []
+              },
+              {
+                "registers": {
+                  "r0": "0x00000000"
+                },
+                "memory": []
+              },
+              {
+                "registers": {
+                  "r0": "0x00000000"
+                },
+                "memory": []
+              },
+              {
+                "registers": {
+                  "r0": "0x00000000"
+                },
+                "memory": []
+              }
+            ]
+          },
+          {
+            "entry": "0x80005988",
+            "label": "PHY-start-boundary",
+            "replies": [
+              {
+                "registers": {
+                  "r0": "0x00000000"
+                },
+                "memory": []
+              },
+              {
+                "registers": {
+                  "r0": "0x00000000"
+                },
+                "memory": []
+              },
+              {
+                "registers": {
+                  "r0": "0x00000000"
+                },
+                "memory": []
+              },
+              {
+                "registers": {
+                  "r0": "0x00000000"
+                },
+                "memory": []
+              },
+              {
+                "registers": {
+                  "r0": "0x00000000"
+                },
+                "memory": []
+              },
+              {
+                "registers": {
+                  "r0": "0x00000000"
+                },
+                "memory": []
+              },
+              {
+                "registers": {
+                  "r0": "0x00000000"
+                },
+                "memory": []
+              },
+              {
+                "registers": {
+                  "r0": "0x00000000"
+                },
+                "memory": []
+              },
+              {
+                "registers": {
+                  "r0": "0x00000000"
+                },
+                "memory": []
+              }
+            ]
+          },
+          {
+            "entry": "0x80005A2C",
+            "label": "PHY-completion-boundary",
+            "replies": [
+              {
+                "registers": {
+                  "r0": "0x00000000"
+                },
+                "memory": []
+              },
+              {
+                "registers": {
+                  "r0": "0x00000000"
+                },
+                "memory": []
+              },
+              {
+                "registers": {
+                  "r0": "0x00000000"
+                },
+                "memory": []
+              },
+              {
+                "registers": {
+                  "r0": "0x00000000"
+                },
+                "memory": []
+              },
+              {
+                "registers": {
+                  "r0": "0x00000000"
+                },
+                "memory": []
+              },
+              {
+                "registers": {
+                  "r0": "0x00000000"
+                },
+                "memory": []
+              },
+              {
+                "registers": {
+                  "r0": "0x00000000"
+                },
+                "memory": []
+              },
+              {
+                "registers": {
+                  "r0": "0x00000000"
+                },
+                "memory": []
+              },
+              {
+                "registers": {
+                  "r0": "0x00000000"
+                },
+                "memory": [
+                  {
+                    "address": "0x2400FFD4",
+                    "hex": "01000000"
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "mmio_responses": []
+      },
+      "expected": {
+        "registers": {
+          "r0": "0x00000000",
+          "sp": "0x24010000"
+        },
+        "memory": [
+          {
+            "address": "0x240200B8",
+            "hex": "01000000"
+          },
+          {
+            "address": "0x24004000",
+            "hex": "3042434d7856341260090000100000000000000000000000000000000000000004000000"
+          }
+        ],
+        "events": [
+          {
+            "kind": "stub",
+            "entry": "0x80007384",
+            "arguments": [
+              "0x8000BC98",
+              "0x00000000",
+              "0x8000B900",
+              "0x240200CC",
+              "0x00000000",
+              "0x00000000"
+            ],
+            "reply_index": 0
+          },
+          {
+            "kind": "stub",
+            "entry": "0x80006F2E",
+            "arguments": [
+              "0x00000000",
+              "0x24001000",
+              "0x00000060",
+              "0x00000000",
+              "0x00000000",
+              "0x24002100"
+            ],
+            "reply_index": 0
+          },
+          {
+            "kind": "stub",
+            "entry": "0x8000A968",
+            "arguments": [
+              "0x80005798",
+              "0x00000006",
+              "0x00000000",
+              "0x00000000",
+              "0x00000000",
+              "0x24002100"
+            ],
+            "reply_index": 0
+          },
+          {
+            "kind": "stub",
+            "entry": "0x24040000",
+            "arguments": [
+              "0x24006000",
+              "0x00000005",
+              "0x00000010",
+              "0x00000006",
+              "0x24040000",
+              "0x00000000"
+            ],
+            "reply_index": 0
+          },
+          {
+            "kind": "stub",
+            "entry": "0x8000A968",
+            "arguments": [
+              "0x800058AC",
+              "0x00000001",
+              "0x00000010",
+              "0x00000000",
+              "0x00000006",
+              "0x00000006"
+            ],
+            "reply_index": 1
+          },
+          {
+            "kind": "stub",
+            "entry": "0x8000A968",
+            "arguments": [
+              "0x800057BC",
+              "0x00000000",
+              "0x00000010",
+              "0x24001000",
+              "0x00000060",
+              "0x00000000"
+            ],
+            "reply_index": 2
+          },
+          {
+            "kind": "stub",
+            "entry": "0x8000A968",
+            "arguments": [
+              "0x80005860",
+              "0x00000960",
+              "0x00000000",
+              "0x00000000",
+              "0x00000010",
+              "0x00000000"
+            ],
+            "reply_index": 3
+          },
+          {
+            "kind": "stub",
+            "entry": "0x80007384",
+            "arguments": [
+              "0x8000B44A",
+              "0x00000000",
+              "0x8000B920",
+              "0x24021700",
+              "0x00000000",
+              "0x00000000"
+            ],
+            "reply_index": 1
+          },
+          {
+            "kind": "stub",
+            "entry": "0x80005988",
+            "arguments": [
+              "0x24001000",
+              "0x00000000",
+              "0x00000000",
+              "0x00000000",
+              "0x00000000",
+              "0x00000000"
+            ],
+            "reply_index": 0
+          },
+          {
+            "kind": "stub",
+            "entry": "0x80007384",
+            "arguments": [
+              "0x8000B457",
+              "0x00000000",
+              "0x8000B940",
+              "0x24021700",
+              "0x00000000",
+              "0x00000000"
+            ],
+            "reply_index": 2
+          },
+          {
+            "kind": "stub",
+            "entry": "0x80005A2C",
+            "arguments": [
+              "0x00000000",
+              "0x2400FFD4",
+              "0x24002100",
+              "0x24021700",
+              "0x00000000",
+              "0x00000000"
+            ],
+            "reply_index": 0
+          },
+          {
+            "kind": "stub",
+            "entry": "0x80005988",
+            "arguments": [
+              "0x24001000",
+              "0x00000001",
+              "0x00000000",
+              "0x00000000",
+              "0x00000000",
+              "0x00000000"
+            ],
+            "reply_index": 1
+          },
+          {
+            "kind": "stub",
+            "entry": "0x80007384",
+            "arguments": [
+              "0x8000B464",
+              "0x00000000",
+              "0x8000B960",
+              "0x24021700",
+              "0x00000000",
+              "0x00000000"
+            ],
+            "reply_index": 3
+          },
+          {
+            "kind": "stub",
+            "entry": "0x80005A2C",
+            "arguments": [
+              "0x00000001",
+              "0x2400FFD4",
+              "0x24002100",
+              "0x24021700",
+              "0x00000000",
+              "0x00000000"
+            ],
+            "reply_index": 1
+          },
+          {
+            "kind": "stub",
+            "entry": "0x80005988",
+            "arguments": [
+              "0x24001000",
+              "0x00000002",
+              "0x00000000",
+              "0x00000000",
+              "0x00000000",
+              "0x00000000"
+            ],
+            "reply_index": 2
+          },
+          {
+            "kind": "stub",
+            "entry": "0x80007384",
+            "arguments": [
+              "0x8000B471",
+              "0x00000000",
+              "0x8000B980",
+              "0x24021700",
+              "0x00000000",
+              "0x00000000"
+            ],
+            "reply_index": 4
+          },
+          {
+            "kind": "stub",
+            "entry": "0x80005A2C",
+            "arguments": [
+              "0x00000002",
+              "0x2400FFD4",
+              "0x24002100",
+              "0x24021700",
+              "0x00000000",
+              "0x00000000"
+            ],
+            "reply_index": 2
+          },
+          {
+            "kind": "stub",
+            "entry": "0x80005988",
+            "arguments": [
+              "0x24001000",
+              "0x00000003",
+              "0x00000000",
+              "0x00000000",
+              "0x00000000",
+              "0x00000000"
+            ],
+            "reply_index": 3
+          },
+          {
+            "kind": "stub",
+            "entry": "0x80007384",
+            "arguments": [
+              "0x8000B47E",
+              "0x00000000",
+              "0x8000B9A0",
+              "0x24021700",
+              "0x00000000",
+              "0x00000000"
+            ],
+            "reply_index": 5
+          },
+          {
+            "kind": "stub",
+            "entry": "0x80005A2C",
+            "arguments": [
+              "0x00000003",
+              "0x2400FFD4",
+              "0x24002100",
+              "0x24021700",
+              "0x00000000",
+              "0x00000000"
+            ],
+            "reply_index": 3
+          },
+          {
+            "kind": "stub",
+            "entry": "0x80005988",
+            "arguments": [
+              "0x24001000",
+              "0x00000004",
+              "0x00000000",
+              "0x00000000",
+              "0x00000000",
+              "0x00000000"
+            ],
+            "reply_index": 4
+          },
+          {
+            "kind": "stub",
+            "entry": "0x80007384",
+            "arguments": [
+              "0x8000B48B",
+              "0x00000000",
+              "0x8000B9C0",
+              "0x24021700",
+              "0x00000000",
+              "0x00000000"
+            ],
+            "reply_index": 6
+          },
+          {
+            "kind": "stub",
+            "entry": "0x80005A2C",
+            "arguments": [
+              "0x00000004",
+              "0x2400FFD4",
+              "0x24002100",
+              "0x24021700",
+              "0x00000000",
+              "0x00000000"
+            ],
+            "reply_index": 4
+          },
+          {
+            "kind": "stub",
+            "entry": "0x80005988",
+            "arguments": [
+              "0x24001000",
+              "0x00000005",
+              "0x00000000",
+              "0x00000000",
+              "0x00000000",
+              "0x00000000"
+            ],
+            "reply_index": 5
+          },
+          {
+            "kind": "stub",
+            "entry": "0x80007384",
+            "arguments": [
+              "0x8000B498",
+              "0x00000000",
+              "0x8000B9E0",
+              "0x24021700",
+              "0x00000000",
+              "0x00000000"
+            ],
+            "reply_index": 7
+          },
+          {
+            "kind": "stub",
+            "entry": "0x80005A2C",
+            "arguments": [
+              "0x00000005",
+              "0x2400FFD4",
+              "0x24002100",
+              "0x24021700",
+              "0x00000000",
+              "0x00000000"
+            ],
+            "reply_index": 5
+          },
+          {
+            "kind": "stub",
+            "entry": "0x80005988",
+            "arguments": [
+              "0x24001000",
+              "0x00000006",
+              "0x00000000",
+              "0x00000000",
+              "0x00000000",
+              "0x00000000"
+            ],
+            "reply_index": 6
+          },
+          {
+            "kind": "stub",
+            "entry": "0x80007384",
+            "arguments": [
+              "0x8000B4A5",
+              "0x00000000",
+              "0x8000BA00",
+              "0x24021700",
+              "0x00000000",
+              "0x00000000"
+            ],
+            "reply_index": 8
+          },
+          {
+            "kind": "stub",
+            "entry": "0x80005A2C",
+            "arguments": [
+              "0x00000006",
+              "0x2400FFD4",
+              "0x24002100",
+              "0x24021700",
+              "0x00000000",
+              "0x00000000"
+            ],
+            "reply_index": 6
+          },
+          {
+            "kind": "stub",
+            "entry": "0x80005988",
+            "arguments": [
+              "0x24001000",
+              "0x00000007",
+              "0x00000000",
+              "0x00000000",
+              "0x00000000",
+              "0x00000000"
+            ],
+            "reply_index": 7
+          },
+          {
+            "kind": "stub",
+            "entry": "0x80007384",
+            "arguments": [
+              "0x8000B4B2",
+              "0x00000000",
+              "0x8000BA20",
+              "0x24021700",
+              "0x00000000",
+              "0x00000000"
+            ],
+            "reply_index": 9
+          },
+          {
+            "kind": "stub",
+            "entry": "0x80005A2C",
+            "arguments": [
+              "0x00000007",
+              "0x2400FFD4",
+              "0x24002100",
+              "0x24021700",
+              "0x00000000",
+              "0x00000000"
+            ],
+            "reply_index": 7
+          },
+          {
+            "kind": "stub",
+            "entry": "0x80005988",
+            "arguments": [
+              "0x24001000",
+              "0x00000008",
+              "0x00000000",
+              "0x00000000",
+              "0x00000000",
+              "0x00000000"
+            ],
+            "reply_index": 8
+          },
+          {
+            "kind": "stub",
+            "entry": "0x80005A2C",
+            "arguments": [
+              "0x00000008",
+              "0x2400FFD4",
+              "0x00000000",
+              "0x00000000",
+              "0x00000000",
+              "0x00000000"
+            ],
+            "reply_index": 8
+          }
+        ]
+      },
+      "steps": 747,
+      "scope": [
+        "Execute host resource ordering, MCB selection, stage indexes and error propagation.",
+        "Record the loaded resource-name pointers and expected-digest pointers without exporting vendor resource contents."
+      ],
+      "limitations": [
+        "Resource transfer and PHY start/completion are explicit boundaries with literal responses.",
+        "No SDRAM training or device completion behavior is emulated.",
+        "Configuration is synthetic; no OTP values are read.",
+        "Every call listed in execution.stubs returns the recorded reply without executing the callee body."
+      ]
+    },
+    {
+      "id": "sequence-early-completion",
+      "function": {
+        "entry": "0x80006FE8",
+        "language": "vc4:LE:32:default",
+        "provisional_base": "0x80000000"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "sp": "0x24010000",
+          "gp": "0x24020000",
+          "r0": "0x00000000"
+        },
+        "memory": [
+          {
+            "address": "0x2400FC00",
+            "size": 1024,
+            "fill": "00"
+          },
+          {
+            "address": "0x24020000",
+            "size": 6144,
+            "fill": "00"
+          },
+          {
+            "address": "0x24020048",
+            "hex": "00400024"
+          },
+          {
+            "address": "0x2402007C",
+            "hex": "10000000"
+          },
+          {
+            "address": "0x240200B8",
+            "hex": "00000000"
+          },
+          {
+            "address": "0x240200E0",
+            "hex": "00210024"
+          },
+          {
+            "address": "0x24020108",
+            "hex": "00600024"
+          },
+          {
+            "address": "0x240060A8",
+            "hex": "00000424"
+          },
+          {
+            "address": "0x24001000",
+            "size": 2048,
+            "fill": "00"
+          },
+          {
+            "address": "0x24002100",
+            "hex": "4646554200100024000000000008000000000000"
+          },
+          {
+            "address": "0x24004000",
+            "size": 36,
+            "fill": "00"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24030000",
+        "step_limit": 1000000,
+        "stubs": [
+          {
+            "entry": "0x80007384",
+            "label": "resource-transfer-boundary",
+            "replies": [
+              {
+                "registers": {
+                  "r0": "0x00000000"
+                },
+                "memory": [
+                  {
+                    "address": "0x24001000",
+                    "hex": "3042434d7856341260090000100000000000000000000000000000000000000004000000000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b00002211010022110200221103002211"
+                  },
+                  {
+                    "address": "0x24002108",
+                    "hex": "60000000"
+                  }
+                ]
+              },
+              {
+                "registers": {
+                  "r0": "0x00000000"
+                },
+                "memory": [
+                  {
+                    "address": "0x24001000",
+                    "hex": "a1a1a1a1a1a1a1a1"
+                  },
+                  {
+                    "address": "0x24002108",
+                    "hex": "08000000"
+                  }
+                ]
+              },
+              {
+                "registers": {
+                  "r0": "0x00000000"
+                },
+                "memory": [
+                  {
+                    "address": "0x24001000",
+                    "hex": "a2a2a2a2a2a2a2a2"
+                  },
+                  {
+                    "address": "0x24002108",
+                    "hex": "08000000"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "entry": "0x80006F2E",
+            "label": "supplied-sdram-configuration",
+            "replies": [
+              {
+                "registers": {
+                  "r0": "0x00000006"
+                },
+                "memory": []
+              }
+            ]
+          },
+          {
+            "entry": "0x24040000",
+            "label": "board-preparation-boundary",
+            "replies": [
+              {
+                "registers": {
+                  "r0": "0x00000000"
+                },
+                "memory": []
+              }
+            ]
+          },
+          {
+            "entry": "0x8000A968",
+            "label": "diagnostic-output",
+            "replies": [
+              {
+                "registers": {
+                  "r0": "0x00000000"
+                },
+                "memory": []
+              },
+              {
+                "registers": {
+                  "r0": "0x00000000"
+                },
+                "memory": []
+              },
+              {
+                "registers": {
+                  "r0": "0x00000000"
+                },
+                "memory": []
+              },
+              {
+                "registers": {
+                  "r0": "0x00000000"
+                },
+                "memory": []
+              }
+            ]
+          },
+          {
+            "entry": "0x80005988",
+            "label": "PHY-start-boundary",
+            "replies": [
+              {
+                "registers": {
+                  "r0": "0x00000000"
+                },
+                "memory": []
+              }
+            ]
+          },
+          {
+            "entry": "0x80005A2C",
+            "label": "PHY-completion-boundary",
+            "replies": [
+              {
+                "registers": {
+                  "r0": "0x00000000"
+                },
+                "memory": [
+                  {
+                    "address": "0x2400FFD4",
+                    "hex": "01000000"
+                  }
+                ]
+              },
+              {
+                "registers": {
+                  "r0": "0x00000000"
+                },
+                "memory": [
+                  {
+                    "address": "0x2400FFD4",
+                    "hex": "01000000"
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "mmio_responses": []
+      },
+      "expected": {
+        "registers": {
+          "r0": "0x00000000",
+          "sp": "0x24010000"
+        },
+        "memory": [
+          {
+            "address": "0x240200B8",
+            "hex": "01000000"
+          },
+          {
+            "address": "0x24004000",
+            "hex": "3042434d7856341260090000100000000000000000000000000000000000000004000000"
+          }
+        ],
+        "events": [
+          {
+            "kind": "stub",
+            "entry": "0x80007384",
+            "arguments": [
+              "0x8000BC98",
+              "0x00000000",
+              "0x8000B900",
+              "0x240200CC",
+              "0x00000000",
+              "0x00000000"
+            ],
+            "reply_index": 0
+          },
+          {
+            "kind": "stub",
+            "entry": "0x80006F2E",
+            "arguments": [
+              "0x00000000",
+              "0x24001000",
+              "0x00000060",
+              "0x00000000",
+              "0x00000000",
+              "0x24002100"
+            ],
+            "reply_index": 0
+          },
+          {
+            "kind": "stub",
+            "entry": "0x8000A968",
+            "arguments": [
+              "0x80005798",
+              "0x00000006",
+              "0x00000000",
+              "0x00000000",
+              "0x00000000",
+              "0x24002100"
+            ],
+            "reply_index": 0
+          },
+          {
+            "kind": "stub",
+            "entry": "0x24040000",
+            "arguments": [
+              "0x24006000",
+              "0x00000005",
+              "0x00000010",
+              "0x00000006",
+              "0x24040000",
+              "0x00000000"
+            ],
+            "reply_index": 0
+          },
+          {
+            "kind": "stub",
+            "entry": "0x8000A968",
+            "arguments": [
+              "0x800058AC",
+              "0x00000001",
+              "0x00000010",
+              "0x00000000",
+              "0x00000006",
+              "0x00000006"
+            ],
+            "reply_index": 1
+          },
+          {
+            "kind": "stub",
+            "entry": "0x8000A968",
+            "arguments": [
+              "0x800057BC",
+              "0x00000000",
+              "0x00000010",
+              "0x24001000",
+              "0x00000060",
+              "0x00000000"
+            ],
+            "reply_index": 2
+          },
+          {
+            "kind": "stub",
+            "entry": "0x8000A968",
+            "arguments": [
+              "0x80005860",
+              "0x00000960",
+              "0x00000000",
+              "0x00000000",
+              "0x00000010",
+              "0x00000000"
+            ],
+            "reply_index": 3
+          },
+          {
+            "kind": "stub",
+            "entry": "0x80007384",
+            "arguments": [
+              "0x8000B44A",
+              "0x00000000",
+              "0x8000B920",
+              "0x24021700",
+              "0x00000000",
+              "0x00000000"
+            ],
+            "reply_index": 1
+          },
+          {
+            "kind": "stub",
+            "entry": "0x80005988",
+            "arguments": [
+              "0x24001000",
+              "0x00000000",
+              "0x00000000",
+              "0x00000000",
+              "0x00000000",
+              "0x00000000"
+            ],
+            "reply_index": 0
+          },
+          {
+            "kind": "stub",
+            "entry": "0x80007384",
+            "arguments": [
+              "0x8000B457",
+              "0x00000000",
+              "0x8000B940",
+              "0x24021700",
+              "0x00000000",
+              "0x00000000"
+            ],
+            "reply_index": 2
+          },
+          {
+            "kind": "stub",
+            "entry": "0x80005A2C",
+            "arguments": [
+              "0x00000000",
+              "0x2400FFD4",
+              "0x24002100",
+              "0x24021700",
+              "0x00000000",
+              "0x00000000"
+            ],
+            "reply_index": 0
+          },
+          {
+            "kind": "stub",
+            "entry": "0x80005A2C",
+            "arguments": [
+              "0x00000008",
+              "0x2400FFD4",
+              "0x24002100",
+              "0x24021700",
+              "0x00000000",
+              "0x00000000"
+            ],
+            "reply_index": 1
+          }
+        ]
+      },
+      "steps": 421,
+      "scope": [
+        "Execute host resource ordering, MCB selection, stage indexes and error propagation.",
+        "Record the loaded resource-name pointers and expected-digest pointers without exporting vendor resource contents."
+      ],
+      "limitations": [
+        "Resource transfer and PHY start/completion are explicit boundaries with literal responses.",
+        "No SDRAM training or device completion behavior is emulated.",
+        "Configuration is synthetic; no OTP values are read.",
+        "Every call listed in execution.stubs returns the recorded reply without executing the callee body."
+      ]
+    },
+    {
+      "id": "sequence-mcb-resource-error",
+      "function": {
+        "entry": "0x80006FE8",
+        "language": "vc4:LE:32:default",
+        "provisional_base": "0x80000000"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "sp": "0x24010000",
+          "gp": "0x24020000",
+          "r0": "0x00000000"
+        },
+        "memory": [
+          {
+            "address": "0x2400FC00",
+            "size": 1024,
+            "fill": "00"
+          },
+          {
+            "address": "0x24020000",
+            "size": 6144,
+            "fill": "00"
+          },
+          {
+            "address": "0x24020048",
+            "hex": "00400024"
+          },
+          {
+            "address": "0x2402007C",
+            "hex": "10000000"
+          },
+          {
+            "address": "0x240200B8",
+            "hex": "00000000"
+          },
+          {
+            "address": "0x240200E0",
+            "hex": "00210024"
+          },
+          {
+            "address": "0x24020108",
+            "hex": "00600024"
+          },
+          {
+            "address": "0x240060A8",
+            "hex": "00000424"
+          },
+          {
+            "address": "0x24001000",
+            "size": 2048,
+            "fill": "00"
+          },
+          {
+            "address": "0x24002100",
+            "hex": "4646554200100024000000000008000000000000"
+          },
+          {
+            "address": "0x24004000",
+            "size": 36,
+            "fill": "00"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24030000",
+        "step_limit": 1000000,
+        "stubs": [
+          {
+            "entry": "0x80007384",
+            "label": "resource-transfer-boundary",
+            "replies": [
+              {
+                "registers": {
+                  "r0": "0xFFFFFFFF"
+                },
+                "memory": []
+              }
+            ]
+          },
+          {
+            "entry": "0x80006D50",
+            "label": "diagnostic-error-output",
+            "replies": [
+              {
+                "registers": {
+                  "r0": "0x00000000"
+                },
+                "memory": []
+              }
+            ]
+          },
+          {
+            "entry": "0x80006E6C",
+            "label": "failure-report-boundary",
+            "replies": [
+              {
+                "registers": {
+                  "r0": "0x00000000"
+                },
+                "memory": []
+              }
+            ]
+          }
+        ],
+        "mmio_responses": []
+      },
+      "expected": {
+        "registers": {
+          "r0": "0xFFFFFFFE",
+          "sp": "0x24010000"
+        },
+        "memory": [
+          {
+            "address": "0x240200B8",
+            "hex": "00000000"
+          },
+          {
+            "address": "0x24004000",
+            "hex": "000000000000000000000000000000000000000000000000000000000000000000000000"
+          }
+        ],
+        "events": [
+          {
+            "kind": "stub",
+            "entry": "0x80007384",
+            "arguments": [
+              "0x8000BC98",
+              "0x00000000",
+              "0x8000B900",
+              "0x240200CC",
+              "0x00000000",
+              "0x00000000"
+            ],
+            "reply_index": 0
+          },
+          {
+            "kind": "stub",
+            "entry": "0x80006D50",
+            "arguments": [
+              "0x800070E0",
+              "0x00000000",
+              "0x8000B900",
+              "0x240200CC",
+              "0x00000000",
+              "0x00000000"
+            ],
+            "reply_index": 0
+          },
+          {
+            "kind": "stub",
+            "entry": "0x80006E6C",
+            "arguments": [
+              "0x00000031",
+              "0x00000000",
+              "0x8000B900",
+              "0x240200CC",
+              "0x00000000",
+              "0x00000000"
+            ],
+            "reply_index": 0
+          }
+        ]
+      },
+      "steps": 50,
+      "scope": [
+        "Execute host resource ordering, MCB selection, stage indexes and error propagation.",
+        "Record the loaded resource-name pointers and expected-digest pointers without exporting vendor resource contents."
+      ],
+      "limitations": [
+        "Resource transfer and PHY start/completion are explicit boundaries with literal responses.",
+        "No SDRAM training or device completion behavior is emulated.",
+        "Configuration is synthetic; no OTP values are read.",
+        "Every call listed in execution.stubs returns the recorded reply without executing the callee body.",
+        "The failure-report boundary returns to expose the subsequent status; the platform failure handler is not executed."
+      ]
+    },
+    {
+      "id": "sequence-memsys3-resource-error",
+      "function": {
+        "entry": "0x80006FE8",
+        "language": "vc4:LE:32:default",
+        "provisional_base": "0x80000000"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "sp": "0x24010000",
+          "gp": "0x24020000",
+          "r0": "0x00000000"
+        },
+        "memory": [
+          {
+            "address": "0x2400FC00",
+            "size": 1024,
+            "fill": "00"
+          },
+          {
+            "address": "0x24020000",
+            "size": 6144,
+            "fill": "00"
+          },
+          {
+            "address": "0x24020048",
+            "hex": "00400024"
+          },
+          {
+            "address": "0x2402007C",
+            "hex": "10000000"
+          },
+          {
+            "address": "0x240200B8",
+            "hex": "00000000"
+          },
+          {
+            "address": "0x240200E0",
+            "hex": "00210024"
+          },
+          {
+            "address": "0x24020108",
+            "hex": "00600024"
+          },
+          {
+            "address": "0x240060A8",
+            "hex": "00000424"
+          },
+          {
+            "address": "0x24001000",
+            "size": 2048,
+            "fill": "00"
+          },
+          {
+            "address": "0x24002100",
+            "hex": "4646554200100024000000000008000000000000"
+          },
+          {
+            "address": "0x24004000",
+            "size": 36,
+            "fill": "00"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24030000",
+        "step_limit": 1000000,
+        "stubs": [
+          {
+            "entry": "0x80007384",
+            "label": "resource-transfer-boundary",
+            "replies": [
+              {
+                "registers": {
+                  "r0": "0x00000000"
+                },
+                "memory": [
+                  {
+                    "address": "0x24001000",
+                    "hex": "3042434d7856341260090000100000000000000000000000000000000000000004000000000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b00002211010022110200221103002211"
+                  },
+                  {
+                    "address": "0x24002108",
+                    "hex": "60000000"
+                  }
+                ]
+              },
+              {
+                "registers": {
+                  "r0": "0x00000000"
+                },
+                "memory": [
+                  {
+                    "address": "0x24001000",
+                    "hex": "a1a1a1a1a1a1a1a1"
+                  },
+                  {
+                    "address": "0x24002108",
+                    "hex": "08000000"
+                  }
+                ]
+              },
+              {
+                "registers": {
+                  "r0": "0x00000000"
+                },
+                "memory": [
+                  {
+                    "address": "0x24001000",
+                    "hex": "a2a2a2a2a2a2a2a2"
+                  },
+                  {
+                    "address": "0x24002108",
+                    "hex": "08000000"
+                  }
+                ]
+              },
+              {
+                "registers": {
+                  "r0": "0x00000000"
+                },
+                "memory": [
+                  {
+                    "address": "0x24001000",
+                    "hex": "a3a3a3a3a3a3a3a3"
+                  },
+                  {
+                    "address": "0x24002108",
+                    "hex": "08000000"
+                  }
+                ]
+              },
+              {
+                "registers": {
+                  "r0": "0xFFFFFFFF"
+                },
+                "memory": []
+              }
+            ]
+          },
+          {
+            "entry": "0x80006F2E",
+            "label": "supplied-sdram-configuration",
+            "replies": [
+              {
+                "registers": {
+                  "r0": "0x00000006"
+                },
+                "memory": []
+              }
+            ]
+          },
+          {
+            "entry": "0x24040000",
+            "label": "board-preparation-boundary",
+            "replies": [
+              {
+                "registers": {
+                  "r0": "0x00000000"
+                },
+                "memory": []
+              }
+            ]
+          },
+          {
+            "entry": "0x8000A968",
+            "label": "diagnostic-output",
+            "replies": [
+              {
+                "registers": {
+                  "r0": "0x00000000"
+                },
+                "memory": []
+              },
+              {
+                "registers": {
+                  "r0": "0x00000000"
+                },
+                "memory": []
+              },
+              {
+                "registers": {
+                  "r0": "0x00000000"
+                },
+                "memory": []
+              },
+              {
+                "registers": {
+                  "r0": "0x00000000"
+                },
+                "memory": []
+              }
+            ]
+          },
+          {
+            "entry": "0x80005988",
+            "label": "PHY-start-boundary",
+            "replies": [
+              {
+                "registers": {
+                  "r0": "0x00000000"
+                },
+                "memory": []
+              },
+              {
+                "registers": {
+                  "r0": "0x00000000"
+                },
+                "memory": []
+              },
+              {
+                "registers": {
+                  "r0": "0x00000000"
+                },
+                "memory": []
+              }
+            ]
+          },
+          {
+            "entry": "0x80005A2C",
+            "label": "PHY-completion-boundary",
+            "replies": [
+              {
+                "registers": {
+                  "r0": "0x00000000"
+                },
+                "memory": []
+              },
+              {
+                "registers": {
+                  "r0": "0x00000000"
+                },
+                "memory": []
+              }
+            ]
+          },
+          {
+            "entry": "0x80006D50",
+            "label": "diagnostic-error-output",
+            "replies": [
+              {
+                "registers": {
+                  "r0": "0x00000000"
+                },
+                "memory": []
+              }
+            ]
+          },
+          {
+            "entry": "0x80006E6C",
+            "label": "failure-report-boundary",
+            "replies": [
+              {
+                "registers": {
+                  "r0": "0x00000000"
+                },
+                "memory": []
+              }
+            ]
+          }
+        ],
+        "mmio_responses": []
+      },
+      "expected": {
+        "registers": {
+          "r0": "0xFFFFFFFE",
+          "sp": "0x24010000"
+        },
+        "memory": [
+          {
+            "address": "0x240200B8",
+            "hex": "00000000"
+          },
+          {
+            "address": "0x24004000",
+            "hex": "3042434d7856341260090000100000000000000000000000000000000000000004000000"
+          }
+        ],
+        "events": [
+          {
+            "kind": "stub",
+            "entry": "0x80007384",
+            "arguments": [
+              "0x8000BC98",
+              "0x00000000",
+              "0x8000B900",
+              "0x240200CC",
+              "0x00000000",
+              "0x00000000"
+            ],
+            "reply_index": 0
+          },
+          {
+            "kind": "stub",
+            "entry": "0x80006F2E",
+            "arguments": [
+              "0x00000000",
+              "0x24001000",
+              "0x00000060",
+              "0x00000000",
+              "0x00000000",
+              "0x24002100"
+            ],
+            "reply_index": 0
+          },
+          {
+            "kind": "stub",
+            "entry": "0x8000A968",
+            "arguments": [
+              "0x80005798",
+              "0x00000006",
+              "0x00000000",
+              "0x00000000",
+              "0x00000000",
+              "0x24002100"
+            ],
+            "reply_index": 0
+          },
+          {
+            "kind": "stub",
+            "entry": "0x24040000",
+            "arguments": [
+              "0x24006000",
+              "0x00000005",
+              "0x00000010",
+              "0x00000006",
+              "0x24040000",
+              "0x00000000"
+            ],
+            "reply_index": 0
+          },
+          {
+            "kind": "stub",
+            "entry": "0x8000A968",
+            "arguments": [
+              "0x800058AC",
+              "0x00000001",
+              "0x00000010",
+              "0x00000000",
+              "0x00000006",
+              "0x00000006"
+            ],
+            "reply_index": 1
+          },
+          {
+            "kind": "stub",
+            "entry": "0x8000A968",
+            "arguments": [
+              "0x800057BC",
+              "0x00000000",
+              "0x00000010",
+              "0x24001000",
+              "0x00000060",
+              "0x00000000"
+            ],
+            "reply_index": 2
+          },
+          {
+            "kind": "stub",
+            "entry": "0x8000A968",
+            "arguments": [
+              "0x80005860",
+              "0x00000960",
+              "0x00000000",
+              "0x00000000",
+              "0x00000010",
+              "0x00000000"
+            ],
+            "reply_index": 3
+          },
+          {
+            "kind": "stub",
+            "entry": "0x80007384",
+            "arguments": [
+              "0x8000B44A",
+              "0x00000000",
+              "0x8000B920",
+              "0x24021700",
+              "0x00000000",
+              "0x00000000"
+            ],
+            "reply_index": 1
+          },
+          {
+            "kind": "stub",
+            "entry": "0x80005988",
+            "arguments": [
+              "0x24001000",
+              "0x00000000",
+              "0x00000000",
+              "0x00000000",
+              "0x00000000",
+              "0x00000000"
+            ],
+            "reply_index": 0
+          },
+          {
+            "kind": "stub",
+            "entry": "0x80007384",
+            "arguments": [
+              "0x8000B457",
+              "0x00000000",
+              "0x8000B940",
+              "0x24021700",
+              "0x00000000",
+              "0x00000000"
+            ],
+            "reply_index": 2
+          },
+          {
+            "kind": "stub",
+            "entry": "0x80005A2C",
+            "arguments": [
+              "0x00000000",
+              "0x2400FFD4",
+              "0x24002100",
+              "0x24021700",
+              "0x00000000",
+              "0x00000000"
+            ],
+            "reply_index": 0
+          },
+          {
+            "kind": "stub",
+            "entry": "0x80005988",
+            "arguments": [
+              "0x24001000",
+              "0x00000001",
+              "0x00000000",
+              "0x00000000",
+              "0x00000000",
+              "0x00000000"
+            ],
+            "reply_index": 1
+          },
+          {
+            "kind": "stub",
+            "entry": "0x80007384",
+            "arguments": [
+              "0x8000B464",
+              "0x00000000",
+              "0x8000B960",
+              "0x24021700",
+              "0x00000000",
+              "0x00000000"
+            ],
+            "reply_index": 3
+          },
+          {
+            "kind": "stub",
+            "entry": "0x80005A2C",
+            "arguments": [
+              "0x00000001",
+              "0x2400FFD4",
+              "0x24002100",
+              "0x24021700",
+              "0x00000000",
+              "0x00000000"
+            ],
+            "reply_index": 1
+          },
+          {
+            "kind": "stub",
+            "entry": "0x80005988",
+            "arguments": [
+              "0x24001000",
+              "0x00000002",
+              "0x00000000",
+              "0x00000000",
+              "0x00000000",
+              "0x00000000"
+            ],
+            "reply_index": 2
+          },
+          {
+            "kind": "stub",
+            "entry": "0x80007384",
+            "arguments": [
+              "0x8000B471",
+              "0x00000000",
+              "0x8000B980",
+              "0x24021700",
+              "0x00000000",
+              "0x00000000"
+            ],
+            "reply_index": 4
+          },
+          {
+            "kind": "stub",
+            "entry": "0x80006D50",
+            "arguments": [
+              "0x800070E0",
+              "0x00000000",
+              "0x8000B980",
+              "0x24021700",
+              "0x00000000",
+              "0x00000000"
+            ],
+            "reply_index": 0
+          },
+          {
+            "kind": "stub",
+            "entry": "0x80006E6C",
+            "arguments": [
+              "0x00000031",
+              "0x00000000",
+              "0x8000B980",
+              "0x24021700",
+              "0x00000000",
+              "0x00000000"
+            ],
+            "reply_index": 0
+          }
+        ]
+      },
+      "steps": 498,
+      "scope": [
+        "Execute host resource ordering, MCB selection, stage indexes and error propagation.",
+        "Record the loaded resource-name pointers and expected-digest pointers without exporting vendor resource contents."
+      ],
+      "limitations": [
+        "Resource transfer and PHY start/completion are explicit boundaries with literal responses.",
+        "No SDRAM training or device completion behavior is emulated.",
+        "Configuration is synthetic; no OTP values are read.",
+        "Every call listed in execution.stubs returns the recorded reply without executing the callee body.",
+        "The failure-report boundary returns to expose the subsequent status; the platform failure handler is not executed."
+      ]
+    },
+    {
+      "id": "sequence-stage2-start-error",
+      "function": {
+        "entry": "0x80006FE8",
+        "language": "vc4:LE:32:default",
+        "provisional_base": "0x80000000"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "sp": "0x24010000",
+          "gp": "0x24020000",
+          "r0": "0x00000000"
+        },
+        "memory": [
+          {
+            "address": "0x2400FC00",
+            "size": 1024,
+            "fill": "00"
+          },
+          {
+            "address": "0x24020000",
+            "size": 6144,
+            "fill": "00"
+          },
+          {
+            "address": "0x24020048",
+            "hex": "00400024"
+          },
+          {
+            "address": "0x2402007C",
+            "hex": "10000000"
+          },
+          {
+            "address": "0x240200B8",
+            "hex": "00000000"
+          },
+          {
+            "address": "0x240200E0",
+            "hex": "00210024"
+          },
+          {
+            "address": "0x24020108",
+            "hex": "00600024"
+          },
+          {
+            "address": "0x240060A8",
+            "hex": "00000424"
+          },
+          {
+            "address": "0x24001000",
+            "size": 2048,
+            "fill": "00"
+          },
+          {
+            "address": "0x24002100",
+            "hex": "4646554200100024000000000008000000000000"
+          },
+          {
+            "address": "0x24004000",
+            "size": 36,
+            "fill": "00"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24030000",
+        "step_limit": 1000000,
+        "stubs": [
+          {
+            "entry": "0x80007384",
+            "label": "resource-transfer-boundary",
+            "replies": [
+              {
+                "registers": {
+                  "r0": "0x00000000"
+                },
+                "memory": [
+                  {
+                    "address": "0x24001000",
+                    "hex": "3042434d7856341260090000100000000000000000000000000000000000000004000000000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b00002211010022110200221103002211"
+                  },
+                  {
+                    "address": "0x24002108",
+                    "hex": "60000000"
+                  }
+                ]
+              },
+              {
+                "registers": {
+                  "r0": "0x00000000"
+                },
+                "memory": [
+                  {
+                    "address": "0x24001000",
+                    "hex": "a1a1a1a1a1a1a1a1"
+                  },
+                  {
+                    "address": "0x24002108",
+                    "hex": "08000000"
+                  }
+                ]
+              },
+              {
+                "registers": {
+                  "r0": "0x00000000"
+                },
+                "memory": [
+                  {
+                    "address": "0x24001000",
+                    "hex": "a2a2a2a2a2a2a2a2"
+                  },
+                  {
+                    "address": "0x24002108",
+                    "hex": "08000000"
+                  }
+                ]
+              },
+              {
+                "registers": {
+                  "r0": "0x00000000"
+                },
+                "memory": [
+                  {
+                    "address": "0x24001000",
+                    "hex": "a3a3a3a3a3a3a3a3"
+                  },
+                  {
+                    "address": "0x24002108",
+                    "hex": "08000000"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "entry": "0x80006F2E",
+            "label": "supplied-sdram-configuration",
+            "replies": [
+              {
+                "registers": {
+                  "r0": "0x00000006"
+                },
+                "memory": []
+              }
+            ]
+          },
+          {
+            "entry": "0x24040000",
+            "label": "board-preparation-boundary",
+            "replies": [
+              {
+                "registers": {
+                  "r0": "0x00000000"
+                },
+                "memory": []
+              }
+            ]
+          },
+          {
+            "entry": "0x8000A968",
+            "label": "diagnostic-output",
+            "replies": [
+              {
+                "registers": {
+                  "r0": "0x00000000"
+                },
+                "memory": []
+              },
+              {
+                "registers": {
+                  "r0": "0x00000000"
+                },
+                "memory": []
+              },
+              {
+                "registers": {
+                  "r0": "0x00000000"
+                },
+                "memory": []
+              },
+              {
+                "registers": {
+                  "r0": "0x00000000"
+                },
+                "memory": []
+              }
+            ]
+          },
+          {
+            "entry": "0x80005988",
+            "label": "PHY-start-boundary",
+            "replies": [
+              {
+                "registers": {
+                  "r0": "0x00000000"
+                },
+                "memory": []
+              },
+              {
+                "registers": {
+                  "r0": "0x00000000"
+                },
+                "memory": []
+              },
+              {
+                "registers": {
+                  "r0": "0xFFFFFFFF"
+                },
+                "memory": []
+              }
+            ]
+          },
+          {
+            "entry": "0x80005A2C",
+            "label": "PHY-completion-boundary",
+            "replies": [
+              {
+                "registers": {
+                  "r0": "0x00000000"
+                },
+                "memory": []
+              },
+              {
+                "registers": {
+                  "r0": "0x00000000"
+                },
+                "memory": []
+              }
+            ]
+          }
+        ],
+        "mmio_responses": []
+      },
+      "expected": {
+        "registers": {
+          "r0": "0xFFFFFFFF",
+          "sp": "0x24010000"
+        },
+        "memory": [
+          {
+            "address": "0x240200B8",
+            "hex": "00000000"
+          },
+          {
+            "address": "0x24004000",
+            "hex": "3042434d7856341260090000100000000000000000000000000000000000000004000000"
+          }
+        ],
+        "events": [
+          {
+            "kind": "stub",
+            "entry": "0x80007384",
+            "arguments": [
+              "0x8000BC98",
+              "0x00000000",
+              "0x8000B900",
+              "0x240200CC",
+              "0x00000000",
+              "0x00000000"
+            ],
+            "reply_index": 0
+          },
+          {
+            "kind": "stub",
+            "entry": "0x80006F2E",
+            "arguments": [
+              "0x00000000",
+              "0x24001000",
+              "0x00000060",
+              "0x00000000",
+              "0x00000000",
+              "0x24002100"
+            ],
+            "reply_index": 0
+          },
+          {
+            "kind": "stub",
+            "entry": "0x8000A968",
+            "arguments": [
+              "0x80005798",
+              "0x00000006",
+              "0x00000000",
+              "0x00000000",
+              "0x00000000",
+              "0x24002100"
+            ],
+            "reply_index": 0
+          },
+          {
+            "kind": "stub",
+            "entry": "0x24040000",
+            "arguments": [
+              "0x24006000",
+              "0x00000005",
+              "0x00000010",
+              "0x00000006",
+              "0x24040000",
+              "0x00000000"
+            ],
+            "reply_index": 0
+          },
+          {
+            "kind": "stub",
+            "entry": "0x8000A968",
+            "arguments": [
+              "0x800058AC",
+              "0x00000001",
+              "0x00000010",
+              "0x00000000",
+              "0x00000006",
+              "0x00000006"
+            ],
+            "reply_index": 1
+          },
+          {
+            "kind": "stub",
+            "entry": "0x8000A968",
+            "arguments": [
+              "0x800057BC",
+              "0x00000000",
+              "0x00000010",
+              "0x24001000",
+              "0x00000060",
+              "0x00000000"
+            ],
+            "reply_index": 2
+          },
+          {
+            "kind": "stub",
+            "entry": "0x8000A968",
+            "arguments": [
+              "0x80005860",
+              "0x00000960",
+              "0x00000000",
+              "0x00000000",
+              "0x00000010",
+              "0x00000000"
+            ],
+            "reply_index": 3
+          },
+          {
+            "kind": "stub",
+            "entry": "0x80007384",
+            "arguments": [
+              "0x8000B44A",
+              "0x00000000",
+              "0x8000B920",
+              "0x24021700",
+              "0x00000000",
+              "0x00000000"
+            ],
+            "reply_index": 1
+          },
+          {
+            "kind": "stub",
+            "entry": "0x80005988",
+            "arguments": [
+              "0x24001000",
+              "0x00000000",
+              "0x00000000",
+              "0x00000000",
+              "0x00000000",
+              "0x00000000"
+            ],
+            "reply_index": 0
+          },
+          {
+            "kind": "stub",
+            "entry": "0x80007384",
+            "arguments": [
+              "0x8000B457",
+              "0x00000000",
+              "0x8000B940",
+              "0x24021700",
+              "0x00000000",
+              "0x00000000"
+            ],
+            "reply_index": 2
+          },
+          {
+            "kind": "stub",
+            "entry": "0x80005A2C",
+            "arguments": [
+              "0x00000000",
+              "0x2400FFD4",
+              "0x24002100",
+              "0x24021700",
+              "0x00000000",
+              "0x00000000"
+            ],
+            "reply_index": 0
+          },
+          {
+            "kind": "stub",
+            "entry": "0x80005988",
+            "arguments": [
+              "0x24001000",
+              "0x00000001",
+              "0x00000000",
+              "0x00000000",
+              "0x00000000",
+              "0x00000000"
+            ],
+            "reply_index": 1
+          },
+          {
+            "kind": "stub",
+            "entry": "0x80007384",
+            "arguments": [
+              "0x8000B464",
+              "0x00000000",
+              "0x8000B960",
+              "0x24021700",
+              "0x00000000",
+              "0x00000000"
+            ],
+            "reply_index": 3
+          },
+          {
+            "kind": "stub",
+            "entry": "0x80005A2C",
+            "arguments": [
+              "0x00000001",
+              "0x2400FFD4",
+              "0x24002100",
+              "0x24021700",
+              "0x00000000",
+              "0x00000000"
+            ],
+            "reply_index": 1
+          },
+          {
+            "kind": "stub",
+            "entry": "0x80005988",
+            "arguments": [
+              "0x24001000",
+              "0x00000002",
+              "0x00000000",
+              "0x00000000",
+              "0x00000000",
+              "0x00000000"
+            ],
+            "reply_index": 2
+          }
+        ]
+      },
+      "steps": 468,
+      "scope": [
+        "Execute host resource ordering, MCB selection, stage indexes and error propagation.",
+        "Record the loaded resource-name pointers and expected-digest pointers without exporting vendor resource contents."
+      ],
+      "limitations": [
+        "Resource transfer and PHY start/completion are explicit boundaries with literal responses.",
+        "No SDRAM training or device completion behavior is emulated.",
+        "Configuration is synthetic; no OTP values are read.",
+        "Every call listed in execution.stubs returns the recorded reply without executing the callee body."
+      ]
+    },
+    {
+      "id": "sequence-stage1-wait-error",
+      "function": {
+        "entry": "0x80006FE8",
+        "language": "vc4:LE:32:default",
+        "provisional_base": "0x80000000"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "sp": "0x24010000",
+          "gp": "0x24020000",
+          "r0": "0x00000000"
+        },
+        "memory": [
+          {
+            "address": "0x2400FC00",
+            "size": 1024,
+            "fill": "00"
+          },
+          {
+            "address": "0x24020000",
+            "size": 6144,
+            "fill": "00"
+          },
+          {
+            "address": "0x24020048",
+            "hex": "00400024"
+          },
+          {
+            "address": "0x2402007C",
+            "hex": "10000000"
+          },
+          {
+            "address": "0x240200B8",
+            "hex": "00000000"
+          },
+          {
+            "address": "0x240200E0",
+            "hex": "00210024"
+          },
+          {
+            "address": "0x24020108",
+            "hex": "00600024"
+          },
+          {
+            "address": "0x240060A8",
+            "hex": "00000424"
+          },
+          {
+            "address": "0x24001000",
+            "size": 2048,
+            "fill": "00"
+          },
+          {
+            "address": "0x24002100",
+            "hex": "4646554200100024000000000008000000000000"
+          },
+          {
+            "address": "0x24004000",
+            "size": 36,
+            "fill": "00"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24030000",
+        "step_limit": 1000000,
+        "stubs": [
+          {
+            "entry": "0x80007384",
+            "label": "resource-transfer-boundary",
+            "replies": [
+              {
+                "registers": {
+                  "r0": "0x00000000"
+                },
+                "memory": [
+                  {
+                    "address": "0x24001000",
+                    "hex": "3042434d7856341260090000100000000000000000000000000000000000000004000000000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b00002211010022110200221103002211"
+                  },
+                  {
+                    "address": "0x24002108",
+                    "hex": "60000000"
+                  }
+                ]
+              },
+              {
+                "registers": {
+                  "r0": "0x00000000"
+                },
+                "memory": [
+                  {
+                    "address": "0x24001000",
+                    "hex": "a1a1a1a1a1a1a1a1"
+                  },
+                  {
+                    "address": "0x24002108",
+                    "hex": "08000000"
+                  }
+                ]
+              },
+              {
+                "registers": {
+                  "r0": "0x00000000"
+                },
+                "memory": [
+                  {
+                    "address": "0x24001000",
+                    "hex": "a2a2a2a2a2a2a2a2"
+                  },
+                  {
+                    "address": "0x24002108",
+                    "hex": "08000000"
+                  }
+                ]
+              },
+              {
+                "registers": {
+                  "r0": "0x00000000"
+                },
+                "memory": [
+                  {
+                    "address": "0x24001000",
+                    "hex": "a3a3a3a3a3a3a3a3"
+                  },
+                  {
+                    "address": "0x24002108",
+                    "hex": "08000000"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "entry": "0x80006F2E",
+            "label": "supplied-sdram-configuration",
+            "replies": [
+              {
+                "registers": {
+                  "r0": "0x00000006"
+                },
+                "memory": []
+              }
+            ]
+          },
+          {
+            "entry": "0x24040000",
+            "label": "board-preparation-boundary",
+            "replies": [
+              {
+                "registers": {
+                  "r0": "0x00000000"
+                },
+                "memory": []
+              }
+            ]
+          },
+          {
+            "entry": "0x8000A968",
+            "label": "diagnostic-output",
+            "replies": [
+              {
+                "registers": {
+                  "r0": "0x00000000"
+                },
+                "memory": []
+              },
+              {
+                "registers": {
+                  "r0": "0x00000000"
+                },
+                "memory": []
+              },
+              {
+                "registers": {
+                  "r0": "0x00000000"
+                },
+                "memory": []
+              },
+              {
+                "registers": {
+                  "r0": "0x00000000"
+                },
+                "memory": []
+              }
+            ]
+          },
+          {
+            "entry": "0x80005988",
+            "label": "PHY-start-boundary",
+            "replies": [
+              {
+                "registers": {
+                  "r0": "0x00000000"
+                },
+                "memory": []
+              },
+              {
+                "registers": {
+                  "r0": "0x00000000"
+                },
+                "memory": []
+              }
+            ]
+          },
+          {
+            "entry": "0x80005A2C",
+            "label": "PHY-completion-boundary",
+            "replies": [
+              {
+                "registers": {
+                  "r0": "0x00000000"
+                },
+                "memory": []
+              },
+              {
+                "registers": {
+                  "r0": "0xFFFFFFFF"
+                },
+                "memory": []
+              }
+            ]
+          }
+        ],
+        "mmio_responses": []
+      },
+      "expected": {
+        "registers": {
+          "r0": "0xFFFFFFFF",
+          "sp": "0x24010000"
+        },
+        "memory": [
+          {
+            "address": "0x240200B8",
+            "hex": "00000000"
+          },
+          {
+            "address": "0x24004000",
+            "hex": "3042434d7856341260090000100000000000000000000000000000000000000004000000"
+          }
+        ],
+        "events": [
+          {
+            "kind": "stub",
+            "entry": "0x80007384",
+            "arguments": [
+              "0x8000BC98",
+              "0x00000000",
+              "0x8000B900",
+              "0x240200CC",
+              "0x00000000",
+              "0x00000000"
+            ],
+            "reply_index": 0
+          },
+          {
+            "kind": "stub",
+            "entry": "0x80006F2E",
+            "arguments": [
+              "0x00000000",
+              "0x24001000",
+              "0x00000060",
+              "0x00000000",
+              "0x00000000",
+              "0x24002100"
+            ],
+            "reply_index": 0
+          },
+          {
+            "kind": "stub",
+            "entry": "0x8000A968",
+            "arguments": [
+              "0x80005798",
+              "0x00000006",
+              "0x00000000",
+              "0x00000000",
+              "0x00000000",
+              "0x24002100"
+            ],
+            "reply_index": 0
+          },
+          {
+            "kind": "stub",
+            "entry": "0x24040000",
+            "arguments": [
+              "0x24006000",
+              "0x00000005",
+              "0x00000010",
+              "0x00000006",
+              "0x24040000",
+              "0x00000000"
+            ],
+            "reply_index": 0
+          },
+          {
+            "kind": "stub",
+            "entry": "0x8000A968",
+            "arguments": [
+              "0x800058AC",
+              "0x00000001",
+              "0x00000010",
+              "0x00000000",
+              "0x00000006",
+              "0x00000006"
+            ],
+            "reply_index": 1
+          },
+          {
+            "kind": "stub",
+            "entry": "0x8000A968",
+            "arguments": [
+              "0x800057BC",
+              "0x00000000",
+              "0x00000010",
+              "0x24001000",
+              "0x00000060",
+              "0x00000000"
+            ],
+            "reply_index": 2
+          },
+          {
+            "kind": "stub",
+            "entry": "0x8000A968",
+            "arguments": [
+              "0x80005860",
+              "0x00000960",
+              "0x00000000",
+              "0x00000000",
+              "0x00000010",
+              "0x00000000"
+            ],
+            "reply_index": 3
+          },
+          {
+            "kind": "stub",
+            "entry": "0x80007384",
+            "arguments": [
+              "0x8000B44A",
+              "0x00000000",
+              "0x8000B920",
+              "0x24021700",
+              "0x00000000",
+              "0x00000000"
+            ],
+            "reply_index": 1
+          },
+          {
+            "kind": "stub",
+            "entry": "0x80005988",
+            "arguments": [
+              "0x24001000",
+              "0x00000000",
+              "0x00000000",
+              "0x00000000",
+              "0x00000000",
+              "0x00000000"
+            ],
+            "reply_index": 0
+          },
+          {
+            "kind": "stub",
+            "entry": "0x80007384",
+            "arguments": [
+              "0x8000B457",
+              "0x00000000",
+              "0x8000B940",
+              "0x24021700",
+              "0x00000000",
+              "0x00000000"
+            ],
+            "reply_index": 2
+          },
+          {
+            "kind": "stub",
+            "entry": "0x80005A2C",
+            "arguments": [
+              "0x00000000",
+              "0x2400FFD4",
+              "0x24002100",
+              "0x24021700",
+              "0x00000000",
+              "0x00000000"
+            ],
+            "reply_index": 0
+          },
+          {
+            "kind": "stub",
+            "entry": "0x80005988",
+            "arguments": [
+              "0x24001000",
+              "0x00000001",
+              "0x00000000",
+              "0x00000000",
+              "0x00000000",
+              "0x00000000"
+            ],
+            "reply_index": 1
+          },
+          {
+            "kind": "stub",
+            "entry": "0x80007384",
+            "arguments": [
+              "0x8000B464",
+              "0x00000000",
+              "0x8000B960",
+              "0x24021700",
+              "0x00000000",
+              "0x00000000"
+            ],
+            "reply_index": 3
+          },
+          {
+            "kind": "stub",
+            "entry": "0x80005A2C",
+            "arguments": [
+              "0x00000001",
+              "0x2400FFD4",
+              "0x24002100",
+              "0x24021700",
+              "0x00000000",
+              "0x00000000"
+            ],
+            "reply_index": 1
+          }
+        ]
+      },
+      "steps": 459,
+      "scope": [
+        "Execute host resource ordering, MCB selection, stage indexes and error propagation.",
+        "Record the loaded resource-name pointers and expected-digest pointers without exporting vendor resource contents."
+      ],
+      "limitations": [
+        "Resource transfer and PHY start/completion are explicit boundaries with literal responses.",
+        "No SDRAM training or device completion behavior is emulated.",
+        "Configuration is synthetic; no OTP values are read.",
+        "Every call listed in execution.stubs returns the recorded reply without executing the callee body."
+      ]
+    },
+    {
+      "id": "sequence-mcb-no-match",
+      "function": {
+        "entry": "0x80006FE8",
+        "language": "vc4:LE:32:default",
+        "provisional_base": "0x80000000"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "sp": "0x24010000",
+          "gp": "0x24020000",
+          "r0": "0x00000000"
+        },
+        "memory": [
+          {
+            "address": "0x2400FC00",
+            "size": 1024,
+            "fill": "00"
+          },
+          {
+            "address": "0x24020000",
+            "size": 6144,
+            "fill": "00"
+          },
+          {
+            "address": "0x24020048",
+            "hex": "00400024"
+          },
+          {
+            "address": "0x2402007C",
+            "hex": "10000000"
+          },
+          {
+            "address": "0x240200B8",
+            "hex": "00000000"
+          },
+          {
+            "address": "0x240200E0",
+            "hex": "00210024"
+          },
+          {
+            "address": "0x24020108",
+            "hex": "00600024"
+          },
+          {
+            "address": "0x240060A8",
+            "hex": "00000424"
+          },
+          {
+            "address": "0x24001000",
+            "size": 2048,
+            "fill": "00"
+          },
+          {
+            "address": "0x24002100",
+            "hex": "4646554200100024000000000008000000000000"
+          },
+          {
+            "address": "0x24004000",
+            "size": 36,
+            "fill": "00"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24030000",
+        "step_limit": 1000000,
+        "stubs": [
+          {
+            "entry": "0x80007384",
+            "label": "resource-transfer-boundary",
+            "replies": [
+              {
+                "registers": {
+                  "r0": "0x00000000"
+                },
+                "memory": [
+                  {
+                    "address": "0x24001000",
+                    "hex": "3042434d7856341260090000080000000000000000000000000000000000000004000000000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b00002211010022110200221103002211"
+                  },
+                  {
+                    "address": "0x24002108",
+                    "hex": "60000000"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "entry": "0x80006F2E",
+            "label": "supplied-sdram-configuration",
+            "replies": [
+              {
+                "registers": {
+                  "r0": "0x00000006"
+                },
+                "memory": []
+              }
+            ]
+          },
+          {
+            "entry": "0x24040000",
+            "label": "board-preparation-boundary",
+            "replies": [
+              {
+                "registers": {
+                  "r0": "0x00000000"
+                },
+                "memory": []
+              }
+            ]
+          },
+          {
+            "entry": "0x8000A968",
+            "label": "diagnostic-output",
+            "replies": [
+              {
+                "registers": {
+                  "r0": "0x00000000"
+                },
+                "memory": []
+              },
+              {
+                "registers": {
+                  "r0": "0x00000000"
+                },
+                "memory": []
+              },
+              {
+                "registers": {
+                  "r0": "0x00000000"
+                },
+                "memory": []
+              }
+            ]
+          },
+          {
+            "entry": "0x80006D50",
+            "label": "diagnostic-error-output",
+            "replies": [
+              {
+                "registers": {
+                  "r0": "0x00000000"
+                },
+                "memory": []
+              }
+            ]
+          }
+        ],
+        "mmio_responses": []
+      },
+      "expected": {
+        "registers": {
+          "r0": "0xFFFFFFFF",
+          "sp": "0x24010000"
+        },
+        "memory": [
+          {
+            "address": "0x240200B8",
+            "hex": "00000000"
+          },
+          {
+            "address": "0x24004000",
+            "hex": "000000000000000000000000000000000000000000000000000000000000000000000000"
+          }
+        ],
+        "events": [
+          {
+            "kind": "stub",
+            "entry": "0x80007384",
+            "arguments": [
+              "0x8000BC98",
+              "0x00000000",
+              "0x8000B900",
+              "0x240200CC",
+              "0x00000000",
+              "0x00000000"
+            ],
+            "reply_index": 0
+          },
+          {
+            "kind": "stub",
+            "entry": "0x80006F2E",
+            "arguments": [
+              "0x00000000",
+              "0x24001000",
+              "0x00000060",
+              "0x00000000",
+              "0x00000000",
+              "0x24002100"
+            ],
+            "reply_index": 0
+          },
+          {
+            "kind": "stub",
+            "entry": "0x8000A968",
+            "arguments": [
+              "0x80005798",
+              "0x00000006",
+              "0x00000000",
+              "0x00000000",
+              "0x00000000",
+              "0x24002100"
+            ],
+            "reply_index": 0
+          },
+          {
+            "kind": "stub",
+            "entry": "0x24040000",
+            "arguments": [
+              "0x24006000",
+              "0x00000005",
+              "0x00000010",
+              "0x00000006",
+              "0x24040000",
+              "0x00000000"
+            ],
+            "reply_index": 0
+          },
+          {
+            "kind": "stub",
+            "entry": "0x8000A968",
+            "arguments": [
+              "0x800058AC",
+              "0x00000001",
+              "0x00000010",
+              "0x00000000",
+              "0x00000006",
+              "0x00000006"
+            ],
+            "reply_index": 1
+          },
+          {
+            "kind": "stub",
+            "entry": "0x8000A968",
+            "arguments": [
+              "0x800057BC",
+              "0x00000000",
+              "0x00000010",
+              "0x24001000",
+              "0x00000060",
+              "0x00000000"
+            ],
+            "reply_index": 2
+          },
+          {
+            "kind": "stub",
+            "entry": "0x80006D50",
+            "arguments": [
+              "0x800057E0",
+              "0x00000010",
+              "0x00000000",
+              "0x00000000",
+              "0x00000000",
+              "0x00000000"
+            ],
+            "reply_index": 0
+          }
+        ]
+      },
+      "steps": 222,
+      "scope": [
+        "Execute host resource ordering, MCB selection, stage indexes and error propagation.",
+        "Record the loaded resource-name pointers and expected-digest pointers without exporting vendor resource contents."
+      ],
+      "limitations": [
+        "Resource transfer and PHY start/completion are explicit boundaries with literal responses.",
+        "No SDRAM training or device completion behavior is emulated.",
+        "Configuration is synthetic; no OTP values are read.",
+        "Every call listed in execution.stubs returns the recorded reply without executing the callee body."
+      ]
+    }
+  ]
+}

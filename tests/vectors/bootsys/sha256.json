@@ -1,0 +1,523 @@
+{
+  "schema": 1,
+  "source": {
+    "file": "bootcode4.bin",
+    "repository": "raspberrypi/usbboot",
+    "version": "fdb604d018693465c9aa6ec69879df866d2820da",
+    "sha256": "9e1b0b7df904a7fdc22e263d530c6e4c48921229631dd7ea2325271843996f6c"
+  },
+  "cases": [
+    {
+      "id": "sha256-length-0",
+      "function": {
+        "entry": "0x80004AD6",
+        "language": "vc4:LE:32:default",
+        "provisional_base": "0x80000000"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "sp": "0x24010000",
+          "gp": "0x24020000",
+          "r0": "0x24001000",
+          "r1": "0x00000000",
+          "r2": "0x24002000",
+          "r3": "0x00000000"
+        },
+        "memory": [
+          {
+            "address": "0x2400FC00",
+            "size": 1024,
+            "fill": "00"
+          },
+          {
+            "address": "0x24001000",
+            "hex": "00"
+          },
+          {
+            "address": "0x24002000",
+            "hex": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+          },
+          {
+            "address": "0x2401FFFC",
+            "hex": "204e0080"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24030000",
+        "step_limit": 1000000,
+        "stubs": [],
+        "mmio_responses": []
+      },
+      "expected": {
+        "registers": {
+          "r0": "0x00000000",
+          "sp": "0x24010000"
+        },
+        "memory": [
+          {
+            "address": "0x24002000",
+            "hex": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          }
+        ],
+        "events": []
+      },
+      "steps": 4080,
+      "scope": [
+        "Scalar SHA-256 over synthetic input."
+      ],
+      "limitations": [
+        "No resource lookup or hardware operation is exercised."
+      ]
+    },
+    {
+      "id": "sha256-length-1",
+      "function": {
+        "entry": "0x80004AD6",
+        "language": "vc4:LE:32:default",
+        "provisional_base": "0x80000000"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "sp": "0x24010000",
+          "gp": "0x24020000",
+          "r0": "0x24001000",
+          "r1": "0x00000001",
+          "r2": "0x24002000",
+          "r3": "0x00000000"
+        },
+        "memory": [
+          {
+            "address": "0x2400FC00",
+            "size": 1024,
+            "fill": "00"
+          },
+          {
+            "address": "0x24001000",
+            "hex": "07"
+          },
+          {
+            "address": "0x24002000",
+            "hex": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+          },
+          {
+            "address": "0x2401FFFC",
+            "hex": "204e0080"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24030000",
+        "step_limit": 1000000,
+        "stubs": [],
+        "mmio_responses": []
+      },
+      "expected": {
+        "registers": {
+          "r0": "0x00000000",
+          "sp": "0x24010000"
+        },
+        "memory": [
+          {
+            "address": "0x24002000",
+            "hex": "ca358758f6d27e6cf45272937977a748fd88391db679ceda7dc7bf1f005ee879"
+          }
+        ],
+        "events": []
+      },
+      "steps": 4103,
+      "scope": [
+        "Scalar SHA-256 over synthetic input."
+      ],
+      "limitations": [
+        "No resource lookup or hardware operation is exercised."
+      ]
+    },
+    {
+      "id": "sha256-length-3",
+      "function": {
+        "entry": "0x80004AD6",
+        "language": "vc4:LE:32:default",
+        "provisional_base": "0x80000000"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "sp": "0x24010000",
+          "gp": "0x24020000",
+          "r0": "0x24001000",
+          "r1": "0x00000003",
+          "r2": "0x24002000",
+          "r3": "0x00000000"
+        },
+        "memory": [
+          {
+            "address": "0x2400FC00",
+            "size": 1024,
+            "fill": "00"
+          },
+          {
+            "address": "0x24001000",
+            "hex": "071421"
+          },
+          {
+            "address": "0x24002000",
+            "hex": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+          },
+          {
+            "address": "0x2401FFFC",
+            "hex": "204e0080"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24030000",
+        "step_limit": 1000000,
+        "stubs": [],
+        "mmio_responses": []
+      },
+      "expected": {
+        "registers": {
+          "r0": "0x00000000",
+          "sp": "0x24010000"
+        },
+        "memory": [
+          {
+            "address": "0x24002000",
+            "hex": "06d971eabf544f824b3bd8835721b7e1486e4f89bb014db2b00b6f7bd08ce53f"
+          }
+        ],
+        "events": []
+      },
+      "steps": 4100,
+      "scope": [
+        "Scalar SHA-256 over synthetic input."
+      ],
+      "limitations": [
+        "No resource lookup or hardware operation is exercised."
+      ]
+    },
+    {
+      "id": "sha256-length-55",
+      "function": {
+        "entry": "0x80004AD6",
+        "language": "vc4:LE:32:default",
+        "provisional_base": "0x80000000"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "sp": "0x24010000",
+          "gp": "0x24020000",
+          "r0": "0x24001000",
+          "r1": "0x00000037",
+          "r2": "0x24002000",
+          "r3": "0x00000000"
+        },
+        "memory": [
+          {
+            "address": "0x2400FC00",
+            "size": 1024,
+            "fill": "00"
+          },
+          {
+            "address": "0x24001000",
+            "hex": "0714212e3b4855626f7c8996a3b0bdcad7e4f1fe0b1825323f4c596673808d9aa7b4c1cedbe8f5020f1c293643505d6a7784919eabb8c5"
+          },
+          {
+            "address": "0x24002000",
+            "hex": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+          },
+          {
+            "address": "0x2401FFFC",
+            "hex": "204e0080"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24030000",
+        "step_limit": 1000000,
+        "stubs": [],
+        "mmio_responses": []
+      },
+      "expected": {
+        "registers": {
+          "r0": "0x00000000",
+          "sp": "0x24010000"
+        },
+        "memory": [
+          {
+            "address": "0x24002000",
+            "hex": "166cb1ce48dba01b7d55341ae1d847d73f24f538ecf4911f657fba255b83d2aa"
+          }
+        ],
+        "events": []
+      },
+      "steps": 4108,
+      "scope": [
+        "Scalar SHA-256 over synthetic input."
+      ],
+      "limitations": [
+        "No resource lookup or hardware operation is exercised."
+      ]
+    },
+    {
+      "id": "sha256-length-56",
+      "function": {
+        "entry": "0x80004AD6",
+        "language": "vc4:LE:32:default",
+        "provisional_base": "0x80000000"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "sp": "0x24010000",
+          "gp": "0x24020000",
+          "r0": "0x24001000",
+          "r1": "0x00000038",
+          "r2": "0x24002000",
+          "r3": "0x00000000"
+        },
+        "memory": [
+          {
+            "address": "0x2400FC00",
+            "size": 1024,
+            "fill": "00"
+          },
+          {
+            "address": "0x24001000",
+            "hex": "0714212e3b4855626f7c8996a3b0bdcad7e4f1fe0b1825323f4c596673808d9aa7b4c1cedbe8f5020f1c293643505d6a7784919eabb8c5d2"
+          },
+          {
+            "address": "0x24002000",
+            "hex": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+          },
+          {
+            "address": "0x2401FFFC",
+            "hex": "204e0080"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24030000",
+        "step_limit": 1000000,
+        "stubs": [],
+        "mmio_responses": []
+      },
+      "expected": {
+        "registers": {
+          "r0": "0x00000000",
+          "sp": "0x24010000"
+        },
+        "memory": [
+          {
+            "address": "0x24002000",
+            "hex": "1bfb069cb406b899a507a8a00c5d721c207463d63e313b6dd994ce67cb46cc13"
+          }
+        ],
+        "events": []
+      },
+      "steps": 7471,
+      "scope": [
+        "Scalar SHA-256 over synthetic input."
+      ],
+      "limitations": [
+        "No resource lookup or hardware operation is exercised."
+      ]
+    },
+    {
+      "id": "sha256-length-64",
+      "function": {
+        "entry": "0x80004AD6",
+        "language": "vc4:LE:32:default",
+        "provisional_base": "0x80000000"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "sp": "0x24010000",
+          "gp": "0x24020000",
+          "r0": "0x24001000",
+          "r1": "0x00000040",
+          "r2": "0x24002000",
+          "r3": "0x00000000"
+        },
+        "memory": [
+          {
+            "address": "0x2400FC00",
+            "size": 1024,
+            "fill": "00"
+          },
+          {
+            "address": "0x24001000",
+            "hex": "0714212e3b4855626f7c8996a3b0bdcad7e4f1fe0b1825323f4c596673808d9aa7b4c1cedbe8f5020f1c293643505d6a7784919eabb8c5d2dfecf90613202d3a"
+          },
+          {
+            "address": "0x24002000",
+            "hex": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+          },
+          {
+            "address": "0x2401FFFC",
+            "hex": "204e0080"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24030000",
+        "step_limit": 1000000,
+        "stubs": [],
+        "mmio_responses": []
+      },
+      "expected": {
+        "registers": {
+          "r0": "0x00000000",
+          "sp": "0x24010000"
+        },
+        "memory": [
+          {
+            "address": "0x24002000",
+            "hex": "2d91cac9246ea9f11939b47308360f0c8e8be87db686dc3c1d1dcbf91eb054cf"
+          }
+        ],
+        "events": []
+      },
+      "steps": 7425,
+      "scope": [
+        "Scalar SHA-256 over synthetic input."
+      ],
+      "limitations": [
+        "No resource lookup or hardware operation is exercised."
+      ]
+    },
+    {
+      "id": "sha256-length-65",
+      "function": {
+        "entry": "0x80004AD6",
+        "language": "vc4:LE:32:default",
+        "provisional_base": "0x80000000"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "sp": "0x24010000",
+          "gp": "0x24020000",
+          "r0": "0x24001000",
+          "r1": "0x00000041",
+          "r2": "0x24002000",
+          "r3": "0x00000000"
+        },
+        "memory": [
+          {
+            "address": "0x2400FC00",
+            "size": 1024,
+            "fill": "00"
+          },
+          {
+            "address": "0x24001000",
+            "hex": "0714212e3b4855626f7c8996a3b0bdcad7e4f1fe0b1825323f4c596673808d9aa7b4c1cedbe8f5020f1c293643505d6a7784919eabb8c5d2dfecf90613202d3a47"
+          },
+          {
+            "address": "0x24002000",
+            "hex": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+          },
+          {
+            "address": "0x2401FFFC",
+            "hex": "204e0080"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24030000",
+        "step_limit": 1000000,
+        "stubs": [],
+        "mmio_responses": []
+      },
+      "expected": {
+        "registers": {
+          "r0": "0x00000000",
+          "sp": "0x24010000"
+        },
+        "memory": [
+          {
+            "address": "0x24002000",
+            "hex": "d0c7d32839006da594139cfa302b1e478c238355573c80079aa4be0a94621c56"
+          }
+        ],
+        "events": []
+      },
+      "steps": 7436,
+      "scope": [
+        "Scalar SHA-256 over synthetic input."
+      ],
+      "limitations": [
+        "No resource lookup or hardware operation is exercised."
+      ]
+    },
+    {
+      "id": "sha256-length-128",
+      "function": {
+        "entry": "0x80004AD6",
+        "language": "vc4:LE:32:default",
+        "provisional_base": "0x80000000"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "sp": "0x24010000",
+          "gp": "0x24020000",
+          "r0": "0x24001000",
+          "r1": "0x00000080",
+          "r2": "0x24002000",
+          "r3": "0x00000000"
+        },
+        "memory": [
+          {
+            "address": "0x2400FC00",
+            "size": 1024,
+            "fill": "00"
+          },
+          {
+            "address": "0x24001000",
+            "hex": "0714212e3b4855626f7c8996a3b0bdcad7e4f1fe0b1825323f4c596673808d9aa7b4c1cedbe8f5020f1c293643505d6a7784919eabb8c5d2dfecf90613202d3a4754616e7b8895a2afbcc9d6e3f0fd0a1724313e4b5865727f8c99a6b3c0cddae7f4010e1b2835424f5c697683909daab7c4d1deebf805121f2c394653606d7a"
+          },
+          {
+            "address": "0x24002000",
+            "hex": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+          },
+          {
+            "address": "0x2401FFFC",
+            "hex": "204e0080"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24030000",
+        "step_limit": 1000000,
+        "stubs": [],
+        "mmio_responses": []
+      },
+      "expected": {
+        "registers": {
+          "r0": "0x00000000",
+          "sp": "0x24010000"
+        },
+        "memory": [
+          {
+            "address": "0x24002000",
+            "hex": "477f9dbe9ced58a04330559b8e5a755753f3d72680062f2d72fe57e4b9370df1"
+          }
+        ],
+        "events": []
+      },
+      "steps": 10738,
+      "scope": [
+        "Scalar SHA-256 over synthetic input."
+      ],
+      "limitations": [
+        "No resource lookup or hardware operation is exercised."
+      ]
+    }
+  ]
+}
