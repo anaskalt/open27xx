@@ -1467,3 +1467,72 @@ gate and object binding, full-width 32-bit tokens and repeated-state
 rejection. The target builds standalone higher, resource, clock and
 configuration objects with `-Os -ffixed-lr`. Runtime object preparation,
 ownership, synchronization and physical behavior require further contracts.
+
+## Bounded suspend helpers
+
+[`suspend_helpers.h`](suspend_helpers.h) exposes `suspend_lookup`,
+`suspend_length` and `suspend_copy` from
+[`suspend_helpers.c`](suspend_helpers.c). The
+[suspend helper contract](../../docs/bcm2711/suspend-helpers.md) defines
+general bounded inputs for these three scalar operations. They compile
+separately and remain unlinked from the runtime image.
+
+```c
+suspend_lookup(inputs, records, raw_result);
+suspend_length(source, length);
+suspend_copy(inputs, destination, source, raw_result);
+```
+
+Lookup takes a signed count and three unsigned keys in
+`suspend_lookup_inputs`. The `suspend_byte_view` starts at the first
+record's byte key. Each record occupies 36 bytes; little-endian word keys
+are at offsets 4 and 8. The first key compares at full 32-bit width against
+the zero-extended byte. The first matching index is returned, or
+`UINT32_MAX` for no match. Positive count requires at least `36 * count`
+declared bytes, with that product at most `UINT32_MAX`. Nonpositive count
+reads no record contents. There is no separate 40-record limit.
+
+Length scans arbitrary bytes for the first NUL within a source extent of
+1 through `INT32_MAX` bytes. Copy uses the same bounded length computation
+before modifying storage. `suspend_copy_inputs` supplies unsigned capacity
+and offset. If offset is below capacity, copy writes up to
+`capacity - offset - 1` source bytes and one NUL. Other destination bytes
+are preserved. If offset is at least capacity, there is no destination
+access or offset pointer calculation. The raw result always contains the
+full source length plus offset modulo 2^32, including truncated copies
+and zero capacity.
+
+Each operation requires its descriptors, parameter structures and separate
+32-bit result. Typed objects require natural alignment; byte views may be
+unaligned. Every full declared view and API object must be pairwise
+disjoint, including immutable inputs, unused records and declared tails.
+All view extents are at most `UINT32_MAX`. A NULL byte pointer requires
+zero extent; lookup permits it for nonpositive count, and copy permits a
+NULL destination only with zero capacity. The destination extent must
+cover capacity even when the offset suppresses writes. Source termination
+remains required for every copy.
+
+Read-only preflight checks pointers, alignment, full spans, arithmetic,
+overlap and source termination before any store. `SUSPEND_INVALID` reports
+missing objects, invalid NULL views or typed misalignment. `SUSPEND_BOUNDS`
+reports invalid extents, count products, address wrap or missing NUL.
+`SUSPEND_OVERLAP` reports overlapping storage. Each error preserves every
+supplied byte. `SUSPEND_OK` is separate from the raw result, which is stored
+after computation and any copy writes. Callers provide backing, lifetime,
+readability and writable outputs without concurrent mutation. No storage
+is allocated and no pointer is retained.
+
+```sh
+python3 -m unittest tests.test_suspend_helpers
+make -C src/start4 check-suspend-helpers
+```
+
+Tests cover all 20 complete public fixtures, additional arbitrary byte
+strings and tuple values, duplicate selection, all comparison gates,
+unaligned views and counts beyond 40. They compare full guarded storage
+on accepted calls and rejection. Invalidity checks cover every pair of
+API objects and views, unused tails, missing or misaligned arguments,
+overflowing spans, count products and unterminated sources before copy
+writes. The isolated target preserves `-Os -ffixed-lr` for the VPU compiler.
+The helpers have no callbacks, MMIO or interrupt effects and do not
+establish runtime registration or physical state.
