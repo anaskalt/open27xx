@@ -1,0 +1,58 @@
+SPDX-FileCopyrightText: 2026 The open27xx Authors
+SPDX-License-Identifier: GPL-2.0-or-later
+
+diff --git a/target/rpi4-vpu/rules.mk b/target/rpi4-vpu/rules.mk
+--- a/target/rpi4-vpu/rules.mk
++++ b/target/rpi4-vpu/rules.mk
+@@ -13,7 +13,6 @@ ifeq ($(BOOTCODE),1)
+ else
+   MODULES += platform/bcm28xx/start4
+ endif
+-MODULES += platform/bcm28xx/otp
+ 
+ #include make/module.mk
+ 
+diff --git a/platform/bcm28xx/start4/rules.mk b/platform/bcm28xx/start4/rules.mk
+--- a/platform/bcm28xx/start4/rules.mk
++++ b/platform/bcm28xx/start4/rules.mk
+@@ -6,6 +6,4 @@ MODULE := $(LOCAL_DIR)
+ MODULE_SRCS += \
+ 	$(LOCAL_DIR)/start4.c
+ 
+-EXTRA_LINKER_SCRIPTS += $(LOCAL_DIR)/start4.ld
+-
+ include make/module.mk
+diff --git a/platform/bcm28xx/start.ld b/platform/bcm28xx/start.ld
+--- a/platform/bcm28xx/start.ld
++++ b/platform/bcm28xx/start.ld
+@@ -14,6 +14,7 @@ MEMORY {
+   ram (rwx) : ORIGIN = 0xC0000000 + 64M, LENGTH = 32M
+ }
+ SECTIONS {
++  INCLUDE platform/bcm28xx/start4/start4.ld
+   .text : {
+     PROVIDE(_start = .);
+     . = ALIGN(4);
+diff --git a/platform/bcm28xx/rules.mk b/platform/bcm28xx/rules.mk
+--- a/platform/bcm28xx/rules.mk
++++ b/platform/bcm28xx/rules.mk
+@@ -143,7 +143,6 @@ else ifeq ($(TARGET),rpi4-vpu)
+ 
+   MODULE_SRCS += \
+     $(LOCAL_DIR)/uart.c \
+-    $(LOCAL_DIR)/genet.c \
+ 
+ endif
+ 
+diff --git a/platform/bcm28xx/platform.c b/platform/bcm28xx/platform.c
+--- a/platform/bcm28xx/platform.c
++++ b/platform/bcm28xx/platform.c
+@@ -649,7 +649,7 @@ void platform_init(void) {
+ #endif
+   //hdmi_init();
+ 
+-#ifdef ARCH_VPU
++#if defined(ARCH_VPU) && !defined(RPI4)
+   uint32_t revision = otp_read(30);
+   uint32_t type = (revision >> 4) & 0xff;
+   int lan_run = 0;

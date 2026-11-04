@@ -4,3 +4,6 @@
 *.dat binary
 *.elf binary
 *.img binary
+
+# Unified diff context prefixes blank lines and tabs with a space.
+src/start4/patches/*.patch -whitespace

@@ -1,0 +1,54 @@
+SPDX-FileCopyrightText: 2026 The open27xx Authors
+SPDX-License-Identifier: GPL-2.0-or-later
+
+diff --git a/fixed-point/fixed-point.h b/fixed-point/fixed-point.h
+--- a/fixed-point/fixed-point.h
++++ b/fixed-point/fixed-point.h
+@@ -1,7 +1,7 @@
+ #pragma once
+ 
+ #include <stdlib.h>
+-#include <climits>
++#include <limits.h>
+ #include <math.h>
+ #ifdef WITH_OSTREAM
+ #include <ostream>
+@@ -9,7 +9,7 @@
+ #include <stdint.h>
+ 
+ template<typename storage, int integer, int fraction> class Fixed {
+-static_assert(fraction + integer <= sizeof(storage) * CHAR_BIT);
++static_assert(fraction + integer <= sizeof(storage) * CHAR_BIT, "storage is too small");
+ public:
+   Fixed(storage value) {
+ #if 0
+@@ -65,7 +65,7 @@ public:
+ 
+   // TODO, return type should be storage or t2, whichever is bigger
+   template<typename t2, int a, int b> Fixed<storage,integer + a, fraction + b> operator* (Fixed<t2, a, b> num) {
+-    static_assert(sizeof(storage) > sizeof(t2));
++    static_assert(sizeof(storage) > sizeof(t2), "input storage is too wide");
+     return Fixed<storage, integer+a, fraction+b>(s * num.s, true);
+   }
+ 
+@@ -78,7 +78,7 @@ public:
+   }
+ 
+   template<typename outtype> Fixed<outtype, integer, fraction> expand() {
+-    static_assert(sizeof(outtype) >= sizeof(storage));
++    static_assert(sizeof(outtype) >= sizeof(storage), "output storage is too small");
+     return Fixed<outtype, integer, fraction>(s, true);
+   }
+ 
+diff --git a/fixed-point/util.cpp b/fixed-point/util.cpp
+--- a/fixed-point/util.cpp
++++ b/fixed-point/util.cpp
+@@ -6,8 +6,6 @@
+ #include "fixed-point.h"
+ #include "util.h"
+ 
+-using namespace std;
+-
+ Fixed<uint32_t,12,20> computePllDivisorInternal(uint32_t xtal, uint32_t goal) {
+   Fixed<uint32_t,32,-4> crystal = xtal;
+   Fixed<uint32_t,20,10> goal_freq = goal;
