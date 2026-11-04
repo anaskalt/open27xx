@@ -789,3 +789,115 @@ compiler using `-Os -ffixed-lr`. Preserve that LR reservation when using
 this toolchain; native host builds omit it. Runtime acquisition,
 relocation, ownership, concurrency and physical clock completion require
 separate contracts before integration.
+
+## Fixed clock programming helpers
+
+[`clock_driver.h`](clock_driver.h) exposes three freestanding operations
+from [`clock_driver.c`](clock_driver.c), bounded by the
+[programming contract](../../docs/bcm2711/clock-driver.md):
+
+| Operation | Fixed arguments | Writable state |
+|---|---|---|
+| `clock_source_program` | Source 2, requested 1200000000 | Request marker, requested and cached 64-bit rates |
+| `clock_word_program` | Clock 0x30, source 7, divider 5, factor bits 0x3F800000, final argument 0 | One native 32-bit cell |
+| `clock_divider_program` | Divider 5, count 2 | Request marker and count |
+
+These are separate leaf operations. They remain unlinked from `start4.elf`
+and from `clock_request_execute`; their state cannot be substituted for
+the manager's state. They emit observations and update caller-owned storage.
+They do not acquire a driver, dereference peripheral addresses or establish
+a physical rate, lock, timing interval or completion state.
+
+Each input structure contains the incoming and comparison handle words.
+The supported matching value is 0xC10C1234; the mismatched profile uses
+incoming 0xC10C1235. The native-word operation also accepts both handles
+zero with initial cell zero. Other handles are unsupported. Source and
+divider selection is 1. The source's helper selection and gate are zero,
+helper input is 1200, and diagnostics are disabled. The native-word inputs
+also retain the fixture's zero diagnostic and enable bytes. The enable
+byte remains an immutable supplied value, without an assigned control role.
+
+Initial source state is marker 0x55667788, requested
+0x99AABBCC11223344 and cached 1000000000. Initial divider state is marker
+0x12345678 and count 0x87654321. The native cell accepts zero, 0x10,
+0x12345678 or 0x80 with the matching nonzero handle. Its mismatched profile
+requires 0x12345678. Updated state is not a supported initial profile for
+another call.
+
+Source and divider receive a `clock_driver_plan`: an immutable array of
+`clock_driver_read` records, a record count and an observer. Each record
+contains a logical address and its literal reply word. Preflight accepts
+only the exact paired source or divider profiles in the contract, including
+their complete reply order. The dimensions cannot be combined independently.
+Missing, extra, reordered or changed records fail before execution. Writes
+never supply later reads. The three selector-1 setup words at
+0x7E102074–0x7E10207C are fixed profile constants; the helper does not infer
+a wider register-field rule from them.
+
+The source updates both request fields and the rate cache before its first
+MMIO observation. It computes the rounded fixed-point quotient from the
+requested rate and reference 54000000, then applies the documented integer
+steps, masks and ordered writes. The actual 2000-read lock counter returns
+raw 4 on its accepted exhaustion profile, retaining the updated caches and
+final CM write. Matching lock returns raw zero. The divider updates its
+marker/count before its first observation, masks the initial word to eight
+bits and steps down to 2 when required. It preserves the repeated final
+target write. Raw byte zero takes the documented bypass; it is not treated
+as a divisor of 256.
+
+Command polling has no firmware count limit. The accepted plans include
+their terminating zero replies, validated in advance. Missing termination
+is a host validation error, never a raw lock-counter result. The finite
+native-cell loop is separate: it reads only the supplied cell, clears bit
+4, and tests bit 7 up to 2000 times. Exhaustion adds bit 5 and still returns
+raw zero. There is no native-cell reply plan or asynchronous mutation.
+
+The synchronous `void` observer receives its context, event kind, address
+identity and word. `CLOCK_DRIVER_MMIO_READ` and `CLOCK_DRIVER_MMIO_WRITE`
+describe supplied reads and issued requests. `CLOCK_DRIVER_NATIVE_READ`
+and `CLOCK_DRIVER_NATIVE_WRITE` describe access to the actual cell, labeled
+0x0EE056B0. A native write is observed after the store. The address tokens
+are never converted to host pointers. Every event precedes the raw-output
+store, so observers see the incoming raw-output word throughout a call.
+The fixtures' instruction PCs and incidental registers do not define this
+portable API.
+
+Every top-level pointer is required, including the plan or observer object.
+Matching profiles require a nonnull observer function. Mismatched profiles
+return raw 0xFFFFFFFF with no events or state changes and need no observer
+function; their MMIO plan count must be zero and its read pointer may be
+null. Context may be null when the observer accepts it. The observer must
+return normally and preserve every API object. Its bookkeeping storage and
+indirectly referenced objects must remain separate. Reentry, concurrent
+mutation, dynamic replies, hardware access and recovery from observer
+failure have no defined policy.
+
+| Host status | Meaning |
+|---|---|
+| `CLOCK_DRIVER_OK` | The fixed operation returned; inspect raw output and state separately |
+| `CLOCK_DRIVER_INVALID` | A required object, read pointer or reachable observer is absent |
+| `CLOCK_DRIVER_UNSUPPORTED` | Inputs, state or the complete read sequence are outside the accepted profiles |
+| `CLOCK_DRIVER_BOUNDS` | A span or record-size calculation wraps, or required read records are missing |
+| `CLOCK_DRIVER_OVERLAP` | Declared API storage overlaps |
+
+Host errors preserve all state and output bytes and emit no events. Checks
+cover typed-object extents, read-array size multiplication, address wrap
+and pairwise overlap before effects. Truncated or altered profiles can
+report either bounds or unsupported according to the first failing check.
+Callers establish actual backing, alignment, writability and lifetime.
+The helpers retain no pointers and allocate no storage.
+
+```sh
+python3 -m unittest tests.test_clock_driver
+make -C src/start4 check-clock-driver
+```
+
+The host tests compare all 22 complete cases, including 2362 MMIO reads,
+590 MMIO writes, 2015 native reads and six native writes. They check cache
+visibility at every event, raw-output timing, repeated final writes,
+guarded state, every literal reply/address, unsupported combinations,
+missing termination, nulls, overlap, address wrap and repeated-state
+rejection. The Make target compiles `build/start4/clock-driver.o` with
+`-Os -ffixed-lr`; preserve the LR reservation for the pinned VPU compiler.
+Runtime initialization, descriptor relocation, ownership, concurrency
+and physical readback require further contracts before integration.
