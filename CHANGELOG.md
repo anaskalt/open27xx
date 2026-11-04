@@ -8,6 +8,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ### Added
 
+- Freestanding boot-information parser, cache lookup, zeroing allocator,
+  bounded revision fallback and metadata-pointer preparation, with 126
+  synthetic fixture comparisons and host bounds checks.
 - Boot-information record layouts, copy bounds, allocation zeroing and
   state-pointer execution vectors.
 - Pinned VPU bring-up build with ELF bounds checks and a separate BCM2711
