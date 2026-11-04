@@ -15,6 +15,10 @@ Peripherals*, release 4, section 1.2.4, page 6. The tables follow the
 driver's BCM2711 register selection. A complete BCM2711 startup sequence
 and initial clock state remain open questions.
 
+The [fixed clock-request contract](clock-request.md) describes the separate
+software planning and callback boundary. Its supplied replies do not verify
+the register operations below.
+
 ## Register map
 
 Offsets are relative to 0x7E101000. Names and offsets come from

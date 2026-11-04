@@ -334,8 +334,9 @@ These are recorder failures, not vendor return values.
 - Registration and other requests. Establish object acquisition, record
   lifetime, additional logical dependency mappings and disable behavior
   before extending the fixed request domain or defining ownership rules.
-- Live resource effects. Verify the selected resource body, its clock and
-  service dependencies, initialized state and physical readbacks before
+- Live resource effects. Connect the [fixed clock-request behavior](clock-request.md)
+  to the selected resource body, service dependencies, initialized state
+  and physical readbacks before
   interpreting callback order or a raw-zero return as ARM release.
 - Synchronization and callback mutation. Execute the real boundaries and
   study their state effects before extending the unchanged-state callback
