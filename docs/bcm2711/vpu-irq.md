@@ -3,10 +3,10 @@
 
 # Conditional VPU IRQ and p16 observations
 
-`execution.irq_p16` is a pending opt-in interface for
-`CaptureScalarVectors.java` and `CaptureClockVectors.java`. Neither recorder
-implements it yet. DI still rejects under the existing instruction policy.
-The examples below describe the host interface, not recorded native fixtures.
+`CaptureScalarVectors.java` and `CaptureClockVectors.java` implement the
+opt-in `execution.irq_p16` interface through `IrqP16Observations.java`.
+DI rejects when the plan is absent. The examples below describe the host
+interface, not recorded native fixtures.
 
 The interface records DI's interrupt-disable request, supplies each declared
 p16 read result and observes natural p16 writes. It assumes no asynchronous
