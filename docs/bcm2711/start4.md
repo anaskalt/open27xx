@@ -163,6 +163,10 @@ The [memory-capacity calculation](memory-capacity.md) derives a MiB count
 and a separate class from supplied service bytes. Physical banks and
 reserved ranges remain prerequisites for payload placement.
 
+The [memory-bank serialization contract](memory-layout.md) covers candidate
+memory-property bytes and bounded descriptor stores. It does not establish
+physical ownership or complete device-tree mutation.
+
 The [host build](../../src/start4/README.md) provides a pinned unsigned VPU
 bring-up image and a separate BCM2711 ARM entry stub. It does not yet
 implement the ARM release, Linux file-loading or mailbox paths. A
