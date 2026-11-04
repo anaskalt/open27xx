@@ -76,6 +76,10 @@ extension; do not emulate vector code.
 
 ## Scalar observations
 
+The [VERSION input contract](bcm2711/vpu-version.md) specifies a pending
+opt-in instruction-result boundary. Existing captures continue to reject
+VERSION unless that extension is implemented and explicitly configured.
+
 `CaptureScalarVectors.java` runs the synthetic cases in
 `tests/vectors/bootsys/`, `tests/vectors/bootmain/` and
 `tests/vectors/start4/` against a matching

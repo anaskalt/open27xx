@@ -34,6 +34,10 @@
 | Source | Content |
 |---|---|
 | [aleph-void/ghidra-videocore4 `README.md`](https://github.com/aleph-void/ghidra-videocore4/blob/db09a308c2db6a31ba5e060e6b763713f77e4f7b/README.md) | VideoCoreIV ghidra-rare-v1.0.0; ELF recognition and scalar/vector support |
+| [VideoCoreIV `vc4.slaspec`](https://github.com/aleph-void/ghidra-videocore4/blob/db09a308c2db6a31ba5e060e6b763713f77e4f7b/data/languages/vc4.slaspec#L453-L455) | Pinned scalar VERSION user operation and destination assignment |
+| [binutils-vc4 `cpu/vc4.cpu`](https://github.com/itszor/binutils-vc4/blob/708acc851880dbeda1dd18aca4fd0a95b2573b36/cpu/vc4.cpu#L1094-L1099) | MOVCPUID/VERSION encoding; no execution semantics in this definition |
+| [resim `VideoCoreIVExecute.hpp`](https://github.com/itszor/resim/blob/cdc7808ceb7ba4ac00d0d08ca646b58615059150/libresim/src/videocore/VideoCoreIVExecute.hpp#L178-L180) | Simulator CPU-ID assignment; its fixed value is not a BCM2711 measurement |
+| [VideoCore IV programmer manual, wiki `0cb0ea62`](https://github.com/hermanhermitage/videocoreiv/wiki/VideoCore-IV-Programmers-Manual/0cb0ea6271a191e8e1900de7b67928f3070c75fe) | Independent scalar VERSION encoding and CPU/core interpretation |
 | [aleph-void/ghidra-videocore4 `data/languages/vc4.cspec`](https://github.com/aleph-void/ghidra-videocore4/blob/db09a308c2db6a31ba5e060e6b763713f77e4f7b/data/languages/vc4.cspec) | compiler specification used for scalar calling-convention comparison |
 | [librerpi/lk-overlay](https://github.com/librerpi/lk-overlay) | open VPU firmware, including the `rpi4-start4` project (GPL-2.0-or-later) |
 | [lk-overlay `project/rpi4-start4.mk`](https://github.com/librerpi/lk-overlay/blob/50c95c1c6e34e8717415f4f1fafbfd8b060f6e8c/project/rpi4-start4.mk), [`README.md`](https://github.com/librerpi/lk-overlay/blob/50c95c1c6e34e8717415f4f1fafbfd8b060f6e8c/README.md) | pinned VPU project and license declaration |
