@@ -17,3 +17,8 @@ path = [
 ]
 SPDX-FileCopyrightText = "2026 The open27xx Authors"
 SPDX-License-Identifier = "CC0-1.0"
+
+[[annotations]]
+path = ["tests/vectors/*.json", "tests/vectors/**/*.json"]
+SPDX-FileCopyrightText = "2026 The open27xx Authors"
+SPDX-License-Identifier = "GPL-2.0-or-later"
