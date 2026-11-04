@@ -2,7 +2,7 @@
  * SPDX-License-Identifier: GPL-2.0-or-later
  */
 
-#include "resource_composition.h"
+#include "resource_composition_internal.h"
 #include "clock_composition_internal.h"
 #include "clock_driver_internal.h"
 
@@ -12,11 +12,6 @@
 #define C UINT32_C(0x7E101170)
 #define Q UINT32_C(0x7E101100)
 #define UNUSED UINT32_C(0x7E1000FC)
-
-struct span {
-    const void *pointer;
-    size_t length;
-};
 
 struct cursor {
     const struct clock_driver_plan *plan;
@@ -38,7 +33,8 @@ static const struct clock_driver_read final_reads[] = {
     {0x7EC1101C, 0xABCDEF90}
 };
 
-static enum clock_driver_status validate_spans(const struct span *spans, size_t count) {
+enum clock_driver_status resource_composition_validate_spans(
+    const struct resource_composition_span *spans, size_t count) {
     size_t left, right;
     for (left = 0; left < count; ++left) {
         if (spans[left].pointer == NULL)
@@ -216,17 +212,17 @@ static void repeat_clock(const struct clock_composition_inputs *inputs, uint32_t
     actual->repeated_manager_raw = 0;
 }
 
-enum clock_driver_status resource_composition_execute(
+enum clock_driver_status resource_composition_preflight(
     const struct resource_composition_inputs *inputs,
-    uint8_t *records, size_t records_length,
-    struct resource_composition_state *resource,
-    uint8_t *manager, size_t manager_length,
-    struct clock_request_state *clock_state,
-    struct clock_source_state *source, struct clock_divider_state *divider,
-    uint32_t *cell, uint8_t *scratch, size_t scratch_length,
+    const uint8_t *records, size_t records_length,
+    const struct resource_composition_state *resource,
+    const uint8_t *manager, size_t manager_length,
+    const struct clock_request_state *clock_state,
+    const struct clock_source_state *source, const struct clock_divider_state *divider,
+    const uint32_t *cell, const uint8_t *scratch, size_t scratch_length,
     const struct resource_composition_plan *plan,
-    struct resource_composition_result *result) {
-    struct span spans[16] = {{inputs, sizeof(*inputs)}, {records, records_length},
+    const struct resource_composition_result *result) {
+    struct resource_composition_span spans[16] = {{inputs, sizeof(*inputs)}, {records, records_length},
         {resource, sizeof(*resource)}, {manager, manager_length},
         {clock_state, sizeof(*clock_state)}, {source, sizeof(*source)}, {divider, sizeof(*divider)},
         {cell, sizeof(*cell)}, {scratch, scratch_length}, {plan, sizeof(*plan)},
@@ -234,9 +230,9 @@ enum clock_driver_status resource_composition_execute(
     const struct clock_driver_plan *reads[5];
     struct resource_composition_result actual;
     struct clock_word_inputs repeated_word;
-    uint32_t predicted_cell = PASSWORD, arguments[6], old, added, mask, configuration_raw;
+    uint32_t predicted_cell = PASSWORD;
     size_t index;
-    enum clock_driver_status status = validate_spans(spans, 11);
+    enum clock_driver_status status = resource_composition_validate_spans(spans, 11);
     if (status != CLOCK_DRIVER_OK)
         return status;
     if (records_length < RESOURCE_COMPOSITION_RECORD_BYTES
@@ -253,7 +249,7 @@ enum clock_driver_status resource_composition_execute(
         spans[11 + index].pointer = reads[index]->reads;
         spans[11 + index].length = reads[index]->count * sizeof(*reads[index]->reads);
     }
-    status = validate_spans(spans, 16);
+    status = resource_composition_validate_spans(spans, 16);
     if (status != CLOCK_DRIVER_OK)
         return status;
     status = validate_entry(inputs, records, resource);
@@ -280,6 +276,30 @@ enum clock_driver_status resource_composition_execute(
         &plan->clock.word, &actual.repeated_word_raw);
     if (status != CLOCK_DRIVER_OK)
         return status;
+
+    return CLOCK_DRIVER_OK;
+}
+
+enum clock_driver_status resource_composition_execute(
+    const struct resource_composition_inputs *inputs,
+    uint8_t *records, size_t records_length,
+    struct resource_composition_state *resource,
+    uint8_t *manager, size_t manager_length,
+    struct clock_request_state *clock_state,
+    struct clock_source_state *source, struct clock_divider_state *divider,
+    uint32_t *cell, uint8_t *scratch, size_t scratch_length,
+    const struct resource_composition_plan *plan,
+    struct resource_composition_result *result) {
+    struct resource_composition_result actual;
+    struct clock_word_inputs repeated_word;
+    uint32_t arguments[6], old, added, mask, configuration_raw;
+    enum clock_driver_status status = resource_composition_preflight(inputs, records,
+        records_length, resource, manager, manager_length, clock_state, source,
+        divider, cell, scratch, scratch_length, plan, result);
+    if (status != CLOCK_DRIVER_OK)
+        return status;
+    repeated_word = (struct clock_word_inputs){UINT32_C(0xC10C1234), UINT32_C(0xC10C1234),
+        0x30, 7, 5, UINT32_C(0x3F800000), 0, inputs->clock.diagnostic, 0};
 
     arguments[0] = 0x4000;
     arguments[1] = 0x0ED7CAB0;
