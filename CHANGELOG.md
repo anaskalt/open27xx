@@ -10,6 +10,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 - Pinned VPU bring-up build with ELF bounds checks and a separate BCM2711
   ARM entry stub build; ARM handoff and Linux loading remain unimplemented.
+- Freestanding ARM stub metadata preparation with five synthetic fixture
+  comparisons and host buffer bounds checks.
 - Repeatable headless Ghidra imports and metadata exports for four BCM2711 firmware stages.
 - Scalar calling-convention observations and library entry points for the pinned firmware.
 - Boot-flow documentation and synthetic execution vectors for resource loading,

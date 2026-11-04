@@ -29,6 +29,8 @@ git config core.hooksPath .githooks
 ```
 
 The development tools in `tools/requirements-dev.txt` need Python 3.10 or later.
+The ARM stub tests also need a host C99 compiler (`cc` by default).
+Set `CC` to select another compiler.
 
 Before you send changes:
 
