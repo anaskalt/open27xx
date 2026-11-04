@@ -25,6 +25,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 - Filename override and zero-length fixup checks for replacement firmware loading.
 - ARM stub metadata format and five scalar execution vectors for buffer preparation.
 
+### Changed
+
+- Reserve LR in the isolated boot-information VPU compilation target.
+
 ## [0.1.1] - 2026-11-04
 
 ### Fixed

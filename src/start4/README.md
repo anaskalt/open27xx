@@ -157,9 +157,9 @@ for any allocation rejected by host checks.
 
 `boot_info_lookup` first runs the parser, then returns the cached buffer
 for its tag, or a null buffer for an incomplete parse, unknown tag or
-missing record. A nonzero completion word preserves its exact value and prevents further source
-access, even when the source changes. A null source also preserves state.
-Create a separate zero-initialized state for another independent record
+missing record. A nonzero completion word preserves its exact value and
+prevents further source access, even when the source changes. A null source
+also preserves state. Create a separate zero-initialized state for another independent record
 set; automatic cache invalidation is outside the contract.
 
 | Host result | Meaning |
@@ -176,11 +176,14 @@ codes. A parse failure leaves completion unset and retains any records
 cached before the failure. It does not cache the failing record. Retrying
 uses the retained records. Callback effects are not rolled back, including
 zeroing performed before parser overlap checks. A callback status other
-than `BOOT_INFO_OK` is returned unchanged. Callers must supply valid,
-nonoverlapping state, result and context objects with correct extents.
-Lookup rejects an output that overlaps the state before modifying either.
-The helpers cannot establish the lifetime of a supplied pointer or detect
-a falsely reported allocation extent.
+than `BOOT_INFO_OK` is returned unchanged. Callers must supply valid state,
+result and context objects with correct extents. These objects must not
+overlap each other, source bytes or any live cached or allocated storage.
+The parser detects source/state overlap and checks each allocation against
+the source, state and cached spans. Lookup detects output/state overlap
+before modifying either object. Callers must enforce all other separation
+requirements. The helpers cannot establish the lifetime of a supplied
+pointer or detect a falsely reported allocation extent.
 
 `boot_info_allocate_zeroed` is a separate allocation callback. Its context
 is `struct boot_info_zero_allocator`, containing the lower callback, lower
@@ -227,9 +230,12 @@ from the supplied return-address input. A native harness runs 16384
 deterministic inputs with exact allocation sizes; the optional sanitizer
 mode compiles that harness with AddressSanitizer and UndefinedBehaviorSanitizer.
 
-The Make target compiles `build/start4/boot-info.o` with the VPU compiler.
-It does not link the helper into `start4.elf`; acquisition and runtime
-integration require further contracts.
+The Make target compiles `build/start4/boot-info.o` with the pinned VPU
+compiler and `-Os -ffixed-lr`. This target verification configuration reserves
+LR from register allocation. Preserve `-ffixed-lr` when integrating the
+helper with the pinned VPU toolchain. Native host builds do not use this
+option. The target does not link the helper into `start4.elf`; acquisition
+and runtime integration require further contracts.
 
 ## Host staging
 

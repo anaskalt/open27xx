@@ -26,7 +26,7 @@ check-armstub-metadata:
 
 check-boot-info:
 	mkdir -p ../../build/start4
-	$(TOOLCHAIN_PREFIX)gcc -std=c99 -Os -ffreestanding -fno-builtin \
+	$(TOOLCHAIN_PREFIX)gcc -std=c99 -Os -ffixed-lr -ffreestanding -fno-builtin \
 		-Wall -Wextra -Werror -pedantic -c boot_info.c -o ../../build/start4/boot-info.o
 
 stage:
