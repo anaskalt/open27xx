@@ -301,7 +301,7 @@ enum clock_driver_status clock_word_preflight(
             || inputs->factor_bits != 0x3F800000 || inputs->argument5 != 0
             || inputs->diagnostic != 0 || inputs->enable != 0
             || !((matching && (*cell == 0 || *cell == 0x10 || *cell == 0x12345678
-                                                         || *cell == 0x80))
+                                                         || *cell == 0x80 || *cell == PASSWORD))
                 || (mismatch && *cell == 0x12345678) || (zero && *cell == 0)))
         return CLOCK_DRIVER_UNSUPPORTED;
     if (mismatch) {
