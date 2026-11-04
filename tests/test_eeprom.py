@@ -5,6 +5,7 @@
 import contextlib
 import hashlib
 import io
+import json
 import struct
 import tempfile
 import unittest
@@ -88,15 +89,35 @@ class LzssTest(unittest.TestCase):
         data = bytes(range(20))
         self.assertEqual(eeprom.lzss_decompress(literals(data)), data)
 
-    def test_back_reference_overlaps_output(self):
-        # literals "ab", then distance 2, length 6
-        packed = bytes([0b100, ord("a"), ord("b"), 1, 5])
-        self.assertEqual(eeprom.lzss_decompress(packed), b"abababab")
+    def test_public_vectors(self):
+        path = Path(__file__).parent / "vectors" / "lzss.json"
+        cases = json.loads(path.read_text())["cases"]
+        for case in cases:
+            with self.subTest(case=case["id"]):
+                packed = bytes.fromhex(case["input_hex"])
+                if case["initialized_history_only"]:
+                    expected = bytes.fromhex(case["expected_hex"])
+                    self.assertEqual(eeprom.lzss_decompress(packed), expected)
+                else:
+                    with self.assertRaisesRegex(eeprom.FormatError, "unwritten history"):
+                        eeprom.lzss_decompress(packed)
+
+    def test_back_reference_reads_snapshot_and_updates_history(self):
+        data = bytes(range(256))
+        packed = literals(data) + bytes([3, 0, 7, 7, 7])
+        expected = b"\xff" + bytes(range(7))
+        self.assertEqual(eeprom.lzss_decompress(packed), data + expected * 2)
+
+    def test_rejects_reference_before_any_output(self):
+        for distance in (1, 256):
+            with self.subTest(distance=distance), \
+                    self.assertRaisesRegex(eeprom.FormatError, "unwritten history"):
+                eeprom.lzss_decompress(bytes([1, distance - 1, 0]))
 
     def test_flags_are_lsb_first(self):
-        # literal "x", back-reference distance 1 length 3, literal "y"
-        packed = bytes([0b010, ord("x"), 0, 2, ord("y")])
-        self.assertEqual(eeprom.lzss_decompress(packed), b"xxxxy")
+        # literal "x", back-reference distance 1 length 1, literal "y"
+        packed = bytes([0b010, ord("x"), 0, 0, ord("y")])
+        self.assertEqual(eeprom.lzss_decompress(packed), b"xxy")
 
     def test_window_wraps(self):
         # 264 literals, then distance 256 length 4: the output from index 8

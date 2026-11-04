@@ -109,17 +109,32 @@ class LzssCompressionTest(unittest.TestCase):
         data = bytes(range(17))
         self.assertEqual(eeprom.lzss_compress(data), literals(data))
 
-    def test_overlap_uses_maximum_length(self):
-        data = b"a" * 257
+    def test_references_require_initialized_source_range(self):
+        for value in (b"\0", b"a"):
+            with self.subTest(value=value):
+                data = value * 9
+                packed = eeprom.lzss_compress(data)
+                self.assertEqual(packed, bytes([0b11000]) + value * 3 + bytes([2, 2, 2, 2]))
+                self.assertEqual(eeprom.lzss_decompress(packed), data)
+
+    def test_snapshot_match_can_be_longer_than_distance(self):
+        block = bytes(range(256))
+        data = block + block[-1:] + block[:-1]
         packed = eeprom.lzss_compress(data)
-        self.assertEqual(packed, bytes([0b10, ord("a"), 0, 255]))
+        self.assertEqual(packed, literals(block) + bytes([1, 0, 255]))
         self.assertEqual(eeprom.lzss_decompress(packed), data)
 
-    def test_initial_zero_window_uses_nearest_match(self):
-        data = bytes(256)
+    def test_equal_length_matches_choose_smallest_distance(self):
+        data = b"abcXabcYabc"
         packed = eeprom.lzss_compress(data)
-        self.assertEqual(packed, bytes([1, 0, 255]))
-        self.assertEqual(eeprom.lzss_decompress(packed), data)
+        self.assertEqual(packed, bytes([0b1010000]) + b"abcX" + bytes([3, 2])
+                         + b"Y" + bytes([3, 2]))
+
+    def test_longer_match_takes_precedence_over_nearer_match(self):
+        data = b"abcdXabcYabcd"
+        packed = eeprom.lzss_compress(data)
+        self.assertEqual(packed, bytes([0b10100000]) + b"abcdX" + bytes([4, 2])
+                         + b"Y" + bytes([8, 3]))
 
     def test_two_byte_match_remains_literal(self):
         self.assertEqual(eeprom.lzss_compress(b"abab"), b"\0abab")
