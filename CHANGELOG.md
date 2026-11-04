@@ -8,6 +8,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ### Added
 
+- Opt-in scalar VERSION observations with strict input and instruction
+  binding, a named operation callback, ordered events and schema tests.
 - Explicit CPU VERSION input contract for scalar observations, with strict
   plan validation and conditional control-route acceptance.
 - Freestanding ARM mapping-table preparation with exact profile validation,

@@ -76,9 +76,29 @@ extension; do not emulate vector code.
 
 ## Scalar observations
 
-The [VERSION input contract](bcm2711/vpu-version.md) specifies a pending
-opt-in instruction-result boundary. Existing captures continue to reject
-VERSION unless that extension is implemented and explicitly configured.
+The [VERSION input contract](bcm2711/vpu-version.md) defines the optional
+`execution.version_input` object. It supplies one immutable word and ordered,
+unique instruction sites with ordinary destinations `r0` through `r23`.
+The recorder validates the complete plan and original instruction bindings
+before execution. A named operation callback writes only the exact output
+varnode; the interpreter advances normally. Each site produces one ordered
+`version` event with its index and the preceding instruction count. Missing,
+malformed, mismatched, reordered, repeated or unused observations fail.
+Captures without the object retain the existing VERSION rejection and
+scalar guards. Supplied words do not identify hardware or establish a
+completed native continuation.
+
+The schema tests compile against an explicitly selected public Ghidra
+installation and require its supported JDK:
+
+```sh
+OPEN27XX_GHIDRA_HOME=/opt/ghidra python3 -m unittest tests.test_scalar_version
+```
+
+These tests check JSON types, exact members, complete words, site ordering
+and canonical register names. They do not run native instructions. Without
+`OPEN27XX_GHIDRA_HOME`, the optional API-dependent test is skipped. Instruction
+binding, execution and continuation checks require the headless recorder.
 
 `CaptureScalarVectors.java` runs the synthetic cases in
 `tests/vectors/bootsys/`, `tests/vectors/bootmain/` and
