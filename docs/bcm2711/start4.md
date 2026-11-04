@@ -187,6 +187,11 @@ The [ARM control-request contract](arm-control.md) covers configuration
 arguments and software start-request gates with supplied service replies.
 It keeps logical requests separate from hardware effects and ARM execution.
 
+The [ARM object contract](arm-object.md) specifies registration at
+0x0ED7C928 and a complete repeated open at 0x0EC59D24. Its separate
+first-open prefix stops before `VERSION` and does not prove runtime
+initialization or ownership.
+
 The [resource-request contract](resource-request.md) covers fixed logical
 index 23, record aggregation, dependency order and conditional check
 callbacks. Its complete calls and bounded prefixes use explicit software

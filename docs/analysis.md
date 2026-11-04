@@ -156,6 +156,9 @@ lists the exact source identity and entry points for that fixture. The
 [fixed clock-request replay](bcm2711/clock-request.md#replay) uses the same
 unchanged scripts for its original cases and separate four-case
 [cold/repeated state profiles](bcm2711/clock-request.md#first-and-repeated-request-states).
+The [ARM object replay](bcm2711/arm-object.md#recorded-cases-and-replay)
+uses three decoder entries for six complete registration/repeated-open
+calls and a separate first-open prefix before `VERSION`.
 
 ### Fixed clock recorder
 

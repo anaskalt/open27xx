@@ -38,6 +38,11 @@ one whose first word differs from its address returns raw 0xFFFFFFFF at
 self-pointer check does not establish registration, ownership or membership
 in the scanned array. No membership test occurs in this entry check.
 
+The separate [registration contract](arm-object.md) covers the first-free
+record producer at 0x0ED7C928. It preserves the request and two other words,
+then stores index and metadata. It does not extend this request contract's
+fixed record profiles or establish live allocation order and lifetime.
+
 The reference table is 0x0EDFD200. Its literal pointer occurs at
 0x0EE02CBC, file offset 0x20269C. The relevant raw table words are:
 
@@ -337,7 +342,8 @@ These are recorder failures, not vendor return values.
 - Context initialization and callback. Trace the writers of GP+0xE50/+0xE54
   and the selected descriptor before assigning a runtime target, context
   meaning or assertion policy. Raw zero file words do not settle this.
-- Registration and other requests. Establish object acquisition, record
+- Runtime registration and other requests. Connect the bounded
+  [registration producer](arm-object.md) to earlier clearing, record
   lifetime, additional logical dependency mappings and disable behavior
   before extending the fixed request domain or defining ownership rules.
 - Live resource effects. Connect the [fixed clock-request behavior](clock-request.md)
