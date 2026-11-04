@@ -10,6 +10,10 @@ This contract prepares data in an ARM stub buffer. It does not establish
 where the buffer maps in ARM memory, how caches become coherent, how
 reset is released, or whether the ARM executes the stub.
 
+The separate [ARM control-request contract](arm-control.md) describes
+configuration requests and software state gates. It supplies no physical
+placement or entry guarantee for this metadata buffer.
+
 ## Buffer layout
 
 Offsets are relative to the beginning of the stub. Metadata words are
