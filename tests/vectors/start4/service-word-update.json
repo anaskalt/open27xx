@@ -1,0 +1,1200 @@
+{
+  "schema": 1,
+  "source": {
+    "file": "start4.elf",
+    "repository": "raspberrypi/firmware",
+    "version": "ab5c7f86283ceb58b7adb269cae1d16092a31bf6",
+    "bytes": 2303104,
+    "sha256": "38b179897c4514ad11bc915c3fd2d4b68c51e05df2e42240717655ab92d91aeb"
+  },
+  "cases": [
+    {
+      "id": "first-open-zero-word",
+      "function": {
+        "entry": "0xCEC006D0",
+        "language": "vc4:LE:32:default"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "gp": "0xE4000000",
+          "sp": "0x24010000",
+          "sr": "0x00000008",
+          "r0": "0xD3D3D3D3",
+          "r1": "0x0000005E",
+          "r2": "0x00000001",
+          "r6": "0xA0000006",
+          "r7": "0xA0000007",
+          "r8": "0xA0000008",
+          "r9": "0xA0000009",
+          "r10": "0xA000000A",
+          "r11": "0xA000000B",
+          "r12": "0xA000000C",
+          "r13": "0xA000000D"
+        },
+        "memory": [
+          {
+            "address": "0x2400FFC0",
+            "fill": "a5",
+            "size": 128
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24040000",
+        "step_limit": 100,
+        "stubs": [],
+        "mmio_responses": [
+          {
+            "pc": "0xCEC006BC",
+            "address": "0x7E00201C",
+            "hex": "00000000"
+          }
+        ],
+        "mmio_write_addresses": [
+          "0x7E00201C"
+        ],
+        "version_input": {
+          "word": "0x00000040",
+          "sites": [
+            {
+              "pc": "0xCEC006D4",
+              "destination": "r1"
+            }
+          ]
+        }
+      },
+      "scope": "Complete standalone service body with explicit VERSION and peripheral-read observations",
+      "limitations": [
+        "The first three semantic argument tuples follow the actual first-open service boundary and dispatcher shift; peripheral read words remain synthetic observations.",
+        "Other cases vary explicit scalar inputs and VERSION fields; they do not assert a physical processor ID or existence of a hardware bank.",
+        "The service wrapper, trap entry, dispatcher and RTI do not execute in this standalone call.",
+        "The original handler and its shared scalar tail execute without computational stubs or instruction changes.",
+        "The opaque first argument is supplied state, not a produced handle.",
+        "Recorded peripheral events prove only conditional address and word computation, not physical register behavior, synchronization or interrupt delivery."
+      ],
+      "expected": {
+        "registers": {
+          "r0": "0x00000000",
+          "r1": "0x7E00201C",
+          "r2": "0x00000018",
+          "r3": "0x01000000",
+          "r4": "0x01000000",
+          "r5": "0x0F000000",
+          "r6": "0xA0000006",
+          "r7": "0xA0000007",
+          "r8": "0xA0000008",
+          "r9": "0xA0000009",
+          "r10": "0xA000000A",
+          "r11": "0xA000000B",
+          "r12": "0xA000000C",
+          "r13": "0xA000000D",
+          "r14": "0x00000000",
+          "r15": "0x00000000",
+          "r16": "0x00000000",
+          "r17": "0x00000000",
+          "r18": "0x00000000",
+          "r19": "0x00000000",
+          "r20": "0x00000000",
+          "r21": "0x00000000",
+          "r22": "0x00000000",
+          "r23": "0x00000000",
+          "gp": "0xE4000000",
+          "sp": "0x24010000",
+          "lr": "0x24040000",
+          "r27": "0x00000000",
+          "r28": "0x00000000",
+          "r29": "0x00000000",
+          "sr": "0x00000008",
+          "pc": "0x24040000"
+        },
+        "memory": [
+          {
+            "address": "0x2400FFC0",
+            "hex": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+          }
+        ],
+        "events": [
+          {
+            "kind": "version",
+            "pc": "0xCEC006D4",
+            "destination": "r1",
+            "value": "0x00000040",
+            "site_index": 0,
+            "step": 2
+          },
+          {
+            "pc": "0xCEC006BC",
+            "address": "0x7E00201C",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 0
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0xCEC006CA",
+            "address": "0x7E00201C",
+            "hex": "00000001"
+          }
+        ]
+      },
+      "steps": 23
+    },
+    {
+      "id": "first-open-ones-word",
+      "function": {
+        "entry": "0xCEC006D0",
+        "language": "vc4:LE:32:default"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "gp": "0xE4000000",
+          "sp": "0x24010000",
+          "sr": "0x00000008",
+          "r0": "0xD3D3D3D3",
+          "r1": "0x0000005E",
+          "r2": "0x00000001",
+          "r6": "0xA0000006",
+          "r7": "0xA0000007",
+          "r8": "0xA0000008",
+          "r9": "0xA0000009",
+          "r10": "0xA000000A",
+          "r11": "0xA000000B",
+          "r12": "0xA000000C",
+          "r13": "0xA000000D"
+        },
+        "memory": [
+          {
+            "address": "0x2400FFC0",
+            "fill": "a5",
+            "size": 128
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24040000",
+        "step_limit": 100,
+        "stubs": [],
+        "mmio_responses": [
+          {
+            "pc": "0xCEC006BC",
+            "address": "0x7E00201C",
+            "hex": "ffffffff"
+          }
+        ],
+        "mmio_write_addresses": [
+          "0x7E00201C"
+        ],
+        "version_input": {
+          "word": "0x00000040",
+          "sites": [
+            {
+              "pc": "0xCEC006D4",
+              "destination": "r1"
+            }
+          ]
+        }
+      },
+      "scope": "Complete standalone service body with explicit VERSION and peripheral-read observations",
+      "limitations": [
+        "The first three semantic argument tuples follow the actual first-open service boundary and dispatcher shift; peripheral read words remain synthetic observations.",
+        "Other cases vary explicit scalar inputs and VERSION fields; they do not assert a physical processor ID or existence of a hardware bank.",
+        "The service wrapper, trap entry, dispatcher and RTI do not execute in this standalone call.",
+        "The original handler and its shared scalar tail execute without computational stubs or instruction changes.",
+        "The opaque first argument is supplied state, not a produced handle.",
+        "Recorded peripheral events prove only conditional address and word computation, not physical register behavior, synchronization or interrupt delivery."
+      ],
+      "expected": {
+        "registers": {
+          "r0": "0x00000000",
+          "r1": "0x7E00201C",
+          "r2": "0x00000018",
+          "r3": "0x01000000",
+          "r4": "0xF1FFFFFF",
+          "r5": "0x0F000000",
+          "r6": "0xA0000006",
+          "r7": "0xA0000007",
+          "r8": "0xA0000008",
+          "r9": "0xA0000009",
+          "r10": "0xA000000A",
+          "r11": "0xA000000B",
+          "r12": "0xA000000C",
+          "r13": "0xA000000D",
+          "r14": "0x00000000",
+          "r15": "0x00000000",
+          "r16": "0x00000000",
+          "r17": "0x00000000",
+          "r18": "0x00000000",
+          "r19": "0x00000000",
+          "r20": "0x00000000",
+          "r21": "0x00000000",
+          "r22": "0x00000000",
+          "r23": "0x00000000",
+          "gp": "0xE4000000",
+          "sp": "0x24010000",
+          "lr": "0x24040000",
+          "r27": "0x00000000",
+          "r28": "0x00000000",
+          "r29": "0x00000000",
+          "sr": "0x00000008",
+          "pc": "0x24040000"
+        },
+        "memory": [
+          {
+            "address": "0x2400FFC0",
+            "hex": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+          }
+        ],
+        "events": [
+          {
+            "kind": "version",
+            "pc": "0xCEC006D4",
+            "destination": "r1",
+            "value": "0x00000040",
+            "site_index": 0,
+            "step": 2
+          },
+          {
+            "pc": "0xCEC006BC",
+            "address": "0x7E00201C",
+            "hex": "ffffffff",
+            "kind": "supplied_mmio_read",
+            "reply_index": 0
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0xCEC006CA",
+            "address": "0x7E00201C",
+            "hex": "fffffff1"
+          }
+        ]
+      },
+      "steps": 23
+    },
+    {
+      "id": "first-open-pattern-word",
+      "function": {
+        "entry": "0xCEC006D0",
+        "language": "vc4:LE:32:default"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "gp": "0xE4000000",
+          "sp": "0x24010000",
+          "sr": "0x00000008",
+          "r0": "0xD3D3D3D3",
+          "r1": "0x0000005E",
+          "r2": "0x00000001",
+          "r6": "0xA0000006",
+          "r7": "0xA0000007",
+          "r8": "0xA0000008",
+          "r9": "0xA0000009",
+          "r10": "0xA000000A",
+          "r11": "0xA000000B",
+          "r12": "0xA000000C",
+          "r13": "0xA000000D"
+        },
+        "memory": [
+          {
+            "address": "0x2400FFC0",
+            "fill": "a5",
+            "size": 128
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24040000",
+        "step_limit": 100,
+        "stubs": [],
+        "mmio_responses": [
+          {
+            "pc": "0xCEC006BC",
+            "address": "0x7E00201C",
+            "hex": "a5a5a5a5"
+          }
+        ],
+        "mmio_write_addresses": [
+          "0x7E00201C"
+        ],
+        "version_input": {
+          "word": "0x00000040",
+          "sites": [
+            {
+              "pc": "0xCEC006D4",
+              "destination": "r1"
+            }
+          ]
+        }
+      },
+      "scope": "Complete standalone service body with explicit VERSION and peripheral-read observations",
+      "limitations": [
+        "The first three semantic argument tuples follow the actual first-open service boundary and dispatcher shift; peripheral read words remain synthetic observations.",
+        "Other cases vary explicit scalar inputs and VERSION fields; they do not assert a physical processor ID or existence of a hardware bank.",
+        "The service wrapper, trap entry, dispatcher and RTI do not execute in this standalone call.",
+        "The original handler and its shared scalar tail execute without computational stubs or instruction changes.",
+        "The opaque first argument is supplied state, not a produced handle.",
+        "Recorded peripheral events prove only conditional address and word computation, not physical register behavior, synchronization or interrupt delivery."
+      ],
+      "expected": {
+        "registers": {
+          "r0": "0x00000000",
+          "r1": "0x7E00201C",
+          "r2": "0x00000018",
+          "r3": "0x01000000",
+          "r4": "0xA1A5A5A5",
+          "r5": "0x0F000000",
+          "r6": "0xA0000006",
+          "r7": "0xA0000007",
+          "r8": "0xA0000008",
+          "r9": "0xA0000009",
+          "r10": "0xA000000A",
+          "r11": "0xA000000B",
+          "r12": "0xA000000C",
+          "r13": "0xA000000D",
+          "r14": "0x00000000",
+          "r15": "0x00000000",
+          "r16": "0x00000000",
+          "r17": "0x00000000",
+          "r18": "0x00000000",
+          "r19": "0x00000000",
+          "r20": "0x00000000",
+          "r21": "0x00000000",
+          "r22": "0x00000000",
+          "r23": "0x00000000",
+          "gp": "0xE4000000",
+          "sp": "0x24010000",
+          "lr": "0x24040000",
+          "r27": "0x00000000",
+          "r28": "0x00000000",
+          "r29": "0x00000000",
+          "sr": "0x00000008",
+          "pc": "0x24040000"
+        },
+        "memory": [
+          {
+            "address": "0x2400FFC0",
+            "hex": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+          }
+        ],
+        "events": [
+          {
+            "kind": "version",
+            "pc": "0xCEC006D4",
+            "destination": "r1",
+            "value": "0x00000040",
+            "site_index": 0,
+            "step": 2
+          },
+          {
+            "pc": "0xCEC006BC",
+            "address": "0x7E00201C",
+            "hex": "a5a5a5a5",
+            "kind": "supplied_mmio_read",
+            "reply_index": 0
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0xCEC006CA",
+            "address": "0x7E00201C",
+            "hex": "a5a5a5a1"
+          }
+        ]
+      },
+      "steps": 23
+    },
+    {
+      "id": "first-open-clear-field",
+      "function": {
+        "entry": "0xCEC006D0",
+        "language": "vc4:LE:32:default"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "gp": "0xE4000000",
+          "sp": "0x24010000",
+          "sr": "0x00000008",
+          "r0": "0xD3D3D3D3",
+          "r1": "0x0000005E",
+          "r2": "0x00000000",
+          "r6": "0xA0000006",
+          "r7": "0xA0000007",
+          "r8": "0xA0000008",
+          "r9": "0xA0000009",
+          "r10": "0xA000000A",
+          "r11": "0xA000000B",
+          "r12": "0xA000000C",
+          "r13": "0xA000000D"
+        },
+        "memory": [
+          {
+            "address": "0x2400FFC0",
+            "fill": "a5",
+            "size": 128
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24040000",
+        "step_limit": 100,
+        "stubs": [],
+        "mmio_responses": [
+          {
+            "pc": "0xCEC006BC",
+            "address": "0x7E00201C",
+            "hex": "78563412"
+          }
+        ],
+        "mmio_write_addresses": [
+          "0x7E00201C"
+        ],
+        "version_input": {
+          "word": "0x00000040",
+          "sites": [
+            {
+              "pc": "0xCEC006D4",
+              "destination": "r1"
+            }
+          ]
+        }
+      },
+      "scope": "Complete standalone service body with explicit VERSION and peripheral-read observations",
+      "limitations": [
+        "The first three semantic argument tuples follow the actual first-open service boundary and dispatcher shift; peripheral read words remain synthetic observations.",
+        "Other cases vary explicit scalar inputs and VERSION fields; they do not assert a physical processor ID or existence of a hardware bank.",
+        "The service wrapper, trap entry, dispatcher and RTI do not execute in this standalone call.",
+        "The original handler and its shared scalar tail execute without computational stubs or instruction changes.",
+        "The opaque first argument is supplied state, not a produced handle.",
+        "Recorded peripheral events prove only conditional address and word computation, not physical register behavior, synchronization or interrupt delivery."
+      ],
+      "expected": {
+        "registers": {
+          "r0": "0x00000000",
+          "r1": "0x7E00201C",
+          "r2": "0x00000018",
+          "r3": "0x00000000",
+          "r4": "0x10345678",
+          "r5": "0x0F000000",
+          "r6": "0xA0000006",
+          "r7": "0xA0000007",
+          "r8": "0xA0000008",
+          "r9": "0xA0000009",
+          "r10": "0xA000000A",
+          "r11": "0xA000000B",
+          "r12": "0xA000000C",
+          "r13": "0xA000000D",
+          "r14": "0x00000000",
+          "r15": "0x00000000",
+          "r16": "0x00000000",
+          "r17": "0x00000000",
+          "r18": "0x00000000",
+          "r19": "0x00000000",
+          "r20": "0x00000000",
+          "r21": "0x00000000",
+          "r22": "0x00000000",
+          "r23": "0x00000000",
+          "gp": "0xE4000000",
+          "sp": "0x24010000",
+          "lr": "0x24040000",
+          "r27": "0x00000000",
+          "r28": "0x00000000",
+          "r29": "0x00000000",
+          "sr": "0x00000008",
+          "pc": "0x24040000"
+        },
+        "memory": [
+          {
+            "address": "0x2400FFC0",
+            "hex": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+          }
+        ],
+        "events": [
+          {
+            "kind": "version",
+            "pc": "0xCEC006D4",
+            "destination": "r1",
+            "value": "0x00000040",
+            "site_index": 0,
+            "step": 2
+          },
+          {
+            "pc": "0xCEC006BC",
+            "address": "0x7E00201C",
+            "hex": "78563412",
+            "kind": "supplied_mmio_read",
+            "reply_index": 0
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0xCEC006CA",
+            "address": "0x7E00201C",
+            "hex": "78563410"
+          }
+        ]
+      },
+      "steps": 23
+    },
+    {
+      "id": "low-field-unmasked-value",
+      "function": {
+        "entry": "0xCEC006D0",
+        "language": "vc4:LE:32:default"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "gp": "0xE4000000",
+          "sp": "0x24010000",
+          "sr": "0x00000008",
+          "r0": "0x00000000",
+          "r1": "0x00000000",
+          "r2": "0x00000010",
+          "r6": "0xA0000006",
+          "r7": "0xA0000007",
+          "r8": "0xA0000008",
+          "r9": "0xA0000009",
+          "r10": "0xA000000A",
+          "r11": "0xA000000B",
+          "r12": "0xA000000C",
+          "r13": "0xA000000D"
+        },
+        "memory": [
+          {
+            "address": "0x2400FFC0",
+            "fill": "a5",
+            "size": 128
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24040000",
+        "step_limit": 100,
+        "stubs": [],
+        "mmio_responses": [
+          {
+            "pc": "0xCEC006BC",
+            "address": "0x7E002810",
+            "hex": "00000000"
+          }
+        ],
+        "mmio_write_addresses": [
+          "0x7E002810"
+        ],
+        "version_input": {
+          "word": "0x00010040",
+          "sites": [
+            {
+              "pc": "0xCEC006D4",
+              "destination": "r1"
+            }
+          ]
+        }
+      },
+      "scope": "Complete standalone service body with explicit VERSION and peripheral-read observations",
+      "limitations": [
+        "The first three semantic argument tuples follow the actual first-open service boundary and dispatcher shift; peripheral read words remain synthetic observations.",
+        "Other cases vary explicit scalar inputs and VERSION fields; they do not assert a physical processor ID or existence of a hardware bank.",
+        "The service wrapper, trap entry, dispatcher and RTI do not execute in this standalone call.",
+        "The original handler and its shared scalar tail execute without computational stubs or instruction changes.",
+        "The opaque first argument is supplied state, not a produced handle.",
+        "Recorded peripheral events prove only conditional address and word computation, not physical register behavior, synchronization or interrupt delivery."
+      ],
+      "expected": {
+        "registers": {
+          "r0": "0x00000000",
+          "r1": "0x7E002810",
+          "r2": "0x00000000",
+          "r3": "0x00000010",
+          "r4": "0x00000010",
+          "r5": "0x0000000F",
+          "r6": "0xA0000006",
+          "r7": "0xA0000007",
+          "r8": "0xA0000008",
+          "r9": "0xA0000009",
+          "r10": "0xA000000A",
+          "r11": "0xA000000B",
+          "r12": "0xA000000C",
+          "r13": "0xA000000D",
+          "r14": "0x00000000",
+          "r15": "0x00000000",
+          "r16": "0x00000000",
+          "r17": "0x00000000",
+          "r18": "0x00000000",
+          "r19": "0x00000000",
+          "r20": "0x00000000",
+          "r21": "0x00000000",
+          "r22": "0x00000000",
+          "r23": "0x00000000",
+          "gp": "0xE4000000",
+          "sp": "0x24010000",
+          "lr": "0x24040000",
+          "r27": "0x00000000",
+          "r28": "0x00000000",
+          "r29": "0x00000000",
+          "sr": "0x00000008",
+          "pc": "0x24040000"
+        },
+        "memory": [
+          {
+            "address": "0x2400FFC0",
+            "hex": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+          }
+        ],
+        "events": [
+          {
+            "kind": "version",
+            "pc": "0xCEC006D4",
+            "destination": "r1",
+            "value": "0x00010040",
+            "site_index": 0,
+            "step": 2
+          },
+          {
+            "pc": "0xCEC006BC",
+            "address": "0x7E002810",
+            "hex": "00000000",
+            "kind": "supplied_mmio_read",
+            "reply_index": 0
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0xCEC006CA",
+            "address": "0x7E002810",
+            "hex": "10000000"
+          }
+        ]
+      },
+      "steps": 23
+    },
+    {
+      "id": "highest-bank-overflowed-value",
+      "function": {
+        "entry": "0xCEC006D0",
+        "language": "vc4:LE:32:default"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "gp": "0xE4000000",
+          "sp": "0x24010000",
+          "sr": "0x00000008",
+          "r0": "0xFFFFFFFF",
+          "r1": "0xFFFFFFFF",
+          "r2": "0x00000010",
+          "r6": "0xA0000006",
+          "r7": "0xA0000007",
+          "r8": "0xA0000008",
+          "r9": "0xA0000009",
+          "r10": "0xA000000A",
+          "r11": "0xA000000B",
+          "r12": "0xA000000C",
+          "r13": "0xA000000D"
+        },
+        "memory": [
+          {
+            "address": "0x2400FFC0",
+            "fill": "a5",
+            "size": 128
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24040000",
+        "step_limit": 100,
+        "stubs": [],
+        "mmio_responses": [
+          {
+            "pc": "0xCEC006BC",
+            "address": "0x7E00982C",
+            "hex": "ffffffff"
+          }
+        ],
+        "mmio_write_addresses": [
+          "0x7E00982C"
+        ],
+        "version_input": {
+          "word": "0x000F0040",
+          "sites": [
+            {
+              "pc": "0xCEC006D4",
+              "destination": "r1"
+            }
+          ]
+        }
+      },
+      "scope": "Complete standalone service body with explicit VERSION and peripheral-read observations",
+      "limitations": [
+        "The first three semantic argument tuples follow the actual first-open service boundary and dispatcher shift; peripheral read words remain synthetic observations.",
+        "Other cases vary explicit scalar inputs and VERSION fields; they do not assert a physical processor ID or existence of a hardware bank.",
+        "The service wrapper, trap entry, dispatcher and RTI do not execute in this standalone call.",
+        "The original handler and its shared scalar tail execute without computational stubs or instruction changes.",
+        "The opaque first argument is supplied state, not a produced handle.",
+        "Recorded peripheral events prove only conditional address and word computation, not physical register behavior, synchronization or interrupt delivery."
+      ],
+      "expected": {
+        "registers": {
+          "r0": "0x00000000",
+          "r1": "0x7E00982C",
+          "r2": "0x0000001C",
+          "r3": "0x00000000",
+          "r4": "0x0FFFFFFF",
+          "r5": "0xF0000000",
+          "r6": "0xA0000006",
+          "r7": "0xA0000007",
+          "r8": "0xA0000008",
+          "r9": "0xA0000009",
+          "r10": "0xA000000A",
+          "r11": "0xA000000B",
+          "r12": "0xA000000C",
+          "r13": "0xA000000D",
+          "r14": "0x00000000",
+          "r15": "0x00000000",
+          "r16": "0x00000000",
+          "r17": "0x00000000",
+          "r18": "0x00000000",
+          "r19": "0x00000000",
+          "r20": "0x00000000",
+          "r21": "0x00000000",
+          "r22": "0x00000000",
+          "r23": "0x00000000",
+          "gp": "0xE4000000",
+          "sp": "0x24010000",
+          "lr": "0x24040000",
+          "r27": "0x00000000",
+          "r28": "0x00000000",
+          "r29": "0x00000000",
+          "sr": "0x00000008",
+          "pc": "0x24040000"
+        },
+        "memory": [
+          {
+            "address": "0x2400FFC0",
+            "hex": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+          }
+        ],
+        "events": [
+          {
+            "kind": "version",
+            "pc": "0xCEC006D4",
+            "destination": "r1",
+            "value": "0x000F0040",
+            "site_index": 0,
+            "step": 2
+          },
+          {
+            "pc": "0xCEC006BC",
+            "address": "0x7E00982C",
+            "hex": "ffffffff",
+            "kind": "supplied_mmio_read",
+            "reply_index": 0
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0xCEC006CA",
+            "address": "0x7E00982C",
+            "hex": "ffffff0f"
+          }
+        ]
+      },
+      "steps": 23
+    },
+    {
+      "id": "last-field-in-word",
+      "function": {
+        "entry": "0xCEC006D0",
+        "language": "vc4:LE:32:default"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "gp": "0xE4000000",
+          "sp": "0x24010000",
+          "sr": "0x00000008",
+          "r0": "0x89ABCDEF",
+          "r1": "0x00000007",
+          "r2": "0x0000000F",
+          "r6": "0xA0000006",
+          "r7": "0xA0000007",
+          "r8": "0xA0000008",
+          "r9": "0xA0000009",
+          "r10": "0xA000000A",
+          "r11": "0xA000000B",
+          "r12": "0xA000000C",
+          "r13": "0xA000000D"
+        },
+        "memory": [
+          {
+            "address": "0x2400FFC0",
+            "fill": "a5",
+            "size": 128
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24040000",
+        "step_limit": 100,
+        "stubs": [],
+        "mmio_responses": [
+          {
+            "pc": "0xCEC006BC",
+            "address": "0x7E002010",
+            "hex": "67452301"
+          }
+        ],
+        "mmio_write_addresses": [
+          "0x7E002010"
+        ],
+        "version_input": {
+          "word": "0x00000040",
+          "sites": [
+            {
+              "pc": "0xCEC006D4",
+              "destination": "r1"
+            }
+          ]
+        }
+      },
+      "scope": "Complete standalone service body with explicit VERSION and peripheral-read observations",
+      "limitations": [
+        "The first three semantic argument tuples follow the actual first-open service boundary and dispatcher shift; peripheral read words remain synthetic observations.",
+        "Other cases vary explicit scalar inputs and VERSION fields; they do not assert a physical processor ID or existence of a hardware bank.",
+        "The service wrapper, trap entry, dispatcher and RTI do not execute in this standalone call.",
+        "The original handler and its shared scalar tail execute without computational stubs or instruction changes.",
+        "The opaque first argument is supplied state, not a produced handle.",
+        "Recorded peripheral events prove only conditional address and word computation, not physical register behavior, synchronization or interrupt delivery."
+      ],
+      "expected": {
+        "registers": {
+          "r0": "0x00000000",
+          "r1": "0x7E002010",
+          "r2": "0x0000001C",
+          "r3": "0xF0000000",
+          "r4": "0xF1234567",
+          "r5": "0xF0000000",
+          "r6": "0xA0000006",
+          "r7": "0xA0000007",
+          "r8": "0xA0000008",
+          "r9": "0xA0000009",
+          "r10": "0xA000000A",
+          "r11": "0xA000000B",
+          "r12": "0xA000000C",
+          "r13": "0xA000000D",
+          "r14": "0x00000000",
+          "r15": "0x00000000",
+          "r16": "0x00000000",
+          "r17": "0x00000000",
+          "r18": "0x00000000",
+          "r19": "0x00000000",
+          "r20": "0x00000000",
+          "r21": "0x00000000",
+          "r22": "0x00000000",
+          "r23": "0x00000000",
+          "gp": "0xE4000000",
+          "sp": "0x24010000",
+          "lr": "0x24040000",
+          "r27": "0x00000000",
+          "r28": "0x00000000",
+          "r29": "0x00000000",
+          "sr": "0x00000008",
+          "pc": "0x24040000"
+        },
+        "memory": [
+          {
+            "address": "0x2400FFC0",
+            "hex": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+          }
+        ],
+        "events": [
+          {
+            "kind": "version",
+            "pc": "0xCEC006D4",
+            "destination": "r1",
+            "value": "0x00000040",
+            "site_index": 0,
+            "step": 2
+          },
+          {
+            "pc": "0xCEC006BC",
+            "address": "0x7E002010",
+            "hex": "67452301",
+            "kind": "supplied_mmio_read",
+            "reply_index": 0
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0xCEC006CA",
+            "address": "0x7E002010",
+            "hex": "674523f1"
+          }
+        ]
+      },
+      "steps": 23
+    },
+    {
+      "id": "next-word-full-value",
+      "function": {
+        "entry": "0xCEC006D0",
+        "language": "vc4:LE:32:default"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "gp": "0xE4000000",
+          "sp": "0x24010000",
+          "sr": "0x00000008",
+          "r0": "0x89ABCDEF",
+          "r1": "0x00000008",
+          "r2": "0xABCDEF01",
+          "r6": "0xA0000006",
+          "r7": "0xA0000007",
+          "r8": "0xA0000008",
+          "r9": "0xA0000009",
+          "r10": "0xA000000A",
+          "r11": "0xA000000B",
+          "r12": "0xA000000C",
+          "r13": "0xA000000D"
+        },
+        "memory": [
+          {
+            "address": "0x2400FFC0",
+            "fill": "a5",
+            "size": 128
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24040000",
+        "step_limit": 100,
+        "stubs": [],
+        "mmio_responses": [
+          {
+            "pc": "0xCEC006BC",
+            "address": "0x7E003014",
+            "hex": "10325476"
+          }
+        ],
+        "mmio_write_addresses": [
+          "0x7E003014"
+        ],
+        "version_input": {
+          "word": "0x00020040",
+          "sites": [
+            {
+              "pc": "0xCEC006D4",
+              "destination": "r1"
+            }
+          ]
+        }
+      },
+      "scope": "Complete standalone service body with explicit VERSION and peripheral-read observations",
+      "limitations": [
+        "The first three semantic argument tuples follow the actual first-open service boundary and dispatcher shift; peripheral read words remain synthetic observations.",
+        "Other cases vary explicit scalar inputs and VERSION fields; they do not assert a physical processor ID or existence of a hardware bank.",
+        "The service wrapper, trap entry, dispatcher and RTI do not execute in this standalone call.",
+        "The original handler and its shared scalar tail execute without computational stubs or instruction changes.",
+        "The opaque first argument is supplied state, not a produced handle.",
+        "Recorded peripheral events prove only conditional address and word computation, not physical register behavior, synchronization or interrupt delivery."
+      ],
+      "expected": {
+        "registers": {
+          "r0": "0x00000000",
+          "r1": "0x7E003014",
+          "r2": "0x00000000",
+          "r3": "0xABCDEF01",
+          "r4": "0xFFDDFF11",
+          "r5": "0x0000000F",
+          "r6": "0xA0000006",
+          "r7": "0xA0000007",
+          "r8": "0xA0000008",
+          "r9": "0xA0000009",
+          "r10": "0xA000000A",
+          "r11": "0xA000000B",
+          "r12": "0xA000000C",
+          "r13": "0xA000000D",
+          "r14": "0x00000000",
+          "r15": "0x00000000",
+          "r16": "0x00000000",
+          "r17": "0x00000000",
+          "r18": "0x00000000",
+          "r19": "0x00000000",
+          "r20": "0x00000000",
+          "r21": "0x00000000",
+          "r22": "0x00000000",
+          "r23": "0x00000000",
+          "gp": "0xE4000000",
+          "sp": "0x24010000",
+          "lr": "0x24040000",
+          "r27": "0x00000000",
+          "r28": "0x00000000",
+          "r29": "0x00000000",
+          "sr": "0x00000008",
+          "pc": "0x24040000"
+        },
+        "memory": [
+          {
+            "address": "0x2400FFC0",
+            "hex": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+          }
+        ],
+        "events": [
+          {
+            "kind": "version",
+            "pc": "0xCEC006D4",
+            "destination": "r1",
+            "value": "0x00020040",
+            "site_index": 0,
+            "step": 2
+          },
+          {
+            "pc": "0xCEC006BC",
+            "address": "0x7E003014",
+            "hex": "10325476",
+            "kind": "supplied_mmio_read",
+            "reply_index": 0
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0xCEC006CA",
+            "address": "0x7E003014",
+            "hex": "11ffddff"
+          }
+        ]
+      },
+      "steps": 23
+    },
+    {
+      "id": "masked-code-version-alias",
+      "function": {
+        "entry": "0xCEC006D0",
+        "language": "vc4:LE:32:default"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "gp": "0xE4000000",
+          "sp": "0x24010000",
+          "sr": "0x00000008",
+          "r0": "0x10203040",
+          "r1": "0xFFFFFFC8",
+          "r2": "0xABCDEF01",
+          "r6": "0xA0000006",
+          "r7": "0xA0000007",
+          "r8": "0xA0000008",
+          "r9": "0xA0000009",
+          "r10": "0xA000000A",
+          "r11": "0xA000000B",
+          "r12": "0xA000000C",
+          "r13": "0xA000000D"
+        },
+        "memory": [
+          {
+            "address": "0x2400FFC0",
+            "fill": "a5",
+            "size": 128
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24040000",
+        "step_limit": 100,
+        "stubs": [],
+        "mmio_responses": [
+          {
+            "pc": "0xCEC006BC",
+            "address": "0x7E003014",
+            "hex": "10325476"
+          }
+        ],
+        "mmio_write_addresses": [
+          "0x7E003014"
+        ],
+        "version_input": {
+          "word": "0xFFF20040",
+          "sites": [
+            {
+              "pc": "0xCEC006D4",
+              "destination": "r1"
+            }
+          ]
+        }
+      },
+      "scope": "Complete standalone service body with explicit VERSION and peripheral-read observations",
+      "limitations": [
+        "The first three semantic argument tuples follow the actual first-open service boundary and dispatcher shift; peripheral read words remain synthetic observations.",
+        "Other cases vary explicit scalar inputs and VERSION fields; they do not assert a physical processor ID or existence of a hardware bank.",
+        "The service wrapper, trap entry, dispatcher and RTI do not execute in this standalone call.",
+        "The original handler and its shared scalar tail execute without computational stubs or instruction changes.",
+        "The opaque first argument is supplied state, not a produced handle.",
+        "Recorded peripheral events prove only conditional address and word computation, not physical register behavior, synchronization or interrupt delivery."
+      ],
+      "expected": {
+        "registers": {
+          "r0": "0x00000000",
+          "r1": "0x7E003014",
+          "r2": "0x00000000",
+          "r3": "0xABCDEF01",
+          "r4": "0xFFDDFF11",
+          "r5": "0x0000000F",
+          "r6": "0xA0000006",
+          "r7": "0xA0000007",
+          "r8": "0xA0000008",
+          "r9": "0xA0000009",
+          "r10": "0xA000000A",
+          "r11": "0xA000000B",
+          "r12": "0xA000000C",
+          "r13": "0xA000000D",
+          "r14": "0x00000000",
+          "r15": "0x00000000",
+          "r16": "0x00000000",
+          "r17": "0x00000000",
+          "r18": "0x00000000",
+          "r19": "0x00000000",
+          "r20": "0x00000000",
+          "r21": "0x00000000",
+          "r22": "0x00000000",
+          "r23": "0x00000000",
+          "gp": "0xE4000000",
+          "sp": "0x24010000",
+          "lr": "0x24040000",
+          "r27": "0x00000000",
+          "r28": "0x00000000",
+          "r29": "0x00000000",
+          "sr": "0x00000008",
+          "pc": "0x24040000"
+        },
+        "memory": [
+          {
+            "address": "0x2400FFC0",
+            "hex": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+          }
+        ],
+        "events": [
+          {
+            "kind": "version",
+            "pc": "0xCEC006D4",
+            "destination": "r1",
+            "value": "0xFFF20040",
+            "site_index": 0,
+            "step": 2
+          },
+          {
+            "pc": "0xCEC006BC",
+            "address": "0x7E003014",
+            "hex": "10325476",
+            "kind": "supplied_mmio_read",
+            "reply_index": 0
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0xCEC006CA",
+            "address": "0x7E003014",
+            "hex": "11ffddff"
+          }
+        ]
+      },
+      "steps": 23
+    }
+  ]
+}

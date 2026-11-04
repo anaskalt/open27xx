@@ -97,6 +97,12 @@ consuming a device reply or authorizing a memory access. The
 [first-open routes](bcm2711/arm-first-open.md) include three recorded complete
 table-zero returns. Successful open and physical effects remain unresolved.
 
+The [service word update](bcm2711/service-word-update.md) specifies a complete
+standalone scalar body with general 32-bit inputs, ordered VERSION/read/write
+observations and nine recorded calls. Full-width shifted values can set bits
+beyond the cleared nibble. Physical register meaning and exception entry
+remain unresolved.
+
 The [IRQ and p16 contract](bcm2711/vpu-irq.md) specifies a separate
 `execution.irq_p16` plan for both recorders. It requires an explicit
 no-interrupt-arrival premise and finite ordered instruction occurrences.
