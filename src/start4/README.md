@@ -546,3 +546,124 @@ make the allocator's unsigned available-size calculation wrap.
 Pinned upstream paths and ARM boot references are listed in
 [`docs/references.md`](../../docs/references.md). The restoration procedure
 is in [`docs/bcm2711/start4.md`](../../docs/bcm2711/start4.md#restoring-the-boot-partition).
+
+## Fixed resource requests
+
+[`resource_request.h`](resource_request.h) exposes the separate freestanding
+helpers in [`resource_request.c`](resource_request.c), following the
+[fixed request contract](../../docs/bcm2711/resource-request.md).
+`resource_request_execute` handles the supplied logical request `(23,1,1)`.
+`resource_request_dependency` returns 0x180 for index 23 and selection 0 or 1.
+`resource_request_context_call` and `resource_request_check` expose the direct
+context and conditional-check operations. These helpers remain unlinked from
+`start4.elf` and do not select a runtime provider or access hardware.
+
+The manager receives explicit inputs, a record buffer and record count,
+mutable held/aggregate state, a literal reply plan and an outcome object.
+All five pointers are required. The buffer must contain at least 32 typed
+records; only the first 32 are scanned or modified. Each record contains
+an opaque self token and a logical request word. The selected record index
+must be below 32. The input `object_present` is exactly 0 or 1 and distinguishes
+an absent represented object from a null host pointer. A present identity
+must be nonzero. An absent object or unequal selected self token returns
+raw 0xFFFFFFFF without a boundary call or state change. That path does not
+inspect dependency selection, state words, other records or reply fields.
+
+For a matching object, selection is 0 or 1, each scanned logical request
+word is zero or 0x00800000, and held state is zero or 0x180. The scan uses
+only nonzero self tokens; an inactive record's supported request word is
+ignored. Tokens do not establish registration, ownership or physical
+addresses. The supplied handle and mutex identity are opaque unsigned
+32-bit words. The aggregate output may contain any incoming word.
+
+The reply plan declares the two enable words in mask order 0x80 then
+0x100. The first may be 0 or 7; a reachable second reply must be 0. A
+reachable false condition requires `check_context`, with explicit nonzero
+descriptor/callback identity tokens, an opaque word, literal reply 0 or 7,
+a provider and its bookkeeping context. Zero identity tokens are outside
+this host representation; the helper does not infer initialization from
+them. Only reachable reply fields and context objects are inspected.
+
+Providers return `void` and receive the declared reply as an argument.
+They observe the boundary; they do not compute another reply. The plan has
+separate diagnostic, acquire, release and enable providers sharing one
+bookkeeping context. Check context has its own provider and bookkeeping
+context. All providers needed by the declared execution path are validated
+before the first call or state write. A first enable reply of 7 therefore
+requires context in advance. An already-held request needs no enable
+provider, and a planned stop needs no release provider. True conditions
+need no context pointer, fields or provider.
+
+| Boundary | Argument words | Declared reply |
+|---|---|---|
+| Diagnostic | 0x4000, opaque diagnostic label 0x0ED7CAB0, object identity, 23, 1, 1 | 0 |
+| Acquire/release | Supplied mutex identity | 0 |
+| Enable | Supplied handle, single-bit mask | Selected enable reply |
+| Context | Opaque word, callback identity, descriptor identity | Context reply |
+
+Argument arrays are temporary and valid only during the synchronous provider
+call. The diagnostic label is an observation token, not a host string pointer.
+Native addresses, incidental argument registers and stack frames are outside
+this API. Providers may record events and update cursors in separate caller-owned
+bookkeeping storage. They must preserve inputs, records, state, plan, context
+descriptors, outcome and the supplied argument array; return normally; and
+avoid reentry, concurrent mutation and hardware access. A bookkeeping context
+may be null if its provider accepts it. Provider failure, mutation and replies
+chosen during execution have no defined recovery or rollback policy.
+
+The manager writes the old aggregate after acquire. It then checks for a
+duplicate request, sets the selected request bit, recomputes the aggregate
+and clears the held dependencies. Both aggregate calculations precede that
+clear. Added dependencies emit enables in increasing mask order. Context
+reply zero lets a failed condition continue; reply 7 produces a stopped
+outcome with state and calls retained through that check. A duplicate stop
+precedes the request store and held-mask clear. An enable-result stop follows
+those writes. There is no automatic release or rollback at either stop.
+
+| Host status | Meaning |
+|---|---|
+| `RESOURCE_REQUEST_OK` | Inspect the tagged outcome or direct dependency result |
+| `RESOURCE_REQUEST_INVALID` | A required pointer/provider is missing or an extent wraps |
+| `RESOURCE_REQUEST_UNSUPPORTED` | An accessed input or reply is outside the fixed domain |
+| `RESOURCE_REQUEST_BOUNDS` | Fewer than 32 records or a selected index outside the first 32 |
+| `RESOURCE_REQUEST_OVERLAP` | Accessed API storage overlaps |
+
+Host errors preserve every caller-owned state/output byte and emit no
+boundary call. Host statuses are separate from the tagged outcome.
+`RESOURCE_REQUEST_RETURNED` selects `value.raw_return`.
+`RESOURCE_REQUEST_STOPPED` selects `value.stop_flag`, which is 1, and has
+no vendor return word. Direct context reply 7 is a returned raw 7. A false
+check with reply 7 is stopped. A true check returns its nonzero condition
+unchanged. The helper executes no `BKPT` and defines no continuation from a
+stopped outcome. It cannot be routed directly into `arm_control_start`'s
+raw-word callback without a separately defined policy for stopped outcomes.
+
+All accessed typed objects require correct alignment, actual backing,
+writability where modified, and validity throughout the call. The caller
+establishes these properties. The helper checks nulls, address-range wrap,
+record count/index and pairwise overlap of inputs, the entire declared record
+buffer, state, plan and outcome before accessing fields. It also checks a
+reachable context descriptor against those objects. Direct context/check
+operations check their accessed context and outcome extents and overlap.
+A true check ignores context entirely. The caller keeps all provider
+bookkeeping and indirectly referenced storage separate from the API objects.
+No object or pointer is retained, allocated or freed.
+
+```sh
+python3 -m unittest tests.test_resource_request
+make -C src/start4 check-resource-request
+```
+
+Host tests compare all 16 portable fixtures: two dependencies, two direct
+contexts, three checks and nine manager returns/stops. Comparisons cover
+defined boundary arguments and replies, records, held/aggregate words,
+outcome tags and guards. Separate tests cover preflight, callback-visible
+state, slot 31, inactive records, bounds, wrap, overlap and adjacent storage.
+The real resource-selection prefix remains excluded. Disable behavior,
+other logical requests, context initialization, registration, concurrency,
+resource selection and live clock/release effects require separate contracts.
+
+The Make target writes `build/start4/resource-request.o` using the pinned
+VPU compiler with `-Os -ffixed-lr`. Preserve that LR reservation for this
+toolchain; native host builds omit it. The isolated target does not link
+or modify the firmware runtime.
