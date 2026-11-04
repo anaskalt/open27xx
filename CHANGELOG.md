@@ -8,6 +8,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ### Added
 
+- Callback-registration and complete first-open return contracts with six
+  finite profiles, retained state and explicit CPU/MMIO inputs.
 - Opt-in VERSION observations in the finite Clock recorder with independent
   site consumption, preserved MMIO/native-cell guards and schema tests.
 - Explicit VERSION input contract for finite Clock observations, with

@@ -242,13 +242,13 @@ separate observations; the prefixes do not execute VERSION.
 
 ## First-open acceptance target
 
-The Clock extension has a separate target in the same pinned `start4.elf`:
+The Clock recorder covers three first-open returns in the same pinned `start4.elf`:
 entry 0x0EC59D24, VERSION at 0x0EC59DE0, file offset 0x597E0, original
 bytes `E4 00`, destination `r4`. The supplied word is bound by the same
 original-instruction and compiled-operation checks; its bit-6 test has
 no assigned hardware meaning.
 
-The static first-open continuation selects these routes:
+The recorded first-open continuations select these paired routes:
 
 | Supplied CPU word | Secondary word at GP+0xCC934 | Service 0x0ED65284 |
 |---|---|---|
@@ -271,20 +271,19 @@ MMIO read is not a fourth defined helper argument. Execute the helper
 normally, with explicit table and output backing. Do not substitute a
 return-only callback for its computation.
 
-The initial acceptance profiles use a zero selected table word and the
-three paired CPU/secondary-word routes above. Enter the actual first-open
-function with fresh storage and an external return sentinel. Retain the
-actual object-registration, configuration and frame effects across the
-VERSION, optional service, MMIO and scalar registration operations.
-Capture the resulting outer return and state, including whether the
-higher release is reached; do not copy an internal-prefix frame or invent
-a successful-open result. Keep predictions separate from captured output.
+The [complete first-open profiles](arm-first-open.md) use a zero selected
+table word and the three paired CPU/secondary-word routes above. They
+enter the actual function with fresh storage and an external return
+sentinel, execute both registration helpers, and retain the actual
+object/configuration/frame effects. All three return raw 0xFFFFFFFF
+without the higher release. Count, object, capacity and configuration
+writes remain; the handle output is unchanged. Full results and finite
+portable storage rules are in that separate contract.
 
-These are pending complete first-open acceptance targets. No Clock
-VERSION execution, physical mapping or successful first open is claimed
-by this specification. The existing
+These returned paths do not establish physical mapping or successful
+first open. Their frames are separate from the existing
 [first-open prefix](arm-object.md#first-open-observation-and-runtime-gap)
-ends before VERSION.
+that ends before VERSION.
 
 ## Acceptance requirements
 
@@ -311,8 +310,9 @@ ends before VERSION.
   replies, as well as the independent exhaustion and unused-plan errors.
 - Keep Clock's missing/mismatched/unused read, undeclared-write and
   native-cell controls effective. Reproduce the existing clock fixtures
-  without a VERSION plan unchanged, then execute the three first-open
-  targets only after their input and full-state predictions are fixed.
+  without a VERSION plan unchanged and compare the three complete
+  first-open observations against their exact finite fixtures. Fix any
+  additional path's inputs and full-state predictions before capture.
 
 ## Open questions
 
@@ -322,9 +322,10 @@ ends before VERSION.
 - Physical instruction side effects and privilege behaviour. Compare a
   documented scalar specification or separately approved measurement.
   The present contract covers the pinned interpreter and explicit result.
-- Complete first open and higher preparation. The VERSION consumers at
-  0x0EC59DE0 and 0x0EC5A6DE have no complete native-path claim here.
-  First open still
-  reaches MMIO and registration dependencies after VERSION. Resolve their
-  remaining state and boundaries before extending
+- Successful first open and higher preparation. The three table-zero
+  paths through 0x0EC59DE0 complete with raw 0xFFFFFFFF. Follow the later
+  getter/driver callbacks after successful registration and resolve
+  their state and external boundaries before claiming successful open.
+  The consumer at 0x0EC5A6DE still has no complete native-path claim here.
+  Preserve these limits when extending
   [ARM object initialization](arm-object.md#first-open-observation-and-runtime-gap).
