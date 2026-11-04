@@ -667,3 +667,125 @@ The Make target writes `build/start4/resource-request.o` using the pinned
 VPU compiler with `-Os -ffixed-lr`. Preserve that LR reservation for this
 toolchain; native host builds omit it. The isolated target does not link
 or modify the firmware runtime.
+
+## Fixed clock requests
+
+[`clock_request.h`](clock_request.h) exposes two freestanding helpers in
+[`clock_request.c`](clock_request.c), following the
+[fixed clock-request contract](../../docs/bcm2711/clock-request.md).
+`clock_request_execute` handles only the documented clock 0x30 request for
+600000000. `clock_request_initialize` performs the separate cold initializer.
+Both remain unlinked from `start4.elf`. Neither acquires a real driver,
+programs registers or establishes an achieved clock rate.
+
+The manager buffer uses the contract's 1156-byte little-endian layout.
+Cache fields contain unsigned 64-bit numerical words; handle, table and
+notification callback fields contain opaque 32-bit identity tokens.
+`struct clock_request_state` holds the separate initialized flag, 86
+descriptor-miss bytes and two override-miss bitmaps. The request receives
+explicit input fields, an eight-byte output buffer, a literal reply plan
+and a separate raw-result word. Every pointer is required. Buffers may be
+larger than the required size; the helpers preserve their remaining bytes.
+Byte buffers accept unaligned addresses. Typed objects require alignment.
+
+Request inputs are bounded to the documented profiles: selection 1,
+initialized flag 1, no overrides, zero initial miss state, divider count
+zero and requested-clock cache 500000000. Source and divider-rate caches
+must be one of `(0,0)`, `(1000000000,250000000)`,
+`(2000000000,500000000)` or `(1200000000,300000000)` with planner input 1200.
+Planner input 1500 accepts only `(0,0)`. The request's high word and two
+remaining argument words are zero. A table token must be nonzero, and the
+nonzero handle token must equal the comparison token. Tokens establish
+neither pointer validity nor ownership.
+
+Skip words 1 and 0xFFFFFFFF accept the zero-cache, planner-1200 profile
+with empty notification records. They return raw 0x30 without callbacks
+or state/output changes. Active requests accept empty notification records
+or one first-slot clock-0x30 record on the same zero-cache profile. The
+notification replies are pre-change 7, or pre-change 0 followed by
+post-change 7. Other records are empty. Registration and additional
+notification combinations are outside the helper's domain.
+
+The reply plan declares each reachable programming and notification
+reply before execution. Programming replies are zero, except that the
+zero-cache, planner-1200 profile with empty notification records also
+accepts all three programming replies equal to 0xFFFFFFFF. The lower-source
+profile declares both divider replies as zero. Unreachable reply fields
+and providers are ignored. A pre-change reply of 7 therefore needs no
+programming providers. An equal source needs no source provider. A skipped
+request needs no providers. All reachable providers are checked before
+any callback or state/output store.
+
+Providers return `void` and receive a boundary enum, an opaque callback
+identity, a temporary array of defined argument words and the declared
+reply. The array is valid only during the synchronous call. Callback
+identity labels name the documented boundary; they are never called as
+addresses. Notification identity comes from the first record. The mutex
+argument comes from the explicit `mutex_identity` token. Diagnostic,
+acquire and release replies are fixed zero. The diagnostic array contains
+seven words: `(0x4000,0x0EC7EF38,0x30,600000000,0,0,0)`. Its final word
+is defined by the public callsite contract; the fixture event records only
+the first six register words.
+
+Providers may observe state and update bookkeeping in separate storage.
+They must preserve inputs, manager/state, output, raw-result word, plan
+and argument arrays; return normally; and avoid reentry, concurrent mutation
+and hardware access. Context may be null if the provider accepts it.
+Dynamic replies, provider memory effects and recovery from nonlocal exits
+have no defined policy. Observer callbacks alone provide no synchronization.
+
+The request preserves the documented cache-store and callback order,
+including both divider calls for a lower old source. A pre-change rejection
+leaves caches and output unchanged, retains the descriptor miss and returns
+the prior clock cache's low word. A post-change reply of 7 retains all
+updates, copies the new rate into the output after notification returns
+and returns raw 0xFFFFFFFF. Programming reply words do not alter this
+bounded software path. The raw result is written after mutex release.
+Repeated calls with the resulting state are outside the supported profiles.
+
+The initializer accepts selection 1, a nonzero table token, initialized
+flag zero and either open reply 0 with handle write 0xC10C1234 or open reply
+7 with handle write zero. It sets the flag, clears exactly 1156 manager
+bytes, stores the table token and invokes its open observer with the table,
+argument zero, actual `manager + 8` output pointer, declared reply and
+handle write. The observer preserves that output. After it returns, the
+helper applies the declared four-byte handle write, stores reference
+54000000 and returns the declared raw reply. The separate miss state and
+any manager tail are preserved. The initializer never continues into a
+clock request, including after open reply 7.
+
+| Host status | Meaning |
+|---|---|
+| `CLOCK_REQUEST_OK` | The bounded operation returned; inspect raw result and state/output separately |
+| `CLOCK_REQUEST_INVALID` | A required pointer/provider is absent or an address extent wraps |
+| `CLOCK_REQUEST_UNSUPPORTED` | An input, cache combination or reachable reply is outside the fixed profiles |
+| `CLOCK_REQUEST_BOUNDS` | The manager or output buffer is shorter than required |
+| `CLOCK_REQUEST_OVERLAP` | Supplied API storage overlaps |
+
+Host errors preserve every state/output byte and emit no callback. The
+helper checks all typed object extents and the entire declared buffer
+lengths for address wrap and pairwise overlap before reading fields.
+This includes immutable plans, inputs and the raw-result word. The open
+handle write is the sole declared internal output within the manager.
+Callers establish actual backing, writability, alignment and lifetime,
+and keep provider bookkeeping and indirectly referenced storage separate
+from every API object. No object is retained, allocated or freed.
+
+```sh
+python3 -m unittest tests.test_clock_request
+make -C src/start4 check-clock-request
+```
+
+The host tests compare all twelve complete request/initializer fixtures,
+including defined callback arguments, identities, replies, raw results,
+all 1156 manager bytes, miss state and output guards. Additional tests
+cover callback-visible state, reachability, unsupported combinations,
+nulls, short buffers, address wrap, overlap and repeated-state rejection.
+Incidental register words and native stack addresses are excluded from
+the portable comparison.
+
+The Make target writes `build/start4/clock-request.o` with the pinned VPU
+compiler using `-Os -ffixed-lr`. Preserve that LR reservation when using
+this toolchain; native host builds omit it. Runtime acquisition,
+relocation, ownership, concurrency and physical clock completion require
+separate contracts before integration.

@@ -8,6 +8,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ### Added
 
+- Freestanding fixed clock-request and cold-initializer helpers with declared
+  replies, bounded profiles and 12 complete synthetic fixture comparisons.
 - Fixed clock-request contract and 12 synthetic cases for planning,
   cache order, notification replies and separate lazy initialization, with
   lookup-miss ordering at diagnostic and notification boundaries and
