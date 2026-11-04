@@ -10,6 +10,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 - ARM object registration and repeated-open contracts with six complete
   synthetic calls, one first-open prefix and explicit retained-record fields.
+- Owned fixed ARM start composition with whole-path validation, retained
+  nested results, ordered active-state storage and complete fixture comparisons.
 - Fixed ARM start composition with explicit resource-object binding,
   two complete synthetic calls and two lower-return checkpoints.
 - Owned fixed resource composition with shared clock state, algorithmic
@@ -78,6 +80,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 ### Changed
 
 - Reserve LR in the isolated boot-information VPU compilation target.
+
+### Fixed
+
+- Initialize clock and resource composition validation buffers so optimized
+  GCC builds pass with uninitialized-value warnings treated as errors.
 
 ## [0.1.1] - 2026-11-04
 
