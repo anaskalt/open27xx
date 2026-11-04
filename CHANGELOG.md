@@ -8,6 +8,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ### Added
 
+- Conditional IRQ and p16 observation contract for both scalar recorders,
+  with explicit inputs, natural instruction steps and unchanged memory guards.
 - Freestanding selected callback registration and complete table-zero first
   opens with actual object registration, whole-call preflight and ordered observations.
 - Callback-registration and complete first-open return contracts with six
