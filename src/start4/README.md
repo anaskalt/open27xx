@@ -157,7 +157,7 @@ make the allocator's unsigned available-size calculation wrap.
   set and board-specific values, then compare them on hardware before
   enabling a server.
 - Complete loader acceptance. The filename and zero-length fixup contract
-  is documented, but earlier compatibility checks, later validation and
+  is documented, but earlier compatibility and signature checks, and
   entry execution remain unproved for this unsigned image. Verify those
   paths before treating the staged files as a bootable replacement.
 
