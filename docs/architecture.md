@@ -10,8 +10,9 @@ raspberrypi/usbboot `docs/secure-boot-chain-of-trust-2711.pdf`, page 1, at
 commit `fdb604d018693465c9aa6ec69879df866d2820da` describes the secure-boot
 chain below. It assigns signature verification to the ROM, embedded
 resource-hash checks to bootsys and signed `boot.img` verification to
-bootmain. This is the vendor's documented design. The checks have not been
-reproduced in execution for the pinned firmware.
+bootmain. This is the vendor's documented design. The per-stage documents
+distinguish reproduced scalar checks from untested hardware trust policy
+and complete boot behavior.
 
 ```mermaid
 flowchart LR
@@ -45,9 +46,8 @@ do not prove control flow or acceptance of replacement firmware.
 | bootmain | portable C library for configuration, boot-mode selection and file loading | equivalent results in emulation |
 | bootsys, SDRAM | documentation of SDRAM initialization | register sequences and resource selection checked in emulation |
 
-These are completion criteria. The current host tool supports listing,
-extraction and digest checks; rebuilding and replacement firmware remain
-planned work.
+These are completion criteria. The host tool supports listing, extraction,
+digest checks and rebuilding. Replacement firmware remains planned work.
 
 ## Verification
 
