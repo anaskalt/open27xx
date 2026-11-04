@@ -8,6 +8,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ### Added
 
+- Freestanding selected callback registration and complete table-zero first
+  opens with actual object registration, whole-call preflight and ordered observations.
 - Callback-registration and complete first-open return contracts with six
   finite profiles, retained state and explicit CPU/MMIO inputs.
 - Opt-in VERSION observations in the finite Clock recorder with independent
