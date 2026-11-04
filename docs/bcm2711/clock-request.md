@@ -138,6 +138,35 @@ values on this fixed route. All six register words are recorded at each
 boundary; unused trailing registers are not extra portable API arguments.
 The numerical settings are requested values, not observed hardware rates.
 
+## Lookup-miss ordering
+
+For the fixed initialized request in the identified `start4.elf`, diagnostic
+call 0x0EC7EAC2 occurs before descriptor call 0x0EC7EAE8. The descriptor
+lookup stores 1 into miss byte GP+0xD1B88+0x30 at 0x0ED4719C. The body
+then calls the pre-change notifier at 0x0EC7EB1A; the first matching callback
+runs at 0x0EC7E920. These boundaries see the following miss state when the
+supplied callbacks preserve memory:
+
+| Boundary | Descriptor-miss byte 0x30 | GP+0xD1BE4 | GP+0xD1BE0 |
+|---|---:|---|---|
+| Diagnostic call | 0 | 0 | 0 |
+| Pre-change notification | 1 | 0 | 0 |
+| First programming call | 1 | 0x20 | 0x80 |
+
+Only after the pre-change notifier returns zero does the body call planner
+0x0ED47D14 at 0x0EC7EC58. Its divider-override lookup sets GP+0xD1BE4 to 0x20 at
+0x0ED47036, followed by the source-override lookup setting GP+0xD1BE0 to
+0x80 at 0x0ED47446. Both stores precede the first programming call for
+all listed profiles. A rejected pre-change request reaches neither store.
+The numerical caches and caller output still have their supplied values
+at the diagnostic and pre-change boundaries.
+
+These intermediate positions follow the static control flow and store
+addresses. The recorded cases capture boundary arguments/order and final
+memory; they do not sample memory inside diagnostic or notification
+callbacks. The table does not extend the contract to callback mutation,
+concurrent readers or hardware visibility.
+
 ## Cache changes and programming order
 
 The identified `start4.elf` body 0x0EC7EA3C compares the planned source to
