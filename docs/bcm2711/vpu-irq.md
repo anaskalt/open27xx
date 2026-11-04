@@ -99,7 +99,9 @@ and paths are also in [references](../references.md).
   validation. Its source SHA-256 is
   `c6087fd3605826c9601065313ba7a544be64bbb2d03cfee72acaf42b81d3ff19`.
 
-The pinned `start4.elf` loop at 0x0EDA7272 repeats while its read result
+The [bounded registrar](suspend-registrar.md) uses these observations under
+explicit software-state and finite-read premises. The pinned `start4.elf`
+loop at 0x0EDA7272 repeats while its read result
 is nonzero. Its exits at 0x0EDA728C and 0x0EDA7310 write the saved SR word
 to p16, followed by separate SR restores. Recording that full word does
 not establish the physical effect of the write. In particular, the LK
@@ -290,8 +292,8 @@ existing contracts. No result artifact is produced for a failed capture.
 - Before any native continuation, fix its exact storage, external replies,
   CPU word and p16 occurrences, and independently derive complete expected
   state and event order. Distinguish a stop after the p16 loop from a
-  complete call. The current seven inspected sites provide no successful
-  first-open or IRQ/p16 execution claim.
+  complete call. Instruction binding alone establishes neither native
+  execution nor a successful first open.
 
 ## Open questions
 
