@@ -1,0 +1,1555 @@
+{
+  "schema": 1,
+  "source": {
+    "file": "start4.elf",
+    "repository": "raspberrypi/firmware",
+    "version": "ab5c7f86283ceb58b7adb269cae1d16092a31bf6",
+    "sha256": "38b179897c4514ad11bc915c3fd2d4b68c51e05df2e42240717655ab92d91aeb"
+  },
+  "cases": [
+    {
+      "id": "context-reply-zero",
+      "function": {
+        "entry": "0x0ED64C08",
+        "language": "vc4:LE:32:default"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "gp": "0xE4000000",
+          "sp": "0x24010000",
+          "r0": "0x00000000",
+          "r3": "0x33333333",
+          "r4": "0x44444444",
+          "r5": "0x55555555"
+        },
+        "memory": [
+          {
+            "address": "0x2400F000",
+            "size": 4160,
+            "fill": "a5"
+          },
+          {
+            "address": "0xE4000E50",
+            "hex": "10000624"
+          },
+          {
+            "address": "0xE4000E54",
+            "hex": "dec0dec0"
+          },
+          {
+            "address": "0x24060000",
+            "hex": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a500000724a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24040000",
+        "step_limit": 4000,
+        "stubs": [
+          {
+            "entry": "0x24070000",
+            "label": "synthetic context callback boundary; literal raw return",
+            "replies": [
+              {
+                "registers": {
+                  "r0": "0x00000000"
+                },
+                "memory": []
+              }
+            ]
+          }
+        ],
+        "mmio_responses": []
+      },
+      "expected": {
+        "registers": {
+          "r0": "0x00000000",
+          "r1": "0x24070000",
+          "r2": "0x24060010",
+          "r3": "0x33333333",
+          "r4": "0x44444444",
+          "r5": "0x55555555",
+          "gp": "0xE4000000",
+          "sp": "0x24010000",
+          "r6": "0x00000000",
+          "r7": "0x00000000",
+          "r8": "0x00000000",
+          "r9": "0x00000000",
+          "r10": "0x00000000",
+          "r11": "0x00000000",
+          "r12": "0x00000000",
+          "r13": "0x00000000"
+        },
+        "memory": [
+          {
+            "address": "0xE4000E50",
+            "hex": "10000624"
+          },
+          {
+            "address": "0xE4000E54",
+            "hex": "dec0dec0"
+          },
+          {
+            "address": "0x24060000",
+            "hex": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a500000724a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+          },
+          {
+            "address": "0x2400FFF8",
+            "hex": "a5a5a5a5a5a5a5a5"
+          },
+          {
+            "address": "0x2400F000",
+            "hex": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+          },
+          {
+            "address": "0x24010000",
+            "hex": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+          }
+        ],
+        "events": [
+          {
+            "kind": "stub",
+            "entry": "0x24070000",
+            "arguments": [
+              "0xC0DEC0DE",
+              "0x24070000",
+              "0x24060010",
+              "0x33333333",
+              "0x44444444",
+              "0x55555555"
+            ],
+            "reply_index": 0
+          }
+        ]
+      },
+      "steps": 4,
+      "scope": [
+        "Conditional scalar context dispatch/check; synthetic descriptor and literal callback return."
+      ],
+      "limitations": [
+        "No actual context initialization/callback identity or interrupt semantics is established. Prefixes stop before BKPT and do not execute it; the recorder seeds incoming LR with the selected stop."
+      ]
+    },
+    {
+      "id": "context-reply-seven",
+      "function": {
+        "entry": "0x0ED64C08",
+        "language": "vc4:LE:32:default"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "gp": "0xE4000000",
+          "sp": "0x24010000",
+          "r0": "0x00000000",
+          "r3": "0x33333333",
+          "r4": "0x44444444",
+          "r5": "0x55555555"
+        },
+        "memory": [
+          {
+            "address": "0x2400F000",
+            "size": 4160,
+            "fill": "a5"
+          },
+          {
+            "address": "0xE4000E50",
+            "hex": "10000624"
+          },
+          {
+            "address": "0xE4000E54",
+            "hex": "dec0dec0"
+          },
+          {
+            "address": "0x24060000",
+            "hex": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a500000724a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24040000",
+        "step_limit": 4000,
+        "stubs": [
+          {
+            "entry": "0x24070000",
+            "label": "synthetic context callback boundary; literal raw return",
+            "replies": [
+              {
+                "registers": {
+                  "r0": "0x00000007"
+                },
+                "memory": []
+              }
+            ]
+          }
+        ],
+        "mmio_responses": []
+      },
+      "expected": {
+        "registers": {
+          "r0": "0x00000007",
+          "r1": "0x24070000",
+          "r2": "0x24060010",
+          "r3": "0x33333333",
+          "r4": "0x44444444",
+          "r5": "0x55555555",
+          "gp": "0xE4000000",
+          "sp": "0x24010000",
+          "r6": "0x00000000",
+          "r7": "0x00000000",
+          "r8": "0x00000000",
+          "r9": "0x00000000",
+          "r10": "0x00000000",
+          "r11": "0x00000000",
+          "r12": "0x00000000",
+          "r13": "0x00000000"
+        },
+        "memory": [
+          {
+            "address": "0xE4000E50",
+            "hex": "10000624"
+          },
+          {
+            "address": "0xE4000E54",
+            "hex": "dec0dec0"
+          },
+          {
+            "address": "0x24060000",
+            "hex": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a500000724a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+          },
+          {
+            "address": "0x2400FFF8",
+            "hex": "a5a5a5a5a5a5a5a5"
+          },
+          {
+            "address": "0x2400F000",
+            "hex": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+          },
+          {
+            "address": "0x24010000",
+            "hex": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+          }
+        ],
+        "events": [
+          {
+            "kind": "stub",
+            "entry": "0x24070000",
+            "arguments": [
+              "0xC0DEC0DE",
+              "0x24070000",
+              "0x24060010",
+              "0x33333333",
+              "0x44444444",
+              "0x55555555"
+            ],
+            "reply_index": 0
+          }
+        ]
+      },
+      "steps": 4,
+      "scope": [
+        "Conditional scalar context dispatch/check; synthetic descriptor and literal callback return."
+      ],
+      "limitations": [
+        "No actual context initialization/callback identity or interrupt semantics is established. Prefixes stop before BKPT and do not execute it; the recorder seeds incoming LR with the selected stop."
+      ]
+    },
+    {
+      "id": "true-condition",
+      "function": {
+        "entry": "0x0ED7C744",
+        "language": "vc4:LE:32:default"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "gp": "0xE4000000",
+          "sp": "0x24010000",
+          "r0": "0x00000001",
+          "r3": "0x33333333",
+          "r4": "0x44444444",
+          "r5": "0x55555555"
+        },
+        "memory": [
+          {
+            "address": "0x2400F000",
+            "size": 4160,
+            "fill": "a5"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24040000",
+        "step_limit": 4000,
+        "stubs": [],
+        "mmio_responses": []
+      },
+      "expected": {
+        "registers": {
+          "r0": "0x00000001",
+          "r1": "0x00000000",
+          "r2": "0x00000000",
+          "r3": "0x33333333",
+          "r4": "0x44444444",
+          "r5": "0x55555555",
+          "gp": "0xE4000000",
+          "sp": "0x24010000",
+          "r6": "0x00000000",
+          "r7": "0x00000000",
+          "r8": "0x00000000",
+          "r9": "0x00000000",
+          "r10": "0x00000000",
+          "r11": "0x00000000",
+          "r12": "0x00000000",
+          "r13": "0x00000000"
+        },
+        "memory": [
+          {
+            "address": "0x2400FFF8",
+            "hex": "a5a5a5a500000424"
+          },
+          {
+            "address": "0x2400F000",
+            "hex": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+          },
+          {
+            "address": "0x24010000",
+            "hex": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+          }
+        ],
+        "events": []
+      },
+      "steps": 5,
+      "scope": [
+        "Conditional scalar context dispatch/check; synthetic descriptor and literal callback return."
+      ],
+      "limitations": [
+        "No actual context initialization/callback identity or interrupt semantics is established. Prefixes stop before BKPT and do not execute it; the recorder seeds incoming LR with the selected stop."
+      ]
+    },
+    {
+      "id": "false-context-zero",
+      "function": {
+        "entry": "0x0ED7C744",
+        "language": "vc4:LE:32:default"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "gp": "0xE4000000",
+          "sp": "0x24010000",
+          "r0": "0x00000000",
+          "r3": "0x33333333",
+          "r4": "0x44444444",
+          "r5": "0x55555555"
+        },
+        "memory": [
+          {
+            "address": "0x2400F000",
+            "size": 4160,
+            "fill": "a5"
+          },
+          {
+            "address": "0xE4000E50",
+            "hex": "10000624"
+          },
+          {
+            "address": "0xE4000E54",
+            "hex": "dec0dec0"
+          },
+          {
+            "address": "0x24060000",
+            "hex": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a500000724a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24040000",
+        "step_limit": 4000,
+        "stubs": [
+          {
+            "entry": "0x24070000",
+            "label": "synthetic context callback boundary; literal raw return",
+            "replies": [
+              {
+                "registers": {
+                  "r0": "0x00000000"
+                },
+                "memory": []
+              }
+            ]
+          }
+        ],
+        "mmio_responses": []
+      },
+      "expected": {
+        "registers": {
+          "r0": "0x00000000",
+          "r1": "0x24070000",
+          "r2": "0x24060010",
+          "r3": "0x33333333",
+          "r4": "0x44444444",
+          "r5": "0x55555555",
+          "gp": "0xE4000000",
+          "sp": "0x24010000",
+          "r6": "0x00000000",
+          "r7": "0x00000000",
+          "r8": "0x00000000",
+          "r9": "0x00000000",
+          "r10": "0x00000000",
+          "r11": "0x00000000",
+          "r12": "0x00000000",
+          "r13": "0x00000000"
+        },
+        "memory": [
+          {
+            "address": "0xE4000E50",
+            "hex": "10000624"
+          },
+          {
+            "address": "0xE4000E54",
+            "hex": "dec0dec0"
+          },
+          {
+            "address": "0x24060000",
+            "hex": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a500000724a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+          },
+          {
+            "address": "0x2400FFF8",
+            "hex": "a5a5a5a500000424"
+          },
+          {
+            "address": "0x2400F000",
+            "hex": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+          },
+          {
+            "address": "0x24010000",
+            "hex": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+          }
+        ],
+        "events": [
+          {
+            "kind": "stub",
+            "entry": "0x24070000",
+            "arguments": [
+              "0xC0DEC0DE",
+              "0x24070000",
+              "0x24060010",
+              "0x33333333",
+              "0x44444444",
+              "0x55555555"
+            ],
+            "reply_index": 0
+          }
+        ]
+      },
+      "steps": 12,
+      "scope": [
+        "Conditional scalar context dispatch/check; synthetic descriptor and literal callback return."
+      ],
+      "limitations": [
+        "No actual context initialization/callback identity or interrupt semantics is established. Prefixes stop before BKPT and do not execute it; the recorder seeds incoming LR with the selected stop."
+      ]
+    },
+    {
+      "id": "false-context-seven-prefix",
+      "function": {
+        "entry": "0x0ED7C744",
+        "language": "vc4:LE:32:default"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "gp": "0xE4000000",
+          "sp": "0x24010000",
+          "r0": "0x00000000",
+          "r3": "0x33333333",
+          "r4": "0x44444444",
+          "r5": "0x55555555"
+        },
+        "memory": [
+          {
+            "address": "0x2400F000",
+            "size": 4160,
+            "fill": "a5"
+          },
+          {
+            "address": "0xE4000E50",
+            "hex": "10000624"
+          },
+          {
+            "address": "0xE4000E54",
+            "hex": "dec0dec0"
+          },
+          {
+            "address": "0x24060000",
+            "hex": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a500000724a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x0ED7C75A",
+        "step_limit": 4000,
+        "stubs": [
+          {
+            "entry": "0x24070000",
+            "label": "synthetic context callback boundary; literal raw return",
+            "replies": [
+              {
+                "registers": {
+                  "r0": "0x00000007"
+                },
+                "memory": []
+              }
+            ]
+          }
+        ],
+        "mmio_responses": []
+      },
+      "expected": {
+        "registers": {
+          "r0": "0x00000007",
+          "r1": "0x00000001",
+          "r2": "0x00000001",
+          "r3": "0x33333333",
+          "r4": "0x44444444",
+          "r5": "0x55555555",
+          "gp": "0xE4000000",
+          "sp": "0x2400FFF8",
+          "r6": "0x00000000",
+          "r7": "0x00000000",
+          "r8": "0x00000000",
+          "r9": "0x00000000",
+          "r10": "0x00000000",
+          "r11": "0x00000000",
+          "r12": "0x00000000",
+          "r13": "0x00000000"
+        },
+        "memory": [
+          {
+            "address": "0xE4000E50",
+            "hex": "10000624"
+          },
+          {
+            "address": "0xE4000E54",
+            "hex": "dec0dec0"
+          },
+          {
+            "address": "0x24060000",
+            "hex": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a500000724a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+          },
+          {
+            "address": "0x2400FFF8",
+            "hex": "010000005ac7d70e"
+          },
+          {
+            "address": "0x2400F000",
+            "hex": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+          },
+          {
+            "address": "0x24010000",
+            "hex": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+          }
+        ],
+        "events": [
+          {
+            "kind": "stub",
+            "entry": "0x24070000",
+            "arguments": [
+              "0xC0DEC0DE",
+              "0x24070000",
+              "0x24060010",
+              "0x33333333",
+              "0x44444444",
+              "0x55555555"
+            ],
+            "reply_index": 0
+          }
+        ]
+      },
+      "steps": 14,
+      "scope": [
+        "Conditional scalar context dispatch/check; synthetic descriptor and literal callback return."
+      ],
+      "limitations": [
+        "No actual context initialization/callback identity or interrupt semantics is established. Prefixes stop before BKPT and do not execute it; the recorder seeds incoming LR with the selected stop."
+      ]
+    },
+    {
+      "id": "enable-seven-context-0",
+      "function": {
+        "entry": "0x0ED7C9B0",
+        "language": "vc4:LE:32:default"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "gp": "0xE4000000",
+          "sp": "0x24010000",
+          "r0": "0xE40DA4C4",
+          "r1": "0x00000017",
+          "r2": "0x00000001",
+          "r3": "0x00000001"
+        },
+        "memory": [
+          {
+            "address": "0x2400F000",
+            "size": 4160,
+            "fill": "a5"
+          },
+          {
+            "address": "0xE40DA4B4",
+            "hex": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5c4a40de400000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+          },
+          {
+            "address": "0xE40DA984",
+            "hex": "00d2df0e0000000000000000"
+          },
+          {
+            "address": "0xE40014B0",
+            "hex": "10000224"
+          },
+          {
+            "address": "0x24020000",
+            "hex": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+          },
+          {
+            "address": "0xE4000CD4",
+            "hex": "00000000"
+          },
+          {
+            "address": "0xE4000E50",
+            "hex": "10000624"
+          },
+          {
+            "address": "0xE4000E54",
+            "hex": "dec0dec0"
+          },
+          {
+            "address": "0x24060000",
+            "hex": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a500000724a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24040000",
+        "step_limit": 12000,
+        "stubs": [
+          {
+            "entry": "0x0ED17442",
+            "label": "request diagnostic",
+            "replies": [
+              {
+                "registers": {
+                  "r0": "0x00000000"
+                },
+                "memory": []
+              }
+            ]
+          },
+          {
+            "entry": "0x0ED64D02",
+            "label": "manager acquisition",
+            "replies": [
+              {
+                "registers": {
+                  "r0": "0x00000000"
+                },
+                "memory": []
+              }
+            ]
+          },
+          {
+            "entry": "0x0ED550B2",
+            "label": "selected enable body boundary; literal raw words",
+            "replies": [
+              {
+                "registers": {
+                  "r0": "0x00000007"
+                },
+                "memory": []
+              },
+              {
+                "registers": {
+                  "r0": "0x00000000"
+                },
+                "memory": []
+              }
+            ]
+          },
+          {
+            "entry": "0x24070000",
+            "label": "synthetic context callback boundary; literal raw return",
+            "replies": [
+              {
+                "registers": {
+                  "r0": "0x00000000"
+                },
+                "memory": []
+              }
+            ]
+          },
+          {
+            "entry": "0x0ED64D3A",
+            "label": "manager release",
+            "replies": [
+              {
+                "registers": {
+                  "r0": "0x00000000"
+                },
+                "memory": []
+              }
+            ]
+          }
+        ],
+        "mmio_responses": []
+      },
+      "expected": {
+        "registers": {
+          "r0": "0x00000000",
+          "r1": "0x00000100",
+          "r2": "0x0ED550B2",
+          "r3": "0x00000000",
+          "r4": "0xE40DA844",
+          "r5": "0x00000001",
+          "gp": "0xE4000000",
+          "sp": "0x24010000",
+          "r6": "0x00000000",
+          "r7": "0x00000000",
+          "r8": "0x00000000",
+          "r9": "0x00000000",
+          "r10": "0x00000000",
+          "r11": "0x00000000",
+          "r12": "0x00000000",
+          "r13": "0x00000000"
+        },
+        "memory": [
+          {
+            "address": "0xE40DA4B4",
+            "hex": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5c4a40de400000000000080000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+          },
+          {
+            "address": "0xE40DA984",
+            "hex": "00d2df0e0000000000000000"
+          },
+          {
+            "address": "0xE40014B0",
+            "hex": "10000224"
+          },
+          {
+            "address": "0x24020000",
+            "hex": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a580010000a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+          },
+          {
+            "address": "0xE4000CD4",
+            "hex": "00000000"
+          },
+          {
+            "address": "0x2400F000",
+            "hex": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+          },
+          {
+            "address": "0x24010000",
+            "hex": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+          },
+          {
+            "address": "0xE4000E50",
+            "hex": "10000624"
+          },
+          {
+            "address": "0xE4000E54",
+            "hex": "dec0dec0"
+          },
+          {
+            "address": "0x24060000",
+            "hex": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a500000724a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+          },
+          {
+            "address": "0x2400FFD8",
+            "hex": "38c8d70ea2cad70e0000000000000000000000000000000000000000000000000000000000000424"
+          }
+        ],
+        "events": [
+          {
+            "kind": "stub",
+            "entry": "0x0ED17442",
+            "arguments": [
+              "0x00004000",
+              "0x0ED7CAB0",
+              "0xE40DA4C4",
+              "0x00000017",
+              "0x00000001",
+              "0x00000001"
+            ],
+            "reply_index": 0
+          },
+          {
+            "kind": "stub",
+            "entry": "0x0ED64D02",
+            "arguments": [
+              "0xE40DA4C0",
+              "0x0ED7CAB0",
+              "0xE40DA4C4",
+              "0x00000017",
+              "0x00000001",
+              "0x00000001"
+            ],
+            "reply_index": 0
+          },
+          {
+            "kind": "stub",
+            "entry": "0x0ED550B2",
+            "arguments": [
+              "0x00000000",
+              "0x00000080",
+              "0x0ED550B2",
+              "0x00000000",
+              "0xE40DA844",
+              "0x00000001"
+            ],
+            "reply_index": 0
+          },
+          {
+            "kind": "stub",
+            "entry": "0x24070000",
+            "arguments": [
+              "0xC0DEC0DE",
+              "0x24070000",
+              "0x24060010",
+              "0x00000000",
+              "0xE40DA844",
+              "0x00000001"
+            ],
+            "reply_index": 0
+          },
+          {
+            "kind": "stub",
+            "entry": "0x0ED550B2",
+            "arguments": [
+              "0x00000000",
+              "0x00000100",
+              "0x0ED550B2",
+              "0x00000000",
+              "0xE40DA844",
+              "0x00000001"
+            ],
+            "reply_index": 1
+          },
+          {
+            "kind": "stub",
+            "entry": "0x0ED64D3A",
+            "arguments": [
+              "0xE40DA4C0",
+              "0x00000100",
+              "0x0ED550B2",
+              "0x00000000",
+              "0xE40DA844",
+              "0x00000001"
+            ],
+            "reply_index": 0
+          }
+        ]
+      },
+      "steps": 1525,
+      "scope": [
+        "Conditional manager request with real dependency/check/context dispatcher and literal enable/context replies. Nonzero-context prefix stops before BKPT; zero-context case executes the full manager return."
+      ],
+      "limitations": [
+        "Synthetic object/table/reply state does not establish live initialization, actual context callback identity, synchronization, error enums or hardware effects. Prefix incoming LR is the internal stop; frames are actual but not natural caller frames."
+      ]
+    },
+    {
+      "id": "enable-seven-context-7-prefix",
+      "function": {
+        "entry": "0x0ED7C9B0",
+        "language": "vc4:LE:32:default"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "gp": "0xE4000000",
+          "sp": "0x24010000",
+          "r0": "0xE40DA4C4",
+          "r1": "0x00000017",
+          "r2": "0x00000001",
+          "r3": "0x00000001"
+        },
+        "memory": [
+          {
+            "address": "0x2400F000",
+            "size": 4160,
+            "fill": "a5"
+          },
+          {
+            "address": "0xE40DA4B4",
+            "hex": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5c4a40de400000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+          },
+          {
+            "address": "0xE40DA984",
+            "hex": "00d2df0e0000000000000000"
+          },
+          {
+            "address": "0xE40014B0",
+            "hex": "10000224"
+          },
+          {
+            "address": "0x24020000",
+            "hex": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+          },
+          {
+            "address": "0xE4000CD4",
+            "hex": "00000000"
+          },
+          {
+            "address": "0xE4000E50",
+            "hex": "10000624"
+          },
+          {
+            "address": "0xE4000E54",
+            "hex": "dec0dec0"
+          },
+          {
+            "address": "0x24060000",
+            "hex": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a500000724a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x0ED7C75A",
+        "step_limit": 12000,
+        "stubs": [
+          {
+            "entry": "0x0ED17442",
+            "label": "request diagnostic",
+            "replies": [
+              {
+                "registers": {
+                  "r0": "0x00000000"
+                },
+                "memory": []
+              }
+            ]
+          },
+          {
+            "entry": "0x0ED64D02",
+            "label": "manager acquisition",
+            "replies": [
+              {
+                "registers": {
+                  "r0": "0x00000000"
+                },
+                "memory": []
+              }
+            ]
+          },
+          {
+            "entry": "0x0ED550B2",
+            "label": "selected enable body boundary; literal raw words",
+            "replies": [
+              {
+                "registers": {
+                  "r0": "0x00000007"
+                },
+                "memory": []
+              }
+            ]
+          },
+          {
+            "entry": "0x24070000",
+            "label": "synthetic context callback boundary; literal raw return",
+            "replies": [
+              {
+                "registers": {
+                  "r0": "0x00000007"
+                },
+                "memory": []
+              }
+            ]
+          }
+        ],
+        "mmio_responses": []
+      },
+      "expected": {
+        "registers": {
+          "r0": "0x00000007",
+          "r1": "0x00000001",
+          "r2": "0x00000001",
+          "r3": "0x00000000",
+          "r4": "0xE40DA844",
+          "r5": "0x00000001",
+          "gp": "0xE4000000",
+          "sp": "0x2400FFD8",
+          "r6": "0x00000000",
+          "r7": "0x00000000",
+          "r8": "0x00000180",
+          "r9": "0xE40DA4C0",
+          "r10": "0x00000001",
+          "r11": "0x00000007",
+          "r12": "0x00000017",
+          "r13": "0x00000000"
+        },
+        "memory": [
+          {
+            "address": "0xE40DA4B4",
+            "hex": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5c4a40de400000000000080000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+          },
+          {
+            "address": "0xE40DA984",
+            "hex": "00d2df0e0000000000000000"
+          },
+          {
+            "address": "0xE40014B0",
+            "hex": "10000224"
+          },
+          {
+            "address": "0x24020000",
+            "hex": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a580010000a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+          },
+          {
+            "address": "0xE4000CD4",
+            "hex": "00000000"
+          },
+          {
+            "address": "0x2400F000",
+            "hex": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+          },
+          {
+            "address": "0x24010000",
+            "hex": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+          },
+          {
+            "address": "0xE4000E50",
+            "hex": "10000624"
+          },
+          {
+            "address": "0xE4000E54",
+            "hex": "dec0dec0"
+          },
+          {
+            "address": "0x24060000",
+            "hex": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a500000724a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+          },
+          {
+            "address": "0x2400FFD8",
+            "hex": "01000000a2cad70e000000000000000000000000000000000000000000000000000000005ac7d70e"
+          }
+        ],
+        "events": [
+          {
+            "kind": "stub",
+            "entry": "0x0ED17442",
+            "arguments": [
+              "0x00004000",
+              "0x0ED7CAB0",
+              "0xE40DA4C4",
+              "0x00000017",
+              "0x00000001",
+              "0x00000001"
+            ],
+            "reply_index": 0
+          },
+          {
+            "kind": "stub",
+            "entry": "0x0ED64D02",
+            "arguments": [
+              "0xE40DA4C0",
+              "0x0ED7CAB0",
+              "0xE40DA4C4",
+              "0x00000017",
+              "0x00000001",
+              "0x00000001"
+            ],
+            "reply_index": 0
+          },
+          {
+            "kind": "stub",
+            "entry": "0x0ED550B2",
+            "arguments": [
+              "0x00000000",
+              "0x00000080",
+              "0x0ED550B2",
+              "0x00000000",
+              "0xE40DA844",
+              "0x00000001"
+            ],
+            "reply_index": 0
+          },
+          {
+            "kind": "stub",
+            "entry": "0x24070000",
+            "arguments": [
+              "0xC0DEC0DE",
+              "0x24070000",
+              "0x24060010",
+              "0x00000000",
+              "0xE40DA844",
+              "0x00000001"
+            ],
+            "reply_index": 0
+          }
+        ]
+      },
+      "steps": 1157,
+      "scope": [
+        "Conditional manager request with real dependency/check/context dispatcher and literal enable/context replies. Nonzero-context prefix stops before BKPT; zero-context case executes the full manager return."
+      ],
+      "limitations": [
+        "Synthetic object/table/reply state does not establish live initialization, actual context callback identity, synchronization, error enums or hardware effects. Prefix incoming LR is the internal stop; frames are actual but not natural caller frames."
+      ]
+    },
+    {
+      "id": "duplicate-context-0",
+      "function": {
+        "entry": "0x0ED7C9B0",
+        "language": "vc4:LE:32:default"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "gp": "0xE4000000",
+          "sp": "0x24010000",
+          "r0": "0xE40DA4C4",
+          "r1": "0x00000017",
+          "r2": "0x00000001",
+          "r3": "0x00000001"
+        },
+        "memory": [
+          {
+            "address": "0x2400F000",
+            "size": 4160,
+            "fill": "a5"
+          },
+          {
+            "address": "0xE40DA4B4",
+            "hex": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5c4a40de400000000000080000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+          },
+          {
+            "address": "0xE40DA984",
+            "hex": "00d2df0e0000000000000000"
+          },
+          {
+            "address": "0xE40014B0",
+            "hex": "10000224"
+          },
+          {
+            "address": "0x24020000",
+            "hex": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+          },
+          {
+            "address": "0xE4000CD4",
+            "hex": "00000000"
+          },
+          {
+            "address": "0xE4000E50",
+            "hex": "10000624"
+          },
+          {
+            "address": "0xE4000E54",
+            "hex": "dec0dec0"
+          },
+          {
+            "address": "0x24060000",
+            "hex": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a500000724a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24040000",
+        "step_limit": 12000,
+        "stubs": [
+          {
+            "entry": "0x0ED17442",
+            "label": "request diagnostic",
+            "replies": [
+              {
+                "registers": {
+                  "r0": "0x00000000"
+                },
+                "memory": []
+              }
+            ]
+          },
+          {
+            "entry": "0x0ED64D02",
+            "label": "manager acquisition",
+            "replies": [
+              {
+                "registers": {
+                  "r0": "0x00000000"
+                },
+                "memory": []
+              }
+            ]
+          },
+          {
+            "entry": "0x24070000",
+            "label": "synthetic context callback boundary; literal raw return",
+            "replies": [
+              {
+                "registers": {
+                  "r0": "0x00000000"
+                },
+                "memory": []
+              }
+            ]
+          },
+          {
+            "entry": "0x0ED64D3A",
+            "label": "manager release",
+            "replies": [
+              {
+                "registers": {
+                  "r0": "0x00000000"
+                },
+                "memory": []
+              }
+            ]
+          }
+        ],
+        "mmio_responses": []
+      },
+      "expected": {
+        "registers": {
+          "r0": "0x00000000",
+          "r1": "0x00000016",
+          "r2": "0x00000000",
+          "r3": "0x00000000",
+          "r4": "0xE40DA844",
+          "r5": "0x00000001",
+          "gp": "0xE4000000",
+          "sp": "0x24010000",
+          "r6": "0x00000000",
+          "r7": "0x00000000",
+          "r8": "0x00000000",
+          "r9": "0x00000000",
+          "r10": "0x00000000",
+          "r11": "0x00000000",
+          "r12": "0x00000000",
+          "r13": "0x00000000"
+        },
+        "memory": [
+          {
+            "address": "0xE40DA4B4",
+            "hex": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5c4a40de400000000000080000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+          },
+          {
+            "address": "0xE40DA984",
+            "hex": "00d2df0e0000000000000000"
+          },
+          {
+            "address": "0xE40014B0",
+            "hex": "10000224"
+          },
+          {
+            "address": "0x24020000",
+            "hex": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a580010000a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+          },
+          {
+            "address": "0xE4000CD4",
+            "hex": "00000000"
+          },
+          {
+            "address": "0x2400F000",
+            "hex": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+          },
+          {
+            "address": "0x24010000",
+            "hex": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+          },
+          {
+            "address": "0xE4000E50",
+            "hex": "10000624"
+          },
+          {
+            "address": "0xE4000E54",
+            "hex": "dec0dec0"
+          },
+          {
+            "address": "0x24060000",
+            "hex": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a500000724a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+          },
+          {
+            "address": "0x2400FFD8",
+            "hex": "38c8d70e20cad70e0000000000000000000000000000000000000000000000000000000000000424"
+          }
+        ],
+        "events": [
+          {
+            "kind": "stub",
+            "entry": "0x0ED17442",
+            "arguments": [
+              "0x00004000",
+              "0x0ED7CAB0",
+              "0xE40DA4C4",
+              "0x00000017",
+              "0x00000001",
+              "0x00000001"
+            ],
+            "reply_index": 0
+          },
+          {
+            "kind": "stub",
+            "entry": "0x0ED64D02",
+            "arguments": [
+              "0xE40DA4C0",
+              "0x0ED7CAB0",
+              "0xE40DA4C4",
+              "0x00000017",
+              "0x00000001",
+              "0x00000001"
+            ],
+            "reply_index": 0
+          },
+          {
+            "kind": "stub",
+            "entry": "0x24070000",
+            "arguments": [
+              "0xC0DEC0DE",
+              "0x24070000",
+              "0x24060010",
+              "0x24020010",
+              "0xE40DA844",
+              "0x00000001"
+            ],
+            "reply_index": 0
+          },
+          {
+            "kind": "stub",
+            "entry": "0x0ED64D3A",
+            "arguments": [
+              "0xE40DA4C0",
+              "0x00000016",
+              "0x00000000",
+              "0x00000000",
+              "0xE40DA844",
+              "0x00000001"
+            ],
+            "reply_index": 0
+          }
+        ]
+      },
+      "steps": 629,
+      "scope": [
+        "Conditional manager request with real dependency/check/context dispatcher and literal enable/context replies. Nonzero-context prefix stops before BKPT; zero-context case executes the full manager return."
+      ],
+      "limitations": [
+        "Synthetic object/table/reply state does not establish live initialization, actual context callback identity, synchronization, error enums or hardware effects. Prefix incoming LR is the internal stop; frames are actual but not natural caller frames."
+      ]
+    },
+    {
+      "id": "duplicate-context-7-prefix",
+      "function": {
+        "entry": "0x0ED7C9B0",
+        "language": "vc4:LE:32:default"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "gp": "0xE4000000",
+          "sp": "0x24010000",
+          "r0": "0xE40DA4C4",
+          "r1": "0x00000017",
+          "r2": "0x00000001",
+          "r3": "0x00000001"
+        },
+        "memory": [
+          {
+            "address": "0x2400F000",
+            "size": 4160,
+            "fill": "a5"
+          },
+          {
+            "address": "0xE40DA4B4",
+            "hex": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5c4a40de400000000000080000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+          },
+          {
+            "address": "0xE40DA984",
+            "hex": "00d2df0e0000000000000000"
+          },
+          {
+            "address": "0xE40014B0",
+            "hex": "10000224"
+          },
+          {
+            "address": "0x24020000",
+            "hex": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+          },
+          {
+            "address": "0xE4000CD4",
+            "hex": "00000000"
+          },
+          {
+            "address": "0xE4000E50",
+            "hex": "10000624"
+          },
+          {
+            "address": "0xE4000E54",
+            "hex": "dec0dec0"
+          },
+          {
+            "address": "0x24060000",
+            "hex": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a500000724a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x0ED7C75A",
+        "step_limit": 12000,
+        "stubs": [
+          {
+            "entry": "0x0ED17442",
+            "label": "request diagnostic",
+            "replies": [
+              {
+                "registers": {
+                  "r0": "0x00000000"
+                },
+                "memory": []
+              }
+            ]
+          },
+          {
+            "entry": "0x0ED64D02",
+            "label": "manager acquisition",
+            "replies": [
+              {
+                "registers": {
+                  "r0": "0x00000000"
+                },
+                "memory": []
+              }
+            ]
+          },
+          {
+            "entry": "0x24070000",
+            "label": "synthetic context callback boundary; literal raw return",
+            "replies": [
+              {
+                "registers": {
+                  "r0": "0x00000007"
+                },
+                "memory": []
+              }
+            ]
+          }
+        ],
+        "mmio_responses": []
+      },
+      "expected": {
+        "registers": {
+          "r0": "0x00000007",
+          "r1": "0x00000001",
+          "r2": "0x00000001",
+          "r3": "0x24020010",
+          "r4": "0xE40DA844",
+          "r5": "0x00000001",
+          "gp": "0xE4000000",
+          "sp": "0x2400FFD8",
+          "r6": "0x00000180",
+          "r7": "0x00000000",
+          "r8": "0xE40DA4C4",
+          "r9": "0xE40DA4C0",
+          "r10": "0x00000001",
+          "r11": "0x00000001",
+          "r12": "0x00000017",
+          "r13": "0x00000000"
+        },
+        "memory": [
+          {
+            "address": "0xE40DA4B4",
+            "hex": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5c4a40de400000000000080000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+          },
+          {
+            "address": "0xE40DA984",
+            "hex": "00d2df0e0000000000000000"
+          },
+          {
+            "address": "0xE40014B0",
+            "hex": "10000224"
+          },
+          {
+            "address": "0x24020000",
+            "hex": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a580010000a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+          },
+          {
+            "address": "0xE4000CD4",
+            "hex": "00000000"
+          },
+          {
+            "address": "0x2400F000",
+            "hex": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+          },
+          {
+            "address": "0x24010000",
+            "hex": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+          },
+          {
+            "address": "0xE4000E50",
+            "hex": "10000624"
+          },
+          {
+            "address": "0xE4000E54",
+            "hex": "dec0dec0"
+          },
+          {
+            "address": "0x24060000",
+            "hex": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a500000724a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+          },
+          {
+            "address": "0x2400FFD8",
+            "hex": "0100000008cad70e000000000000000000000000000000000000000000000000000000005ac7d70e"
+          }
+        ],
+        "events": [
+          {
+            "kind": "stub",
+            "entry": "0x0ED17442",
+            "arguments": [
+              "0x00004000",
+              "0x0ED7CAB0",
+              "0xE40DA4C4",
+              "0x00000017",
+              "0x00000001",
+              "0x00000001"
+            ],
+            "reply_index": 0
+          },
+          {
+            "kind": "stub",
+            "entry": "0x0ED64D02",
+            "arguments": [
+              "0xE40DA4C0",
+              "0x0ED7CAB0",
+              "0xE40DA4C4",
+              "0x00000017",
+              "0x00000001",
+              "0x00000001"
+            ],
+            "reply_index": 0
+          },
+          {
+            "kind": "stub",
+            "entry": "0x24070000",
+            "arguments": [
+              "0xC0DEC0DE",
+              "0x24070000",
+              "0x24060010",
+              "0x24020010",
+              "0xE40DA844",
+              "0x00000001"
+            ],
+            "reply_index": 0
+          }
+        ]
+      },
+      "steps": 329,
+      "scope": [
+        "Conditional manager request with real dependency/check/context dispatcher and literal enable/context replies. Nonzero-context prefix stops before BKPT; zero-context case executes the full manager return."
+      ],
+      "limitations": [
+        "Synthetic object/table/reply state does not establish live initialization, actual context callback identity, synchronization, error enums or hardware effects. Prefix incoming LR is the internal stop; frames are actual but not natural caller frames."
+      ]
+    }
+  ]
+}

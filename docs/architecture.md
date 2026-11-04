@@ -88,3 +88,5 @@ extracted files and disassembly are excluded from the repository.
   emulation before defining the replacement's handoff contract. The
   [control-request checks](bcm2711/arm-control.md) cover software decisions
   with supplied replies, not a complete hardware transition.
+  The [resource-request contract](bcm2711/resource-request.md) specifies
+  fixed logical-index dependencies and conditional software call outcomes.
