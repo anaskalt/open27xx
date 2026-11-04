@@ -429,14 +429,28 @@ class ClockDriverTest(unittest.TestCase):
             self.run_request(request, UNSUPPORTED)
 
     def test_resulting_state_cannot_be_reused_as_an_initial_profile(self):
-        for operation in self.cases:
-            request = self.request(operation)
+        for operation, index in (("source", 0), ("divider", 0), ("word", 2),
+                                 ("word", 3), ("word", 4)):
+            request = self.request(operation, index)
             self.run_request(request)
             request.events.clear()
             request.contexts.clear()
             request.snapshots.clear()
             request.bookkeeping.value = 0
             self.run_request(request, UNSUPPORTED)
+
+    def test_exact_resource_repeat_native_word_profile(self):
+        request = self.request("word")
+        request.state_pointer[0] = 0x5A000000
+        self.run_request(request)
+        fixture = json.loads((ROOT / "tests/vectors/start4/resource-composition.json").read_text())
+        events = [event for event in fixture["cases"][0]["expected"]["events"]
+                  if event["kind"] in ("elf_ram_read", "elf_ram_write")][-4:]
+        expected = [(KINDS[event["kind"]], int(event["address"], 0),
+                     int.from_bytes(bytes.fromhex(event["hex"]), "little")) for event in events]
+        self.assertEqual(request.events, expected)
+        self.assertEqual(request.state_pointer[0], 0x5A000000)
+        self.assertEqual(request.raw_pointer[0], 0)
 
 
 if __name__ == "__main__":

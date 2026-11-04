@@ -10,6 +10,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 - Fixed ARM start composition with explicit resource-object binding,
   two complete synthetic calls and two lower-return checkpoints.
+- Owned fixed resource composition with shared clock state, algorithmic
+  control requests, whole-path preflight and complete fixture comparisons.
 - Fixed resource composition with two state-sharing clock requests,
   ordered control-register operations and two complete synthetic calls.
 - Owned first clock composition with complete nested programming, whole-path

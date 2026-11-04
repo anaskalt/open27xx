@@ -2,7 +2,7 @@
  * SPDX-License-Identifier: GPL-2.0-or-later
  */
 
-#include "clock_composition.h"
+#include "clock_composition_internal.h"
 #include "clock_driver_internal.h"
 
 #define HANDLE UINT32_C(0xC10C1234)
@@ -82,14 +82,14 @@ static enum clock_driver_status validate_entry(
     return CLOCK_DRIVER_OK;
 }
 
-enum clock_driver_status clock_composition_execute(
+enum clock_driver_status clock_composition_preflight(
     const struct clock_composition_inputs *inputs,
-    uint8_t *manager, size_t manager_length,
-    struct clock_request_state *state,
-    struct clock_source_state *source, struct clock_divider_state *divider,
-    uint32_t *cell, uint8_t *output, size_t output_length,
+    const uint8_t *manager, size_t manager_length,
+    const struct clock_request_state *state,
+    const struct clock_source_state *source, const struct clock_divider_state *divider,
+    const uint32_t *cell, const uint8_t *output, size_t output_length,
     const struct clock_composition_plan *plan,
-    struct clock_composition_result *result) {
+    const struct clock_composition_result *result) {
     struct span spans[11] = {{inputs, sizeof(*inputs)}, {manager, manager_length},
         {state, sizeof(*state)}, {source, sizeof(*source)}, {divider, sizeof(*divider)},
         {cell, sizeof(*cell)}, {output, output_length}, {plan, sizeof(*plan)},
@@ -99,7 +99,6 @@ enum clock_driver_status clock_composition_execute(
     struct clock_divider_inputs divider_inputs;
     struct clock_composition_result actual;
     enum clock_driver_status status = validate_spans(spans, 9);
-    uint32_t arguments[7];
     if (status != CLOCK_DRIVER_OK)
         return status;
     if (manager_length < CLOCK_REQUEST_STATE_BYTES || output_length < CLOCK_REQUEST_OUTPUT_BYTES)
@@ -144,6 +143,34 @@ enum clock_driver_status clock_composition_execute(
     status = clock_divider_preflight(&divider_inputs, divider, &plan->divider, &actual.divider_raw);
     if (status != CLOCK_DRIVER_OK)
         return status;
+
+    return CLOCK_DRIVER_OK;
+}
+
+enum clock_driver_status clock_composition_execute(
+    const struct clock_composition_inputs *inputs,
+    uint8_t *manager, size_t manager_length,
+    struct clock_request_state *state,
+    struct clock_source_state *source, struct clock_divider_state *divider,
+    uint32_t *cell, uint8_t *output, size_t output_length,
+    const struct clock_composition_plan *plan,
+    struct clock_composition_result *result) {
+    struct clock_source_inputs source_inputs;
+    struct clock_word_inputs word_inputs;
+    struct clock_divider_inputs divider_inputs;
+    struct clock_composition_result actual;
+    uint32_t arguments[7];
+    enum clock_driver_status status = clock_composition_preflight(inputs, manager,
+        manager_length, state, source, divider, cell, output, output_length, plan, result);
+    if (status != CLOCK_DRIVER_OK)
+        return status;
+    source_inputs = (struct clock_source_inputs){HANDLE, HANDLE, 2, SOURCE_RATE,
+        inputs->request.selection, inputs->helper_selection, inputs->helper_gate,
+        inputs->helper_input, inputs->diagnostic};
+    word_inputs = (struct clock_word_inputs){HANDLE, HANDLE, 0x30, 7, 5,
+        UINT32_C(0x3F800000), 0, inputs->diagnostic, 0};
+    divider_inputs = (struct clock_divider_inputs){HANDLE, HANDLE, 5, 2,
+        inputs->request.selection};
 
     arguments[0] = inputs->request.mutex_identity;
     plan->acquire(plan->context, CLOCK_REQUEST_ACQUIRE, UINT32_C(0x0ED64D02), arguments, 1, 0);
