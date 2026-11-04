@@ -131,6 +131,10 @@ The [resource-request contract](resource-request.md) follows the fixed
 logical index 23 through record aggregation, dependency selection and
 conditional check callbacks. It distinguishes completed software calls
 from stops before unsupported operations.
+The separate [fixed start composition](arm-start-composition.md) executes
+the actual lower resource body from 0x0EC5A81E with successful gate state
+and an explicit record-0 object binding. Its returned-only domain does
+not extend this scalar callback to tagged stopped outcomes.
 The [complete resource composition](resource-composition.md) connects the
 two selected bodies under fixed premises. It does not execute this higher
 ARM-start wrapper or turn a tagged stop into a scalar result.
@@ -227,9 +231,10 @@ failure recovery.
   service implementation and actual result semantics before connecting
   requests to hardware access or defining recovery behavior. Ignoring a
   supplied return word does not establish the operation's physical outcome.
-- Resource transition. Connect the fixed [resource dependencies](resource-request.md)
-  to clock-driver calls, required initial state and readback semantics
-  before treating the logical request as an ARM release operation.
+- Resource initialization. Establish the runtime gate/object binding and
+  physical readback semantics behind the supplied inputs of the
+  [fixed start composition](arm-start-composition.md) before treating
+  the logical request as an ARM release operation.
 - Memory and entry. Connect loader buffers, address translation, mapping,
   cache visibility and reset-vector placement, then verify the complete
   handoff on hardware. The tested handle supplies no ARM PC.
