@@ -242,6 +242,7 @@ def lzss_decompress(data):
     A flag byte describes the next eight items, least significant bit
     first. A clear bit is one literal byte. A set bit is a back-reference
     of two bytes, distance - 1 and length - 1, into a 256-byte window.
+    References read a snapshot of initialized history before emitting bytes.
     """
     out = bytearray()
     window = bytearray(256)
@@ -259,8 +260,11 @@ def lzss_decompress(data):
                 distance = data[i] + 1
                 length = data[i + 1] + 1
                 i += 2
-                for _ in range(length):
-                    c = window[(pos - distance) & 0xFF]
+                if len(out) < 256 and (distance > len(out) or length > distance):
+                    raise FormatError("back-reference reads unwritten history")
+                start = (pos - distance) & 0xFF
+                reference = (window + window)[start:start + length]
+                for c in reference:
                     window[pos] = c
                     pos = (pos + 1) & 0xFF
                     out.append(c)
@@ -278,11 +282,12 @@ def lzss_compress(data):
     """Encode LZSS using the longest match, then the smallest distance.
 
     Matches use 3 to 256 bytes at distances from 1 to 256 bytes. Shorter
-    matches cost at least as much as literals. The initial window is zero.
+    matches cost at least as much as literals. References use only the
+    initialized ring snapshot, without bytes emitted by the same reference.
     """
-    source = bytes(256) + bytes(data)
+    source = bytes(data)
     out = bytearray()
-    pos = 256
+    pos = 0
     while pos < len(source):
         flag_at = len(out)
         out.append(0)
@@ -293,17 +298,24 @@ def lzss_compress(data):
             best_length, best_distance = 0, 0
             if limit >= 3:
                 key = source[pos:pos + 3]
-                # The extra two bytes admit matches that overlap their source.
-                end = pos + 2
+                history = source[max(0, pos - 256):pos]
+                size = len(history)
+                end = size
+                if size == 256:
+                    # Duplicate the ring to include matches across its end.
+                    history += history
+                    end += 2
                 while True:
-                    candidate = source.rfind(key, pos - 256, end)
+                    candidate = history.rfind(key, 0, end)
                     if candidate < 0:
                         break
                     length = 3
-                    while length < limit and source[candidate + length] == source[pos + length]:
+                    available = min(limit, len(history) - candidate)
+                    while (length < available
+                           and history[candidate + length] == source[pos + length]):
                         length += 1
                     if length > best_length:
-                        best_length, best_distance = length, pos - candidate
+                        best_length, best_distance = length, size - candidate
                     if length == limit:
                         break
                     end = candidate + 2
