@@ -144,6 +144,41 @@ A replacement that needs no memory fixup must therefore avoid selecting a nonemp
 
 The replacement must initialize UART and clocks, load the kernel, device tree and initramfs, start the Cortex-A72 cores through an armstub, and answer the mailbox property requests needed by Linux. Acceptance requires matching mailbox replies and a recorded boot to Linux userspace on the CM4.
 
+The [host build](../../src/start4/README.md) provides a pinned unsigned VPU
+bring-up image and a separate BCM2711 ARM entry stub. It does not yet
+implement the ARM release, Linux file-loading or mailbox paths. A
+successful host build does not establish those runtime requirements.
+
+## Restoring the boot partition
+
+Before an approved hardware test, make an offline copy of the complete
+known-working boot partition, including hidden files, `config.txt`, all
+firmware/fixup pairs, kernel, device trees, overlays and initramfs. Keep
+the backup on separate storage and record file sizes and SHA-256 values.
+Use a separate test medium where the board configuration permits it.
+
+The restoration sequence is:
+
+1. Remove power from the CM4 and disconnect the test medium.
+2. Attach the medium to the maintenance host and identify its boot
+   partition. For soldered eMMC, use the board's approved read/write
+   storage-access procedure after power is removed; do not change the
+   SPI EEPROM or OTP configuration.
+3. Restore the complete boot-partition file tree from the saved copy.
+   Remove files added for the test so that the restored tree matches
+   the backup, including the original firmware selection in `config.txt`.
+4. Verify every restored file against the saved sizes and SHA-256 values.
+   Unmount the medium cleanly.
+5. Reconnect the original boot medium and board connections. After approval
+   for the restoration boot, capture the UART log and verify the original
+   Linux userspace returns.
+
+This procedure has not been tested on hardware. The host build can
+[stage a candidate configuration](../../src/start4/README.md#host-staging)
+using the bounded file-selection contract above. Complete loader
+acceptance and VPU entry execution remain unverified. A vendor fixup
+stream must not be applied to an unrelated open ELF.
+
 ## Open questions
 
 - Address aliases and cache behavior. Establish how the 0x0EC00000 and 0xCEC00000 ranges map to memory by checking the VPU memory map and the loader's address handling.

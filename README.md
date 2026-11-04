@@ -15,7 +15,7 @@ Early development. Nothing here is ready for production use.
 | EEPROM image tool | lists, extracts, verifies and rebuilds BCM2711 images |
 | Headless firmware analysis | repeatable imports and metadata exports |
 | Documentation of the BCM2711 boot chain | scalar boot flow and emulator vectors |
-| Open `start4.elf` | planned |
+| Open `start4.elf` | host build for VPU bring-up; ARM/Linux handoff unimplemented |
 | bootmain, bootsys, SDRAM initialization | analysis |
 
 ## Getting started
@@ -39,6 +39,7 @@ python3 -m unittest
 - [Headless analysis](docs/analysis.md): imports, memory maps and repeatability
 - [BCM2711](docs/bcm2711/): [EEPROM image](docs/bcm2711/eeprom.md), [bootsys](docs/bcm2711/bootsys.md), [bootmain](docs/bcm2711/bootmain.md), [calling convention](docs/bcm2711/abi.md), [SDRAM](docs/bcm2711/sdram.md), [start4.elf](docs/bcm2711/start4.md), [USB boot](docs/bcm2711/usbboot.md), [vendor files](docs/bcm2711/vendor-files.md)
 - [References](docs/references.md)
+- [VPU build](src/start4/README.md): pinned dependencies, host checks and remaining runtime work
 
 ## Vendor firmware
 

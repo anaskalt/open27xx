@@ -47,7 +47,9 @@ do not prove control flow or acceptance of replacement firmware.
 | bootsys, SDRAM | documentation of SDRAM initialization | register sequences and resource selection checked in emulation |
 
 These are completion criteria. The host tool supports listing, extraction,
-digest checks and rebuilding. Replacement firmware remains planned work.
+digest checks and rebuilding. The [VPU build](../src/start4/README.md)
+produces a bring-up image and a separate ARM entry stub. ARM handoff, Linux
+file loading and mailbox compatibility remain unimplemented.
 
 ## Verification
 
@@ -68,6 +70,7 @@ All implementation follows the clean-room process in
 | `tools/` | host tools |
 | `tests/` | synthetic unit tests and integration tests on pinned vendor files |
 | `scripts/` | fetch and verify pinned vendor files |
+| `src/start4/` | pinned VPU bring-up and separate ARM entry stub builds |
 
 Firmware sources go to `src/`, one directory per stage. Vendor binaries,
 extracted files and disassembly are excluded from the repository.

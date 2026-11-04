@@ -1,0 +1,8 @@
+# SPDX-FileCopyrightText: 2026 The open27xx Authors
+# SPDX-License-Identifier: CC0-1.0
+
+# Candidate for an approved VPU bring-up test; hardware acceptance is unverified.
+# Keep open27xx-none.dat absent from the test boot partition.
+[all]
+start_file=open27xx.elf
+fixup_file=open27xx-none.dat

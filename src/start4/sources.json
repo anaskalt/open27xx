@@ -1,0 +1,25 @@
+{
+  "lk-overlay": {
+    "url": "https://github.com/librerpi/lk-overlay.git",
+    "commit": "50c95c1c6e34e8717415f4f1fafbfd8b060f6e8c",
+    "license": "GPL-2.0-or-later; per-file exceptions",
+    "notice": "COPYING"
+  },
+  "lk": {
+    "url": "https://github.com/librerpi/lk.git",
+    "commit": "2770b28104c15e52555a45143836c9c82945d740",
+    "license": "MIT; per-file exceptions",
+    "notice": "LICENSE"
+  },
+  "armstubs": {
+    "url": "https://github.com/raspberrypi/tools.git",
+    "commit": "439b6198a9b340de5998dd14a26a0d9d38a6bcac",
+    "license": "BSD-3-Clause",
+    "notice": "armstub8.S",
+    "raw_url": "https://raw.githubusercontent.com/raspberrypi/tools/439b6198a9b340de5998dd14a26a0d9d38a6bcac/armstubs/",
+    "files": {
+      "armstub8.S": "a8b323ec705e12d4dbfe8140cc935e30c6028f927a732c7d32928a9a57ccc09a",
+      "Makefile": "d81b2c964dbec67df084d32065059e3a108d8587184f4f3afbfac7835e6ae945"
+    }
+  }
+}

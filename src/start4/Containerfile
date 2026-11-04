@@ -1,0 +1,14 @@
+# SPDX-FileCopyrightText: 2026 The open27xx Authors
+# SPDX-License-Identifier: CC0-1.0
+
+FROM --platform=linux/amd64 ubuntu@sha256:076e7bf82319619f28dd0aa9c02ab34b055ad37100395b4f49a2ffba04fb5e11
+
+RUN apt-get update \
+    && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
+       build-essential ca-certificates git python3 gcc-aarch64-linux-gnu \
+       zlib1g libstdc++6 \
+    && rm -rf /var/lib/apt/lists/*
+
+COPY . /opt/vc4/
+ENV PATH="/opt/vc4/bin:${PATH}"
+WORKDIR /work
