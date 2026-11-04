@@ -8,6 +8,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ### Added
 
+- Complete ARM configuration-control contract with two explicit CPU inputs,
+  ordered service observations and finite portable profiles.
+
 - Explicit CPU VERSION input contract for scalar observations, with strict
   plan validation and conditional control-route acceptance.
 - Freestanding ARM mapping-table preparation with exact profile validation,

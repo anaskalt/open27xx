@@ -192,6 +192,10 @@ The [ARM object contract](arm-object.md) specifies registration at
 first-open prefix stops before `VERSION` and does not prove runtime
 initialization or ownership.
 
+The [ARM configuration-control contract](arm-configuration.md) covers complete
+slot-0x30 calls at 0x0EC59EBE with explicit CPU inputs and ordered service
+observations. It does not establish the physical effect of those requests.
+
 The [ARM mapping-table contract](arm-mapping.md) covers preparation at
 0x0EC59C22 with twelve complete synthetic calls, actual repeated state
 and retained stores on one raw-failure path. Table preparation remains

@@ -162,6 +162,10 @@ The separate [mapping-table contract](arm-mapping.md) covers producer
 calls establish table/marker changes but do not complete this first-open
 path or establish that the table is applied to hardware.
 
+The separate [configuration-control contract](arm-configuration.md) covers
+complete calls to slot 0x30 at 0x0EC59EBE with an explicit CPU word and
+supplied configuration. It does not complete first open or acquire its state.
+
 ## Portable storage and preflight
 
 Registration and repeated open are separate complete operations. The

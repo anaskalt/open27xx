@@ -1,0 +1,360 @@
+{
+  "schema": 1,
+  "source": {
+    "file": "start4.elf",
+    "repository": "raspberrypi/firmware",
+    "version": "ab5c7f86283ceb58b7adb269cae1d16092a31bf6",
+    "sha256": "38b179897c4514ad11bc915c3fd2d4b68c51e05df2e42240717655ab92d91aeb"
+  },
+  "cases": [
+    {
+      "id": "control-version-bit-clear",
+      "function": {
+        "entry": "0x0EC59EBE",
+        "language": "vc4:LE:32:default"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "gp": "0xE4000000",
+          "sp": "0x24010000",
+          "r0": "0x61726D11",
+          "r1": "0x00000001"
+        },
+        "memory": [
+          {
+            "address": "0x2400FC00",
+            "fill": "a5",
+            "size": 1088
+          },
+          {
+            "address": "0xE403B514",
+            "hex": "d3d3d3d3d3d3d3d31bfc3012e4e4e4e4e4e4e4e4"
+          },
+          {
+            "address": "0xE403B488",
+            "hex": "b6b6b6b6b6b6b6b601000000c7c7c7c7c7c7c7c7"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24040000",
+        "step_limit": 80,
+        "stubs": [
+          {
+            "entry": "0x0ED64D02",
+            "label": "mutex acquire",
+            "replies": [
+              {
+                "registers": {
+                  "r0": "0x00000000"
+                },
+                "memory": []
+              }
+            ]
+          },
+          {
+            "entry": "0x0ED64D3A",
+            "label": "mutex release",
+            "replies": [
+              {
+                "registers": {
+                  "r0": "0x00000000"
+                },
+                "memory": []
+              }
+            ]
+          },
+          {
+            "entry": "0x0ED65284",
+            "label": "configuration service",
+            "replies": [
+              {
+                "registers": {
+                  "r0": "0x00000007"
+                },
+                "memory": []
+              }
+            ]
+          }
+        ],
+        "mmio_responses": [],
+        "version_input": {
+          "word": "0x00000000",
+          "sites": [
+            {
+              "pc": "0x0EC59EEE",
+              "destination": "r2"
+            }
+          ]
+        }
+      },
+      "expected": {
+        "registers": {
+          "r0": "0x00000000",
+          "r1": "0x1230FC5B",
+          "r2": "0x00000000",
+          "r3": "0x00000000",
+          "r4": "0x00000000",
+          "r5": "0x00000000",
+          "r6": "0x00000000",
+          "r7": "0x00000000",
+          "r8": "0x00000000",
+          "r9": "0x00000000",
+          "r10": "0x00000000",
+          "r11": "0x00000000",
+          "r12": "0x00000000",
+          "r13": "0x00000000",
+          "r14": "0x00000000",
+          "r15": "0x00000000",
+          "r16": "0x00000000",
+          "r17": "0x00000000",
+          "r18": "0x00000000",
+          "r19": "0x00000000",
+          "r20": "0x00000000",
+          "r21": "0x00000000",
+          "r22": "0x00000000",
+          "r23": "0x00000000",
+          "gp": "0xE4000000",
+          "sp": "0x24010000",
+          "lr": "0x0EC59F10",
+          "r27": "0x00000000",
+          "r28": "0x00000000",
+          "r29": "0x00000000",
+          "sr": "0x0000000A",
+          "pc": "0x24040000"
+        },
+        "memory": [
+          {
+            "address": "0x2400FC00",
+            "hex": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a50000000000000000000000000000000000000424a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+          },
+          {
+            "address": "0xE403B514",
+            "hex": "d3d3d3d3d3d3d3d35bfc3012e4e4e4e4e4e4e4e4"
+          },
+          {
+            "address": "0xE403B488",
+            "hex": "b6b6b6b6b6b6b6b601000000c7c7c7c7c7c7c7c7"
+          }
+        ],
+        "events": [
+          {
+            "kind": "stub",
+            "entry": "0x0ED64D02",
+            "arguments": [
+              "0xE403B470",
+              "0x00000001",
+              "0x00000000",
+              "0x00000000",
+              "0x00000000",
+              "0x00000000"
+            ],
+            "reply_index": 0
+          },
+          {
+            "kind": "version",
+            "pc": "0x0EC59EEE",
+            "destination": "r2",
+            "value": "0x00000000",
+            "site_index": 0,
+            "step": 15
+          },
+          {
+            "kind": "stub",
+            "entry": "0x0ED65284",
+            "arguments": [
+              "0x00000001",
+              "0x1230FC5B",
+              "0x00000000",
+              "0x00000000",
+              "0x00000000",
+              "0x00000000"
+            ],
+            "reply_index": 0
+          },
+          {
+            "kind": "stub",
+            "entry": "0x0ED64D3A",
+            "arguments": [
+              "0xE403B470",
+              "0x1230FC5B",
+              "0x00000000",
+              "0x00000000",
+              "0x00000000",
+              "0x00000000"
+            ],
+            "reply_index": 0
+          }
+        ]
+      },
+      "scope": "Complete actual control entry and natural external return, conditional on the explicit VERSION word and literal boundary replies",
+      "limitations": [
+        "VERSION is an explicitly supplied instruction-result observation, not a measured CPU identity.",
+        "Mutex and service replies are literal external inputs; synchronization and privileged-service effects remain unverified.",
+        "Initial configuration is reused from a prior declared-state first-open prefix, not proven live initialization.",
+        "Service index 1 is explicitly supplied only for the bit-clear route. The bit-set route declares no index memory or service reply.",
+        "Fresh actual stack frame and external return sentinel; no predecessor prefix frame is copied."
+      ],
+      "steps": 30
+    },
+    {
+      "id": "control-version-bit-set",
+      "function": {
+        "entry": "0x0EC59EBE",
+        "language": "vc4:LE:32:default"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "gp": "0xE4000000",
+          "sp": "0x24010000",
+          "r0": "0x61726D11",
+          "r1": "0x00000001"
+        },
+        "memory": [
+          {
+            "address": "0x2400FC00",
+            "fill": "a5",
+            "size": 1088
+          },
+          {
+            "address": "0xE403B514",
+            "hex": "d3d3d3d3d3d3d3d31bfc3012e4e4e4e4e4e4e4e4"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24040000",
+        "step_limit": 80,
+        "stubs": [
+          {
+            "entry": "0x0ED64D02",
+            "label": "mutex acquire",
+            "replies": [
+              {
+                "registers": {
+                  "r0": "0x00000000"
+                },
+                "memory": []
+              }
+            ]
+          },
+          {
+            "entry": "0x0ED64D3A",
+            "label": "mutex release",
+            "replies": [
+              {
+                "registers": {
+                  "r0": "0x00000000"
+                },
+                "memory": []
+              }
+            ]
+          }
+        ],
+        "mmio_responses": [],
+        "version_input": {
+          "word": "0x00000040",
+          "sites": [
+            {
+              "pc": "0x0EC59EEE",
+              "destination": "r2"
+            }
+          ]
+        }
+      },
+      "expected": {
+        "registers": {
+          "r0": "0x00000000",
+          "r1": "0x1230FC5B",
+          "r2": "0x00000040",
+          "r3": "0xE403B4F0",
+          "r4": "0x00000000",
+          "r5": "0x00000000",
+          "r6": "0x00000000",
+          "r7": "0x00000000",
+          "r8": "0x00000000",
+          "r9": "0x00000000",
+          "r10": "0x00000000",
+          "r11": "0x00000000",
+          "r12": "0x00000000",
+          "r13": "0x00000000",
+          "r14": "0x00000000",
+          "r15": "0x00000000",
+          "r16": "0x00000000",
+          "r17": "0x00000000",
+          "r18": "0x00000000",
+          "r19": "0x00000000",
+          "r20": "0x00000000",
+          "r21": "0x00000000",
+          "r22": "0x00000000",
+          "r23": "0x00000000",
+          "gp": "0xE4000000",
+          "sp": "0x24010000",
+          "lr": "0x0EC59F10",
+          "r27": "0x00000000",
+          "r28": "0x00000000",
+          "r29": "0x00000000",
+          "sr": "0x00000000",
+          "pc": "0x24040000"
+        },
+        "memory": [
+          {
+            "address": "0x2400FC00",
+            "hex": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a50000000000000000000000000000000000000424a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+          },
+          {
+            "address": "0xE403B514",
+            "hex": "d3d3d3d3d3d3d3d35bfc3012e4e4e4e4e4e4e4e4"
+          }
+        ],
+        "events": [
+          {
+            "kind": "stub",
+            "entry": "0x0ED64D02",
+            "arguments": [
+              "0xE403B470",
+              "0x00000001",
+              "0x00000000",
+              "0x00000000",
+              "0x00000000",
+              "0x00000000"
+            ],
+            "reply_index": 0
+          },
+          {
+            "kind": "version",
+            "pc": "0x0EC59EEE",
+            "destination": "r2",
+            "value": "0x00000040",
+            "site_index": 0,
+            "step": 15
+          },
+          {
+            "kind": "stub",
+            "entry": "0x0ED64D3A",
+            "arguments": [
+              "0xE403B470",
+              "0x1230FC5B",
+              "0x00000040",
+              "0xE403B4F0",
+              "0x00000000",
+              "0x00000000"
+            ],
+            "reply_index": 0
+          }
+        ]
+      },
+      "scope": "Complete actual control entry and natural external return, conditional on the explicit VERSION word and literal boundary replies",
+      "limitations": [
+        "VERSION is an explicitly supplied instruction-result observation, not a measured CPU identity.",
+        "Mutex and service replies are literal external inputs; synchronization and privileged-service effects remain unverified.",
+        "Initial configuration is reused from a prior declared-state first-open prefix, not proven live initialization.",
+        "Service index 1 is explicitly supplied only for the bit-clear route. The bit-set route declares no index memory or service reply.",
+        "Fresh actual stack frame and external return sentinel; no predecessor prefix frame is copied."
+      ],
+      "steps": 23
+    }
+  ]
+}
