@@ -1,58 +1,97 @@
 # SPI EEPROM image
 
-The BCM2711 bootloader is stored in a 512 KiB SPI EEPROM. The image, published as `pieeprom-*.bin` in rpi-eeprom, is a chain of sections. `tools/eeprom.py` lists, extracts and verifies them.
-
-Offsets and sizes refer to `pieeprom-2026-10-30.bin` unless stated otherwise. `scripts/blobs.sha256` has its SHA-256.
+`pieeprom-2026-10-30.bin` from raspberrypi/rpi-eeprom commit
+`236b4406753e604fde3315cb521a2f843c9f8f85` is 524288 bytes, SHA-256
+`6abfaea480f93da47a790f89751ed45d3af6e88ee8fb337d4eb62ad125ca3e8a`.
+Offsets below refer to this file unless another sample is named.
+`tools/eeprom.py` lists, extracts and checks the section contents.
 
 ## Sections
 
-Each section starts with an 8-byte header:
+Each section starts with an 8-byte header. The fields at `0x000000` are
+magic `0x55AAF00F` and payload length 50930.
 
-| Offset | Size | Field |
+| Offset in section | Size (bytes) | Field |
 |---|---|---|
-| 0 | 4 | magic, big-endian |
-| 4 | 4 | payload length in bytes, big-endian |
-| 8 | length | payload |
+| 0x00 | 4 | magic, big-endian |
+| 0x04 | 4 | payload length, big-endian |
+| 0x08 | length | payload |
 
-The next section starts at the following 8-byte boundary; the gap is filled with 0xFF. A magic of 0xFFFFFFFF ends the chain; `rpi-eeprom-config` also accepts 0x00000000. In released images the rest of the image is 0xFF, and `rpi-eeprom-config` reserves the last 4 KiB for the bootloader.
+The next section starts at the following 8-byte boundary. In this image,
+alignment gaps and padding-section payloads contain `0xFF`. The end marker
+at `0x06D768` and all remaining bytes through `0x07FFFF` are `0xFF`.
 
-A magic is valid if `magic & 0xFFFFF00F == 0x55AAF00F`. Bits 4 to 11 give the section type:
+raspberrypi/rpi-eeprom `rpi-eeprom-config` at the pinned commit accepts
+`0xFFFFFFFF` or `0x00000000` as an end marker. Its `BootloaderImage.parse`
+uses `magic & 0xFFFFF00F == 0x55AAF00F` to recognize section headers.
+Bits 4 through 11 identify the type.
 
 | Magic | Type | Payload |
 |---|---|---|
-| 0x55AAF00F | bootcode | bootsys, see [bootsys.md](bootsys.md) |
+| 0x55AAF00F | bootcode | bootsys; see [bootsys.md](bootsys.md) |
 | 0x55AAF11F | file | 12-byte name, 4 zero bytes, contents |
 | 0x55AAF22F | plain | 16-byte name, contents |
-| 0x55AAF33F | LZSS | 16-byte name, compressed contents, 32-byte SHA-256 of the contents |
-| 0x55AAF44F | LZ4 | 16-byte name, LZ4 frame, 32-byte SHA-256 of the contents |
-| 0x55AAFEEF | padding | 0xFF bytes |
+| 0x55AAF33F | LZSS | 16-byte name, compressed contents, 32-byte SHA-256 of decompressed contents |
+| 0x55AAF44F | LZ4 | 16-byte name, LZ4 frame, 32-byte SHA-256 of decompressed contents |
+| 0x55AAFEEF | padding | `0xFF` bytes |
 
-Names are ASCII, padded with zero bytes. File sections hold the configuration and the key and signature slots, which `rpi-eeprom-config` rewrites in place.
+Names in the listed samples are ASCII and zero-padded. The pinned
+`rpi-eeprom-config` rewrites type `0x11` file slots and reserves the final
+4096 bytes when allocating replacement data. These are host-tool rules;
+they do not establish device-side parsing behavior.
 
-## LZSS compression
+The older formats have these concrete examples:
 
-Type 0x33 sections use a byte-oriented LZSS variant with a 256-byte window:
+| File | SHA-256 | Section offset | Contents |
+|---|---|---|---|
+| `pieeprom-2019-07-15.bin` | `21bacc1bbbeba42f6aab58656dc61dd402265d8a3e33d35aa8cd5d281d2a4c49` | 0x00AE68 | plain `memsys00.bin` |
+| `pieeprom-2020-03-04.bin` | `f5058a8f6ff23fc87138c5e0a4ad9caf223438470bf48ee56beedaee44b9ce51` | 0x020000 | LZSS `memsys00.bin` |
 
-1. A flag byte describes the next eight items, least significant bit first.
-2. A clear bit is a literal: one byte is copied to the output.
-3. A set bit is a back-reference of two bytes, the distance minus one and the length minus one. The decoder copies that many bytes from that distance back in the window, one byte at a time, so the copy may overlap its own output.
-4. The window is a ring buffer of the last 256 output bytes and starts zero-filled.
-5. The stream ends when the input ends; unused flag bits are ignored.
+Both files are in the pinned rpi-eeprom `firmware-2711/` tree.
 
-Type 0x44 sections hold a standard LZ4 frame.
+## Compression
+
+The host LZSS decoder uses a 256-byte window:
+
+1. A flag byte describes up to eight items, least significant bit first.
+2. A clear bit denotes one literal output byte.
+3. A set bit denotes two bytes: distance minus one, then length minus one.
+   Copy from that distance back, updating the window after each byte so
+   that overlapping copies repeat the bytes just written.
+4. The window is a ring buffer initialized to zero.
+5. Stop at the end of the compressed input; ignore unused flag bits.
+
+These rules reproduce the stored SHA-256 values of the non-controller
+LZSS resources in the 120-image pinned catalog, including `memsys00.bin`
+in the 2020-03-04 sample above. This checks the successful decoded output,
+not the vendor decoder's handling of malformed input.
+
+Type `0x44` sections in the 2026-10-30 image decode as LZ4 frames. For
+example, the frame at `0x00C930` yields `bootmain`, whose digest is listed
+in [vendor-files.md](vendor-files.md).
 
 ## Section map
 
-Padding sections are omitted. The length column is the header field, which includes the name and, for compressed sections, the digest.
+Offsets identify section headers. Length includes the name and, for
+compressed sections, the digest. Sizes are in bytes. Padding sections are
+omitted; controller payloads are outside the CM4 scope and are not decoded.
 
-| Offset | Type | Name | Length | Contents |
+| Offset | Type | Name | Length | Decoded size |
 |---|---|---|---|---|
-| 0x000000 | bootcode | bootsys | 50930 | 50930 |
+| 0x000000 | bootcode | `bootsys` | 50930 | 50930 |
 | 0x00C918 | LZ4 | `bootmain` | 211955 | 267042 |
-| 0x040518–0x056960 | LZ4 | `memsys00.bin`–`memsys08.bin` | 9963–12706 | 20492 each |
+| 0x040518 | LZ4 | `memsys00.bin` | 12706 | 20492 |
+| 0x0436C8 | LZ4 | `memsys01.bin` | 11237 | 20492 |
+| 0x0462B8 | LZ4 | `memsys02.bin` | 10368 | 20492 |
+| 0x048B40 | LZ4 | `memsys03.bin` | 9963 | 20492 |
+| 0x04B238 | LZ4 | `memsys04.bin` | 11885 | 20492 |
+| 0x04E0B0 | LZ4 | `memsys05.bin` | 11829 | 20492 |
+| 0x050EF0 | LZ4 | `memsys06.bin` | 11026 | 20492 |
+| 0x053A10 | LZ4 | `memsys07.bin` | 12103 | 20492 |
+| 0x056960 | LZ4 | `memsys08.bin` | 10488 | 20492 |
 | 0x059260 | LZ4 | `mcb.bin` | 1340 | 12384 |
-| 0x0597A8 | LZSS | `vl805hub.bin` | 7028 | 9446 |
-| 0x05B328 | LZSS | `vl805mcu.bin` | 60451 | 86680 |
+| 0x0597A8 | LZSS | `vl805hub.bin` | 7028 | — |
+| 0x05B328 | LZSS | `vl805mcu.bin` | 60451 | — |
 | 0x069F58 | LZ4 | `logo.bin` | 2256 | 12844 |
 | 0x06A830 | LZ4 | `font.bin` | 7422 | 27404 |
 | 0x06C538 | file | `versioninfo` | 70 | 54 |
@@ -62,58 +101,45 @@ Padding sections are omitted. The length column is the header field, which inclu
 | 0x06D200 | file | `bootconf.sig` | 1040 | 1024 |
 | 0x06D700 | file | `bootconf.txt` | 95 | 79 |
 
-The end marker, 0xFFFFFFFF, is at 0x06D768.
+## File contents
 
-Resources:
+The offsets in this table identify the contents after the section header
+and the 16-byte name area.
 
-- `bootmain`: the main bootloader stage, see [bootmain.md](bootmain.md).
-- `memsys00.bin`–`memsys08.bin`, `mcb.bin`: SDRAM firmware and configuration, see [sdram.md](sdram.md).
-- `vl805hub.bin`, `vl805mcu.bin`: firmware for the VL805 USB 3 controller of the Raspberry Pi 4 Model B and Raspberry Pi 400. The Compute Module 4 has no VL805.
-- `logo.bin`, `font.bin`: Targa images for the HDMI diagnostics screen, 50 × 64 in 32-bit RGBA and 720 × 19 in 16-bit grayscale with alpha.
+| Offset | File | Observation |
+|---|---|---|
+| 0x06C550 | `versioninfo` | 54 bytes, including a final zero byte; build date `2026/10/30 23:20:35`, identifier `13c4219f` |
+| 0x06C5A0 | `updatetime` | little-endian words `0x00000000`, `0xFFFFFFFF` |
+| 0x06C618 | `pubkey.bin` | 512 zero bytes |
+| 0x06C918 | `cacert.der` | 2048 zero bytes |
+| 0x06D218 | `bootconf.sig` | 1024 zero bytes |
+| 0x06D718 | `bootconf.txt` | 79 bytes of configuration text |
 
-File sections:
+The configuration at `0x06D718` contains `[all]` followed by `BOOT_UART=0`,
+`WAKE_ON_GPIO=1`, `POWER_OFF_ON_HALT=0` and `NET_INSTALL_AT_POWER_ON=1`, each
+on a separate line with a final newline. Their presence does not establish
+how the bootloader interprets them.
 
-- `versioninfo`: `VERSIONINFO 2026/10/30 23:20:35 13c4219f R 2711 MFG02`, terminated by a zero byte.
-- `updatetime`: 8 bytes; the released image holds the little-endian words 0x00000000 and 0xFFFFFFFF.
-- `pubkey.bin`, `cacert.der`, `bootconf.sig`: zero-filled slots for the customer public key, a CA certificate and the signature of the configuration.
-- `bootconf.txt`: the default configuration.
+## Host update timestamp
 
-```ini
-[all]
-BOOT_UART=0
-WAKE_ON_GPIO=1
-POWER_OFF_ON_HALT=0
-NET_INSTALL_AT_POWER_ON=1
-```
+At the pinned rpi-eeprom commit, `rpi-eeprom-config`
+`BootloaderImage.set_timestamp` writes a complemented 32-bit timestamp
+followed by the timestamp, both little-endian. It first searches for
+`updatetime` within the first 65536 bytes. If none exists there, it writes
+the words into the last 8 bytes of the image.
 
-## Related formats
-
-These come from the rpi-eeprom tools and have not been checked against the bootloader code:
-
-- `pubkey.bin`: the RSA-2048 modulus (256 bytes) followed by the public exponent (8 bytes), both little-endian (`tools/rpi-bootloader-key-convert`).
-- `bootconf.sig`: text lines with the SHA-256 of `bootconf.txt` in hex, `ts: <unix time>`, an optional `target-soc: <soc>` and `rsa2048: <signature in hex>`, where the signature is an RSA PKCS #1 v1.5 signature over SHA-256 (`rpi-eeprom-digest`).
-- Self-update timestamp: `rpi-eeprom-config` writes the complement of the timestamp followed by the timestamp, both little-endian 32-bit words, into an `updatetime` section in the first 64 KiB of the image, or else into the last 8 bytes of the image.
-- BCM2712 images are 2 MiB. Recent ones use an A/B layout: a 64 KiB read-only region, two 988 KiB partitions and two journal sections (`rpi-eeprom-config`).
-
-## Image history
-
-The pinned rpi-eeprom commit holds 120 BCM2711 images, 2019-07-15 to 2026-10-30; the images of 2020-09-02 and 2020-09-03 are identical. The changes to the section set:
-
-| First image | Change |
-|---|---|
-| 2019-07-15 | bootsys, `memsys00.bin`–`memsys07.bin` as plain sections, `bootconf.txt` |
-| 2019-09-06 | `mcb.bin` added |
-| 2020-03-04 | all resources LZSS-compressed; `vl805hub.bin`, `vl805mcu.bin`, `logo.bin`, `font.bin` and `qrcode.bin` added |
-| 2021-05-19 | `memsys08.bin`, `pubkey.bin` and `bootconf.sig` added |
-| 2021-09-23 | `bootmain` added as a separate section |
-| 2024-04-17 | `cacert.der` added |
-| 2025-02-11 | `qrcode.bin` removed |
-| 2025-09-22 | all resources except the VL805 firmware LZ4-compressed |
-| 2026-05-17 | `updatetime` added |
-| 2026-09-23 | `versioninfo` added |
-
-`tools/eeprom.py verify` passes on all of them.
+For `pieeprom-2026-10-30.bin`, the section at `0x06C588` lies outside that
+search range. The host method therefore selects `0x07FFF8` and `0x07FFFC`.
 
 ## Open questions
 
-- Whether the BCM2711 bootloader reads the `updatetime` section, which lies outside the first 64 KiB, or the last 8 bytes of the image.
+- Timestamp selection on the device. Trace the references to `updatetime`
+  and the end-of-image timestamp, then compare their precedence in
+  emulation with distinct timestamp values.
+- Decoder edge cases. Compare truncated items, initial-window references
+  and trailing flag bits with the vendor LZSS routine in emulation.
+  Matching digests for complete resources does not settle these cases.
+- Signature and key slots. Determine the firmware's accepted lengths and
+  parsing rules for the slots at `0x06C600` and `0x06D200` using synthetic
+  input in emulation; the zero-filled published slots cannot establish
+  those rules.
