@@ -183,6 +183,9 @@ unchanged scripts for its original cases and separate four-case
 The [ARM object replay](bcm2711/arm-object.md#recorded-cases-and-replay)
 uses three decoder entries for six complete registration/repeated-open
 calls and a separate first-open prefix before `VERSION`.
+The [ARM configuration replay](bcm2711/arm-configuration.md#recorded-cases-and-replay)
+executes two complete control calls with explicit VERSION instruction results
+and literal mutex/service replies.
 The [ARM mapping replay](bcm2711/arm-mapping.md#recorded-cases-and-replay)
 uses two decoder entries and the same recorder for twelve complete
 software-table calls, including the actual fresh-to-repeat state relation.
