@@ -6,7 +6,7 @@ JOBS ?= 2
 TOOLCHAIN_PREFIX ?= vc4-elf-
 ARM64_TOOLCHAIN_PREFIX ?= aarch64-linux-gnu-
 
-.PHONY: all fetch check armstub check-armstub-metadata check-boot-info stage
+.PHONY: all fetch check armstub check-armstub-metadata check-boot-info check-arm-control stage
 all:
 	$(PYTHON) ../../tools/start4.py build --jobs $(JOBS) --toolchain-prefix $(TOOLCHAIN_PREFIX)
 
@@ -28,6 +28,11 @@ check-boot-info:
 	mkdir -p ../../build/start4
 	$(TOOLCHAIN_PREFIX)gcc -std=c99 -Os -ffixed-lr -ffreestanding -fno-builtin \
 		-Wall -Wextra -Werror -pedantic -c boot_info.c -o ../../build/start4/boot-info.o
+
+check-arm-control:
+	mkdir -p ../../build/start4
+	$(TOOLCHAIN_PREFIX)gcc -std=c99 -Os -ffixed-lr -ffreestanding -fno-builtin \
+		-Wall -Wextra -Werror -pedantic -c arm_control.c -o ../../build/start4/arm-control.o
 
 stage:
 	$(PYTHON) ../../tools/start4.py stage
