@@ -63,7 +63,7 @@ def event_projection(event):
 
 
 class Request:
-    def __init__(self, case):
+    def __init__(self, case, *, identity=None, scratch_address=0x2400FF88):
         self.case = case
         gp = int(case["setup"]["registers"]["gp"], 0)
         get = lambda offset, size=4: driver.fixture_word(case, "setup", gp + offset, size)
@@ -71,7 +71,7 @@ class Request:
             get(0x3E494), (Word * 3)(get(0xD1B80), get(0xD1B7C), get(0xD1B78)),
             get(0x3B938), gp + 0x3E810)
         clock_inputs = clock.Inputs(request, get(0x1568), get(0xCC93C), get(0xCC940), get(0xCCE48, 1))
-        resource_inputs = resource.Inputs(1, int(case["setup"]["registers"]["r0"], 0),
+        resource_inputs = resource.Inputs(1, int(case["setup"]["registers"]["r0"], 0) if identity is None else identity,
             0, 23, 1, 1, get(0xCD4), get(0xDA988), gp + 0xDA4C0)
         self.inputs = Inputs(resource_inputs, get(0xDA984), get(0x1564), get(0xD33F8),
             gp + 0xFD4, gp + 0xD33EC,
@@ -89,7 +89,7 @@ class Request:
             "divider": driver.DividerState(get(0x3E72C), get(0x3E730)),
             "cell": Word(driver.fixture_word(case, "setup", 0x0EE056B0)),
             "scratch": (Byte * 24).from_buffer_copy(
-                driver.fixture_bytes(case, "setup", 0x2400FF88, 8) + b"\x53" * 16),
+                driver.fixture_bytes(case, "setup", scratch_address, 8) + b"\x53" * 16),
             "result": Result(clock.Result(*([driver.SENTINEL] * 4)), *([driver.SENTINEL] * 3)),
         }
         self.guards = {name: driver.guarded(value) for name, value in values.items()}

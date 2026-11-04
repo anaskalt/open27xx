@@ -1119,3 +1119,86 @@ overlaps, full-span tails and address/size overflow. The target compiles
 standalone resource, clock and configuration objects with `-Os -ffixed-lr`.
 Runtime acquisition, initialization and physical behavior require separate
 contracts before integration.
+
+## Owned fixed ARM start composition
+
+[`arm_start_composition.h`](arm_start_composition.h) exposes
+`arm_start_composition_execute` from
+[`arm_start_composition.c`](arm_start_composition.c). The
+[higher composition contract](../../docs/bcm2711/arm-start-composition.md)
+defines two complete calls through the real fixed resource operation.
+The helper owns higher gates and active state, dispatches the resource
+composition directly and remains unlinked from the runtime image.
+
+```c
+arm_start_composition_execute(inputs, start, records, records_length,
+                              resource, manager, manager_length, clock_state,
+                              source, divider, cell, scratch, scratch_length,
+                              plan, result);
+```
+
+Inputs contain handle 0x61726D11, an opaque higher mutex token and the
+existing fixed resource inputs. The separate `arm_control_start_state`
+requires open count 1, mapping marker 1, active 0 and a nonzero object
+token equal to both the lower request identity and record 0's self word.
+The higher mutex token differs from all four lower mutex tokens. Tokens
+are never converted to host pointers. Configuration service index and
+higher active remain separate fields.
+
+The plan embeds the resource plan and adds higher acquire/release
+observers with one defined argument, the mutex token, and literal zero
+replies. It has no resource-result provider. The lower operation retains
+both clock requests, shared manager/driver/native state, scratch clears,
+control phases and final polls. Only immediate first-source lock or
+exactly 2000 zero lock replies are accepted. Source raw 4 retains its
+updates and continues through all remaining operations.
+
+Higher acquisition sees entry state. Higher active stays zero throughout
+every lower observation, including the lower manager release. After the
+actual lower return, its raw word is retained separately and zero sets
+active to 1. Higher release sees active 1 and completed lower state. Only
+after that release does the final result receive the actual nested result
+structure and a separate `higher_raw` word. Host status, raw words, active
+state and the unsigned 64-bit rate scratch have distinct meanings.
+Open count, mapping marker and object token remain unchanged.
+
+Whole-path preflight checks both higher gates and the complete lower
+operation before higher acquisition or any store. It includes every
+required observer, both control plans, final polls, predictable repeated
+clock state, all typed object extents, read-array size multiplication and
+full declared records/manager/scratch lengths. Every region is checked
+for address wrap and pairwise overlap, including immutable inputs and
+the full final result. Shared read-only resource preflight is internal
+implementation plumbing. Existing standalone interfaces and supported
+profiles remain unchanged.
+
+Host status uses `clock_driver_status`: absent objects or observers return
+`CLOCK_DRIVER_INVALID`; short or wrapping spans and overflowing read
+counts return `CLOCK_DRIVER_BOUNDS`; unsupported gates, states or complete
+plans return `CLOCK_DRIVER_UNSUPPORTED`; overlap returns
+`CLOCK_DRIVER_OVERLAP`. Host errors preserve every API byte and emit no
+observation. Callers establish actual backing, typed alignment, lifetime
+and writability. Observers return normally, preserve every API object,
+use separate bookkeeping and avoid reentry, concurrent mutation and
+hardware access. No storage is allocated and no pointer is retained.
+
+This returned-only operation accepts no general tagged resource outcome,
+context descriptor or stopped path. A stopped prefix has no scalar return
+word and supplies no higher active-state decision or release behavior.
+Other higher gates, lower outcomes and provider effects need separate
+contracts. Raw zero and active 1 do not establish physical completion.
+
+```sh
+python3 -m unittest tests.test_arm_start_composition
+make -C src/start4 check-arm-start-composition
+```
+
+Tests compare both complete event streams and all specified final memory,
+plus both evidence-only lower-return prefixes. Observers check unchanged
+active state throughout lower work and deferred final-result storage.
+Rejection tests cover later read errors, missing observers, every pair of
+API objects/read arrays, full buffer tails, address/count overflow, exact
+gate and object binding, full-width 32-bit tokens and repeated-state
+rejection. The target builds standalone higher, resource, clock and
+configuration objects with `-Os -ffixed-lr`. Runtime object preparation,
+ownership, synchronization and physical behavior require further contracts.
