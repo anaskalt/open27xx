@@ -8,6 +8,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ### Added
 
+- BCM2711 PLLB register addresses and fields from pinned public sources,
+  with explicit applicability and clock-state limits.
 - Freestanding ARM configuration-request and software start-request helpers,
   with 40 synthetic fixture comparisons and separate host validation results.
 - ARM service and mutex return-word checks, with 17 synthetic vectors

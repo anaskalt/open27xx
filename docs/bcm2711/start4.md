@@ -155,6 +155,10 @@ A replacement that needs no memory fixup must therefore avoid selecting a nonemp
 
 The replacement must initialize UART and clocks, load the kernel, device tree and initramfs, start the Cortex-A72 cores through an armstub, and answer the mailbox property requests needed by Linux. Acceptance requires matching mailbox replies and a recorded boot to Linux userspace on the CM4.
 
+The [BCM2711 clock-register reference](clocks.md) lists PLLB addresses,
+fields and applicability from pinned public sources. It leaves initial
+clock state and a complete ARM release sequence unresolved.
+
 The [host build](../../src/start4/README.md) provides a pinned unsigned VPU
 bring-up image and a separate BCM2711 ARM entry stub. It does not yet
 implement the ARM release, Linux file-loading or mailbox paths. A
