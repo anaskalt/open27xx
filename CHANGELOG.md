@@ -8,6 +8,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ### Added
 
+- Standard-pair lower-span arithmetic and 27 synthetic cases for explicit
+  byte-argument transfers into the memory-bank serializer.
 - Freestanding memory-bank serializer with bounded output, explicit host
   validation and 44 complete synthetic fixture comparisons.
 - Memory-bank serialization contract and 48 synthetic cases for ordered

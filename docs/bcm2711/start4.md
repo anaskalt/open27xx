@@ -129,6 +129,12 @@ For the four pairs from raspberrypi/firmware commit `ab5c7f86283ceb58b7adb269cae
 
 Each first list contains six subtract operations. The second lists contain only add operations. These counts describe the pinned files; they are not constants of the stream format.
 
+The [lower-span contract](memory-span.md) identifies the standard pair's
+fixup intersections with two bound fields. Their difference retains the
+ARM-size adjustment while the common total adjustment cancels. Separate
+synthetic slices record the explicit byte-argument transfers toward the
+memory-bank serializer; complete startup and usable RAM remain unverified.
+
 ## Replacement file selection
 
 The following contract covers `bootmain` from raspberrypi/usbboot commit `fdb604d018693465c9aa6ec69879df866d2820da`, SHA-256 `4deaac8f1e266a626bb422fd7d17bb69c98cb39be2e7db5e566cae68a8e17e4d`. It establishes filename selection and the zero-length fixup path, without executing the complete firmware acceptance or handoff sequence.
