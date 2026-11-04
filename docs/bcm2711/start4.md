@@ -194,7 +194,9 @@ state and callback replies.
 
 The [fixed clock-request contract](clock-request.md) specifies software
 planning, cache changes and notification outcomes for clock 0x30 and
-requested value 600000000, with explicit driver boundaries.
+requested value 600000000, with explicit driver boundaries. The
+[fixed programming callback contract](clock-driver.md) describes the three
+selected bodies under supplied read plans and native-word state.
 
 ## Restoring the boot partition
 

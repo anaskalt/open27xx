@@ -133,8 +133,8 @@ The recorder rejects uninitialized reads, writes outside declared
 synthetic regions, MMIO reads, modified instruction bytes, vector
 instructions and unsupported p-code operations. It permits and records
 writes to the main-peripheral range. Those events establish write order
-and values only; they do not assign device behavior. All fixtures leave
-`mmio_responses` empty.
+and values only; they do not assign device behavior. Fixtures for this
+recorder leave `mmio_responses` empty.
 
 ### Explicit instruction preparation
 
@@ -153,6 +153,27 @@ before the scalar recorder; transient definitions are discarded afterward.
 The recorder's execution checks remain unchanged. The
 [memory-capacity replay](bcm2711/memory-capacity.md#recorded-cases-and-replay)
 lists the exact source identity and entry points for that fixture.
+
+### Fixed clock recorder
+
+`CaptureClockVectors.java` replays the [fixed clock programming fixtures](bcm2711/clock-driver.md).
+It uses the same two-path invocation shape as `CaptureScalarVectors.java`,
+with separate restrictions for this pinned source and exact native cell.
+Each `mmio_responses` record supplies `pc`, `address` and four little-endian
+bytes in `hex`. Reads must consume those records exactly in order;
+unknown, mismatched and unused replies fail. `mmio_write_addresses` lists
+permitted four-byte write addresses for each case. Actual write values
+come from execution, not expected-output injection.
+
+The sole additional setup/observation region is four bytes at 0x0EE056B0.
+Before execution, the recorder verifies source SHA-256, literal descriptor
+pointer, exact block bounds, uninitialized read/write/non-executable status
+and absence of instruction bytes. It records every executed cell read/write
+as `elf_ram_read` or `elf_ram_write`, separately from `supplied_mmio_read`
+and `mmio_write`. Partial cell accesses and other native writes fail.
+All instruction-byte, unsupported-operation, declared-memory, finite-call
+reply and step-limit checks remain active. These are offline observations;
+no input is obtained from a physical device.
 
 ## Open questions
 

@@ -17,7 +17,9 @@ and initial clock state remain open questions.
 
 The [fixed clock-request contract](clock-request.md) describes the separate
 software planning and callback boundary. Its supplied replies do not verify
-the register operations below.
+the register operations below. The [fixed programming callbacks](clock-driver.md)
+specify separate synthetic MMIO sequences and a selected native-RAM word;
+they do not establish live initialization or physical completion.
 
 ## Register map
 
