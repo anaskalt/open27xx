@@ -29,10 +29,11 @@ and `62333498488e247fba9ae17a8bf7a6ec22faded1328c94b5cf279d689cbd75a3`.
 The byte-search body SHA-256 is
 `d84528413d76061ee04f5ccb0e11f2838df33a50675b2c4d52dc53698498edf3`.
 
-The suspend registrar at 0x0EDA7260 calls lookup at 0x0EDA72A0, length
-at 0x0EDA72B6 and copy at 0x0EDA72F2. These calls occur after the registrar's
-interrupt boundary at 0x0EDA7270. Standalone helper completion does not
-establish a complete registrar or [first open](arm-first-open.md).
+The [suspend registrar](suspend-registrar.md) at 0x0EDA7260 calls lookup at
+0x0EDA72A0, length at 0x0EDA72B6 and copy at 0x0EDA72F2. These calls occur
+after the registrar's interrupt boundary at 0x0EDA7270. Standalone helper
+completion does not establish a complete registrar or
+[first open](arm-first-open.md).
 
 ## Tuple lookup
 
@@ -275,7 +276,8 @@ when such a recorder failure occurs.
   inputs before exposing 0x0ED1FC44 as a general separate operation.
 - Overlap and wrapping native addresses. Inspect and capture those
   behaviors before extending the disjoint, nonwrapping storage domain.
-- Runtime state and complete registration. Establish object initialization,
-  record lifetime and interrupt-boundary semantics before composing a
-  full suspend registrar. The original GP+0x14E4 pointer and synthetic
-  record contents do not establish live initialization or callback effects.
+- Runtime state. Establish object initialization, record lifetime and
+  physical interrupt-boundary semantics before live registration. The
+  [bounded registrar](suspend-registrar.md) uses explicit software state
+  and conditional IRQ/p16 observations. The original GP+0x14E4 pointer
+  and synthetic records do not establish initialization or callback effects.
