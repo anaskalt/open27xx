@@ -8,6 +8,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ### Added
 
+- Freestanding ARM object registration and repeated-open helpers with exact
+  profile validation, ordered observations and six complete fixture comparisons.
 - ARM object registration and repeated-open contracts with six complete
   synthetic calls, one first-open prefix and explicit retained-record fields.
 - Owned fixed ARM start composition with whole-path validation, retained
