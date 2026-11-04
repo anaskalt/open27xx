@@ -1,0 +1,431 @@
+{
+  "schema": 1,
+  "source": {
+    "file": "bootmain",
+    "repository": "raspberrypi/usbboot",
+    "version": "fdb604d018693465c9aa6ec69879df866d2820da",
+    "sha256": "4deaac8f1e266a626bb422fd7d17bb69c98cb39be2e7db5e566cae68a8e17e4d"
+  },
+  "cases": [
+    {
+      "id": "rsa-boundary-short-signature",
+      "function": {
+        "entry": "0x000A886C",
+        "language": "vc4:LE:32:default"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "sp": "0x24010000",
+          "gp": "0x24020000",
+          "r0": "0x24000000",
+          "r1": "0x24000100",
+          "r2": "0x24000200"
+        },
+        "memory": [
+          {
+            "address": "0x2400F800",
+            "size": 2048,
+            "fill": "00"
+          },
+          {
+            "address": "0x24000000",
+            "hex": "4646554200300024200000002000000000000000"
+          },
+          {
+            "address": "0x24000100",
+            "hex": "4646554200400024ff0000002c01000000000000"
+          },
+          {
+            "address": "0x24000200",
+            "hex": "4646554200500024000000002c01000000000000"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24030000",
+        "step_limit": 100000,
+        "stubs": [
+          {
+            "entry": "0x000B2394",
+            "label": "diagnostic output",
+            "replies": [
+              {
+                "registers": {},
+                "memory": []
+              }
+            ]
+          },
+          {
+            "entry": "0x000A71DC",
+            "label": "diagnostic output",
+            "replies": [
+              {
+                "registers": {},
+                "memory": []
+              }
+            ]
+          }
+        ],
+        "mmio_responses": []
+      },
+      "expected": {
+        "registers": {
+          "sp": "0x24010000",
+          "r0": "0xFFFFFFFF"
+        },
+        "memory": [],
+        "events": [
+          {
+            "kind": "stub",
+            "entry": "0x000B2394",
+            "arguments": [
+              "0x000A8970",
+              "0x24000100",
+              "0x24000200",
+              "0x00000000",
+              "0x00000000",
+              "0x00000000"
+            ],
+            "reply_index": 0
+          },
+          {
+            "kind": "stub",
+            "entry": "0x000A71DC",
+            "arguments": [
+              "0x000A89C8",
+              "0x000000FF",
+              "0x00000000",
+              "0x24005000",
+              "0x42554646",
+              "0x42554646"
+            ],
+            "reply_index": 0
+          }
+        ]
+      },
+      "steps": 59,
+      "scope": [
+        "Reject invalid signature or public-key descriptor lengths before reading their payloads."
+      ],
+      "limitations": [
+        "Payload pointers are deliberately uninitialized and are not dereferenced. No cryptographic verification occurs; diagnostic output is intercepted."
+      ]
+    },
+    {
+      "id": "rsa-boundary-long-signature",
+      "function": {
+        "entry": "0x000A886C",
+        "language": "vc4:LE:32:default"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "sp": "0x24010000",
+          "gp": "0x24020000",
+          "r0": "0x24000000",
+          "r1": "0x24000100",
+          "r2": "0x24000200"
+        },
+        "memory": [
+          {
+            "address": "0x2400F800",
+            "size": 2048,
+            "fill": "00"
+          },
+          {
+            "address": "0x24000000",
+            "hex": "4646554200300024200000002000000000000000"
+          },
+          {
+            "address": "0x24000100",
+            "hex": "4646554200400024010100002c01000000000000"
+          },
+          {
+            "address": "0x24000200",
+            "hex": "4646554200500024000000002c01000000000000"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24030000",
+        "step_limit": 100000,
+        "stubs": [
+          {
+            "entry": "0x000B2394",
+            "label": "diagnostic output",
+            "replies": [
+              {
+                "registers": {},
+                "memory": []
+              }
+            ]
+          },
+          {
+            "entry": "0x000A71DC",
+            "label": "diagnostic output",
+            "replies": [
+              {
+                "registers": {},
+                "memory": []
+              }
+            ]
+          }
+        ],
+        "mmio_responses": []
+      },
+      "expected": {
+        "registers": {
+          "sp": "0x24010000",
+          "r0": "0xFFFFFFFF"
+        },
+        "memory": [],
+        "events": [
+          {
+            "kind": "stub",
+            "entry": "0x000B2394",
+            "arguments": [
+              "0x000A8970",
+              "0x24000100",
+              "0x24000200",
+              "0x00000000",
+              "0x00000000",
+              "0x00000000"
+            ],
+            "reply_index": 0
+          },
+          {
+            "kind": "stub",
+            "entry": "0x000A71DC",
+            "arguments": [
+              "0x000A89C8",
+              "0x00000101",
+              "0x00000000",
+              "0x24005000",
+              "0x42554646",
+              "0x42554646"
+            ],
+            "reply_index": 0
+          }
+        ]
+      },
+      "steps": 59,
+      "scope": [
+        "Reject invalid signature or public-key descriptor lengths before reading their payloads."
+      ],
+      "limitations": [
+        "Payload pointers are deliberately uninitialized and are not dereferenced. No cryptographic verification occurs; diagnostic output is intercepted."
+      ]
+    },
+    {
+      "id": "rsa-boundary-short-key-descriptor",
+      "function": {
+        "entry": "0x000A886C",
+        "language": "vc4:LE:32:default"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "sp": "0x24010000",
+          "gp": "0x24020000",
+          "r0": "0x24000000",
+          "r1": "0x24000100",
+          "r2": "0x24000200"
+        },
+        "memory": [
+          {
+            "address": "0x2400F800",
+            "size": 2048,
+            "fill": "00"
+          },
+          {
+            "address": "0x24000000",
+            "hex": "4646554200300024200000002000000000000000"
+          },
+          {
+            "address": "0x24000100",
+            "hex": "4646554200400024000100002c01000000000000"
+          },
+          {
+            "address": "0x24000200",
+            "hex": "4646554200500024070100002c01000000000000"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24030000",
+        "step_limit": 100000,
+        "stubs": [
+          {
+            "entry": "0x000B2394",
+            "label": "diagnostic output",
+            "replies": [
+              {
+                "registers": {},
+                "memory": []
+              }
+            ]
+          },
+          {
+            "entry": "0x000A71DC",
+            "label": "diagnostic output",
+            "replies": [
+              {
+                "registers": {},
+                "memory": []
+              }
+            ]
+          }
+        ],
+        "mmio_responses": []
+      },
+      "expected": {
+        "registers": {
+          "sp": "0x24010000",
+          "r0": "0xFFFFFFFF"
+        },
+        "memory": [],
+        "events": [
+          {
+            "kind": "stub",
+            "entry": "0x000B2394",
+            "arguments": [
+              "0x000A8970",
+              "0x24000100",
+              "0x24000200",
+              "0x00000000",
+              "0x00000000",
+              "0x00000000"
+            ],
+            "reply_index": 0
+          },
+          {
+            "kind": "stub",
+            "entry": "0x000A71DC",
+            "arguments": [
+              "0x000A89AC",
+              "0x00000100",
+              "0x00000107",
+              "0x00000107",
+              "0x42554646",
+              "0x42554646"
+            ],
+            "reply_index": 0
+          }
+        ]
+      },
+      "steps": 63,
+      "scope": [
+        "Reject invalid signature or public-key descriptor lengths before reading their payloads."
+      ],
+      "limitations": [
+        "Payload pointers are deliberately uninitialized and are not dereferenced. No cryptographic verification occurs; diagnostic output is intercepted."
+      ]
+    },
+    {
+      "id": "rsa-boundary-long-key-descriptor",
+      "function": {
+        "entry": "0x000A886C",
+        "language": "vc4:LE:32:default"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "sp": "0x24010000",
+          "gp": "0x24020000",
+          "r0": "0x24000000",
+          "r1": "0x24000100",
+          "r2": "0x24000200"
+        },
+        "memory": [
+          {
+            "address": "0x2400F800",
+            "size": 2048,
+            "fill": "00"
+          },
+          {
+            "address": "0x24000000",
+            "hex": "4646554200300024200000002000000000000000"
+          },
+          {
+            "address": "0x24000100",
+            "hex": "4646554200400024000100002c01000000000000"
+          },
+          {
+            "address": "0x24000200",
+            "hex": "4646554200500024090100002c01000000000000"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24030000",
+        "step_limit": 100000,
+        "stubs": [
+          {
+            "entry": "0x000B2394",
+            "label": "diagnostic output",
+            "replies": [
+              {
+                "registers": {},
+                "memory": []
+              }
+            ]
+          },
+          {
+            "entry": "0x000A71DC",
+            "label": "diagnostic output",
+            "replies": [
+              {
+                "registers": {},
+                "memory": []
+              }
+            ]
+          }
+        ],
+        "mmio_responses": []
+      },
+      "expected": {
+        "registers": {
+          "sp": "0x24010000",
+          "r0": "0xFFFFFFFF"
+        },
+        "memory": [],
+        "events": [
+          {
+            "kind": "stub",
+            "entry": "0x000B2394",
+            "arguments": [
+              "0x000A8970",
+              "0x24000100",
+              "0x24000200",
+              "0x00000000",
+              "0x00000000",
+              "0x00000000"
+            ],
+            "reply_index": 0
+          },
+          {
+            "kind": "stub",
+            "entry": "0x000A71DC",
+            "arguments": [
+              "0x000A89AC",
+              "0x00000100",
+              "0x00000109",
+              "0x00000109",
+              "0x42554646",
+              "0x42554646"
+            ],
+            "reply_index": 0
+          }
+        ]
+      },
+      "steps": 63,
+      "scope": [
+        "Reject invalid signature or public-key descriptor lengths before reading their payloads."
+      ],
+      "limitations": [
+        "Payload pointers are deliberately uninitialized and are not dereferenced. No cryptographic verification occurs; diagnostic output is intercepted."
+      ]
+    }
+  ]
+}

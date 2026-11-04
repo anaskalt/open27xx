@@ -1,0 +1,491 @@
+{
+  "schema": 1,
+  "source": {
+    "file": "bootmain",
+    "repository": "raspberrypi/usbboot",
+    "version": "fdb604d018693465c9aa6ec69879df866d2820da",
+    "sha256": "4deaac8f1e266a626bb422fd7d17bb69c98cb39be2e7db5e566cae68a8e17e4d"
+  },
+  "cases": [
+    {
+      "id": "elf-header-valid",
+      "function": {
+        "entry": "0x0008E2A2",
+        "language": "vc4:LE:32:default"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "sp": "0x24010000",
+          "gp": "0x24020000",
+          "r0": "0x24000000",
+          "r1": "0x00000100"
+        },
+        "memory": [
+          {
+            "address": "0x2400F800",
+            "size": 2048,
+            "fill": "00"
+          },
+          {
+            "address": "0x24000000",
+            "hex": "7f454c46010100000000000000000000020089000100000000800024340000000000000000010000340020000100280000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24030000",
+        "step_limit": 100000,
+        "stubs": [],
+        "mmio_responses": []
+      },
+      "expected": {
+        "registers": {
+          "sp": "0x24010000",
+          "r0": "0x00000000"
+        },
+        "memory": [],
+        "events": []
+      },
+      "steps": 32,
+      "scope": [
+        "Exercise the loader header check with synthetic ELF32 fields."
+      ],
+      "limitations": [
+        "This function checks selected fields and table extents; it is not a complete ELF validator."
+      ]
+    },
+    {
+      "id": "elf-header-unaligned",
+      "function": {
+        "entry": "0x0008E2A2",
+        "language": "vc4:LE:32:default"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "sp": "0x24010000",
+          "gp": "0x24020000",
+          "r0": "0x24000001",
+          "r1": "0x00000100"
+        },
+        "memory": [
+          {
+            "address": "0x2400F800",
+            "size": 2048,
+            "fill": "00"
+          },
+          {
+            "address": "0x24000001",
+            "hex": "7f454c46010100000000000000000000020089000100000000800024340000000000000000010000340020000100280000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24030000",
+        "step_limit": 100000,
+        "stubs": [],
+        "mmio_responses": []
+      },
+      "expected": {
+        "registers": {
+          "sp": "0x24010000",
+          "r0": "0xFFFFFFFF"
+        },
+        "memory": [],
+        "events": []
+      },
+      "steps": 7,
+      "scope": [
+        "Exercise the loader header check with synthetic ELF32 fields."
+      ],
+      "limitations": [
+        "This function checks selected fields and table extents; it is not a complete ELF validator."
+      ]
+    },
+    {
+      "id": "elf-header-wrong-class",
+      "function": {
+        "entry": "0x0008E2A2",
+        "language": "vc4:LE:32:default"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "sp": "0x24010000",
+          "gp": "0x24020000",
+          "r0": "0x24000000",
+          "r1": "0x00000100"
+        },
+        "memory": [
+          {
+            "address": "0x2400F800",
+            "size": 2048,
+            "fill": "00"
+          },
+          {
+            "address": "0x24000000",
+            "hex": "7f454c46020100000000000000000000020089000100000000800024340000000000000000010000340020000100280000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24030000",
+        "step_limit": 100000,
+        "stubs": [],
+        "mmio_responses": []
+      },
+      "expected": {
+        "registers": {
+          "sp": "0x24010000",
+          "r0": "0xFFFFFFFF"
+        },
+        "memory": [],
+        "events": []
+      },
+      "steps": 9,
+      "scope": [
+        "Exercise the loader header check with synthetic ELF32 fields."
+      ],
+      "limitations": [
+        "This function checks selected fields and table extents; it is not a complete ELF validator."
+      ]
+    },
+    {
+      "id": "elf-header-wrong-endian",
+      "function": {
+        "entry": "0x0008E2A2",
+        "language": "vc4:LE:32:default"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "sp": "0x24010000",
+          "gp": "0x24020000",
+          "r0": "0x24000000",
+          "r1": "0x00000100"
+        },
+        "memory": [
+          {
+            "address": "0x2400F800",
+            "size": 2048,
+            "fill": "00"
+          },
+          {
+            "address": "0x24000000",
+            "hex": "7f454c46010200000000000000000000020089000100000000800024340000000000000000010000340020000100280000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24030000",
+        "step_limit": 100000,
+        "stubs": [],
+        "mmio_responses": []
+      },
+      "expected": {
+        "registers": {
+          "sp": "0x24010000",
+          "r0": "0xFFFFFFFF"
+        },
+        "memory": [],
+        "events": []
+      },
+      "steps": 11,
+      "scope": [
+        "Exercise the loader header check with synthetic ELF32 fields."
+      ],
+      "limitations": [
+        "This function checks selected fields and table extents; it is not a complete ELF validator."
+      ]
+    },
+    {
+      "id": "elf-header-wrong-machine",
+      "function": {
+        "entry": "0x0008E2A2",
+        "language": "vc4:LE:32:default"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "sp": "0x24010000",
+          "gp": "0x24020000",
+          "r0": "0x24000000",
+          "r1": "0x00000100"
+        },
+        "memory": [
+          {
+            "address": "0x2400F800",
+            "size": 2048,
+            "fill": "00"
+          },
+          {
+            "address": "0x24000000",
+            "hex": "7f454c46010100000000000000000000020028000100000000800024340000000000000000010000340020000100280000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24030000",
+        "step_limit": 100000,
+        "stubs": [],
+        "mmio_responses": []
+      },
+      "expected": {
+        "registers": {
+          "sp": "0x24010000",
+          "r0": "0xFFFFFFFF"
+        },
+        "memory": [],
+        "events": []
+      },
+      "steps": 14,
+      "scope": [
+        "Exercise the loader header check with synthetic ELF32 fields."
+      ],
+      "limitations": [
+        "This function checks selected fields and table extents; it is not a complete ELF validator."
+      ]
+    },
+    {
+      "id": "elf-header-wrong-type",
+      "function": {
+        "entry": "0x0008E2A2",
+        "language": "vc4:LE:32:default"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "sp": "0x24010000",
+          "gp": "0x24020000",
+          "r0": "0x24000000",
+          "r1": "0x00000100"
+        },
+        "memory": [
+          {
+            "address": "0x2400F800",
+            "size": 2048,
+            "fill": "00"
+          },
+          {
+            "address": "0x24000000",
+            "hex": "7f454c46010100000000000000000000010089000100000000800024340000000000000000010000340020000100280000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24030000",
+        "step_limit": 100000,
+        "stubs": [],
+        "mmio_responses": []
+      },
+      "expected": {
+        "registers": {
+          "sp": "0x24010000",
+          "r0": "0xFFFFFFFF"
+        },
+        "memory": [],
+        "events": []
+      },
+      "steps": 16,
+      "scope": [
+        "Exercise the loader header check with synthetic ELF32 fields."
+      ],
+      "limitations": [
+        "This function checks selected fields and table extents; it is not a complete ELF validator."
+      ]
+    },
+    {
+      "id": "elf-header-no-program-headers",
+      "function": {
+        "entry": "0x0008E2A2",
+        "language": "vc4:LE:32:default"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "sp": "0x24010000",
+          "gp": "0x24020000",
+          "r0": "0x24000000",
+          "r1": "0x00000100"
+        },
+        "memory": [
+          {
+            "address": "0x2400F800",
+            "size": 2048,
+            "fill": "00"
+          },
+          {
+            "address": "0x24000000",
+            "hex": "7f454c46010100000000000000000000020089000100000000800024340000000000000000010000340020000000280000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24030000",
+        "step_limit": 100000,
+        "stubs": [],
+        "mmio_responses": []
+      },
+      "expected": {
+        "registers": {
+          "sp": "0x24010000",
+          "r0": "0xFFFFFFFF"
+        },
+        "memory": [],
+        "events": []
+      },
+      "steps": 18,
+      "scope": [
+        "Exercise the loader header check with synthetic ELF32 fields."
+      ],
+      "limitations": [
+        "This function checks selected fields and table extents; it is not a complete ELF validator."
+      ]
+    },
+    {
+      "id": "elf-header-program-table-overrun",
+      "function": {
+        "entry": "0x0008E2A2",
+        "language": "vc4:LE:32:default"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "sp": "0x24010000",
+          "gp": "0x24020000",
+          "r0": "0x24000000",
+          "r1": "0x00000053"
+        },
+        "memory": [
+          {
+            "address": "0x2400F800",
+            "size": 2048,
+            "fill": "00"
+          },
+          {
+            "address": "0x24000000",
+            "hex": "7f454c46010100000000000000000000020089000100000000800024340000000000000000010000340020000100280000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24030000",
+        "step_limit": 100000,
+        "stubs": [],
+        "mmio_responses": []
+      },
+      "expected": {
+        "registers": {
+          "sp": "0x24010000",
+          "r0": "0xFFFFFFFF"
+        },
+        "memory": [],
+        "events": []
+      },
+      "steps": 24,
+      "scope": [
+        "Exercise the loader header check with synthetic ELF32 fields."
+      ],
+      "limitations": [
+        "This function checks selected fields and table extents; it is not a complete ELF validator."
+      ]
+    },
+    {
+      "id": "elf-header-section-table-overrun",
+      "function": {
+        "entry": "0x0008E2A2",
+        "language": "vc4:LE:32:default"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "sp": "0x24010000",
+          "gp": "0x24020000",
+          "r0": "0x24000000",
+          "r1": "0x00000100"
+        },
+        "memory": [
+          {
+            "address": "0x2400F800",
+            "size": 2048,
+            "fill": "00"
+          },
+          {
+            "address": "0x24000000",
+            "hex": "7f454c46010100000000000000000000020089000100000000800024340000000001000000010000340020000100280001000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24030000",
+        "step_limit": 100000,
+        "stubs": [],
+        "mmio_responses": []
+      },
+      "expected": {
+        "registers": {
+          "sp": "0x24010000",
+          "r0": "0xFFFFFFFF"
+        },
+        "memory": [],
+        "events": []
+      },
+      "steps": 33,
+      "scope": [
+        "Exercise the loader header check with synthetic ELF32 fields."
+      ],
+      "limitations": [
+        "This function checks selected fields and table extents; it is not a complete ELF validator."
+      ]
+    },
+    {
+      "id": "elf-header-magic-unchecked",
+      "function": {
+        "entry": "0x0008E2A2",
+        "language": "vc4:LE:32:default"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "sp": "0x24010000",
+          "gp": "0x24020000",
+          "r0": "0x24000000",
+          "r1": "0x00000100"
+        },
+        "memory": [
+          {
+            "address": "0x2400F800",
+            "size": 2048,
+            "fill": "00"
+          },
+          {
+            "address": "0x24000000",
+            "hex": "00000000010100000000000000000000020089000100000000800024340000000000000000010000340020000100280000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24030000",
+        "step_limit": 100000,
+        "stubs": [],
+        "mmio_responses": []
+      },
+      "expected": {
+        "registers": {
+          "sp": "0x24010000",
+          "r0": "0x00000000"
+        },
+        "memory": [],
+        "events": []
+      },
+      "steps": 32,
+      "scope": [
+        "Exercise the loader header check with synthetic ELF32 fields."
+      ],
+      "limitations": [
+        "This function checks selected fields and table extents; it is not a complete ELF validator."
+      ]
+    }
+  ]
+}
