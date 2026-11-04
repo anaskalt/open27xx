@@ -121,7 +121,7 @@ The identified `bootmain` uses these stages for the selected firmware pair:
 1. 0x00086FC8 chooses a firmware candidate and calls 0x00086E14 to submit its file request.
 2. Completion handler 0x00085748 accepts a successful file event and calls 0x00086FA6 to request the selected fixup file.
 3. Completion handler 0x000857A8 continues to 0x00086754 even when the fixup is missing or empty.
-4. 0x00086754 checks the ELF header, examines compatibility sections, applies a supplied fixup, checks the header again and calls the segment loader at 0x0008E1EA. The segment and fixup details are in [start4.md](start4.md#loading-by-bootmain).
+4. 0x00086754 checks the ELF header, examines compatibility sections, applies a supplied fixup, checks the header again and calls the segment loader at 0x0008E1EA. The [ordinary compatibility checks](elf-compatibility.md) define the conditional feature-word requirements. The segment and fixup details are in [start4.md](start4.md#loading-by-bootmain).
 
 At 0x00086E14, context offsets 0x10C and 0x110 retain the file and optional signature descriptors. The request object at context offset 0x124 receives filename pointers at offsets 0x94 and 0xA0 and eight buffer pointers at 0xB4. Buffer lengths are reset before submission. Event 0x16 requests an ordinary file, 0x18 a signature-aware file and 0x1A the alternate signature-aware path selected by a nonzero fifth argument.
 
