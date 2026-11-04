@@ -109,8 +109,17 @@ class PinnedImageTest(unittest.TestCase):
 
 
 @unittest.skipUnless(HISTORY.is_dir(), "run scripts/fetch-blobs.sh --all first")
-@unittest.skipIf(lz4 is None, "needs the lz4 package")
 class HistoryTest(unittest.TestCase):
+    def test_every_published_image_roundtrips(self):
+        images = sorted(HISTORY.glob("pieeprom-*.bin"))
+        self.assertEqual(len(images), 120)
+        for path in images:
+            with self.subTest(image=path.name):
+                data = path.read_bytes()
+                rebuilt = eeprom.Image.parse(data).serialize()
+                self.assertTrue(rebuilt == data, "serialized bytes differ")
+
+    @unittest.skipIf(lz4 is None, "needs the lz4 package")
     def test_every_published_image_verifies(self):
         images = sorted(HISTORY.glob("pieeprom-*.bin"))
         digests = set()
@@ -120,6 +129,28 @@ class HistoryTest(unittest.TestCase):
             self.assertEqual(len(data), 512 * 1024, path.name)
             self.assertEqual(eeprom.check(data), [], path.name)
         self.assertEqual((len(images), len(digests)), (120, 119))
+
+    @unittest.skipIf(lz4 is None, "needs the lz4 package")
+    def test_compressed_sections_roundtrip_with_both_codecs(self):
+        images = sorted(HISTORY.glob("pieeprom-*.bin"))
+        self.assertEqual(len(images), 120)
+        encoded = {}
+        for path in images:
+            for section in eeprom.sections(path.read_bytes()):
+                if section.digest is None:
+                    continue
+                data = section.data()
+                for kind in (eeprom.LZSS, eeprom.LZ4):
+                    with self.subTest(image=path.name, section=section.name, kind=kind):
+                        # Identical resources occur in multiple catalog entries.
+                        key = (kind, section.kind, section.name, section.digest)
+                        if key not in encoded:
+                            encoded[key] = section.with_data(data, kind)
+                        rebuilt = encoded[key]
+                        self.assertTrue(rebuilt.data() == data, "decoded bytes differ")
+                        self.assertTrue(rebuilt.digest == section.digest, "stored digest differs")
+                        self.assertTrue(hashlib.sha256(rebuilt.data()).digest() == rebuilt.digest,
+                                        "recompressed digest mismatch")
 
 
 if __name__ == "__main__":
