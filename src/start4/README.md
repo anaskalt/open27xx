@@ -75,6 +75,75 @@ unverified. The check requires only `PT_LOAD` nonzero program headers
 because the documented bootmain helper copies every
 nonzero type. These structural checks do not establish hardware bootability.
 
+## ARM mapping-table preparation
+
+[`arm_mapping.h`](arm_mapping.h) exposes `arm_mapping_prepare` from
+[`arm_mapping.c`](arm_mapping.c). The
+[mapping-table contract](../../docs/bcm2711/arm-mapping.md) defines twelve
+paired profiles. The operation accepts a four-word argument object,
+caller-owned state, a table byte view and its complete declared length,
+an observer plan and a separate raw-result word. The numeric base, offset,
+handle and table identity never become host pointers.
+
+The state groups active, capacity, marker, selection and service-index
+words. Invalid handle zero requires only arguments and raw-result storage.
+Active rejection requires only active state and acquire/release observers.
+The six range/zero/alignment profiles also require capacity. The four table
+profiles require marker, selection and at least 128 table bytes; only
+selection zero requires the service index and service observer. Unused
+state members are neither read nor validated and remain unchanged.
+
+Preflight checks the exact paired profile and every reachable observer
+before any effect. All supplied objects and full declared table extents
+participate in address-wrap and overlap checks, including optional objects
+whose contents the selected path ignores. Null table requires zero length.
+All distinct objects are disjoint, including arguments, state, plan and
+result. Table bytes may be unaligned; typed objects require their type's
+alignment. The caller supplies actual backing, writable state and outputs,
+and lifetime. Bytes beyond the 128-byte table remain unchanged.
+
+The operation owns the arithmetic and table updates. It computes bound
+and step from capacity, uses 32-bit wrapped sums and checks unsigned
+remainders before modifying the table. Fresh state receives 64 little-endian
+halfwords and marker 1. A repeat can consume the actual fresh output and
+replace entry 63 while preserving the other entries. Wrapped-index failure
+retains the preceding table fill and marker store.
+
+| Host status | Effect |
+|---|---|
+| `ARM_MAPPING_OK` | Complete operation; raw result stored after release or directly for invalid handle |
+| `ARM_MAPPING_INVALID` | Required pointer or reachable observer missing; no effects |
+| `ARM_MAPPING_UNSUPPORTED` | Input outside the twelve paired profiles; no effects |
+| `ARM_MAPPING_BOUNDS` | Short used table or wrapped host span; no effects |
+| `ARM_MAPPING_OVERLAP` | Distinct declared objects overlap; no effects |
+
+The separate raw result preserves the returned word, including
+0xFFFFFFFC for the admitted wrapped-index path. That path succeeds as a
+host operation and keeps its state writes. Its numeric offset wrap is
+distinct from host-address span overflow. Raw-result input is unconstrained.
+
+Acquire observes the incoming state. Release follows any table/marker
+updates, including the retained failure writes. Selection-zero service
+also sees those completed stores and precedes release. Observers receive
+only semantic arguments and fixed replies: zero for mutex calls and 7 for
+service. Service reply 7 does not change final raw zero. Observers return
+normally, preserve arguments and all API objects, keep mutable bookkeeping
+and indirect storage separate, and avoid reentry, concurrent mutation and
+hardware access. They do not supply arithmetic or table results.
+
+```sh
+python3 -m unittest tests.test_arm_mapping
+make -C src/start4 check-arm-mapping
+```
+
+Tests compare all twelve complete fixtures, ordered observations, full
+table bytes, state and raw results. They carry actual fresh output into
+the repeat and check unused state fields, exact profiles, complete declared
+spans, missing observers and unaligned table buffers. The VPU target writes
+`build/start4/arm-mapping.o` without linking it into the runtime. Software
+table preparation does not establish physical mapping, cache visibility,
+completed open or ARM execution.
+
 ## ARM entry stub
 
 The separate ARM build needs `aarch64-linux-gnu-gcc`,
