@@ -74,6 +74,67 @@ convention before emulating a function. Vector instructions have
 processor-specific p-code operations without execution semantics in this
 extension; do not emulate vector code.
 
+## Scalar observations
+
+`CaptureScalarVectors.java` runs the synthetic cases in
+`tests/vectors/bootsys/` and `tests/vectors/bootmain/` against a matching
+imported program. Use the versions above and a read-only project. The
+output path must not exist.
+
+```sh
+GHIDRA_HEADLESS_MAXMEM=2G /opt/ghidra/support/analyzeHeadless \
+  /work/analysis/projects firmware_a \
+  -process bootcode4.bin -readOnly -noanalysis -max-cpu 1 \
+  -scriptPath tools/ghidra \
+  -postScript CaptureScalarVectors.java \
+  tests/vectors/bootsys/resource-digest.json \
+  /work/analysis/resource-digest.json
+```
+
+The script checks the imported input SHA-256, then executes scalar
+instructions with `EmulatorHelper`. It records the requested registers,
+memory bytes, ordered callback and MMIO-write events, and instruction
+step counts. Compare the resulting JSON values with the input fixture;
+whitespace and object-key order do not affect the comparison. A matching
+capture reproduces the declared observations, not every aspect of the
+device or boot path.
+
+The schema has these fields:
+
+| Field | Meaning |
+|---|---|
+| `source` | input filename, repository, version and SHA-256 |
+| `cases[].function` | scalar entry, language and optional provisional raw base |
+| `setup.register_default` | initial value for every scalar register before overrides |
+| `setup.registers` | explicit register overrides |
+| `setup.memory` | ordered synthetic memory initialization |
+| `execution` | return address, step limit, literal call responses and MMIO responses |
+| `expected` | observed registers, memory and ordered events |
+| `steps` | executed emulator steps; substituted calls do not count |
+| `scope`, `limitations` | behavior exercised and boundaries not executed |
+
+Addresses and register values are hexadecimal strings with `0x`; byte
+arrays are hexadecimal strings without a prefix. A memory region uses
+`address` and either `hex`, or an integer `size` and one-byte `fill`.
+Regions apply in array order, allowing explicit field overlays on a
+zero-filled synthetic structure. Synthetic RAM uses
+`0x24000000`–`0x24FFFFFF` or `0xE4000000`–`0xE4FFFFFF`; the latter supports
+tests of destinations with a high address alias. These are independent
+emulator regions, not accesses to hardware.
+
+A substituted call has a unique `entry`, a descriptive `label`, and an
+ordered `replies` array of literal register and memory effects. Every
+reply must be consumed exactly once in order. Each interception records
+`r0` through `r5` and returns to the incoming `lr`. The tested decisions
+must remain outside those substitutions.
+
+The recorder rejects uninitialized reads, writes outside declared
+synthetic regions, MMIO reads, modified instruction bytes, vector
+instructions and unsupported p-code operations. It permits and records
+writes to the main-peripheral range. Those events establish write order
+and values only; they do not assign device behavior. All fixtures leave
+`mmio_responses` empty.
+
 ## Open questions
 
 - Raw load address and entry point. The pipeline uses base `0x80000000`

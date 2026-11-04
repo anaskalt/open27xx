@@ -1,0 +1,1642 @@
+{
+  "schema": 1,
+  "source": {
+    "file": "bootcode4.bin",
+    "repository": "raspberrypi/usbboot",
+    "version": "fdb604d018693465c9aa6ec69879df866d2820da",
+    "sha256": "9e1b0b7df904a7fdc22e263d530c6e4c48921229631dd7ea2325271843996f6c"
+  },
+  "cases": [
+    {
+      "id": "payload-raw-match",
+      "function": {
+        "entry": "0x80009FE4",
+        "language": "vc4:LE:32:default",
+        "provisional_base": "0x80000000"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "sp": "0x24010000",
+          "gp": "0x24020000",
+          "r0": "0x24001000",
+          "r1": "0x24002000",
+          "r2": "0x00000000",
+          "r3": "0x00000003",
+          "r4": "0x24004000",
+          "r5": "0x24005000"
+        },
+        "memory": [
+          {
+            "address": "0x2400FC00",
+            "size": 1028,
+            "fill": "00"
+          },
+          {
+            "address": "0x2401FFFC",
+            "hex": "204e0080"
+          },
+          {
+            "address": "0x24001000",
+            "hex": "1ff1aa55400000007265736f757263652e62696e000000000300000000010000"
+          },
+          {
+            "address": "0x24002000",
+            "hex": "0021002400000000"
+          },
+          {
+            "address": "0x24002100",
+            "hex": "4646554200300024000000004000000000000000"
+          },
+          {
+            "address": "0x24003000",
+            "size": 64,
+            "fill": "a5"
+          },
+          {
+            "address": "0x24004000",
+            "size": 32,
+            "fill": "a5"
+          },
+          {
+            "address": "0x24005000",
+            "hex": "ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24030000",
+        "step_limit": 1000000,
+        "stubs": [
+          {
+            "entry": "0x8000A0F4",
+            "label": "payload-transfer-boundary",
+            "replies": [
+              {
+                "registers": {
+                  "r0": "0x00000000"
+                },
+                "memory": [
+                  {
+                    "address": "0x24003000",
+                    "hex": "616263"
+                  },
+                  {
+                    "address": "0x24002108",
+                    "hex": "03000000"
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "mmio_responses": []
+      },
+      "expected": {
+        "registers": {
+          "r0": "0x00000000",
+          "sp": "0x24010000"
+        },
+        "memory": [
+          {
+            "address": "0x24003000",
+            "hex": "616263a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+          },
+          {
+            "address": "0x24004000",
+            "hex": "ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad"
+          },
+          {
+            "address": "0x24002100",
+            "hex": "4646554200300024030000004000000000000000"
+          }
+        ],
+        "events": [
+          {
+            "kind": "stub",
+            "entry": "0x8000A0F4",
+            "arguments": [
+              "0x24002000",
+              "0x00000100",
+              "0x00000003",
+              "0x00000000",
+              "0x00000000",
+              "0x00000040"
+            ],
+            "reply_index": 0
+          },
+          {
+            "kind": "mmio_write",
+            "address": "0x7E100024",
+            "hex": "ffff0f5a"
+          }
+        ]
+      },
+      "steps": 4455,
+      "scope": [
+        "Check destination capacity, route the codec mode and verify the transferred bytes with SHA-256.",
+        "A failed digest comparison clears the bytes already written."
+      ],
+      "limitations": [
+        "The transport/decompression call supplies literal synthetic bytes; these cases do not establish codec correctness.",
+        "The watchdog register write is recorded without simulating a device response.",
+        "Every call listed in execution.stubs returns the recorded reply without executing the callee body."
+      ]
+    },
+    {
+      "id": "payload-lzss-match",
+      "function": {
+        "entry": "0x80009FE4",
+        "language": "vc4:LE:32:default",
+        "provisional_base": "0x80000000"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "sp": "0x24010000",
+          "gp": "0x24020000",
+          "r0": "0x24001000",
+          "r1": "0x24002000",
+          "r2": "0x00000000",
+          "r3": "0x00000003",
+          "r4": "0x24004000",
+          "r5": "0x24005000"
+        },
+        "memory": [
+          {
+            "address": "0x2400FC00",
+            "size": 1028,
+            "fill": "00"
+          },
+          {
+            "address": "0x2401FFFC",
+            "hex": "204e0080"
+          },
+          {
+            "address": "0x24001000",
+            "hex": "3ff3aa55400000007265736f757263652e62696e000000000300000000010000"
+          },
+          {
+            "address": "0x24002000",
+            "hex": "0021002400000000"
+          },
+          {
+            "address": "0x24002100",
+            "hex": "4646554200300024000000004000000000000000"
+          },
+          {
+            "address": "0x24003000",
+            "size": 64,
+            "fill": "a5"
+          },
+          {
+            "address": "0x24004000",
+            "size": 32,
+            "fill": "a5"
+          },
+          {
+            "address": "0x24005000",
+            "hex": "ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24030000",
+        "step_limit": 1000000,
+        "stubs": [
+          {
+            "entry": "0x8000A0F4",
+            "label": "payload-transfer-boundary",
+            "replies": [
+              {
+                "registers": {
+                  "r0": "0x00000000"
+                },
+                "memory": [
+                  {
+                    "address": "0x24003000",
+                    "hex": "616263"
+                  },
+                  {
+                    "address": "0x24002108",
+                    "hex": "03000000"
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "mmio_responses": []
+      },
+      "expected": {
+        "registers": {
+          "r0": "0x00000000",
+          "sp": "0x24010000"
+        },
+        "memory": [
+          {
+            "address": "0x24003000",
+            "hex": "616263a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+          },
+          {
+            "address": "0x24004000",
+            "hex": "ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad"
+          },
+          {
+            "address": "0x24002100",
+            "hex": "4646554200300024030000004000000000000000"
+          }
+        ],
+        "events": [
+          {
+            "kind": "stub",
+            "entry": "0x8000A0F4",
+            "arguments": [
+              "0x24002000",
+              "0x00000100",
+              "0x00000003",
+              "0x00000001",
+              "0x00000000",
+              "0x00000040"
+            ],
+            "reply_index": 0
+          },
+          {
+            "kind": "mmio_write",
+            "address": "0x7E100024",
+            "hex": "ffff0f5a"
+          }
+        ]
+      },
+      "steps": 4453,
+      "scope": [
+        "Check destination capacity, route the codec mode and verify the transferred bytes with SHA-256.",
+        "A failed digest comparison clears the bytes already written."
+      ],
+      "limitations": [
+        "The transport/decompression call supplies literal synthetic bytes; these cases do not establish codec correctness.",
+        "The watchdog register write is recorded without simulating a device response.",
+        "Every call listed in execution.stubs returns the recorded reply without executing the callee body."
+      ]
+    },
+    {
+      "id": "payload-lz4-match",
+      "function": {
+        "entry": "0x80009FE4",
+        "language": "vc4:LE:32:default",
+        "provisional_base": "0x80000000"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "sp": "0x24010000",
+          "gp": "0x24020000",
+          "r0": "0x24001000",
+          "r1": "0x24002000",
+          "r2": "0x00000000",
+          "r3": "0x00000003",
+          "r4": "0x24004000",
+          "r5": "0x24005000"
+        },
+        "memory": [
+          {
+            "address": "0x2400FC00",
+            "size": 1028,
+            "fill": "00"
+          },
+          {
+            "address": "0x2401FFFC",
+            "hex": "204e0080"
+          },
+          {
+            "address": "0x24001000",
+            "hex": "4ff4aa55400000007265736f757263652e62696e000000000300000000010000"
+          },
+          {
+            "address": "0x24002000",
+            "hex": "0021002400000000"
+          },
+          {
+            "address": "0x24002100",
+            "hex": "4646554200300024000000004000000000000000"
+          },
+          {
+            "address": "0x24003000",
+            "size": 64,
+            "fill": "a5"
+          },
+          {
+            "address": "0x24004000",
+            "size": 32,
+            "fill": "a5"
+          },
+          {
+            "address": "0x24005000",
+            "hex": "ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24030000",
+        "step_limit": 1000000,
+        "stubs": [
+          {
+            "entry": "0x8000A0F4",
+            "label": "payload-transfer-boundary",
+            "replies": [
+              {
+                "registers": {
+                  "r0": "0x00000000"
+                },
+                "memory": [
+                  {
+                    "address": "0x24003000",
+                    "hex": "616263"
+                  },
+                  {
+                    "address": "0x24002108",
+                    "hex": "03000000"
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "mmio_responses": []
+      },
+      "expected": {
+        "registers": {
+          "r0": "0x00000000",
+          "sp": "0x24010000"
+        },
+        "memory": [
+          {
+            "address": "0x24003000",
+            "hex": "616263a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+          },
+          {
+            "address": "0x24004000",
+            "hex": "ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad"
+          },
+          {
+            "address": "0x24002100",
+            "hex": "4646554200300024030000004000000000000000"
+          }
+        ],
+        "events": [
+          {
+            "kind": "stub",
+            "entry": "0x8000A0F4",
+            "arguments": [
+              "0x24002000",
+              "0x00000100",
+              "0x00000003",
+              "0x00000002",
+              "0x00000000",
+              "0x00000040"
+            ],
+            "reply_index": 0
+          },
+          {
+            "kind": "mmio_write",
+            "address": "0x7E100024",
+            "hex": "ffff0f5a"
+          }
+        ]
+      },
+      "steps": 4454,
+      "scope": [
+        "Check destination capacity, route the codec mode and verify the transferred bytes with SHA-256.",
+        "A failed digest comparison clears the bytes already written."
+      ],
+      "limitations": [
+        "The transport/decompression call supplies literal synthetic bytes; these cases do not establish codec correctness.",
+        "The watchdog register write is recorded without simulating a device response.",
+        "Every call listed in execution.stubs returns the recorded reply without executing the callee body."
+      ]
+    },
+    {
+      "id": "payload-digest-mismatch",
+      "function": {
+        "entry": "0x80009FE4",
+        "language": "vc4:LE:32:default",
+        "provisional_base": "0x80000000"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "sp": "0x24010000",
+          "gp": "0x24020000",
+          "r0": "0x24001000",
+          "r1": "0x24002000",
+          "r2": "0x00000000",
+          "r3": "0x00000003",
+          "r4": "0x24004000",
+          "r5": "0x24005000"
+        },
+        "memory": [
+          {
+            "address": "0x2400FC00",
+            "size": 1028,
+            "fill": "00"
+          },
+          {
+            "address": "0x2401FFFC",
+            "hex": "204e0080"
+          },
+          {
+            "address": "0x24001000",
+            "hex": "4ff4aa55400000007265736f757263652e62696e000000000300000000010000"
+          },
+          {
+            "address": "0x24002000",
+            "hex": "0021002400000000"
+          },
+          {
+            "address": "0x24002100",
+            "hex": "4646554200300024000000004000000000000000"
+          },
+          {
+            "address": "0x24003000",
+            "size": 64,
+            "fill": "a5"
+          },
+          {
+            "address": "0x24004000",
+            "size": 32,
+            "fill": "a5"
+          },
+          {
+            "address": "0x24005000",
+            "hex": "0000000000000000000000000000000000000000000000000000000000000000"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24030000",
+        "step_limit": 1000000,
+        "stubs": [
+          {
+            "entry": "0x8000A0F4",
+            "label": "payload-transfer-boundary",
+            "replies": [
+              {
+                "registers": {
+                  "r0": "0x00000000"
+                },
+                "memory": [
+                  {
+                    "address": "0x24003000",
+                    "hex": "616263"
+                  },
+                  {
+                    "address": "0x24002108",
+                    "hex": "03000000"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "entry": "0x80006D50",
+            "label": "diagnostic-error-output",
+            "replies": [
+              {
+                "registers": {
+                  "r0": "0x00000000"
+                },
+                "memory": []
+              }
+            ]
+          }
+        ],
+        "mmio_responses": []
+      },
+      "expected": {
+        "registers": {
+          "r0": "0x00000004",
+          "sp": "0x24010000"
+        },
+        "memory": [
+          {
+            "address": "0x24003000",
+            "hex": "000000a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+          },
+          {
+            "address": "0x24004000",
+            "hex": "ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad"
+          },
+          {
+            "address": "0x24002100",
+            "hex": "4646554200300024030000004000000000000000"
+          }
+        ],
+        "events": [
+          {
+            "kind": "stub",
+            "entry": "0x8000A0F4",
+            "arguments": [
+              "0x24002000",
+              "0x00000100",
+              "0x00000003",
+              "0x00000002",
+              "0x00000000",
+              "0x00000040"
+            ],
+            "reply_index": 0
+          },
+          {
+            "kind": "mmio_write",
+            "address": "0x7E100024",
+            "hex": "ffff0f5a"
+          },
+          {
+            "kind": "stub",
+            "entry": "0x80006D50",
+            "arguments": [
+              "0x8000A0E8",
+              "0x24001008",
+              "0x00000000",
+              "0x24003003",
+              "0x00000000",
+              "0x00000000"
+            ],
+            "reply_index": 0
+          }
+        ]
+      },
+      "steps": 4299,
+      "scope": [
+        "Check destination capacity, route the codec mode and verify the transferred bytes with SHA-256.",
+        "A failed digest comparison clears the bytes already written."
+      ],
+      "limitations": [
+        "The transport/decompression call supplies literal synthetic bytes; these cases do not establish codec correctness.",
+        "The watchdog register write is recorded without simulating a device response.",
+        "Every call listed in execution.stubs returns the recorded reply without executing the callee body."
+      ]
+    },
+    {
+      "id": "payload-capacity-error",
+      "function": {
+        "entry": "0x80009FE4",
+        "language": "vc4:LE:32:default",
+        "provisional_base": "0x80000000"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "sp": "0x24010000",
+          "gp": "0x24020000",
+          "r0": "0x24001000",
+          "r1": "0x24002000",
+          "r2": "0x00000000",
+          "r3": "0x00000003",
+          "r4": "0x24004000",
+          "r5": "0x24005000"
+        },
+        "memory": [
+          {
+            "address": "0x2400FC00",
+            "size": 1028,
+            "fill": "00"
+          },
+          {
+            "address": "0x2401FFFC",
+            "hex": "204e0080"
+          },
+          {
+            "address": "0x24001000",
+            "hex": "4ff4aa55400000007265736f757263652e62696e000000000300000000010000"
+          },
+          {
+            "address": "0x24002000",
+            "hex": "0021002400000000"
+          },
+          {
+            "address": "0x24002100",
+            "hex": "4646554200300024000000000200000000000000"
+          },
+          {
+            "address": "0x24003000",
+            "size": 64,
+            "fill": "a5"
+          },
+          {
+            "address": "0x24004000",
+            "size": 32,
+            "fill": "a5"
+          },
+          {
+            "address": "0x24005000",
+            "hex": "ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24030000",
+        "step_limit": 1000000,
+        "stubs": [],
+        "mmio_responses": []
+      },
+      "expected": {
+        "registers": {
+          "r0": "0x00000001",
+          "sp": "0x24010000"
+        },
+        "memory": [
+          {
+            "address": "0x24003000",
+            "hex": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+          },
+          {
+            "address": "0x24004000",
+            "hex": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+          },
+          {
+            "address": "0x24002100",
+            "hex": "4646554200300024000000000200000000000000"
+          }
+        ],
+        "events": []
+      },
+      "steps": 33,
+      "scope": [
+        "Check destination capacity, route the codec mode and verify the transferred bytes with SHA-256.",
+        "A failed digest comparison clears the bytes already written."
+      ],
+      "limitations": [
+        "The transport/decompression call supplies literal synthetic bytes; these cases do not establish codec correctness.",
+        "The watchdog register write is recorded without simulating a device response."
+      ]
+    },
+    {
+      "id": "payload-transfer-error",
+      "function": {
+        "entry": "0x80009FE4",
+        "language": "vc4:LE:32:default",
+        "provisional_base": "0x80000000"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "sp": "0x24010000",
+          "gp": "0x24020000",
+          "r0": "0x24001000",
+          "r1": "0x24002000",
+          "r2": "0x00000000",
+          "r3": "0x00000003",
+          "r4": "0x24004000",
+          "r5": "0x24005000"
+        },
+        "memory": [
+          {
+            "address": "0x2400FC00",
+            "size": 1028,
+            "fill": "00"
+          },
+          {
+            "address": "0x2401FFFC",
+            "hex": "204e0080"
+          },
+          {
+            "address": "0x24001000",
+            "hex": "4ff4aa55400000007265736f757263652e62696e000000000300000000010000"
+          },
+          {
+            "address": "0x24002000",
+            "hex": "0021002400000000"
+          },
+          {
+            "address": "0x24002100",
+            "hex": "4646554200300024000000004000000000000000"
+          },
+          {
+            "address": "0x24003000",
+            "size": 64,
+            "fill": "a5"
+          },
+          {
+            "address": "0x24004000",
+            "size": 32,
+            "fill": "a5"
+          },
+          {
+            "address": "0x24005000",
+            "hex": "ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24030000",
+        "step_limit": 1000000,
+        "stubs": [
+          {
+            "entry": "0x8000A0F4",
+            "label": "payload-transfer-boundary",
+            "replies": [
+              {
+                "registers": {
+                  "r0": "0x00000003"
+                },
+                "memory": []
+              }
+            ]
+          }
+        ],
+        "mmio_responses": []
+      },
+      "expected": {
+        "registers": {
+          "r0": "0x00000003",
+          "sp": "0x24010000"
+        },
+        "memory": [
+          {
+            "address": "0x24003000",
+            "hex": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+          },
+          {
+            "address": "0x24004000",
+            "hex": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+          },
+          {
+            "address": "0x24002100",
+            "hex": "4646554200300024000000004000000000000000"
+          }
+        ],
+        "events": [
+          {
+            "kind": "stub",
+            "entry": "0x8000A0F4",
+            "arguments": [
+              "0x24002000",
+              "0x00000100",
+              "0x00000003",
+              "0x00000002",
+              "0x00000000",
+              "0x00000040"
+            ],
+            "reply_index": 0
+          }
+        ]
+      },
+      "steps": 41,
+      "scope": [
+        "Check destination capacity, route the codec mode and verify the transferred bytes with SHA-256.",
+        "A failed digest comparison clears the bytes already written."
+      ],
+      "limitations": [
+        "The transport/decompression call supplies literal synthetic bytes; these cases do not establish codec correctness.",
+        "The watchdog register write is recorded without simulating a device response.",
+        "Every call listed in execution.stubs returns the recorded reply without executing the callee body."
+      ]
+    },
+    {
+      "id": "payload-raw-no-expected",
+      "function": {
+        "entry": "0x80009FE4",
+        "language": "vc4:LE:32:default",
+        "provisional_base": "0x80000000"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "sp": "0x24010000",
+          "gp": "0x24020000",
+          "r0": "0x24001000",
+          "r1": "0x24002000",
+          "r2": "0x00000000",
+          "r3": "0x00000003",
+          "r4": "0x24004000",
+          "r5": "0x00000000"
+        },
+        "memory": [
+          {
+            "address": "0x2400FC00",
+            "size": 1028,
+            "fill": "00"
+          },
+          {
+            "address": "0x2401FFFC",
+            "hex": "204e0080"
+          },
+          {
+            "address": "0x24001000",
+            "hex": "1ff1aa55400000007265736f757263652e62696e000000000300000000010000"
+          },
+          {
+            "address": "0x24002000",
+            "hex": "0021002400000000"
+          },
+          {
+            "address": "0x24002100",
+            "hex": "4646554200300024000000004000000000000000"
+          },
+          {
+            "address": "0x24003000",
+            "size": 64,
+            "fill": "a5"
+          },
+          {
+            "address": "0x24004000",
+            "size": 32,
+            "fill": "a5"
+          },
+          {
+            "address": "0x24005000",
+            "hex": "0000000000000000000000000000000000000000000000000000000000000000"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24030000",
+        "step_limit": 1000000,
+        "stubs": [
+          {
+            "entry": "0x8000A0F4",
+            "label": "payload-transfer-boundary",
+            "replies": [
+              {
+                "registers": {
+                  "r0": "0x00000000"
+                },
+                "memory": [
+                  {
+                    "address": "0x24003000",
+                    "hex": "616263"
+                  },
+                  {
+                    "address": "0x24002108",
+                    "hex": "03000000"
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "mmio_responses": []
+      },
+      "expected": {
+        "registers": {
+          "r0": "0x00000000",
+          "sp": "0x24010000"
+        },
+        "memory": [
+          {
+            "address": "0x24003000",
+            "hex": "616263a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+          },
+          {
+            "address": "0x24004000",
+            "hex": "ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad"
+          },
+          {
+            "address": "0x24002100",
+            "hex": "4646554200300024030000004000000000000000"
+          }
+        ],
+        "events": [
+          {
+            "kind": "stub",
+            "entry": "0x8000A0F4",
+            "arguments": [
+              "0x24002000",
+              "0x00000100",
+              "0x00000003",
+              "0x00000000",
+              "0x00000000",
+              "0x00000040"
+            ],
+            "reply_index": 0
+          },
+          {
+            "kind": "mmio_write",
+            "address": "0x7E100024",
+            "hex": "ffff0f5a"
+          }
+        ]
+      },
+      "steps": 4258,
+      "scope": [
+        "Check destination capacity, route the codec mode and verify the transferred bytes with SHA-256.",
+        "A failed digest comparison clears the bytes already written."
+      ],
+      "limitations": [
+        "The transport/decompression call supplies literal synthetic bytes; these cases do not establish codec correctness.",
+        "The watchdog register write is recorded without simulating a device response.",
+        "Every call listed in execution.stubs returns the recorded reply without executing the callee body."
+      ]
+    },
+    {
+      "id": "payload-scatter-match",
+      "function": {
+        "entry": "0x80009FE4",
+        "language": "vc4:LE:32:default",
+        "provisional_base": "0x80000000"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "sp": "0x24010000",
+          "gp": "0x24020000",
+          "r0": "0x24001000",
+          "r1": "0x24002000",
+          "r2": "0x00000000",
+          "r3": "0x00000003",
+          "r4": "0x24004000",
+          "r5": "0x24005000"
+        },
+        "memory": [
+          {
+            "address": "0x2400FC00",
+            "size": 1028,
+            "fill": "00"
+          },
+          {
+            "address": "0x2401FFFC",
+            "hex": "204e0080"
+          },
+          {
+            "address": "0x24001000",
+            "hex": "4ff4aa55400000007265736f757263652e62696e000000000300000000010000"
+          },
+          {
+            "address": "0x24002000",
+            "hex": "002100242021002400000000"
+          },
+          {
+            "address": "0x24002100",
+            "hex": "4646554200300024000000000200000000000000"
+          },
+          {
+            "address": "0x24003000",
+            "size": 64,
+            "fill": "a5"
+          },
+          {
+            "address": "0x24004000",
+            "size": 32,
+            "fill": "a5"
+          },
+          {
+            "address": "0x24005000",
+            "hex": "ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad"
+          },
+          {
+            "address": "0x24002120",
+            "hex": "4646554200310024000000000200000000000000"
+          },
+          {
+            "address": "0x24003100",
+            "size": 16,
+            "fill": "a5"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24030000",
+        "step_limit": 1000000,
+        "stubs": [
+          {
+            "entry": "0x8000A0F4",
+            "label": "payload-transfer-boundary",
+            "replies": [
+              {
+                "registers": {
+                  "r0": "0x00000000"
+                },
+                "memory": [
+                  {
+                    "address": "0x24003000",
+                    "hex": "6162"
+                  },
+                  {
+                    "address": "0x24002108",
+                    "hex": "02000000"
+                  },
+                  {
+                    "address": "0x24003100",
+                    "hex": "63"
+                  },
+                  {
+                    "address": "0x24002128",
+                    "hex": "01000000"
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "mmio_responses": []
+      },
+      "expected": {
+        "registers": {
+          "r0": "0x00000000",
+          "sp": "0x24010000"
+        },
+        "memory": [
+          {
+            "address": "0x24003000",
+            "hex": "6162a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+          },
+          {
+            "address": "0x24004000",
+            "hex": "ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad"
+          },
+          {
+            "address": "0x24002100",
+            "hex": "4646554200300024020000000200000000000000"
+          },
+          {
+            "address": "0x24003100",
+            "hex": "63a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+          },
+          {
+            "address": "0x24002120",
+            "hex": "4646554200310024010000000200000000000000"
+          }
+        ],
+        "events": [
+          {
+            "kind": "stub",
+            "entry": "0x8000A0F4",
+            "arguments": [
+              "0x24002000",
+              "0x00000100",
+              "0x00000003",
+              "0x00000002",
+              "0x00000000",
+              "0x00000002"
+            ],
+            "reply_index": 0
+          },
+          {
+            "kind": "mmio_write",
+            "address": "0x7E100024",
+            "hex": "ffff0f5a"
+          },
+          {
+            "kind": "mmio_write",
+            "address": "0x7E100024",
+            "hex": "ffff0f5a"
+          }
+        ]
+      },
+      "steps": 4533,
+      "scope": [
+        "Check destination capacity, route the codec mode and verify the transferred bytes with SHA-256.",
+        "A failed digest comparison clears the bytes already written."
+      ],
+      "limitations": [
+        "The transport/decompression call supplies literal synthetic bytes; these cases do not establish codec correctness.",
+        "The watchdog register write is recorded without simulating a device response.",
+        "Every call listed in execution.stubs returns the recorded reply without executing the callee body."
+      ]
+    },
+    {
+      "id": "payload-scatter-mismatch",
+      "function": {
+        "entry": "0x80009FE4",
+        "language": "vc4:LE:32:default",
+        "provisional_base": "0x80000000"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "sp": "0x24010000",
+          "gp": "0x24020000",
+          "r0": "0x24001000",
+          "r1": "0x24002000",
+          "r2": "0x00000000",
+          "r3": "0x00000003",
+          "r4": "0x24004000",
+          "r5": "0x24005000"
+        },
+        "memory": [
+          {
+            "address": "0x2400FC00",
+            "size": 1028,
+            "fill": "00"
+          },
+          {
+            "address": "0x2401FFFC",
+            "hex": "204e0080"
+          },
+          {
+            "address": "0x24001000",
+            "hex": "4ff4aa55400000007265736f757263652e62696e000000000300000000010000"
+          },
+          {
+            "address": "0x24002000",
+            "hex": "002100242021002400000000"
+          },
+          {
+            "address": "0x24002100",
+            "hex": "4646554200300024000000000200000000000000"
+          },
+          {
+            "address": "0x24003000",
+            "size": 64,
+            "fill": "a5"
+          },
+          {
+            "address": "0x24004000",
+            "size": 32,
+            "fill": "a5"
+          },
+          {
+            "address": "0x24005000",
+            "hex": "0000000000000000000000000000000000000000000000000000000000000000"
+          },
+          {
+            "address": "0x24002120",
+            "hex": "4646554200310024000000000200000000000000"
+          },
+          {
+            "address": "0x24003100",
+            "size": 16,
+            "fill": "a5"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24030000",
+        "step_limit": 1000000,
+        "stubs": [
+          {
+            "entry": "0x8000A0F4",
+            "label": "payload-transfer-boundary",
+            "replies": [
+              {
+                "registers": {
+                  "r0": "0x00000000"
+                },
+                "memory": [
+                  {
+                    "address": "0x24003000",
+                    "hex": "6162"
+                  },
+                  {
+                    "address": "0x24002108",
+                    "hex": "02000000"
+                  },
+                  {
+                    "address": "0x24003100",
+                    "hex": "63"
+                  },
+                  {
+                    "address": "0x24002128",
+                    "hex": "01000000"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "entry": "0x80006D50",
+            "label": "diagnostic-error-output",
+            "replies": [
+              {
+                "registers": {
+                  "r0": "0x00000000"
+                },
+                "memory": []
+              }
+            ]
+          }
+        ],
+        "mmio_responses": []
+      },
+      "expected": {
+        "registers": {
+          "r0": "0x00000004",
+          "sp": "0x24010000"
+        },
+        "memory": [
+          {
+            "address": "0x24003000",
+            "hex": "0000a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+          },
+          {
+            "address": "0x24004000",
+            "hex": "ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad"
+          },
+          {
+            "address": "0x24002100",
+            "hex": "4646554200300024020000000200000000000000"
+          },
+          {
+            "address": "0x24003100",
+            "hex": "00a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+          },
+          {
+            "address": "0x24002120",
+            "hex": "4646554200310024010000000200000000000000"
+          }
+        ],
+        "events": [
+          {
+            "kind": "stub",
+            "entry": "0x8000A0F4",
+            "arguments": [
+              "0x24002000",
+              "0x00000100",
+              "0x00000003",
+              "0x00000002",
+              "0x00000000",
+              "0x00000002"
+            ],
+            "reply_index": 0
+          },
+          {
+            "kind": "mmio_write",
+            "address": "0x7E100024",
+            "hex": "ffff0f5a"
+          },
+          {
+            "kind": "mmio_write",
+            "address": "0x7E100024",
+            "hex": "ffff0f5a"
+          },
+          {
+            "kind": "stub",
+            "entry": "0x80006D50",
+            "arguments": [
+              "0x8000A0E8",
+              "0x24001008",
+              "0x00000000",
+              "0x24003101",
+              "0x00000000",
+              "0x00000000"
+            ],
+            "reply_index": 0
+          }
+        ]
+      },
+      "steps": 4394,
+      "scope": [
+        "Check destination capacity, route the codec mode and verify the transferred bytes with SHA-256.",
+        "A failed digest comparison clears the bytes already written."
+      ],
+      "limitations": [
+        "The transport/decompression call supplies literal synthetic bytes; these cases do not establish codec correctness.",
+        "The watchdog register write is recorded without simulating a device response.",
+        "Every call listed in execution.stubs returns the recorded reply without executing the callee body."
+      ]
+    },
+    {
+      "id": "payload-stored-match",
+      "function": {
+        "entry": "0x80009FE4",
+        "language": "vc4:LE:32:default",
+        "provisional_base": "0x80000000"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "sp": "0x24010000",
+          "gp": "0x24020000",
+          "r0": "0x24001000",
+          "r1": "0x24002000",
+          "r2": "0x00000000",
+          "r3": "0x00000003",
+          "r4": "0x24004000",
+          "r5": "0x00000000"
+        },
+        "memory": [
+          {
+            "address": "0x2400FC00",
+            "size": 1028,
+            "fill": "00"
+          },
+          {
+            "address": "0x2401FFFC",
+            "hex": "204e0080"
+          },
+          {
+            "address": "0x24001000",
+            "hex": "4ff4aa55400000007265736f757263652e62696e000000000300000000010000"
+          },
+          {
+            "address": "0x24002000",
+            "hex": "0021002400000000"
+          },
+          {
+            "address": "0x24002100",
+            "hex": "4646554200300024000000004000000000000000"
+          },
+          {
+            "address": "0x24003000",
+            "size": 64,
+            "fill": "a5"
+          },
+          {
+            "address": "0x24004000",
+            "size": 32,
+            "fill": "a5"
+          },
+          {
+            "address": "0x24005000",
+            "hex": "ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24030000",
+        "step_limit": 1000000,
+        "stubs": [
+          {
+            "entry": "0x8000A0F4",
+            "label": "payload-transfer-boundary",
+            "replies": [
+              {
+                "registers": {
+                  "r0": "0x00000000"
+                },
+                "memory": [
+                  {
+                    "address": "0x24003000",
+                    "hex": "616263"
+                  },
+                  {
+                    "address": "0x24002108",
+                    "hex": "03000000"
+                  }
+                ]
+              },
+              {
+                "registers": {
+                  "r0": "0x00000000"
+                },
+                "memory": [
+                  {
+                    "address": "0x2400FF84",
+                    "hex": "ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad"
+                  },
+                  {
+                    "address": "0x2400FFAC",
+                    "hex": "20000000"
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "mmio_responses": []
+      },
+      "expected": {
+        "registers": {
+          "r0": "0x00000000",
+          "sp": "0x24010000"
+        },
+        "memory": [
+          {
+            "address": "0x24003000",
+            "hex": "616263a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+          },
+          {
+            "address": "0x24004000",
+            "hex": "ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad"
+          },
+          {
+            "address": "0x24002100",
+            "hex": "4646554200300024030000004000000000000000"
+          }
+        ],
+        "events": [
+          {
+            "kind": "stub",
+            "entry": "0x8000A0F4",
+            "arguments": [
+              "0x24002000",
+              "0x00000100",
+              "0x00000003",
+              "0x00000002",
+              "0x00000000",
+              "0x00000040"
+            ],
+            "reply_index": 0
+          },
+          {
+            "kind": "mmio_write",
+            "address": "0x7E100024",
+            "hex": "ffff0f5a"
+          },
+          {
+            "kind": "stub",
+            "entry": "0x8000A0F4",
+            "arguments": [
+              "0x2400FF78",
+              "0x00000103",
+              "0x00000020",
+              "0x00000000",
+              "0x00000000",
+              "0x948D25B6"
+            ],
+            "reply_index": 1
+          }
+        ]
+      },
+      "steps": 4491,
+      "scope": [
+        "Check destination capacity, route the codec mode and verify the transferred bytes with SHA-256.",
+        "A failed digest comparison clears the bytes already written."
+      ],
+      "limitations": [
+        "The transport/decompression call supplies literal synthetic bytes; these cases do not establish codec correctness.",
+        "The watchdog register write is recorded without simulating a device response.",
+        "Every call listed in execution.stubs returns the recorded reply without executing the callee body."
+      ]
+    },
+    {
+      "id": "payload-stored-mismatch",
+      "function": {
+        "entry": "0x80009FE4",
+        "language": "vc4:LE:32:default",
+        "provisional_base": "0x80000000"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "sp": "0x24010000",
+          "gp": "0x24020000",
+          "r0": "0x24001000",
+          "r1": "0x24002000",
+          "r2": "0x00000000",
+          "r3": "0x00000003",
+          "r4": "0x24004000",
+          "r5": "0x00000000"
+        },
+        "memory": [
+          {
+            "address": "0x2400FC00",
+            "size": 1028,
+            "fill": "00"
+          },
+          {
+            "address": "0x2401FFFC",
+            "hex": "204e0080"
+          },
+          {
+            "address": "0x24001000",
+            "hex": "4ff4aa55400000007265736f757263652e62696e000000000300000000010000"
+          },
+          {
+            "address": "0x24002000",
+            "hex": "0021002400000000"
+          },
+          {
+            "address": "0x24002100",
+            "hex": "4646554200300024000000004000000000000000"
+          },
+          {
+            "address": "0x24003000",
+            "size": 64,
+            "fill": "a5"
+          },
+          {
+            "address": "0x24004000",
+            "size": 32,
+            "fill": "a5"
+          },
+          {
+            "address": "0x24005000",
+            "hex": "0000000000000000000000000000000000000000000000000000000000000000"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24030000",
+        "step_limit": 1000000,
+        "stubs": [
+          {
+            "entry": "0x8000A0F4",
+            "label": "payload-transfer-boundary",
+            "replies": [
+              {
+                "registers": {
+                  "r0": "0x00000000"
+                },
+                "memory": [
+                  {
+                    "address": "0x24003000",
+                    "hex": "616263"
+                  },
+                  {
+                    "address": "0x24002108",
+                    "hex": "03000000"
+                  }
+                ]
+              },
+              {
+                "registers": {
+                  "r0": "0x00000000"
+                },
+                "memory": [
+                  {
+                    "address": "0x2400FF84",
+                    "hex": "0000000000000000000000000000000000000000000000000000000000000000"
+                  },
+                  {
+                    "address": "0x2400FFAC",
+                    "hex": "20000000"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "entry": "0x80006D50",
+            "label": "diagnostic-error-output",
+            "replies": [
+              {
+                "registers": {
+                  "r0": "0x00000000"
+                },
+                "memory": []
+              }
+            ]
+          }
+        ],
+        "mmio_responses": []
+      },
+      "expected": {
+        "registers": {
+          "r0": "0x00000004",
+          "sp": "0x24010000"
+        },
+        "memory": [
+          {
+            "address": "0x24003000",
+            "hex": "000000a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+          },
+          {
+            "address": "0x24004000",
+            "hex": "ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad"
+          },
+          {
+            "address": "0x24002100",
+            "hex": "4646554200300024030000004000000000000000"
+          }
+        ],
+        "events": [
+          {
+            "kind": "stub",
+            "entry": "0x8000A0F4",
+            "arguments": [
+              "0x24002000",
+              "0x00000100",
+              "0x00000003",
+              "0x00000002",
+              "0x00000000",
+              "0x00000040"
+            ],
+            "reply_index": 0
+          },
+          {
+            "kind": "mmio_write",
+            "address": "0x7E100024",
+            "hex": "ffff0f5a"
+          },
+          {
+            "kind": "stub",
+            "entry": "0x8000A0F4",
+            "arguments": [
+              "0x2400FF78",
+              "0x00000103",
+              "0x00000020",
+              "0x00000000",
+              "0x00000000",
+              "0x948D25B6"
+            ],
+            "reply_index": 1
+          },
+          {
+            "kind": "stub",
+            "entry": "0x80006D50",
+            "arguments": [
+              "0x8000A0E8",
+              "0x24001008",
+              "0x00000000",
+              "0x24003003",
+              "0x00000000",
+              "0x00000000"
+            ],
+            "reply_index": 0
+          }
+        ]
+      },
+      "steps": 4336,
+      "scope": [
+        "Check destination capacity, route the codec mode and verify the transferred bytes with SHA-256.",
+        "A failed digest comparison clears the bytes already written."
+      ],
+      "limitations": [
+        "The transport/decompression call supplies literal synthetic bytes; these cases do not establish codec correctness.",
+        "The watchdog register write is recorded without simulating a device response.",
+        "Every call listed in execution.stubs returns the recorded reply without executing the callee body."
+      ]
+    }
+  ]
+}

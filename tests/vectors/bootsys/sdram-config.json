@@ -1,0 +1,1557 @@
+{
+  "schema": 1,
+  "source": {
+    "file": "bootcode4.bin",
+    "repository": "raspberrypi/usbboot",
+    "version": "fdb604d018693465c9aa6ec69879df866d2820da",
+    "sha256": "9e1b0b7df904a7fdc22e263d530c6e4c48921229631dd7ea2325271843996f6c"
+  },
+  "cases": [
+    {
+      "id": "decode-density-000",
+      "function": {
+        "entry": "0x80007EEE",
+        "language": "vc4:LE:32:default",
+        "provisional_base": "0x80000000"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "sp": "0x24010000",
+          "gp": "0x24020000",
+          "r0": "0x00000000"
+        },
+        "memory": []
+      },
+      "execution": {
+        "return_address": "0x24030000",
+        "step_limit": 1000000,
+        "stubs": [],
+        "mmio_responses": []
+      },
+      "expected": {
+        "registers": {
+          "r0": "0x00000000",
+          "sp": "0x24010000"
+        },
+        "memory": [],
+        "events": []
+      },
+      "steps": 5,
+      "scope": [
+        "Decode the capacity field in the supplied synthetic SDRAM configuration."
+      ],
+      "limitations": [
+        "Configuration is supplied directly; no OTP or device access occurs."
+      ]
+    },
+    {
+      "id": "decode-density-001",
+      "function": {
+        "entry": "0x80007EEE",
+        "language": "vc4:LE:32:default",
+        "provisional_base": "0x80000000"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "sp": "0x24010000",
+          "gp": "0x24020000",
+          "r0": "0x00000001"
+        },
+        "memory": []
+      },
+      "execution": {
+        "return_address": "0x24030000",
+        "step_limit": 1000000,
+        "stubs": [],
+        "mmio_responses": []
+      },
+      "expected": {
+        "registers": {
+          "r0": "0x00000000",
+          "sp": "0x24010000"
+        },
+        "memory": [],
+        "events": []
+      },
+      "steps": 6,
+      "scope": [
+        "Decode the capacity field in the supplied synthetic SDRAM configuration."
+      ],
+      "limitations": [
+        "Configuration is supplied directly; no OTP or device access occurs."
+      ]
+    },
+    {
+      "id": "decode-density-002",
+      "function": {
+        "entry": "0x80007EEE",
+        "language": "vc4:LE:32:default",
+        "provisional_base": "0x80000000"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "sp": "0x24010000",
+          "gp": "0x24020000",
+          "r0": "0x00000002"
+        },
+        "memory": []
+      },
+      "execution": {
+        "return_address": "0x24030000",
+        "step_limit": 1000000,
+        "stubs": [],
+        "mmio_responses": []
+      },
+      "expected": {
+        "registers": {
+          "r0": "0x00000000",
+          "sp": "0x24010000"
+        },
+        "memory": [],
+        "events": []
+      },
+      "steps": 6,
+      "scope": [
+        "Decode the capacity field in the supplied synthetic SDRAM configuration."
+      ],
+      "limitations": [
+        "Configuration is supplied directly; no OTP or device access occurs."
+      ]
+    },
+    {
+      "id": "decode-density-003",
+      "function": {
+        "entry": "0x80007EEE",
+        "language": "vc4:LE:32:default",
+        "provisional_base": "0x80000000"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "sp": "0x24010000",
+          "gp": "0x24020000",
+          "r0": "0x00000003"
+        },
+        "memory": []
+      },
+      "execution": {
+        "return_address": "0x24030000",
+        "step_limit": 1000000,
+        "stubs": [],
+        "mmio_responses": []
+      },
+      "expected": {
+        "registers": {
+          "r0": "0x00000080",
+          "sp": "0x24010000"
+        },
+        "memory": [],
+        "events": []
+      },
+      "steps": 7,
+      "scope": [
+        "Decode the capacity field in the supplied synthetic SDRAM configuration."
+      ],
+      "limitations": [
+        "Configuration is supplied directly; no OTP or device access occurs."
+      ]
+    },
+    {
+      "id": "decode-density-004",
+      "function": {
+        "entry": "0x80007EEE",
+        "language": "vc4:LE:32:default",
+        "provisional_base": "0x80000000"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "sp": "0x24010000",
+          "gp": "0x24020000",
+          "r0": "0x00000004"
+        },
+        "memory": []
+      },
+      "execution": {
+        "return_address": "0x24030000",
+        "step_limit": 1000000,
+        "stubs": [],
+        "mmio_responses": []
+      },
+      "expected": {
+        "registers": {
+          "r0": "0x00000040",
+          "sp": "0x24010000"
+        },
+        "memory": [],
+        "events": []
+      },
+      "steps": 7,
+      "scope": [
+        "Decode the capacity field in the supplied synthetic SDRAM configuration."
+      ],
+      "limitations": [
+        "Configuration is supplied directly; no OTP or device access occurs."
+      ]
+    },
+    {
+      "id": "decode-density-005",
+      "function": {
+        "entry": "0x80007EEE",
+        "language": "vc4:LE:32:default",
+        "provisional_base": "0x80000000"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "sp": "0x24010000",
+          "gp": "0x24020000",
+          "r0": "0x00000005"
+        },
+        "memory": []
+      },
+      "execution": {
+        "return_address": "0x24030000",
+        "step_limit": 1000000,
+        "stubs": [],
+        "mmio_responses": []
+      },
+      "expected": {
+        "registers": {
+          "r0": "0x00000020",
+          "sp": "0x24010000"
+        },
+        "memory": [],
+        "events": []
+      },
+      "steps": 8,
+      "scope": [
+        "Decode the capacity field in the supplied synthetic SDRAM configuration."
+      ],
+      "limitations": [
+        "Configuration is supplied directly; no OTP or device access occurs."
+      ]
+    },
+    {
+      "id": "decode-density-006",
+      "function": {
+        "entry": "0x80007EEE",
+        "language": "vc4:LE:32:default",
+        "provisional_base": "0x80000000"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "sp": "0x24010000",
+          "gp": "0x24020000",
+          "r0": "0x00000006"
+        },
+        "memory": []
+      },
+      "execution": {
+        "return_address": "0x24030000",
+        "step_limit": 1000000,
+        "stubs": [],
+        "mmio_responses": []
+      },
+      "expected": {
+        "registers": {
+          "r0": "0x00000010",
+          "sp": "0x24010000"
+        },
+        "memory": [],
+        "events": []
+      },
+      "steps": 9,
+      "scope": [
+        "Decode the capacity field in the supplied synthetic SDRAM configuration."
+      ],
+      "limitations": [
+        "Configuration is supplied directly; no OTP or device access occurs."
+      ]
+    },
+    {
+      "id": "decode-density-007",
+      "function": {
+        "entry": "0x80007EEE",
+        "language": "vc4:LE:32:default",
+        "provisional_base": "0x80000000"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "sp": "0x24010000",
+          "gp": "0x24020000",
+          "r0": "0x00000007"
+        },
+        "memory": []
+      },
+      "execution": {
+        "return_address": "0x24030000",
+        "step_limit": 1000000,
+        "stubs": [],
+        "mmio_responses": []
+      },
+      "expected": {
+        "registers": {
+          "r0": "0x00000008",
+          "sp": "0x24010000"
+        },
+        "memory": [],
+        "events": []
+      },
+      "steps": 9,
+      "scope": [
+        "Decode the capacity field in the supplied synthetic SDRAM configuration."
+      ],
+      "limitations": [
+        "Configuration is supplied directly; no OTP or device access occurs."
+      ]
+    },
+    {
+      "id": "decode-density-023",
+      "function": {
+        "entry": "0x80007EEE",
+        "language": "vc4:LE:32:default",
+        "provisional_base": "0x80000000"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "sp": "0x24010000",
+          "gp": "0x24020000",
+          "r0": "0x00000023"
+        },
+        "memory": []
+      },
+      "execution": {
+        "return_address": "0x24030000",
+        "step_limit": 1000000,
+        "stubs": [],
+        "mmio_responses": []
+      },
+      "expected": {
+        "registers": {
+          "r0": "0x00000080",
+          "sp": "0x24010000"
+        },
+        "memory": [],
+        "events": []
+      },
+      "steps": 7,
+      "scope": [
+        "Decode the capacity field in the supplied synthetic SDRAM configuration."
+      ],
+      "limitations": [
+        "Configuration is supplied directly; no OTP or device access occurs."
+      ]
+    },
+    {
+      "id": "decode-density-024",
+      "function": {
+        "entry": "0x80007EEE",
+        "language": "vc4:LE:32:default",
+        "provisional_base": "0x80000000"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "sp": "0x24010000",
+          "gp": "0x24020000",
+          "r0": "0x00000024"
+        },
+        "memory": []
+      },
+      "execution": {
+        "return_address": "0x24030000",
+        "step_limit": 1000000,
+        "stubs": [],
+        "mmio_responses": []
+      },
+      "expected": {
+        "registers": {
+          "r0": "0x00000040",
+          "sp": "0x24010000"
+        },
+        "memory": [],
+        "events": []
+      },
+      "steps": 7,
+      "scope": [
+        "Decode the capacity field in the supplied synthetic SDRAM configuration."
+      ],
+      "limitations": [
+        "Configuration is supplied directly; no OTP or device access occurs."
+      ]
+    },
+    {
+      "id": "decode-density-025",
+      "function": {
+        "entry": "0x80007EEE",
+        "language": "vc4:LE:32:default",
+        "provisional_base": "0x80000000"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "sp": "0x24010000",
+          "gp": "0x24020000",
+          "r0": "0x00000025"
+        },
+        "memory": []
+      },
+      "execution": {
+        "return_address": "0x24030000",
+        "step_limit": 1000000,
+        "stubs": [],
+        "mmio_responses": []
+      },
+      "expected": {
+        "registers": {
+          "r0": "0x00000030",
+          "sp": "0x24010000"
+        },
+        "memory": [],
+        "events": []
+      },
+      "steps": 10,
+      "scope": [
+        "Decode the capacity field in the supplied synthetic SDRAM configuration."
+      ],
+      "limitations": [
+        "Configuration is supplied directly; no OTP or device access occurs."
+      ]
+    },
+    {
+      "id": "decode-density-026",
+      "function": {
+        "entry": "0x80007EEE",
+        "language": "vc4:LE:32:default",
+        "provisional_base": "0x80000000"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "sp": "0x24010000",
+          "gp": "0x24020000",
+          "r0": "0x00000026"
+        },
+        "memory": []
+      },
+      "execution": {
+        "return_address": "0x24030000",
+        "step_limit": 1000000,
+        "stubs": [],
+        "mmio_responses": []
+      },
+      "expected": {
+        "registers": {
+          "r0": "0x00000018",
+          "sp": "0x24010000"
+        },
+        "memory": [],
+        "events": []
+      },
+      "steps": 9,
+      "scope": [
+        "Decode the capacity field in the supplied synthetic SDRAM configuration."
+      ],
+      "limitations": [
+        "Configuration is supplied directly; no OTP or device access occurs."
+      ]
+    },
+    {
+      "id": "decode-density-027",
+      "function": {
+        "entry": "0x80007EEE",
+        "language": "vc4:LE:32:default",
+        "provisional_base": "0x80000000"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "sp": "0x24010000",
+          "gp": "0x24020000",
+          "r0": "0x00000027"
+        },
+        "memory": []
+      },
+      "execution": {
+        "return_address": "0x24030000",
+        "step_limit": 1000000,
+        "stubs": [],
+        "mmio_responses": []
+      },
+      "expected": {
+        "registers": {
+          "r0": "0x00000004",
+          "sp": "0x24010000"
+        },
+        "memory": [],
+        "events": []
+      },
+      "steps": 9,
+      "scope": [
+        "Decode the capacity field in the supplied synthetic SDRAM configuration."
+      ],
+      "limitations": [
+        "Configuration is supplied directly; no OTP or device access occurs."
+      ]
+    },
+    {
+      "id": "decode-density-1ff",
+      "function": {
+        "entry": "0x80007EEE",
+        "language": "vc4:LE:32:default",
+        "provisional_base": "0x80000000"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "sp": "0x24010000",
+          "gp": "0x24020000",
+          "r0": "0x000001FF"
+        },
+        "memory": []
+      },
+      "execution": {
+        "return_address": "0x24030000",
+        "step_limit": 1000000,
+        "stubs": [],
+        "mmio_responses": []
+      },
+      "expected": {
+        "registers": {
+          "r0": "0x00000004",
+          "sp": "0x24010000"
+        },
+        "memory": [],
+        "events": []
+      },
+      "steps": 9,
+      "scope": [
+        "Decode the capacity field in the supplied synthetic SDRAM configuration."
+      ],
+      "limitations": [
+        "Configuration is supplied directly; no OTP or device access occurs."
+      ]
+    },
+    {
+      "id": "decode-part-000",
+      "function": {
+        "entry": "0x80007EE6",
+        "language": "vc4:LE:32:default",
+        "provisional_base": "0x80000000"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "sp": "0x24010000",
+          "gp": "0x24020000",
+          "r0": "0x00000000"
+        },
+        "memory": []
+      },
+      "execution": {
+        "return_address": "0x24030000",
+        "step_limit": 1000000,
+        "stubs": [],
+        "mmio_responses": []
+      },
+      "expected": {
+        "registers": {
+          "r0": "0x00000000",
+          "sp": "0x24010000"
+        },
+        "memory": [],
+        "events": []
+      },
+      "steps": 3,
+      "scope": [
+        "Extract the part-configuration field from a synthetic value."
+      ],
+      "limitations": [
+        "No OTP or device access occurs."
+      ]
+    },
+    {
+      "id": "decode-part-001",
+      "function": {
+        "entry": "0x80007EE6",
+        "language": "vc4:LE:32:default",
+        "provisional_base": "0x80000000"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "sp": "0x24010000",
+          "gp": "0x24020000",
+          "r0": "0x00000001"
+        },
+        "memory": []
+      },
+      "execution": {
+        "return_address": "0x24030000",
+        "step_limit": 1000000,
+        "stubs": [],
+        "mmio_responses": []
+      },
+      "expected": {
+        "registers": {
+          "r0": "0x00000000",
+          "sp": "0x24010000"
+        },
+        "memory": [],
+        "events": []
+      },
+      "steps": 3,
+      "scope": [
+        "Extract the part-configuration field from a synthetic value."
+      ],
+      "limitations": [
+        "No OTP or device access occurs."
+      ]
+    },
+    {
+      "id": "decode-part-007",
+      "function": {
+        "entry": "0x80007EE6",
+        "language": "vc4:LE:32:default",
+        "provisional_base": "0x80000000"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "sp": "0x24010000",
+          "gp": "0x24020000",
+          "r0": "0x00000007"
+        },
+        "memory": []
+      },
+      "execution": {
+        "return_address": "0x24030000",
+        "step_limit": 1000000,
+        "stubs": [],
+        "mmio_responses": []
+      },
+      "expected": {
+        "registers": {
+          "r0": "0x00000000",
+          "sp": "0x24010000"
+        },
+        "memory": [],
+        "events": []
+      },
+      "steps": 3,
+      "scope": [
+        "Extract the part-configuration field from a synthetic value."
+      ],
+      "limitations": [
+        "No OTP or device access occurs."
+      ]
+    },
+    {
+      "id": "decode-part-008",
+      "function": {
+        "entry": "0x80007EE6",
+        "language": "vc4:LE:32:default",
+        "provisional_base": "0x80000000"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "sp": "0x24010000",
+          "gp": "0x24020000",
+          "r0": "0x00000008"
+        },
+        "memory": []
+      },
+      "execution": {
+        "return_address": "0x24030000",
+        "step_limit": 1000000,
+        "stubs": [],
+        "mmio_responses": []
+      },
+      "expected": {
+        "registers": {
+          "r0": "0x00000000",
+          "sp": "0x24010000"
+        },
+        "memory": [],
+        "events": []
+      },
+      "steps": 3,
+      "scope": [
+        "Extract the part-configuration field from a synthetic value."
+      ],
+      "limitations": [
+        "No OTP or device access occurs."
+      ]
+    },
+    {
+      "id": "decode-part-040",
+      "function": {
+        "entry": "0x80007EE6",
+        "language": "vc4:LE:32:default",
+        "provisional_base": "0x80000000"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "sp": "0x24010000",
+          "gp": "0x24020000",
+          "r0": "0x00000040"
+        },
+        "memory": []
+      },
+      "execution": {
+        "return_address": "0x24030000",
+        "step_limit": 1000000,
+        "stubs": [],
+        "mmio_responses": []
+      },
+      "expected": {
+        "registers": {
+          "r0": "0x00000001",
+          "sp": "0x24010000"
+        },
+        "memory": [],
+        "events": []
+      },
+      "steps": 3,
+      "scope": [
+        "Extract the part-configuration field from a synthetic value."
+      ],
+      "limitations": [
+        "No OTP or device access occurs."
+      ]
+    },
+    {
+      "id": "decode-part-080",
+      "function": {
+        "entry": "0x80007EE6",
+        "language": "vc4:LE:32:default",
+        "provisional_base": "0x80000000"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "sp": "0x24010000",
+          "gp": "0x24020000",
+          "r0": "0x00000080"
+        },
+        "memory": []
+      },
+      "execution": {
+        "return_address": "0x24030000",
+        "step_limit": 1000000,
+        "stubs": [],
+        "mmio_responses": []
+      },
+      "expected": {
+        "registers": {
+          "r0": "0x00000002",
+          "sp": "0x24010000"
+        },
+        "memory": [],
+        "events": []
+      },
+      "steps": 3,
+      "scope": [
+        "Extract the part-configuration field from a synthetic value."
+      ],
+      "limitations": [
+        "No OTP or device access occurs."
+      ]
+    },
+    {
+      "id": "decode-part-1c0",
+      "function": {
+        "entry": "0x80007EE6",
+        "language": "vc4:LE:32:default",
+        "provisional_base": "0x80000000"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "sp": "0x24010000",
+          "gp": "0x24020000",
+          "r0": "0x000001C0"
+        },
+        "memory": []
+      },
+      "execution": {
+        "return_address": "0x24030000",
+        "step_limit": 1000000,
+        "stubs": [],
+        "mmio_responses": []
+      },
+      "expected": {
+        "registers": {
+          "r0": "0x00000007",
+          "sp": "0x24010000"
+        },
+        "memory": [],
+        "events": []
+      },
+      "steps": 3,
+      "scope": [
+        "Extract the part-configuration field from a synthetic value."
+      ],
+      "limitations": [
+        "No OTP or device access occurs."
+      ]
+    },
+    {
+      "id": "decode-part-1ff",
+      "function": {
+        "entry": "0x80007EE6",
+        "language": "vc4:LE:32:default",
+        "provisional_base": "0x80000000"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "sp": "0x24010000",
+          "gp": "0x24020000",
+          "r0": "0x000001FF"
+        },
+        "memory": []
+      },
+      "execution": {
+        "return_address": "0x24030000",
+        "step_limit": 1000000,
+        "stubs": [],
+        "mmio_responses": []
+      },
+      "expected": {
+        "registers": {
+          "r0": "0x00000007",
+          "sp": "0x24010000"
+        },
+        "memory": [],
+        "events": []
+      },
+      "steps": 3,
+      "scope": [
+        "Extract the part-configuration field from a synthetic value."
+      ],
+      "limitations": [
+        "No OTP or device access occurs."
+      ]
+    },
+    {
+      "id": "encode-config-4",
+      "function": {
+        "entry": "0x80007E62",
+        "language": "vc4:LE:32:default",
+        "provisional_base": "0x80000000"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "sp": "0x24010000",
+          "gp": "0x24020000",
+          "r0": "0x00000000",
+          "r1": "0x00000000",
+          "r2": "0x00000004",
+          "r3": "0x00000000"
+        },
+        "memory": [
+          {
+            "address": "0x2400FFFC",
+            "hex": "00000000"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24030000",
+        "step_limit": 1000000,
+        "stubs": [],
+        "mmio_responses": []
+      },
+      "expected": {
+        "registers": {
+          "r0": "0x00000027",
+          "sp": "0x24010000"
+        },
+        "memory": [],
+        "events": []
+      },
+      "steps": 18,
+      "scope": [
+        "Encode supplied density, rank, byte-mode and part fields."
+      ],
+      "limitations": [
+        "Fields are synthetic; no device initialization occurs."
+      ]
+    },
+    {
+      "id": "encode-config-8",
+      "function": {
+        "entry": "0x80007E62",
+        "language": "vc4:LE:32:default",
+        "provisional_base": "0x80000000"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "sp": "0x24010000",
+          "gp": "0x24020000",
+          "r0": "0x00000001",
+          "r1": "0x00000000",
+          "r2": "0x00000008",
+          "r3": "0x00000001"
+        },
+        "memory": [
+          {
+            "address": "0x2400FFFC",
+            "hex": "00000000"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24030000",
+        "step_limit": 1000000,
+        "stubs": [],
+        "mmio_responses": []
+      },
+      "expected": {
+        "registers": {
+          "r0": "0x00000057",
+          "sp": "0x24010000"
+        },
+        "memory": [],
+        "events": []
+      },
+      "steps": 17,
+      "scope": [
+        "Encode supplied density, rank, byte-mode and part fields."
+      ],
+      "limitations": [
+        "Fields are synthetic; no device initialization occurs."
+      ]
+    },
+    {
+      "id": "encode-config-16",
+      "function": {
+        "entry": "0x80007E62",
+        "language": "vc4:LE:32:default",
+        "provisional_base": "0x80000000"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "sp": "0x24010000",
+          "gp": "0x24020000",
+          "r0": "0x00000000",
+          "r1": "0x00000001",
+          "r2": "0x00000010",
+          "r3": "0x00000002"
+        },
+        "memory": [
+          {
+            "address": "0x2400FFFC",
+            "hex": "00000000"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24030000",
+        "step_limit": 1000000,
+        "stubs": [],
+        "mmio_responses": []
+      },
+      "expected": {
+        "registers": {
+          "r0": "0x0000008E",
+          "sp": "0x24010000"
+        },
+        "memory": [],
+        "events": []
+      },
+      "steps": 17,
+      "scope": [
+        "Encode supplied density, rank, byte-mode and part fields."
+      ],
+      "limitations": [
+        "Fields are synthetic; no device initialization occurs."
+      ]
+    },
+    {
+      "id": "encode-config-24",
+      "function": {
+        "entry": "0x80007E62",
+        "language": "vc4:LE:32:default",
+        "provisional_base": "0x80000000"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "sp": "0x24010000",
+          "gp": "0x24020000",
+          "r0": "0x00000001",
+          "r1": "0x00000001",
+          "r2": "0x00000018",
+          "r3": "0x00000003"
+        },
+        "memory": [
+          {
+            "address": "0x2400FFFC",
+            "hex": "00000000"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24030000",
+        "step_limit": 1000000,
+        "stubs": [],
+        "mmio_responses": []
+      },
+      "expected": {
+        "registers": {
+          "r0": "0x000000FE",
+          "sp": "0x24010000"
+        },
+        "memory": [],
+        "events": []
+      },
+      "steps": 16,
+      "scope": [
+        "Encode supplied density, rank, byte-mode and part fields."
+      ],
+      "limitations": [
+        "Fields are synthetic; no device initialization occurs."
+      ]
+    },
+    {
+      "id": "encode-config-32",
+      "function": {
+        "entry": "0x80007E62",
+        "language": "vc4:LE:32:default",
+        "provisional_base": "0x80000000"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "sp": "0x24010000",
+          "gp": "0x24020000",
+          "r0": "0x00000000",
+          "r1": "0x00000000",
+          "r2": "0x00000020",
+          "r3": "0x00000004"
+        },
+        "memory": [
+          {
+            "address": "0x2400FFFC",
+            "hex": "00000000"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24030000",
+        "step_limit": 1000000,
+        "stubs": [],
+        "mmio_responses": []
+      },
+      "expected": {
+        "registers": {
+          "r0": "0x00000105",
+          "sp": "0x24010000"
+        },
+        "memory": [],
+        "events": []
+      },
+      "steps": 19,
+      "scope": [
+        "Encode supplied density, rank, byte-mode and part fields."
+      ],
+      "limitations": [
+        "Fields are synthetic; no device initialization occurs."
+      ]
+    },
+    {
+      "id": "encode-config-48",
+      "function": {
+        "entry": "0x80007E62",
+        "language": "vc4:LE:32:default",
+        "provisional_base": "0x80000000"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "sp": "0x24010000",
+          "gp": "0x24020000",
+          "r0": "0x00000001",
+          "r1": "0x00000000",
+          "r2": "0x00000030",
+          "r3": "0x00000005"
+        },
+        "memory": [
+          {
+            "address": "0x2400FFFC",
+            "hex": "00000000"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24030000",
+        "step_limit": 1000000,
+        "stubs": [],
+        "mmio_responses": []
+      },
+      "expected": {
+        "registers": {
+          "r0": "0x00000175",
+          "sp": "0x24010000"
+        },
+        "memory": [],
+        "events": []
+      },
+      "steps": 19,
+      "scope": [
+        "Encode supplied density, rank, byte-mode and part fields."
+      ],
+      "limitations": [
+        "Fields are synthetic; no device initialization occurs."
+      ]
+    },
+    {
+      "id": "encode-config-64",
+      "function": {
+        "entry": "0x80007E62",
+        "language": "vc4:LE:32:default",
+        "provisional_base": "0x80000000"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "sp": "0x24010000",
+          "gp": "0x24020000",
+          "r0": "0x00000000",
+          "r1": "0x00000001",
+          "r2": "0x00000040",
+          "r3": "0x00000006"
+        },
+        "memory": [
+          {
+            "address": "0x2400FFFC",
+            "hex": "00000000"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24030000",
+        "step_limit": 1000000,
+        "stubs": [],
+        "mmio_responses": []
+      },
+      "expected": {
+        "registers": {
+          "r0": "0x0000018C",
+          "sp": "0x24010000"
+        },
+        "memory": [],
+        "events": []
+      },
+      "steps": 20,
+      "scope": [
+        "Encode supplied density, rank, byte-mode and part fields."
+      ],
+      "limitations": [
+        "Fields are synthetic; no device initialization occurs."
+      ]
+    },
+    {
+      "id": "encode-config-128",
+      "function": {
+        "entry": "0x80007E62",
+        "language": "vc4:LE:32:default",
+        "provisional_base": "0x80000000"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "sp": "0x24010000",
+          "gp": "0x24020000",
+          "r0": "0x00000001",
+          "r1": "0x00000001",
+          "r2": "0x00000080",
+          "r3": "0x00000007"
+        },
+        "memory": [
+          {
+            "address": "0x2400FFFC",
+            "hex": "00000000"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24030000",
+        "step_limit": 1000000,
+        "stubs": [],
+        "mmio_responses": []
+      },
+      "expected": {
+        "registers": {
+          "r0": "0x000001DB",
+          "sp": "0x24010000"
+        },
+        "memory": [],
+        "events": []
+      },
+      "steps": 22,
+      "scope": [
+        "Encode supplied density, rank, byte-mode and part fields."
+      ],
+      "limitations": [
+        "Fields are synthetic; no device initialization occurs."
+      ]
+    },
+    {
+      "id": "speed-selector-0",
+      "function": {
+        "entry": "0x80005146",
+        "language": "vc4:LE:32:default",
+        "provisional_base": "0x80000000"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "sp": "0x24010000",
+          "gp": "0x24020000",
+          "r0": "0x00000000"
+        },
+        "memory": []
+      },
+      "execution": {
+        "return_address": "0x24030000",
+        "step_limit": 1000000,
+        "stubs": [],
+        "mmio_responses": []
+      },
+      "expected": {
+        "registers": {
+          "r0": "0x00000000",
+          "sp": "0x24010000"
+        },
+        "memory": [],
+        "events": []
+      },
+      "steps": 4,
+      "scope": [
+        "Map a speed selector to the MCB matching rate."
+      ],
+      "limitations": [
+        "No device initialization occurs."
+      ]
+    },
+    {
+      "id": "speed-selector-1",
+      "function": {
+        "entry": "0x80005146",
+        "language": "vc4:LE:32:default",
+        "provisional_base": "0x80000000"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "sp": "0x24010000",
+          "gp": "0x24020000",
+          "r0": "0x00000001"
+        },
+        "memory": []
+      },
+      "execution": {
+        "return_address": "0x24030000",
+        "step_limit": 1000000,
+        "stubs": [],
+        "mmio_responses": []
+      },
+      "expected": {
+        "registers": {
+          "r0": "0x00000546",
+          "sp": "0x24010000"
+        },
+        "memory": [],
+        "events": []
+      },
+      "steps": 5,
+      "scope": [
+        "Map a speed selector to the MCB matching rate."
+      ],
+      "limitations": [
+        "No device initialization occurs."
+      ]
+    },
+    {
+      "id": "speed-selector-2",
+      "function": {
+        "entry": "0x80005146",
+        "language": "vc4:LE:32:default",
+        "provisional_base": "0x80000000"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "sp": "0x24010000",
+          "gp": "0x24020000",
+          "r0": "0x00000002"
+        },
+        "memory": []
+      },
+      "execution": {
+        "return_address": "0x24030000",
+        "step_limit": 1000000,
+        "stubs": [],
+        "mmio_responses": []
+      },
+      "expected": {
+        "registers": {
+          "r0": "0x00000870",
+          "sp": "0x24010000"
+        },
+        "memory": [],
+        "events": []
+      },
+      "steps": 5,
+      "scope": [
+        "Map a speed selector to the MCB matching rate."
+      ],
+      "limitations": [
+        "No device initialization occurs."
+      ]
+    },
+    {
+      "id": "speed-selector-3",
+      "function": {
+        "entry": "0x80005146",
+        "language": "vc4:LE:32:default",
+        "provisional_base": "0x80000000"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "sp": "0x24010000",
+          "gp": "0x24020000",
+          "r0": "0x00000003"
+        },
+        "memory": []
+      },
+      "execution": {
+        "return_address": "0x24030000",
+        "step_limit": 1000000,
+        "stubs": [],
+        "mmio_responses": []
+      },
+      "expected": {
+        "registers": {
+          "r0": "0x00000960",
+          "sp": "0x24010000"
+        },
+        "memory": [],
+        "events": []
+      },
+      "steps": 5,
+      "scope": [
+        "Map a speed selector to the MCB matching rate."
+      ],
+      "limitations": [
+        "No device initialization occurs."
+      ]
+    },
+    {
+      "id": "speed-selector-4",
+      "function": {
+        "entry": "0x80005146",
+        "language": "vc4:LE:32:default",
+        "provisional_base": "0x80000000"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "sp": "0x24010000",
+          "gp": "0x24020000",
+          "r0": "0x00000004"
+        },
+        "memory": []
+      },
+      "execution": {
+        "return_address": "0x24030000",
+        "step_limit": 1000000,
+        "stubs": [],
+        "mmio_responses": []
+      },
+      "expected": {
+        "registers": {
+          "r0": "0x00000A6B",
+          "sp": "0x24010000"
+        },
+        "memory": [],
+        "events": []
+      },
+      "steps": 5,
+      "scope": [
+        "Map a speed selector to the MCB matching rate."
+      ],
+      "limitations": [
+        "No device initialization occurs."
+      ]
+    },
+    {
+      "id": "speed-selector-5",
+      "function": {
+        "entry": "0x80005146",
+        "language": "vc4:LE:32:default",
+        "provisional_base": "0x80000000"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "sp": "0x24010000",
+          "gp": "0x24020000",
+          "r0": "0x00000005"
+        },
+        "memory": []
+      },
+      "execution": {
+        "return_address": "0x24030000",
+        "step_limit": 1000000,
+        "stubs": [],
+        "mmio_responses": []
+      },
+      "expected": {
+        "registers": {
+          "r0": "0x00000C80",
+          "sp": "0x24010000"
+        },
+        "memory": [],
+        "events": []
+      },
+      "steps": 5,
+      "scope": [
+        "Map a speed selector to the MCB matching rate."
+      ],
+      "limitations": [
+        "No device initialization occurs."
+      ]
+    },
+    {
+      "id": "speed-selector-6",
+      "function": {
+        "entry": "0x80005146",
+        "language": "vc4:LE:32:default",
+        "provisional_base": "0x80000000"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "sp": "0x24010000",
+          "gp": "0x24020000",
+          "r0": "0x00000006"
+        },
+        "memory": []
+      },
+      "execution": {
+        "return_address": "0x24030000",
+        "step_limit": 1000000,
+        "stubs": [],
+        "mmio_responses": []
+      },
+      "expected": {
+        "registers": {
+          "r0": "0x00000E95",
+          "sp": "0x24010000"
+        },
+        "memory": [],
+        "events": []
+      },
+      "steps": 5,
+      "scope": [
+        "Map a speed selector to the MCB matching rate."
+      ],
+      "limitations": [
+        "No device initialization occurs."
+      ]
+    },
+    {
+      "id": "speed-selector-7",
+      "function": {
+        "entry": "0x80005146",
+        "language": "vc4:LE:32:default",
+        "provisional_base": "0x80000000"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "sp": "0x24010000",
+          "gp": "0x24020000",
+          "r0": "0x00000007"
+        },
+        "memory": []
+      },
+      "execution": {
+        "return_address": "0x24030000",
+        "step_limit": 1000000,
+        "stubs": [],
+        "mmio_responses": []
+      },
+      "expected": {
+        "registers": {
+          "r0": "0x000010AB",
+          "sp": "0x24010000"
+        },
+        "memory": [],
+        "events": []
+      },
+      "steps": 5,
+      "scope": [
+        "Map a speed selector to the MCB matching rate."
+      ],
+      "limitations": [
+        "No device initialization occurs."
+      ]
+    },
+    {
+      "id": "speed-selector-8",
+      "function": {
+        "entry": "0x80005146",
+        "language": "vc4:LE:32:default",
+        "provisional_base": "0x80000000"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "sp": "0x24010000",
+          "gp": "0x24020000",
+          "r0": "0x00000008"
+        },
+        "memory": []
+      },
+      "execution": {
+        "return_address": "0x24030000",
+        "step_limit": 1000000,
+        "stubs": [],
+        "mmio_responses": []
+      },
+      "expected": {
+        "registers": {
+          "r0": "0x00000000",
+          "sp": "0x24010000"
+        },
+        "memory": [],
+        "events": []
+      },
+      "steps": 3,
+      "scope": [
+        "Map a speed selector to the MCB matching rate."
+      ],
+      "limitations": [
+        "No device initialization occurs."
+      ]
+    }
+  ]
+}

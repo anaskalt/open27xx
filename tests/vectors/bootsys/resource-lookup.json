@@ -1,0 +1,1724 @@
+{
+  "schema": 1,
+  "source": {
+    "file": "bootcode4.bin",
+    "repository": "raspberrypi/usbboot",
+    "version": "fdb604d018693465c9aa6ec69879df866d2820da",
+    "sha256": "9e1b0b7df904a7fdc22e263d530c6e4c48921229631dd7ea2325271843996f6c"
+  },
+  "cases": [
+    {
+      "id": "lookup-type11",
+      "function": {
+        "entry": "0x80009CA0",
+        "language": "vc4:LE:32:default",
+        "provisional_base": "0x80000000"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "sp": "0x24010000",
+          "gp": "0x24020000",
+          "r0": "0x24001000",
+          "r1": "0x24002000"
+        },
+        "memory": [
+          {
+            "address": "0x2400FC00",
+            "size": 1024,
+            "fill": "00"
+          },
+          {
+            "address": "0x2402006C",
+            "hex": "00020000"
+          },
+          {
+            "address": "0x24001000",
+            "hex": "7265736f757263652e62696e00"
+          },
+          {
+            "address": "0x24002000",
+            "size": 32,
+            "fill": "a5"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24030000",
+        "step_limit": 1000000,
+        "stubs": [
+          {
+            "entry": "0x80009C2E",
+            "label": "SPI-initialization-boundary",
+            "replies": [
+              {
+                "registers": {
+                  "r0": "0x00000000"
+                },
+                "memory": []
+              }
+            ]
+          },
+          {
+            "entry": "0x80009A2A",
+            "label": "SPI-read-synthetic-header",
+            "replies": [
+              {
+                "registers": {
+                  "r0": "0x00000000"
+                },
+                "memory": [
+                  {
+                    "address": "0x2400FFBC",
+                    "hex": "55aaf11f000000407265736f757263652e62696e00000000"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "entry": "0x800099F4",
+            "label": "SPI-cleanup-boundary",
+            "replies": [
+              {
+                "registers": {
+                  "r0": "0x00000000"
+                },
+                "memory": []
+              }
+            ]
+          }
+        ],
+        "mmio_responses": []
+      },
+      "expected": {
+        "registers": {
+          "r0": "0x00000000",
+          "sp": "0x24010000"
+        },
+        "memory": [
+          {
+            "address": "0x24002000",
+            "hex": "1ff1aa55400000007265736f757263652e62696e000000003000000018000000"
+          }
+        ],
+        "events": [
+          {
+            "kind": "stub",
+            "entry": "0x80009C2E",
+            "arguments": [
+              "0x00000072",
+              "0x24002000",
+              "0x00000000",
+              "0x00000200",
+              "0x00000000",
+              "0x00000000"
+            ],
+            "reply_index": 0
+          },
+          {
+            "kind": "stub",
+            "entry": "0x80009A2A",
+            "arguments": [
+              "0x00000003",
+              "0x2400FF98",
+              "0x00000003",
+              "0x2400FFBC",
+              "0x00000018",
+              "0x00000000"
+            ],
+            "reply_index": 0
+          },
+          {
+            "kind": "stub",
+            "entry": "0x800099F4",
+            "arguments": [
+              "0x24002000",
+              "0x2400FFBC",
+              "0x00000000",
+              "0x00000018",
+              "0x2400FF9C",
+              "0x00000000"
+            ],
+            "reply_index": 0
+          }
+        ]
+      },
+      "steps": 388,
+      "scope": [
+        "Search synthetic EEPROM section headers and return a resource descriptor."
+      ],
+      "limitations": [
+        "SPI initialization, header reads and cleanup are substituted with literal synthetic responses.",
+        "Every call listed in execution.stubs returns the recorded reply without executing the callee body."
+      ]
+    },
+    {
+      "id": "lookup-type22",
+      "function": {
+        "entry": "0x80009CA0",
+        "language": "vc4:LE:32:default",
+        "provisional_base": "0x80000000"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "sp": "0x24010000",
+          "gp": "0x24020000",
+          "r0": "0x24001000",
+          "r1": "0x24002000"
+        },
+        "memory": [
+          {
+            "address": "0x2400FC00",
+            "size": 1024,
+            "fill": "00"
+          },
+          {
+            "address": "0x2402006C",
+            "hex": "00020000"
+          },
+          {
+            "address": "0x24001000",
+            "hex": "7265736f757263652e62696e00"
+          },
+          {
+            "address": "0x24002000",
+            "size": 32,
+            "fill": "a5"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24030000",
+        "step_limit": 1000000,
+        "stubs": [
+          {
+            "entry": "0x80009C2E",
+            "label": "SPI-initialization-boundary",
+            "replies": [
+              {
+                "registers": {
+                  "r0": "0x00000000"
+                },
+                "memory": []
+              }
+            ]
+          },
+          {
+            "entry": "0x80009A2A",
+            "label": "SPI-read-synthetic-header",
+            "replies": [
+              {
+                "registers": {
+                  "r0": "0x00000000"
+                },
+                "memory": [
+                  {
+                    "address": "0x2400FFBC",
+                    "hex": "55aaf22f000000407265736f757263652e62696e00000000"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "entry": "0x800099F4",
+            "label": "SPI-cleanup-boundary",
+            "replies": [
+              {
+                "registers": {
+                  "r0": "0x00000000"
+                },
+                "memory": []
+              }
+            ]
+          }
+        ],
+        "mmio_responses": []
+      },
+      "expected": {
+        "registers": {
+          "r0": "0x00000000",
+          "sp": "0x24010000"
+        },
+        "memory": [
+          {
+            "address": "0x24002000",
+            "hex": "2ff2aa55400000007265736f757263652e62696e000000001c00000018000000"
+          }
+        ],
+        "events": [
+          {
+            "kind": "stub",
+            "entry": "0x80009C2E",
+            "arguments": [
+              "0x00000072",
+              "0x24002000",
+              "0x00000000",
+              "0x00000200",
+              "0x00000000",
+              "0x00000000"
+            ],
+            "reply_index": 0
+          },
+          {
+            "kind": "stub",
+            "entry": "0x80009A2A",
+            "arguments": [
+              "0x00000003",
+              "0x2400FF98",
+              "0x00000003",
+              "0x2400FFBC",
+              "0x00000018",
+              "0x00000000"
+            ],
+            "reply_index": 0
+          },
+          {
+            "kind": "stub",
+            "entry": "0x800099F4",
+            "arguments": [
+              "0x24002000",
+              "0x2400FFBC",
+              "0x00000000",
+              "0x00000018",
+              "0x2400FF9C",
+              "0x00000000"
+            ],
+            "reply_index": 0
+          }
+        ]
+      },
+      "steps": 387,
+      "scope": [
+        "Search synthetic EEPROM section headers and return a resource descriptor."
+      ],
+      "limitations": [
+        "SPI initialization, header reads and cleanup are substituted with literal synthetic responses.",
+        "Every call listed in execution.stubs returns the recorded reply without executing the callee body."
+      ]
+    },
+    {
+      "id": "lookup-type33",
+      "function": {
+        "entry": "0x80009CA0",
+        "language": "vc4:LE:32:default",
+        "provisional_base": "0x80000000"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "sp": "0x24010000",
+          "gp": "0x24020000",
+          "r0": "0x24001000",
+          "r1": "0x24002000"
+        },
+        "memory": [
+          {
+            "address": "0x2400FC00",
+            "size": 1024,
+            "fill": "00"
+          },
+          {
+            "address": "0x2402006C",
+            "hex": "00020000"
+          },
+          {
+            "address": "0x24001000",
+            "hex": "7265736f757263652e62696e00"
+          },
+          {
+            "address": "0x24002000",
+            "size": 32,
+            "fill": "a5"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24030000",
+        "step_limit": 1000000,
+        "stubs": [
+          {
+            "entry": "0x80009C2E",
+            "label": "SPI-initialization-boundary",
+            "replies": [
+              {
+                "registers": {
+                  "r0": "0x00000000"
+                },
+                "memory": []
+              }
+            ]
+          },
+          {
+            "entry": "0x80009A2A",
+            "label": "SPI-read-synthetic-header",
+            "replies": [
+              {
+                "registers": {
+                  "r0": "0x00000000"
+                },
+                "memory": [
+                  {
+                    "address": "0x2400FFBC",
+                    "hex": "55aaf33f000000407265736f757263652e62696e00000000"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "entry": "0x800099F4",
+            "label": "SPI-cleanup-boundary",
+            "replies": [
+              {
+                "registers": {
+                  "r0": "0x00000000"
+                },
+                "memory": []
+              }
+            ]
+          }
+        ],
+        "mmio_responses": []
+      },
+      "expected": {
+        "registers": {
+          "r0": "0x00000000",
+          "sp": "0x24010000"
+        },
+        "memory": [
+          {
+            "address": "0x24002000",
+            "hex": "3ff3aa55400000007265736f757263652e62696e000000001000000018000000"
+          }
+        ],
+        "events": [
+          {
+            "kind": "stub",
+            "entry": "0x80009C2E",
+            "arguments": [
+              "0x00000072",
+              "0x24002000",
+              "0x00000000",
+              "0x00000200",
+              "0x00000000",
+              "0x00000000"
+            ],
+            "reply_index": 0
+          },
+          {
+            "kind": "stub",
+            "entry": "0x80009A2A",
+            "arguments": [
+              "0x00000003",
+              "0x2400FF98",
+              "0x00000003",
+              "0x2400FFBC",
+              "0x00000018",
+              "0x00000000"
+            ],
+            "reply_index": 0
+          },
+          {
+            "kind": "stub",
+            "entry": "0x800099F4",
+            "arguments": [
+              "0x24002000",
+              "0x2400FFBC",
+              "0x00000000",
+              "0x00000018",
+              "0x2400FF9C",
+              "0x00000000"
+            ],
+            "reply_index": 0
+          }
+        ]
+      },
+      "steps": 390,
+      "scope": [
+        "Search synthetic EEPROM section headers and return a resource descriptor."
+      ],
+      "limitations": [
+        "SPI initialization, header reads and cleanup are substituted with literal synthetic responses.",
+        "Every call listed in execution.stubs returns the recorded reply without executing the callee body."
+      ]
+    },
+    {
+      "id": "lookup-type44",
+      "function": {
+        "entry": "0x80009CA0",
+        "language": "vc4:LE:32:default",
+        "provisional_base": "0x80000000"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "sp": "0x24010000",
+          "gp": "0x24020000",
+          "r0": "0x24001000",
+          "r1": "0x24002000"
+        },
+        "memory": [
+          {
+            "address": "0x2400FC00",
+            "size": 1024,
+            "fill": "00"
+          },
+          {
+            "address": "0x2402006C",
+            "hex": "00020000"
+          },
+          {
+            "address": "0x24001000",
+            "hex": "7265736f757263652e62696e00"
+          },
+          {
+            "address": "0x24002000",
+            "size": 32,
+            "fill": "a5"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24030000",
+        "step_limit": 1000000,
+        "stubs": [
+          {
+            "entry": "0x80009C2E",
+            "label": "SPI-initialization-boundary",
+            "replies": [
+              {
+                "registers": {
+                  "r0": "0x00000000"
+                },
+                "memory": []
+              }
+            ]
+          },
+          {
+            "entry": "0x80009A2A",
+            "label": "SPI-read-synthetic-header",
+            "replies": [
+              {
+                "registers": {
+                  "r0": "0x00000000"
+                },
+                "memory": [
+                  {
+                    "address": "0x2400FFBC",
+                    "hex": "55aaf44f000000407265736f757263652e62696e00000000"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "entry": "0x800099F4",
+            "label": "SPI-cleanup-boundary",
+            "replies": [
+              {
+                "registers": {
+                  "r0": "0x00000000"
+                },
+                "memory": []
+              }
+            ]
+          }
+        ],
+        "mmio_responses": []
+      },
+      "expected": {
+        "registers": {
+          "r0": "0x00000000",
+          "sp": "0x24010000"
+        },
+        "memory": [
+          {
+            "address": "0x24002000",
+            "hex": "4ff4aa55400000007265736f757263652e62696e000000001000000018000000"
+          }
+        ],
+        "events": [
+          {
+            "kind": "stub",
+            "entry": "0x80009C2E",
+            "arguments": [
+              "0x00000072",
+              "0x24002000",
+              "0x00000000",
+              "0x00000200",
+              "0x00000000",
+              "0x00000000"
+            ],
+            "reply_index": 0
+          },
+          {
+            "kind": "stub",
+            "entry": "0x80009A2A",
+            "arguments": [
+              "0x00000003",
+              "0x2400FF98",
+              "0x00000003",
+              "0x2400FFBC",
+              "0x00000018",
+              "0x00000000"
+            ],
+            "reply_index": 0
+          },
+          {
+            "kind": "stub",
+            "entry": "0x800099F4",
+            "arguments": [
+              "0x24002000",
+              "0x2400FFBC",
+              "0x00000000",
+              "0x00000018",
+              "0x2400FF9C",
+              "0x00000000"
+            ],
+            "reply_index": 0
+          }
+        ]
+      },
+      "steps": 392,
+      "scope": [
+        "Search synthetic EEPROM section headers and return a resource descriptor."
+      ],
+      "limitations": [
+        "SPI initialization, header reads and cleanup are substituted with literal synthetic responses.",
+        "Every call listed in execution.stubs returns the recorded reply without executing the callee body."
+      ]
+    },
+    {
+      "id": "lookup-second-section",
+      "function": {
+        "entry": "0x80009CA0",
+        "language": "vc4:LE:32:default",
+        "provisional_base": "0x80000000"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "sp": "0x24010000",
+          "gp": "0x24020000",
+          "r0": "0x24001000",
+          "r1": "0x24002000"
+        },
+        "memory": [
+          {
+            "address": "0x2400FC00",
+            "size": 1024,
+            "fill": "00"
+          },
+          {
+            "address": "0x2402006C",
+            "hex": "00020000"
+          },
+          {
+            "address": "0x24001000",
+            "hex": "7265736f757263652e62696e00"
+          },
+          {
+            "address": "0x24002000",
+            "size": 32,
+            "fill": "a5"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24030000",
+        "step_limit": 1000000,
+        "stubs": [
+          {
+            "entry": "0x80009C2E",
+            "label": "SPI-initialization-boundary",
+            "replies": [
+              {
+                "registers": {
+                  "r0": "0x00000000"
+                },
+                "memory": []
+              }
+            ]
+          },
+          {
+            "entry": "0x80009A2A",
+            "label": "SPI-read-synthetic-header",
+            "replies": [
+              {
+                "registers": {
+                  "r0": "0x00000000"
+                },
+                "memory": [
+                  {
+                    "address": "0x2400FFBC",
+                    "hex": "55aaf11f000000406f746865722e62696e00000000000000"
+                  }
+                ]
+              },
+              {
+                "registers": {
+                  "r0": "0x00000000"
+                },
+                "memory": [
+                  {
+                    "address": "0x2400FFBC",
+                    "hex": "55aaf44f000000407265736f757263652e62696e00000000"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "entry": "0x800099F4",
+            "label": "SPI-cleanup-boundary",
+            "replies": [
+              {
+                "registers": {
+                  "r0": "0x00000000"
+                },
+                "memory": []
+              }
+            ]
+          }
+        ],
+        "mmio_responses": []
+      },
+      "expected": {
+        "registers": {
+          "r0": "0x00000000",
+          "sp": "0x24010000"
+        },
+        "memory": [
+          {
+            "address": "0x24002000",
+            "hex": "4ff4aa55400000007265736f757263652e62696e000000001000000060000000"
+          }
+        ],
+        "events": [
+          {
+            "kind": "stub",
+            "entry": "0x80009C2E",
+            "arguments": [
+              "0x00000072",
+              "0x24002000",
+              "0x00000000",
+              "0x00000200",
+              "0x00000000",
+              "0x00000000"
+            ],
+            "reply_index": 0
+          },
+          {
+            "kind": "stub",
+            "entry": "0x80009A2A",
+            "arguments": [
+              "0x00000003",
+              "0x2400FF98",
+              "0x00000003",
+              "0x2400FFBC",
+              "0x00000018",
+              "0x00000000"
+            ],
+            "reply_index": 0
+          },
+          {
+            "kind": "stub",
+            "entry": "0x80009A2A",
+            "arguments": [
+              "0x00000003",
+              "0x2400FF98",
+              "0x00000003",
+              "0x2400FFBC",
+              "0x00000018",
+              "0x00000000"
+            ],
+            "reply_index": 1
+          },
+          {
+            "kind": "stub",
+            "entry": "0x800099F4",
+            "arguments": [
+              "0x24002000",
+              "0x2400FFBC",
+              "0x00000000",
+              "0x00000060",
+              "0x2400FF9C",
+              "0x00000000"
+            ],
+            "reply_index": 0
+          }
+        ]
+      },
+      "steps": 644,
+      "scope": [
+        "Search synthetic EEPROM section headers and return a resource descriptor."
+      ],
+      "limitations": [
+        "SPI initialization, header reads and cleanup are substituted with literal synthetic responses.",
+        "Every call listed in execution.stubs returns the recorded reply without executing the callee body."
+      ]
+    },
+    {
+      "id": "lookup-unknown-type",
+      "function": {
+        "entry": "0x80009CA0",
+        "language": "vc4:LE:32:default",
+        "provisional_base": "0x80000000"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "sp": "0x24010000",
+          "gp": "0x24020000",
+          "r0": "0x24001000",
+          "r1": "0x24002000"
+        },
+        "memory": [
+          {
+            "address": "0x2400FC00",
+            "size": 1024,
+            "fill": "00"
+          },
+          {
+            "address": "0x2402006C",
+            "hex": "00020000"
+          },
+          {
+            "address": "0x24001000",
+            "hex": "7265736f757263652e62696e00"
+          },
+          {
+            "address": "0x24002000",
+            "size": 32,
+            "fill": "a5"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24030000",
+        "step_limit": 1000000,
+        "stubs": [
+          {
+            "entry": "0x80009C2E",
+            "label": "SPI-initialization-boundary",
+            "replies": [
+              {
+                "registers": {
+                  "r0": "0x00000000"
+                },
+                "memory": []
+              }
+            ]
+          },
+          {
+            "entry": "0x80009A2A",
+            "label": "SPI-read-synthetic-header",
+            "replies": [
+              {
+                "registers": {
+                  "r0": "0x00000000"
+                },
+                "memory": [
+                  {
+                    "address": "0x2400FFBC",
+                    "hex": "55aaf55f000000407265736f757263652e62696e00000000"
+                  }
+                ]
+              },
+              {
+                "registers": {
+                  "r0": "0x00000000"
+                },
+                "memory": [
+                  {
+                    "address": "0x2400FFBC",
+                    "hex": "55aaf11f000000407265736f757263652e62696e00000000"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "entry": "0x800099F4",
+            "label": "SPI-cleanup-boundary",
+            "replies": [
+              {
+                "registers": {
+                  "r0": "0x00000000"
+                },
+                "memory": []
+              }
+            ]
+          }
+        ],
+        "mmio_responses": []
+      },
+      "expected": {
+        "registers": {
+          "r0": "0x00000000",
+          "sp": "0x24010000"
+        },
+        "memory": [
+          {
+            "address": "0x24002000",
+            "hex": "1ff1aa55400000007265736f757263652e62696e000000003000000060000000"
+          }
+        ],
+        "events": [
+          {
+            "kind": "stub",
+            "entry": "0x80009C2E",
+            "arguments": [
+              "0x00000072",
+              "0x24002000",
+              "0x00000000",
+              "0x00000200",
+              "0x00000000",
+              "0x00000000"
+            ],
+            "reply_index": 0
+          },
+          {
+            "kind": "stub",
+            "entry": "0x80009A2A",
+            "arguments": [
+              "0x00000003",
+              "0x2400FF98",
+              "0x00000003",
+              "0x2400FFBC",
+              "0x00000018",
+              "0x00000000"
+            ],
+            "reply_index": 0
+          },
+          {
+            "kind": "stub",
+            "entry": "0x80009A2A",
+            "arguments": [
+              "0x00000003",
+              "0x2400FF98",
+              "0x00000003",
+              "0x2400FFBC",
+              "0x00000018",
+              "0x00000000"
+            ],
+            "reply_index": 1
+          },
+          {
+            "kind": "stub",
+            "entry": "0x800099F4",
+            "arguments": [
+              "0x24002000",
+              "0x2400FFBC",
+              "0x00000000",
+              "0x00000060",
+              "0x2400FF9C",
+              "0x00000000"
+            ],
+            "reply_index": 0
+          }
+        ]
+      },
+      "steps": 491,
+      "scope": [
+        "Search synthetic EEPROM section headers and return a resource descriptor."
+      ],
+      "limitations": [
+        "SPI initialization, header reads and cleanup are substituted with literal synthetic responses.",
+        "Every call listed in execution.stubs returns the recorded reply without executing the callee body."
+      ]
+    },
+    {
+      "id": "lookup-missing-name",
+      "function": {
+        "entry": "0x80009CA0",
+        "language": "vc4:LE:32:default",
+        "provisional_base": "0x80000000"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "sp": "0x24010000",
+          "gp": "0x24020000",
+          "r0": "0x24001000",
+          "r1": "0x24002000"
+        },
+        "memory": [
+          {
+            "address": "0x2400FC00",
+            "size": 1024,
+            "fill": "00"
+          },
+          {
+            "address": "0x2402006C",
+            "hex": "00020000"
+          },
+          {
+            "address": "0x24001000",
+            "hex": "7265736f757263652e62696e00"
+          },
+          {
+            "address": "0x24002000",
+            "size": 32,
+            "fill": "a5"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24030000",
+        "step_limit": 1000000,
+        "stubs": [
+          {
+            "entry": "0x80009C2E",
+            "label": "SPI-initialization-boundary",
+            "replies": [
+              {
+                "registers": {
+                  "r0": "0x00000000"
+                },
+                "memory": []
+              }
+            ]
+          },
+          {
+            "entry": "0x80009A2A",
+            "label": "SPI-read-synthetic-header",
+            "replies": [
+              {
+                "registers": {
+                  "r0": "0x00000000"
+                },
+                "memory": [
+                  {
+                    "address": "0x2400FFBC",
+                    "hex": "55aaf11f000000406f746865722e62696e00000000000000"
+                  }
+                ]
+              },
+              {
+                "registers": {
+                  "r0": "0x00000000"
+                },
+                "memory": [
+                  {
+                    "address": "0x2400FFBC",
+                    "hex": "ffffffffffffffffffffffffffffffffffffffffffffffff"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "entry": "0x800099F4",
+            "label": "SPI-cleanup-boundary",
+            "replies": [
+              {
+                "registers": {
+                  "r0": "0x00000000"
+                },
+                "memory": []
+              }
+            ]
+          }
+        ],
+        "mmio_responses": []
+      },
+      "expected": {
+        "registers": {
+          "r0": "0xFFFFFFFF",
+          "sp": "0x24010000"
+        },
+        "memory": [
+          {
+            "address": "0x24002000",
+            "hex": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+          }
+        ],
+        "events": [
+          {
+            "kind": "stub",
+            "entry": "0x80009C2E",
+            "arguments": [
+              "0x00000072",
+              "0x24002000",
+              "0x00000000",
+              "0x00000200",
+              "0x00000000",
+              "0x00000000"
+            ],
+            "reply_index": 0
+          },
+          {
+            "kind": "stub",
+            "entry": "0x80009A2A",
+            "arguments": [
+              "0x00000003",
+              "0x2400FF98",
+              "0x00000003",
+              "0x2400FFBC",
+              "0x00000018",
+              "0x00000000"
+            ],
+            "reply_index": 0
+          },
+          {
+            "kind": "stub",
+            "entry": "0x80009A2A",
+            "arguments": [
+              "0x00000003",
+              "0x2400FF98",
+              "0x00000003",
+              "0x2400FFBC",
+              "0x00000018",
+              "0x00000000"
+            ],
+            "reply_index": 1
+          },
+          {
+            "kind": "stub",
+            "entry": "0x800099F4",
+            "arguments": [
+              "0xFFFFFFFF",
+              "0xFFFFFF00",
+              "0xFFFFF00F",
+              "0xFFFFFFFF",
+              "0x00000000",
+              "0x00000000"
+            ],
+            "reply_index": 0
+          }
+        ]
+      },
+      "steps": 360,
+      "scope": [
+        "Search synthetic EEPROM section headers and return a resource descriptor."
+      ],
+      "limitations": [
+        "SPI initialization, header reads and cleanup are substituted with literal synthetic responses.",
+        "Every call listed in execution.stubs returns the recorded reply without executing the callee body."
+      ]
+    },
+    {
+      "id": "lookup-invalid-magic",
+      "function": {
+        "entry": "0x80009CA0",
+        "language": "vc4:LE:32:default",
+        "provisional_base": "0x80000000"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "sp": "0x24010000",
+          "gp": "0x24020000",
+          "r0": "0x24001000",
+          "r1": "0x24002000"
+        },
+        "memory": [
+          {
+            "address": "0x2400FC00",
+            "size": 1024,
+            "fill": "00"
+          },
+          {
+            "address": "0x2402006C",
+            "hex": "00020000"
+          },
+          {
+            "address": "0x24001000",
+            "hex": "7265736f757263652e62696e00"
+          },
+          {
+            "address": "0x24002000",
+            "size": 32,
+            "fill": "a5"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24030000",
+        "step_limit": 1000000,
+        "stubs": [
+          {
+            "entry": "0x80009C2E",
+            "label": "SPI-initialization-boundary",
+            "replies": [
+              {
+                "registers": {
+                  "r0": "0x00000000"
+                },
+                "memory": []
+              }
+            ]
+          },
+          {
+            "entry": "0x80009A2A",
+            "label": "SPI-read-synthetic-header",
+            "replies": [
+              {
+                "registers": {
+                  "r0": "0x00000000"
+                },
+                "memory": [
+                  {
+                    "address": "0x2400FFBC",
+                    "hex": "12345678000000407265736f757263652e62696e00000000"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "entry": "0x800099F4",
+            "label": "SPI-cleanup-boundary",
+            "replies": [
+              {
+                "registers": {
+                  "r0": "0x00000000"
+                },
+                "memory": []
+              }
+            ]
+          }
+        ],
+        "mmio_responses": []
+      },
+      "expected": {
+        "registers": {
+          "r0": "0xFFFFFFFF",
+          "sp": "0x24010000"
+        },
+        "memory": [
+          {
+            "address": "0x24002000",
+            "hex": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+          }
+        ],
+        "events": [
+          {
+            "kind": "stub",
+            "entry": "0x80009C2E",
+            "arguments": [
+              "0x00000072",
+              "0x24002000",
+              "0x00000000",
+              "0x00000200",
+              "0x00000000",
+              "0x00000000"
+            ],
+            "reply_index": 0
+          },
+          {
+            "kind": "stub",
+            "entry": "0x80009A2A",
+            "arguments": [
+              "0x00000003",
+              "0x2400FF98",
+              "0x00000003",
+              "0x2400FFBC",
+              "0x00000018",
+              "0x00000000"
+            ],
+            "reply_index": 0
+          },
+          {
+            "kind": "stub",
+            "entry": "0x800099F4",
+            "arguments": [
+              "0x00000040",
+              "0x00000000",
+              "0x12345008",
+              "0x12345678",
+              "0x00000000",
+              "0x00000000"
+            ],
+            "reply_index": 0
+          }
+        ]
+      },
+      "steps": 108,
+      "scope": [
+        "Search synthetic EEPROM section headers and return a resource descriptor."
+      ],
+      "limitations": [
+        "SPI initialization, header reads and cleanup are substituted with literal synthetic responses.",
+        "Every call listed in execution.stubs returns the recorded reply without executing the callee body."
+      ]
+    },
+    {
+      "id": "lookup-oversize-length",
+      "function": {
+        "entry": "0x80009CA0",
+        "language": "vc4:LE:32:default",
+        "provisional_base": "0x80000000"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "sp": "0x24010000",
+          "gp": "0x24020000",
+          "r0": "0x24001000",
+          "r1": "0x24002000"
+        },
+        "memory": [
+          {
+            "address": "0x2400FC00",
+            "size": 1024,
+            "fill": "00"
+          },
+          {
+            "address": "0x2402006C",
+            "hex": "00020000"
+          },
+          {
+            "address": "0x24001000",
+            "hex": "7265736f757263652e62696e00"
+          },
+          {
+            "address": "0x24002000",
+            "size": 32,
+            "fill": "a5"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24030000",
+        "step_limit": 1000000,
+        "stubs": [
+          {
+            "entry": "0x80009C2E",
+            "label": "SPI-initialization-boundary",
+            "replies": [
+              {
+                "registers": {
+                  "r0": "0x00000000"
+                },
+                "memory": []
+              }
+            ]
+          },
+          {
+            "entry": "0x80009A2A",
+            "label": "SPI-read-synthetic-header",
+            "replies": [
+              {
+                "registers": {
+                  "r0": "0x00000000"
+                },
+                "memory": [
+                  {
+                    "address": "0x2400FFBC",
+                    "hex": "55aaf11f010000007265736f757263652e62696e00000000"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "entry": "0x800099F4",
+            "label": "SPI-cleanup-boundary",
+            "replies": [
+              {
+                "registers": {
+                  "r0": "0x00000000"
+                },
+                "memory": []
+              }
+            ]
+          }
+        ],
+        "mmio_responses": []
+      },
+      "expected": {
+        "registers": {
+          "r0": "0xFFFFFFFF",
+          "sp": "0x24010000"
+        },
+        "memory": [
+          {
+            "address": "0x24002000",
+            "hex": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+          }
+        ],
+        "events": [
+          {
+            "kind": "stub",
+            "entry": "0x80009C2E",
+            "arguments": [
+              "0x00000072",
+              "0x24002000",
+              "0x00000000",
+              "0x00000200",
+              "0x00000000",
+              "0x00000000"
+            ],
+            "reply_index": 0
+          },
+          {
+            "kind": "stub",
+            "entry": "0x80009A2A",
+            "arguments": [
+              "0x00000003",
+              "0x2400FF98",
+              "0x00000003",
+              "0x2400FFBC",
+              "0x00000018",
+              "0x00000000"
+            ],
+            "reply_index": 0
+          },
+          {
+            "kind": "stub",
+            "entry": "0x800099F4",
+            "arguments": [
+              "0x01000000",
+              "0x01000000",
+              "0x55AAF00F",
+              "0x55AAF11F",
+              "0x00000000",
+              "0x00000000"
+            ],
+            "reply_index": 0
+          }
+        ]
+      },
+      "steps": 111,
+      "scope": [
+        "Search synthetic EEPROM section headers and return a resource descriptor."
+      ],
+      "limitations": [
+        "SPI initialization, header reads and cleanup are substituted with literal synthetic responses.",
+        "Every call listed in execution.stubs returns the recorded reply without executing the callee body."
+      ]
+    },
+    {
+      "id": "lookup-read-error",
+      "function": {
+        "entry": "0x80009CA0",
+        "language": "vc4:LE:32:default",
+        "provisional_base": "0x80000000"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "sp": "0x24010000",
+          "gp": "0x24020000",
+          "r0": "0x24001000",
+          "r1": "0x24002000"
+        },
+        "memory": [
+          {
+            "address": "0x2400FC00",
+            "size": 1024,
+            "fill": "00"
+          },
+          {
+            "address": "0x2402006C",
+            "hex": "00020000"
+          },
+          {
+            "address": "0x24001000",
+            "hex": "7265736f757263652e62696e00"
+          },
+          {
+            "address": "0x24002000",
+            "size": 32,
+            "fill": "a5"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24030000",
+        "step_limit": 1000000,
+        "stubs": [
+          {
+            "entry": "0x80009C2E",
+            "label": "SPI-initialization-boundary",
+            "replies": [
+              {
+                "registers": {
+                  "r0": "0x00000000"
+                },
+                "memory": []
+              }
+            ]
+          },
+          {
+            "entry": "0x80009A2A",
+            "label": "SPI-read-synthetic-header",
+            "replies": [
+              {
+                "registers": {
+                  "r0": "0xFFFFFFFF"
+                },
+                "memory": []
+              }
+            ]
+          },
+          {
+            "entry": "0x800099F4",
+            "label": "SPI-cleanup-boundary",
+            "replies": [
+              {
+                "registers": {
+                  "r0": "0x00000000"
+                },
+                "memory": []
+              }
+            ]
+          }
+        ],
+        "mmio_responses": []
+      },
+      "expected": {
+        "registers": {
+          "r0": "0xFFFFFFFF",
+          "sp": "0x24010000"
+        },
+        "memory": [
+          {
+            "address": "0x24002000",
+            "hex": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+          }
+        ],
+        "events": [
+          {
+            "kind": "stub",
+            "entry": "0x80009C2E",
+            "arguments": [
+              "0x00000072",
+              "0x24002000",
+              "0x00000000",
+              "0x00000200",
+              "0x00000000",
+              "0x00000000"
+            ],
+            "reply_index": 0
+          },
+          {
+            "kind": "stub",
+            "entry": "0x80009A2A",
+            "arguments": [
+              "0x00000003",
+              "0x2400FF98",
+              "0x00000003",
+              "0x2400FFBC",
+              "0x00000018",
+              "0x00000000"
+            ],
+            "reply_index": 0
+          },
+          {
+            "kind": "stub",
+            "entry": "0x800099F4",
+            "arguments": [
+              "0xFFFFFFFF",
+              "0x2400FF98",
+              "0x00000003",
+              "0x2400FFBC",
+              "0x00000018",
+              "0x00000000"
+            ],
+            "reply_index": 0
+          }
+        ]
+      },
+      "steps": 43,
+      "scope": [
+        "Search synthetic EEPROM section headers and return a resource descriptor."
+      ],
+      "limitations": [
+        "SPI initialization, header reads and cleanup are substituted with literal synthetic responses.",
+        "Every call listed in execution.stubs returns the recorded reply without executing the callee body."
+      ]
+    },
+    {
+      "id": "lookup-empty-name",
+      "function": {
+        "entry": "0x80009CA0",
+        "language": "vc4:LE:32:default",
+        "provisional_base": "0x80000000"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "sp": "0x24010000",
+          "gp": "0x24020000",
+          "r0": "0x24001000",
+          "r1": "0x24002000"
+        },
+        "memory": [
+          {
+            "address": "0x2402006C",
+            "hex": "00020000"
+          },
+          {
+            "address": "0x24001000",
+            "size": 16,
+            "fill": "00"
+          },
+          {
+            "address": "0x24002000",
+            "size": 32,
+            "fill": "a5"
+          },
+          {
+            "address": "0x2400FC00",
+            "size": 1024,
+            "fill": "00"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24030000",
+        "step_limit": 1000000,
+        "stubs": [],
+        "mmio_responses": []
+      },
+      "expected": {
+        "registers": {
+          "r0": "0xFFFFFFFE",
+          "sp": "0x24010000"
+        },
+        "memory": [
+          {
+            "address": "0x24002000",
+            "hex": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+          }
+        ],
+        "events": []
+      },
+      "steps": 20,
+      "scope": [
+        "Reject missing lookup arguments before a storage operation."
+      ],
+      "limitations": []
+    },
+    {
+      "id": "lookup-null-name",
+      "function": {
+        "entry": "0x80009CA0",
+        "language": "vc4:LE:32:default",
+        "provisional_base": "0x80000000"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "sp": "0x24010000",
+          "gp": "0x24020000",
+          "r0": "0x00000000",
+          "r1": "0x24002000"
+        },
+        "memory": [
+          {
+            "address": "0x2402006C",
+            "hex": "00020000"
+          },
+          {
+            "address": "0x24001000",
+            "size": 16,
+            "fill": "00"
+          },
+          {
+            "address": "0x24002000",
+            "size": 32,
+            "fill": "a5"
+          },
+          {
+            "address": "0x2400FC00",
+            "size": 1024,
+            "fill": "00"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24030000",
+        "step_limit": 1000000,
+        "stubs": [],
+        "mmio_responses": []
+      },
+      "expected": {
+        "registers": {
+          "r0": "0xFFFFFFFE",
+          "sp": "0x24010000"
+        },
+        "memory": [
+          {
+            "address": "0x24002000",
+            "hex": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+          }
+        ],
+        "events": []
+      },
+      "steps": 18,
+      "scope": [
+        "Reject missing lookup arguments before a storage operation."
+      ],
+      "limitations": []
+    },
+    {
+      "id": "lookup-null-output",
+      "function": {
+        "entry": "0x80009CA0",
+        "language": "vc4:LE:32:default",
+        "provisional_base": "0x80000000"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "sp": "0x24010000",
+          "gp": "0x24020000",
+          "r0": "0x24001000",
+          "r1": "0x00000000"
+        },
+        "memory": [
+          {
+            "address": "0x2402006C",
+            "hex": "00020000"
+          },
+          {
+            "address": "0x24001000",
+            "size": 16,
+            "fill": "00"
+          },
+          {
+            "address": "0x24002000",
+            "size": 32,
+            "fill": "a5"
+          },
+          {
+            "address": "0x2400FC00",
+            "size": 1024,
+            "fill": "00"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24030000",
+        "step_limit": 1000000,
+        "stubs": [],
+        "mmio_responses": []
+      },
+      "expected": {
+        "registers": {
+          "r0": "0xFFFFFFFE",
+          "sp": "0x24010000"
+        },
+        "memory": [
+          {
+            "address": "0x24002000",
+            "hex": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+          }
+        ],
+        "events": []
+      },
+      "steps": 18,
+      "scope": [
+        "Reject missing lookup arguments before a storage operation."
+      ],
+      "limitations": []
+    }
+  ]
+}

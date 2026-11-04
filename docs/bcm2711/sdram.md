@@ -37,11 +37,159 @@ Linux v6.12, [`drivers/memory/brcmstb_dpfe.c`](https://github.com/torvalds/linux
 
 ## mcb.bin
 
-The decompressed `mcb.bin` identified above contains 5651 zero bytes among its 12384 bytes, from offset 0x00 through 0x305F. Its record layout and selection rules remain unresolved.
+The decompressed `mcb.bin` identified above contains 5651 zero bytes among its 12384 bytes, from offset 0x00 through 0x305F. The host record layout and selection rules are described below.
+
+## Host initialization path
+
+The host behavior below refers to usbboot `2711/bootcode4.bin` from
+commit `fdb604d018693465c9aa6ec69879df866d2820da`, SHA-256
+`9e1b0b7df904a7fdc22e263d530c6e4c48921229631dd7ea2325271843996f6c`.
+Addresses use the provisional `0x80000000` mapping; subtract that base
+for file offsets. These observations cover VPU resource selection and
+sequencing, not the execution of the PHY firmware.
+
+The dispatcher at `0x80006FE8` uses the initialized flag at `gp + 0xB8`.
+If it is already nonzero, the dispatcher returns 0 without loading a
+resource. Otherwise it performs this sequence:
+
+1. Prepare a destination descriptor through `0x800059A6` and load
+   `mcb.bin` through `0x80007384`, with the expected digest at
+   `0x8000B900`.
+2. Call the MCB selector at `0x800054D4` with the loaded contents and
+   length. A negative result stops the sequence.
+3. Load `memsys00.bin` and request stage 0 through `0x80005988`.
+4. For each following resource through `memsys08.bin`, load the resource,
+   then call `0x80005A2C` for the preceding stage. A nonzero completion
+   flag ends the stage-start loop; otherwise request the next stage
+   through `0x80005988`.
+5. Call `0x80005A2C` with stage index 8. On success, set `gp + 0xB8` to 1
+   and return 0.
+
+The memsys name-pointer table starts at `0x8000B800`; the expected-digest
+array starts at `0x8000B920` with 32 bytes per entry. The dispatcher loads
+the next resource before waiting for the previous stage. An early
+completion response can therefore leave the next loaded resource
+unused.
+
+In `0x80006FE8`, a failed resource load selects result `0xFFFFFFFE` and
+requests the failure-report path with code `0x31`. Failed MCB selection,
+stage start or stage completion selects `0xFFFFFFFF`. The initialized
+flag remains zero in the tested failures.
+
+[sdram-sequence.json](../../tests/vectors/bootsys/sdram-sequence.json)
+records eight cases covering the complete nine-stage request sequence,
+early completion, the initialized fast path and each failure class.
+The dispatcher, descriptor helpers and MCB selector execute. Resource
+delivery and PHY start/completion use explicit literal responses. The
+failure-report boundary returns in the test harness so the subsequent
+status can be observed. These cases establish host ordering and error
+propagation, not training success or the device failure handler.
+
+## Configuration fields
+
+In the pinned `bootcode4.bin`, the MCB selector at `0x800054D4` consumes
+a configuration value obtained through `0x80006F2E`, or a resume/probe
+path. The vectors supply a synthetic configuration at that boundary and
+perform no OTP or memory-device reads.
+
+| Configuration bits | Consumer | Meaning used by the selector |
+|---|---|---|
+| 2:0 and 5 | `0x80007EEE` | density code |
+| 3 | `0x800054D4` | byte-mode flag |
+| 4 | `0x800054D4` | dual-rank flag |
+| 8:6 | `0x80007EE6` | part configuration |
+
+The density decoder at `0x80007EEE` returns these values, expressed as
+Gbit by the diagnostic at `0x800058AC`:
+
+| Bits 2:0 | Bit 5 clear | Bit 5 set |
+|---|---|---|
+| 0, 1, 2 | 0 | 0 |
+| 3 | 128 | 128 |
+| 4 | 64 | 64 |
+| 5 | 32 | 48 |
+| 6 | 16 | 24 |
+| 7 | 8 | 4 |
+
+The encoder at `0x80007E62` takes dual rank, byte mode, density and part
+configuration in `r0` through `r3`. It places the flags in bits 4 and 3,
+masks the part field to three bits, and encodes the density above.
+The 39 cases in
+[sdram-config.json](../../tests/vectors/bootsys/sdram-config.json)
+exercise density decoding, part extraction, encoding and speed selection
+without substituted calls or device access.
+
+## MCB records and selection
+
+The MCB scanner at `0x800054D4` treats its contents as variable-length
+records. The fields below are offsets from a record, not offsets from
+the outer EEPROM section. The header is 80 bytes, followed by a count of
+32-bit words.
+
+| Record offset | Size (bytes) | Role in 0x800054D4 |
+|---|---|---|
+| 0x00 | 4 | copied to the selected header; not tested by the scanner |
+| 0x04 | 4 | copied to `gp + 0xA4C` |
+| 0x08 | 4 | rate to match |
+| 0x0C | 4 | density to match |
+| 0x10 | 4 | dual-rank value to match |
+| 0x14 | 4 | byte-mode value to match |
+| 0x18 | 4 | part configuration to match |
+| 0x1C | 4 | termination setting to match |
+| 0x20 | 4 | following word count |
+| 0x24 | 44 | auxiliary data copied to `gp + 0x17A4` |
+| 0x50 | count × 4 | words copied to `gp + 0x14A0` |
+
+The scanner at `0x800054D4` requires matching configuration fields, a
+nonzero count no greater than 152, and enough remaining bytes for the
+words. It masks the supplied contents length down to a multiple of four.
+A rejected record with a nonzero count advances by 80 plus four times
+the count. A zero count ends the scan. On selection it also copies the
+first 36 header bytes to the address held at `gp + 0x48` and returns 0.
+No match returns `0xFFFFFFFF`.
+
+The speed helper at `0x80005146` maps selectors 1 through 7 to 1350,
+2160, 2400, 2667, 3200, 3733 and 4267 respectively. Selector 0 returns
+zero, which disables rate matching in `0x800054D4`; the tested selector 8
+also maps to zero. The rate diagnostic at `0x80005860` labels the value
+in Mbps. The MCB selector accepts densities 4, 8, 16, 24, 32, 48 and 64;
+the decoded density 128 reaches its unsupported-size failure path.
+
+[mcb-selection.json](../../tests/vectors/bootsys/mcb-selection.json)
+records fourteen cases: matching and nonmatching dimensions, unrestricted
+rate, selection of a later record, zero/excessive counts, short contents,
+the 152-word boundary and unsupported density. All records and copied
+contents are synthetic. Configuration acquisition, board preparation and
+diagnostic output are substituted. The comparison, bounds checks and
+copy operations execute in `0x800054D4`.
+
+## Execution boundaries
+
+For the pinned `bootcode4.bin`, `0x80005988` passes the memsys data and
+selected words to `0x80004F46`. Static references in that path reach
+`0x7DC20000`; the completion path through `0x8000507E` reaches
+`0x7DC30000`. These addresses locate the remaining device-specific work.
+The tests stop at the start/completion call boundaries and do not provide
+register values for those devices.
+
+The fixtures initialize their declared synthetic memory in array order.
+MCB and sequence cases first zero a synthetic global-state area, then
+overlay the explicit pointers and configuration fields. The recorder
+rejects uninitialized reads, undeclared memory writes, MMIO reads, vector
+instructions and unsupported p-code operations. Recorded MMIO writes
+in resource-hash cases do not imply a modeled device response.
 
 ## Open questions
 
-- Resource selection. Trace the bootsys paths that select memsys and MCB data; record how density, rank count, part configuration and termination affect the selected resource and offset.
+- Configuration acquisition. Reproduce the resume and device-probe paths
+  that supply density, rank, byte mode and termination settings to
+  `0x800054D4`. Synthetic field matching does not establish their hardware
+  origin or the policy for every board revision.
 - PHY processor and instruction set. Establish the hardware destination of the memsys transfer and identify the receiving processor before applying the STB DCPU description to the BCM2711.
-- Transfer format and initialization sequence. Trace the host writes that load the PHY resources, record byte order and register addresses, and verify the sequence and completion conditions in emulation where peripheral behavior is available.
-- MCB layout. Trace reads from `mcb.bin` and correlate offsets with resource-selection inputs before assigning field meanings or record sizes.
+- PHY transfer and completion details. Trace the device register writes
+  that load the resources, record byte order, and verify the hardware
+  completion conditions where peripheral behavior is available.
+- MCB field meanings beyond selection. Follow the consumers of the copied
+  44-byte auxiliary area and word array before assigning PHY register
+  meanings to them. The first header word is not a validated magic in
+  the observed scanner.
