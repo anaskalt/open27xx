@@ -864,8 +864,9 @@ Initial source state is marker 0x55667788, requested
 0x99AABBCC11223344 and cached 1000000000. Initial divider state is marker
 0x12345678 and count 0x87654321. The native cell accepts zero, 0x10,
 0x12345678 or 0x80 with the matching nonzero handle. Its mismatched profile
-requires 0x12345678. Updated state is not a supported initial profile for
-another call.
+requires 0x12345678. The resource composition adds exactly initial cell
+0x5A000000 with matching handle 0xC10C1234. Other updated source, divider
+or native-cell states do not become supported initial profiles.
 
 Source and divider receive a `clock_driver_plan`: an immutable array of
 `clock_driver_read` records, a record count and an observer. Each record
@@ -1024,3 +1025,97 @@ wrap, guards and repeated-state rejection. The target compiles composition
 and driver objects with `-Os -ffixed-lr`; preserve the LR reservation for
 the pinned VPU compiler. The shared internal leaf preflight functions are
 read-only implementation plumbing, not additional firmware operations.
+
+## Owned fixed resource composition
+
+[`resource_composition.h`](resource_composition.h) exposes
+`resource_composition_execute` from [`resource_composition.c`](resource_composition.c).
+The [complete resource contract](../../docs/bcm2711/resource-composition.md)
+defines its two fixed resource-23 profiles. The helper owns record,
+aggregate and prehook stores, both selected resource bodies, configuration
+routing, two actual clock operations and the ordered control requests.
+It remains unlinked from the runtime image. Existing resource and clock
+request providers retain their observation-only interfaces.
+
+```c
+resource_composition_execute(inputs, records, records_length, resource,
+                             manager, manager_length, clock_state,
+                             source, divider, cell, scratch, scratch_length,
+                             plan, result);
+```
+
+The record buffer contains 32 little-endian records with a 28-byte stride.
+Its first 896 bytes must contain only record 0's nonzero self identity;
+that identity equals the request's opaque identity. The request selects
+record 0, logical index 23, arguments 1/1, dependency selection zero and
+resource handle zero. Resource table is 0x0EDFD200, resource selection is
+one, and skip, held and prehook words are zero. Configuration has table
+0x0EDE54D4, handle 0x61726D11, service index one and A/B/C/D equal to
+0/1/0/0. The four mutex tokens are distinct. Tokens describe observations
+and are never dereferenced or called.
+
+Clock inputs, manager bytes, miss state, source/divider sentinels and native
+cell must match the first-clock contract. The plan embeds its source and
+divider reads, word observer and mutex/diagnostic observers. It also holds
+two separate 24-read control plans and one five-read final plan. Each must
+match the complete literal read sequence in the resource contract. Source
+lock is immediate or exhausts its actual 2000-read counter. No caller
+supplies a source, divider, native-word or resource reply in place of the
+owned operation. Resource diagnostic, mutex and service observers receive
+the documented identity, defined argument words and literal zero reply.
+Clock diagnostics preserve all seven logical words.
+
+The operation calculates the old aggregate, sets record 0's bit 23 and
+calculates aggregate 0x180. It processes added masks 0x80 then 0x100,
+acquiring outer then resource and releasing resource then outer for each.
+Prehook stores follow the acquisitions. The first body makes no clock or
+control request. The second dispatches six configuration services, then
+the two clocks and their control phases. Control writes use the actual
+supplied words, masks and saved first word; expected write arrays are not
+inputs. The ten command polls per phase and two final bit polls retain
+their supplied observations. Missing termination fails preflight and
+does not become a firmware timeout.
+
+The first eight scratch bytes are cleared immediately before each clock
+acquisition. The first clock runs source, selected word and divider. Its
+source raw 4 retains its mutations and continues through both later
+operations. The second clock uses the completed manager/source/divider
+state and actual native cell; it performs only the selected-word operation.
+Its native reads and write all contain 0x5A000000. Scratch is written as
+unsigned 64-bit 600000000 before each clock release. The intermediate
+control phase preserves these software fields. The final result contains
+the first clock's four actual raw words, repeated word and manager raw
+words, and resource raw zero. It is stored only after the manager release.
+There is no tagged stop or higher ARM-start operation in this interface.
+
+Whole-path preflight covers all fixed input/state fields, required
+observers, complete read plans and the predicted repeated-word domain
+before the first resource diagnostic. Checks include size multiplication,
+address wrap and pairwise overlap for every API object, all five read
+arrays, and the complete declared records, manager and scratch spans.
+Only the first 896, 1156 and eight bytes of those buffers can change;
+tails remain untouched. Initial aggregate and scratch contents remain
+visible until their specified stores.
+
+Host status uses `clock_driver_status` with the same invalid, unsupported,
+bounds and overlap meanings as the first composition. Host errors emit no
+events and preserve every state, scratch and result byte. Callers supply
+backing, lifetime, writable storage and typed alignment. Observers preserve
+all API objects, return normally, use separate bookkeeping and avoid
+reentry, concurrent mutation and hardware access. No pointer is retained
+and no storage is allocated. Request order, numerical rates and raw zero
+do not establish physical completion.
+
+```sh
+python3 -m unittest tests.test_resource_composition
+make -C src/start4 check-resource-composition
+```
+
+Tests compare both complete fixture event streams and final memory, plus
+callback-visible resource/prehook ordering, nested clock cache timing,
+scratch clearing and native-store visibility. They exercise altered later
+reads, missing polls/observers, unsupported state, all pairwise API/array
+overlaps, full-span tails and address/size overflow. The target compiles
+standalone resource, clock and configuration objects with `-Os -ffixed-lr`.
+Runtime acquisition, initialization and physical behavior require separate
+contracts before integration.
