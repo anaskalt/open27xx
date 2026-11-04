@@ -75,7 +75,7 @@ register arguments:
 | `r2` | Requested address minus 0x7E00B000 |
 | `r3`, `r4`, `r5` | Zero |
 
-The fixture intercepts 0x0ED65284 and supplies zero without changing
+The base fixture intercepts 0x0ED65284 and supplies zero without changing
 memory. SWI and the service implementation do not execute. The real
 configuration function, routing wrapper and ARM driver execute around
 that boundary; all supplied configuration/routing fields remain unchanged
@@ -114,8 +114,8 @@ Under the supplied mutex replies, execution follows this sequence:
 5. Call mutex-release boundary 0x0ED64D3A at 0x0EC5A86C with the same
    mutex object, then return the selected result at 0x0EC5A870.
 
-The mutex boundaries return zero without changing memory. The resource
-boundary is also supplied: result 0 produces return 0 and active word 1;
+The base fixture's mutex boundaries return zero without changing memory.
+The resource boundary is also supplied: result 0 produces return 0 and active word 1;
 result 7 produces return 7 and active word 0. It is not an executed
 resource transition. The mutex-release boundary is called on every
 recorded path, including an invalid handle, and does not replace the
@@ -126,6 +126,44 @@ The software names describe the gates used by this function. A nonzero
 mapping marker does not establish actual mapping or cache visibility. An
 active word of 1 does not establish that an ARM core has started. The
 opaque object and handle do not identify a physical reset vector.
+
+## Callback return words
+
+In the identified `start4.elf`, the service boundary at 0x0ED65284 returns
+to 0x0EC534CE, which replaces `r0` with zero. The configuration caller
+does not observe the service's returned word or stop the remaining
+requests because of it. The no-driver path at 0x0EC5EE2A issues no call
+and preserves its incoming `r0`, including the tested value 0x89ABCDEF.
+Neither result defines a hardware-success status.
+
+The start-request caller at 0x0EC5A81E does not test the returned `r0`
+from mutex-acquire boundary 0x0ED64D02. It continues through the same
+software gates. After the resource request, it retains that request's
+result separately from the mutex-release return word. At 0x0EC5A870 it
+places the selected result in `r0`. Nonzero mutex return words therefore
+do not prevent the logical resource call or replace its result.
+
+[arm-control-replies.json](../../tests/vectors/start4/arm-control-replies.json)
+records 17 additional cases and 1477 scalar instructions:
+
+| Group | Cases | Supplied return words | Observed behavior |
+|---|---:|---|---|
+| Six- and seven-request configuration paths | 6 | First service reply 7; last reply 0x80000000; or every reply 0xFFFFFFFF | Same complete request sequence and unchanged state; final `r0` is zero |
+| Missing configuration driver | 1 | Incoming `r0` is 0x89ABCDEF | No call; `r0` remains 0x89ABCDEF |
+| Resource results 0 and 7 | 6 | Acquire/release pairs (7, 0), (0, 0xFFFFFFFF), (7, 0x80000000) | Same gates and resource arguments; return 0 or 7 and active word 1 or 0, respectively |
+| Each of the four gate rejections | 4 | Both mutex return words nonzero | No resource call; return 0xFFFFFFFF; unchanged state |
+
+The configuration cases use A/B/C/D equal to 0000 or 1111. All request
+arguments, call ordering, observed memory, restored SP and instruction
+counts match their corresponding base cases. The missing-driver case
+changes only the observed incoming and final `r0`. No reply changes memory.
+
+These are raw return-register words supplied at explicit boundaries.
+They are not measured service failures, lock-acquisition failures or
+successful hardware operations. A portable implementation preserves the
+complete configuration-request sequence and derives the start-request
+result from the gates and resource reply. Callback memory effects, real
+synchronization and hardware recovery remain outside this contract.
 
 ## Zero-selection boundary
 
@@ -165,12 +203,12 @@ status and active-state update. Keep those callbacks separate from actual
 hardware operations. Incidental register contents and native stack
 addresses do not define a portable application interface.
 
-A host API must define pointer validity, ownership and callback-failure
-handling before accessing caller-owned state. Those host rules are not
-vendor error returns. Configuration tests supply only zero service replies;
-the start-request tests supply only zero mutex replies and resource results
-0 and 7. They do not establish callback side effects, synchronization
-correctness or production failure recovery.
+A host API must define pointer validity, ownership and valid callback
+objects before accessing caller-owned state. Those host rules are distinct
+from the returned register words above. The two fixtures cover zero and
+nonzero service/mutex replies, and resource results 0 and 7. They do not
+establish callback side effects, synchronization correctness or production
+failure recovery.
 
 ## Open questions
 
@@ -178,8 +216,9 @@ correctness or production failure recovery.
   and the selection flag before mapping them to configuration keys or
   physical board properties.
 - Service effects and failure handling. Verify the exception transition,
-  service implementation and nonzero replies before connecting requests
-  to hardware access or defining recovery behavior.
+  service implementation and actual result semantics before connecting
+  requests to hardware access or defining recovery behavior. Ignoring a
+  supplied return word does not establish the operation's physical outcome.
 - Resource transition. Resolve resource dependencies, clock-driver calls,
   required initial state and readback semantics before treating the
   logical request as an ARM release operation.

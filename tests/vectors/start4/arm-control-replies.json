@@ -1,0 +1,2980 @@
+{
+  "schema": 1,
+  "source": {
+    "file": "start4.elf",
+    "repository": "raspberrypi/firmware",
+    "version": "ab5c7f86283ceb58b7adb269cae1d16092a31bf6",
+    "sha256": "38b179897c4514ad11bc915c3fd2d4b68c51e05df2e42240717655ab92d91aeb"
+  },
+  "cases": [
+    {
+      "id": "configuration-6-return-first",
+      "function": {
+        "entry": "0x0EC5EE2A",
+        "language": "vc4:LE:32:default"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "gp": "0xE4000000",
+          "sp": "0x24010000"
+        },
+        "memory": [
+          {
+            "address": "0x2400FC00",
+            "size": 1088,
+            "fill": "a5"
+          },
+          {
+            "address": "0xE4001660",
+            "hex": "d454de0e"
+          },
+          {
+            "address": "0xE4001564",
+            "hex": "01000000"
+          },
+          {
+            "address": "0xE40019C8",
+            "hex": "116d7261"
+          },
+          {
+            "address": "0xE403B490",
+            "hex": "01000000"
+          },
+          {
+            "address": "0xE40CC948",
+            "hex": "00000000"
+          },
+          {
+            "address": "0xE40CC934",
+            "hex": "00000000"
+          },
+          {
+            "address": "0xE40CCA24",
+            "hex": "00000000"
+          },
+          {
+            "address": "0xE40CCA1C",
+            "hex": "00000000"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24030000",
+        "step_limit": 3000,
+        "stubs": [
+          {
+            "entry": "0x0ED65284",
+            "label": "privileged service boundary; no SWI",
+            "replies": [
+              {
+                "registers": {
+                  "r0": "0x00000007"
+                },
+                "memory": []
+              },
+              {
+                "registers": {
+                  "r0": "0x00000000"
+                },
+                "memory": []
+              },
+              {
+                "registers": {
+                  "r0": "0x00000000"
+                },
+                "memory": []
+              },
+              {
+                "registers": {
+                  "r0": "0x00000000"
+                },
+                "memory": []
+              },
+              {
+                "registers": {
+                  "r0": "0x00000000"
+                },
+                "memory": []
+              },
+              {
+                "registers": {
+                  "r0": "0x00000000"
+                },
+                "memory": []
+              }
+            ]
+          }
+        ],
+        "mmio_responses": []
+      },
+      "expected": {
+        "registers": {
+          "r0": "0x00000000",
+          "sp": "0x24010000"
+        },
+        "memory": [
+          {
+            "address": "0xE4001660",
+            "hex": "d454de0e"
+          },
+          {
+            "address": "0xE4001564",
+            "hex": "01000000"
+          },
+          {
+            "address": "0xE40019C8",
+            "hex": "116d7261"
+          },
+          {
+            "address": "0xE403B490",
+            "hex": "01000000"
+          },
+          {
+            "address": "0xE40CC948",
+            "hex": "00000000"
+          },
+          {
+            "address": "0xE40CC934",
+            "hex": "00000000"
+          },
+          {
+            "address": "0xE40CCA24",
+            "hex": "00000000"
+          },
+          {
+            "address": "0xE40CCA1C",
+            "hex": "00000000"
+          }
+        ],
+        "events": [
+          {
+            "kind": "stub",
+            "entry": "0x0ED65284",
+            "arguments": [
+              "0x00000001",
+              "0x0000000A",
+              "0x0000041C",
+              "0x00000000",
+              "0x00000000",
+              "0x00000000"
+            ],
+            "reply_index": 0
+          },
+          {
+            "kind": "stub",
+            "entry": "0x0ED65284",
+            "arguments": [
+              "0x00000001",
+              "0x00003030",
+              "0x00000008",
+              "0x00000000",
+              "0x00000000",
+              "0x00000000"
+            ],
+            "reply_index": 1
+          },
+          {
+            "kind": "stub",
+            "entry": "0x0ED65284",
+            "arguments": [
+              "0x00000001",
+              "0x00001000",
+              "0x00000000",
+              "0x00000000",
+              "0x00000000",
+              "0x00000000"
+            ],
+            "reply_index": 2
+          },
+          {
+            "kind": "stub",
+            "entry": "0x0ED65284",
+            "arguments": [
+              "0x00000001",
+              "0x00000030",
+              "0x004F5200",
+              "0x00000000",
+              "0x00000000",
+              "0x00000000"
+            ],
+            "reply_index": 3
+          },
+          {
+            "kind": "stub",
+            "entry": "0x0ED65284",
+            "arguments": [
+              "0x00000001",
+              "0x00000000",
+              "0x004F5204",
+              "0x00000000",
+              "0x00000000",
+              "0x00000000"
+            ],
+            "reply_index": 4
+          },
+          {
+            "kind": "stub",
+            "entry": "0x0ED65284",
+            "arguments": [
+              "0x00000001",
+              "0x00000210",
+              "0x004F5220",
+              "0x00000000",
+              "0x00000000",
+              "0x00000000"
+            ],
+            "reply_index": 5
+          }
+        ]
+      },
+      "steps": 193,
+      "scope": [
+        "Observe only the handling of supplied call-return words without callback memory effects."
+      ],
+      "limitations": [
+        "The reply word is an experiment input, not measured device success, resource transition or mutex behavior. No MMIO, exception or ARM instruction executes."
+      ]
+    },
+    {
+      "id": "configuration-6-return-last",
+      "function": {
+        "entry": "0x0EC5EE2A",
+        "language": "vc4:LE:32:default"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "gp": "0xE4000000",
+          "sp": "0x24010000"
+        },
+        "memory": [
+          {
+            "address": "0x2400FC00",
+            "size": 1088,
+            "fill": "a5"
+          },
+          {
+            "address": "0xE4001660",
+            "hex": "d454de0e"
+          },
+          {
+            "address": "0xE4001564",
+            "hex": "01000000"
+          },
+          {
+            "address": "0xE40019C8",
+            "hex": "116d7261"
+          },
+          {
+            "address": "0xE403B490",
+            "hex": "01000000"
+          },
+          {
+            "address": "0xE40CC948",
+            "hex": "00000000"
+          },
+          {
+            "address": "0xE40CC934",
+            "hex": "00000000"
+          },
+          {
+            "address": "0xE40CCA24",
+            "hex": "00000000"
+          },
+          {
+            "address": "0xE40CCA1C",
+            "hex": "00000000"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24030000",
+        "step_limit": 3000,
+        "stubs": [
+          {
+            "entry": "0x0ED65284",
+            "label": "privileged service boundary; no SWI",
+            "replies": [
+              {
+                "registers": {
+                  "r0": "0x00000000"
+                },
+                "memory": []
+              },
+              {
+                "registers": {
+                  "r0": "0x00000000"
+                },
+                "memory": []
+              },
+              {
+                "registers": {
+                  "r0": "0x00000000"
+                },
+                "memory": []
+              },
+              {
+                "registers": {
+                  "r0": "0x00000000"
+                },
+                "memory": []
+              },
+              {
+                "registers": {
+                  "r0": "0x00000000"
+                },
+                "memory": []
+              },
+              {
+                "registers": {
+                  "r0": "0x80000000"
+                },
+                "memory": []
+              }
+            ]
+          }
+        ],
+        "mmio_responses": []
+      },
+      "expected": {
+        "registers": {
+          "r0": "0x00000000",
+          "sp": "0x24010000"
+        },
+        "memory": [
+          {
+            "address": "0xE4001660",
+            "hex": "d454de0e"
+          },
+          {
+            "address": "0xE4001564",
+            "hex": "01000000"
+          },
+          {
+            "address": "0xE40019C8",
+            "hex": "116d7261"
+          },
+          {
+            "address": "0xE403B490",
+            "hex": "01000000"
+          },
+          {
+            "address": "0xE40CC948",
+            "hex": "00000000"
+          },
+          {
+            "address": "0xE40CC934",
+            "hex": "00000000"
+          },
+          {
+            "address": "0xE40CCA24",
+            "hex": "00000000"
+          },
+          {
+            "address": "0xE40CCA1C",
+            "hex": "00000000"
+          }
+        ],
+        "events": [
+          {
+            "kind": "stub",
+            "entry": "0x0ED65284",
+            "arguments": [
+              "0x00000001",
+              "0x0000000A",
+              "0x0000041C",
+              "0x00000000",
+              "0x00000000",
+              "0x00000000"
+            ],
+            "reply_index": 0
+          },
+          {
+            "kind": "stub",
+            "entry": "0x0ED65284",
+            "arguments": [
+              "0x00000001",
+              "0x00003030",
+              "0x00000008",
+              "0x00000000",
+              "0x00000000",
+              "0x00000000"
+            ],
+            "reply_index": 1
+          },
+          {
+            "kind": "stub",
+            "entry": "0x0ED65284",
+            "arguments": [
+              "0x00000001",
+              "0x00001000",
+              "0x00000000",
+              "0x00000000",
+              "0x00000000",
+              "0x00000000"
+            ],
+            "reply_index": 2
+          },
+          {
+            "kind": "stub",
+            "entry": "0x0ED65284",
+            "arguments": [
+              "0x00000001",
+              "0x00000030",
+              "0x004F5200",
+              "0x00000000",
+              "0x00000000",
+              "0x00000000"
+            ],
+            "reply_index": 3
+          },
+          {
+            "kind": "stub",
+            "entry": "0x0ED65284",
+            "arguments": [
+              "0x00000001",
+              "0x00000000",
+              "0x004F5204",
+              "0x00000000",
+              "0x00000000",
+              "0x00000000"
+            ],
+            "reply_index": 4
+          },
+          {
+            "kind": "stub",
+            "entry": "0x0ED65284",
+            "arguments": [
+              "0x00000001",
+              "0x00000210",
+              "0x004F5220",
+              "0x00000000",
+              "0x00000000",
+              "0x00000000"
+            ],
+            "reply_index": 5
+          }
+        ]
+      },
+      "steps": 193,
+      "scope": [
+        "Observe only the handling of supplied call-return words without callback memory effects."
+      ],
+      "limitations": [
+        "The reply word is an experiment input, not measured device success, resource transition or mutex behavior. No MMIO, exception or ARM instruction executes."
+      ]
+    },
+    {
+      "id": "configuration-6-return-all",
+      "function": {
+        "entry": "0x0EC5EE2A",
+        "language": "vc4:LE:32:default"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "gp": "0xE4000000",
+          "sp": "0x24010000"
+        },
+        "memory": [
+          {
+            "address": "0x2400FC00",
+            "size": 1088,
+            "fill": "a5"
+          },
+          {
+            "address": "0xE4001660",
+            "hex": "d454de0e"
+          },
+          {
+            "address": "0xE4001564",
+            "hex": "01000000"
+          },
+          {
+            "address": "0xE40019C8",
+            "hex": "116d7261"
+          },
+          {
+            "address": "0xE403B490",
+            "hex": "01000000"
+          },
+          {
+            "address": "0xE40CC948",
+            "hex": "00000000"
+          },
+          {
+            "address": "0xE40CC934",
+            "hex": "00000000"
+          },
+          {
+            "address": "0xE40CCA24",
+            "hex": "00000000"
+          },
+          {
+            "address": "0xE40CCA1C",
+            "hex": "00000000"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24030000",
+        "step_limit": 3000,
+        "stubs": [
+          {
+            "entry": "0x0ED65284",
+            "label": "privileged service boundary; no SWI",
+            "replies": [
+              {
+                "registers": {
+                  "r0": "0xFFFFFFFF"
+                },
+                "memory": []
+              },
+              {
+                "registers": {
+                  "r0": "0xFFFFFFFF"
+                },
+                "memory": []
+              },
+              {
+                "registers": {
+                  "r0": "0xFFFFFFFF"
+                },
+                "memory": []
+              },
+              {
+                "registers": {
+                  "r0": "0xFFFFFFFF"
+                },
+                "memory": []
+              },
+              {
+                "registers": {
+                  "r0": "0xFFFFFFFF"
+                },
+                "memory": []
+              },
+              {
+                "registers": {
+                  "r0": "0xFFFFFFFF"
+                },
+                "memory": []
+              }
+            ]
+          }
+        ],
+        "mmio_responses": []
+      },
+      "expected": {
+        "registers": {
+          "r0": "0x00000000",
+          "sp": "0x24010000"
+        },
+        "memory": [
+          {
+            "address": "0xE4001660",
+            "hex": "d454de0e"
+          },
+          {
+            "address": "0xE4001564",
+            "hex": "01000000"
+          },
+          {
+            "address": "0xE40019C8",
+            "hex": "116d7261"
+          },
+          {
+            "address": "0xE403B490",
+            "hex": "01000000"
+          },
+          {
+            "address": "0xE40CC948",
+            "hex": "00000000"
+          },
+          {
+            "address": "0xE40CC934",
+            "hex": "00000000"
+          },
+          {
+            "address": "0xE40CCA24",
+            "hex": "00000000"
+          },
+          {
+            "address": "0xE40CCA1C",
+            "hex": "00000000"
+          }
+        ],
+        "events": [
+          {
+            "kind": "stub",
+            "entry": "0x0ED65284",
+            "arguments": [
+              "0x00000001",
+              "0x0000000A",
+              "0x0000041C",
+              "0x00000000",
+              "0x00000000",
+              "0x00000000"
+            ],
+            "reply_index": 0
+          },
+          {
+            "kind": "stub",
+            "entry": "0x0ED65284",
+            "arguments": [
+              "0x00000001",
+              "0x00003030",
+              "0x00000008",
+              "0x00000000",
+              "0x00000000",
+              "0x00000000"
+            ],
+            "reply_index": 1
+          },
+          {
+            "kind": "stub",
+            "entry": "0x0ED65284",
+            "arguments": [
+              "0x00000001",
+              "0x00001000",
+              "0x00000000",
+              "0x00000000",
+              "0x00000000",
+              "0x00000000"
+            ],
+            "reply_index": 2
+          },
+          {
+            "kind": "stub",
+            "entry": "0x0ED65284",
+            "arguments": [
+              "0x00000001",
+              "0x00000030",
+              "0x004F5200",
+              "0x00000000",
+              "0x00000000",
+              "0x00000000"
+            ],
+            "reply_index": 3
+          },
+          {
+            "kind": "stub",
+            "entry": "0x0ED65284",
+            "arguments": [
+              "0x00000001",
+              "0x00000000",
+              "0x004F5204",
+              "0x00000000",
+              "0x00000000",
+              "0x00000000"
+            ],
+            "reply_index": 4
+          },
+          {
+            "kind": "stub",
+            "entry": "0x0ED65284",
+            "arguments": [
+              "0x00000001",
+              "0x00000210",
+              "0x004F5220",
+              "0x00000000",
+              "0x00000000",
+              "0x00000000"
+            ],
+            "reply_index": 5
+          }
+        ]
+      },
+      "steps": 193,
+      "scope": [
+        "Observe only the handling of supplied call-return words without callback memory effects."
+      ],
+      "limitations": [
+        "The reply word is an experiment input, not measured device success, resource transition or mutex behavior. No MMIO, exception or ARM instruction executes."
+      ]
+    },
+    {
+      "id": "configuration-7-return-first",
+      "function": {
+        "entry": "0x0EC5EE2A",
+        "language": "vc4:LE:32:default"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "gp": "0xE4000000",
+          "sp": "0x24010000"
+        },
+        "memory": [
+          {
+            "address": "0x2400FC00",
+            "size": 1088,
+            "fill": "a5"
+          },
+          {
+            "address": "0xE4001660",
+            "hex": "d454de0e"
+          },
+          {
+            "address": "0xE4001564",
+            "hex": "01000000"
+          },
+          {
+            "address": "0xE40019C8",
+            "hex": "116d7261"
+          },
+          {
+            "address": "0xE403B490",
+            "hex": "01000000"
+          },
+          {
+            "address": "0xE40CC948",
+            "hex": "01000000"
+          },
+          {
+            "address": "0xE40CC934",
+            "hex": "01000000"
+          },
+          {
+            "address": "0xE40CCA24",
+            "hex": "01000000"
+          },
+          {
+            "address": "0xE40CCA1C",
+            "hex": "01000000"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24030000",
+        "step_limit": 3000,
+        "stubs": [
+          {
+            "entry": "0x0ED65284",
+            "label": "privileged service boundary; no SWI",
+            "replies": [
+              {
+                "registers": {
+                  "r0": "0x00000007"
+                },
+                "memory": []
+              },
+              {
+                "registers": {
+                  "r0": "0x00000000"
+                },
+                "memory": []
+              },
+              {
+                "registers": {
+                  "r0": "0x00000000"
+                },
+                "memory": []
+              },
+              {
+                "registers": {
+                  "r0": "0x00000000"
+                },
+                "memory": []
+              },
+              {
+                "registers": {
+                  "r0": "0x00000000"
+                },
+                "memory": []
+              },
+              {
+                "registers": {
+                  "r0": "0x00000000"
+                },
+                "memory": []
+              },
+              {
+                "registers": {
+                  "r0": "0x00000000"
+                },
+                "memory": []
+              }
+            ]
+          }
+        ],
+        "mmio_responses": []
+      },
+      "expected": {
+        "registers": {
+          "r0": "0x00000000",
+          "sp": "0x24010000"
+        },
+        "memory": [
+          {
+            "address": "0xE4001660",
+            "hex": "d454de0e"
+          },
+          {
+            "address": "0xE4001564",
+            "hex": "01000000"
+          },
+          {
+            "address": "0xE40019C8",
+            "hex": "116d7261"
+          },
+          {
+            "address": "0xE403B490",
+            "hex": "01000000"
+          },
+          {
+            "address": "0xE40CC948",
+            "hex": "01000000"
+          },
+          {
+            "address": "0xE40CC934",
+            "hex": "01000000"
+          },
+          {
+            "address": "0xE40CCA24",
+            "hex": "01000000"
+          },
+          {
+            "address": "0xE40CCA1C",
+            "hex": "01000000"
+          }
+        ],
+        "events": [
+          {
+            "kind": "stub",
+            "entry": "0x0ED65284",
+            "arguments": [
+              "0x00000001",
+              "0x0000000A",
+              "0x0000041C",
+              "0x00000000",
+              "0x00000000",
+              "0x00000000"
+            ],
+            "reply_index": 0
+          },
+          {
+            "kind": "stub",
+            "entry": "0x0ED65284",
+            "arguments": [
+              "0x00000001",
+              "0x00003030",
+              "0x00000008",
+              "0x00000000",
+              "0x00000000",
+              "0x00000000"
+            ],
+            "reply_index": 1
+          },
+          {
+            "kind": "stub",
+            "entry": "0x0ED65284",
+            "arguments": [
+              "0x00000001",
+              "0x00000400",
+              "0x00000000",
+              "0x00000000",
+              "0x00000000",
+              "0x00000000"
+            ],
+            "reply_index": 2
+          },
+          {
+            "kind": "stub",
+            "entry": "0x0ED65284",
+            "arguments": [
+              "0x00000001",
+              "0x00000030",
+              "0x004F5200",
+              "0x00000000",
+              "0x00000000",
+              "0x00000000"
+            ],
+            "reply_index": 3
+          },
+          {
+            "kind": "stub",
+            "entry": "0x0ED65284",
+            "arguments": [
+              "0x00000001",
+              "0x000FFFFF",
+              "0x004F5204",
+              "0x00000000",
+              "0x00000000",
+              "0x00000000"
+            ],
+            "reply_index": 4
+          },
+          {
+            "kind": "stub",
+            "entry": "0x0ED65284",
+            "arguments": [
+              "0x00000001",
+              "0x00000200",
+              "0x004F5220",
+              "0x00000000",
+              "0x00000000",
+              "0x00000000"
+            ],
+            "reply_index": 5
+          },
+          {
+            "kind": "stub",
+            "entry": "0x0ED65284",
+            "arguments": [
+              "0x00000001",
+              "0x0000000F",
+              "0x004F520C",
+              "0x00000000",
+              "0x00000000",
+              "0x00000000"
+            ],
+            "reply_index": 6
+          }
+        ]
+      },
+      "steps": 223,
+      "scope": [
+        "Observe only the handling of supplied call-return words without callback memory effects."
+      ],
+      "limitations": [
+        "The reply word is an experiment input, not measured device success, resource transition or mutex behavior. No MMIO, exception or ARM instruction executes."
+      ]
+    },
+    {
+      "id": "configuration-7-return-last",
+      "function": {
+        "entry": "0x0EC5EE2A",
+        "language": "vc4:LE:32:default"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "gp": "0xE4000000",
+          "sp": "0x24010000"
+        },
+        "memory": [
+          {
+            "address": "0x2400FC00",
+            "size": 1088,
+            "fill": "a5"
+          },
+          {
+            "address": "0xE4001660",
+            "hex": "d454de0e"
+          },
+          {
+            "address": "0xE4001564",
+            "hex": "01000000"
+          },
+          {
+            "address": "0xE40019C8",
+            "hex": "116d7261"
+          },
+          {
+            "address": "0xE403B490",
+            "hex": "01000000"
+          },
+          {
+            "address": "0xE40CC948",
+            "hex": "01000000"
+          },
+          {
+            "address": "0xE40CC934",
+            "hex": "01000000"
+          },
+          {
+            "address": "0xE40CCA24",
+            "hex": "01000000"
+          },
+          {
+            "address": "0xE40CCA1C",
+            "hex": "01000000"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24030000",
+        "step_limit": 3000,
+        "stubs": [
+          {
+            "entry": "0x0ED65284",
+            "label": "privileged service boundary; no SWI",
+            "replies": [
+              {
+                "registers": {
+                  "r0": "0x00000000"
+                },
+                "memory": []
+              },
+              {
+                "registers": {
+                  "r0": "0x00000000"
+                },
+                "memory": []
+              },
+              {
+                "registers": {
+                  "r0": "0x00000000"
+                },
+                "memory": []
+              },
+              {
+                "registers": {
+                  "r0": "0x00000000"
+                },
+                "memory": []
+              },
+              {
+                "registers": {
+                  "r0": "0x00000000"
+                },
+                "memory": []
+              },
+              {
+                "registers": {
+                  "r0": "0x00000000"
+                },
+                "memory": []
+              },
+              {
+                "registers": {
+                  "r0": "0x80000000"
+                },
+                "memory": []
+              }
+            ]
+          }
+        ],
+        "mmio_responses": []
+      },
+      "expected": {
+        "registers": {
+          "r0": "0x00000000",
+          "sp": "0x24010000"
+        },
+        "memory": [
+          {
+            "address": "0xE4001660",
+            "hex": "d454de0e"
+          },
+          {
+            "address": "0xE4001564",
+            "hex": "01000000"
+          },
+          {
+            "address": "0xE40019C8",
+            "hex": "116d7261"
+          },
+          {
+            "address": "0xE403B490",
+            "hex": "01000000"
+          },
+          {
+            "address": "0xE40CC948",
+            "hex": "01000000"
+          },
+          {
+            "address": "0xE40CC934",
+            "hex": "01000000"
+          },
+          {
+            "address": "0xE40CCA24",
+            "hex": "01000000"
+          },
+          {
+            "address": "0xE40CCA1C",
+            "hex": "01000000"
+          }
+        ],
+        "events": [
+          {
+            "kind": "stub",
+            "entry": "0x0ED65284",
+            "arguments": [
+              "0x00000001",
+              "0x0000000A",
+              "0x0000041C",
+              "0x00000000",
+              "0x00000000",
+              "0x00000000"
+            ],
+            "reply_index": 0
+          },
+          {
+            "kind": "stub",
+            "entry": "0x0ED65284",
+            "arguments": [
+              "0x00000001",
+              "0x00003030",
+              "0x00000008",
+              "0x00000000",
+              "0x00000000",
+              "0x00000000"
+            ],
+            "reply_index": 1
+          },
+          {
+            "kind": "stub",
+            "entry": "0x0ED65284",
+            "arguments": [
+              "0x00000001",
+              "0x00000400",
+              "0x00000000",
+              "0x00000000",
+              "0x00000000",
+              "0x00000000"
+            ],
+            "reply_index": 2
+          },
+          {
+            "kind": "stub",
+            "entry": "0x0ED65284",
+            "arguments": [
+              "0x00000001",
+              "0x00000030",
+              "0x004F5200",
+              "0x00000000",
+              "0x00000000",
+              "0x00000000"
+            ],
+            "reply_index": 3
+          },
+          {
+            "kind": "stub",
+            "entry": "0x0ED65284",
+            "arguments": [
+              "0x00000001",
+              "0x000FFFFF",
+              "0x004F5204",
+              "0x00000000",
+              "0x00000000",
+              "0x00000000"
+            ],
+            "reply_index": 4
+          },
+          {
+            "kind": "stub",
+            "entry": "0x0ED65284",
+            "arguments": [
+              "0x00000001",
+              "0x00000200",
+              "0x004F5220",
+              "0x00000000",
+              "0x00000000",
+              "0x00000000"
+            ],
+            "reply_index": 5
+          },
+          {
+            "kind": "stub",
+            "entry": "0x0ED65284",
+            "arguments": [
+              "0x00000001",
+              "0x0000000F",
+              "0x004F520C",
+              "0x00000000",
+              "0x00000000",
+              "0x00000000"
+            ],
+            "reply_index": 6
+          }
+        ]
+      },
+      "steps": 223,
+      "scope": [
+        "Observe only the handling of supplied call-return words without callback memory effects."
+      ],
+      "limitations": [
+        "The reply word is an experiment input, not measured device success, resource transition or mutex behavior. No MMIO, exception or ARM instruction executes."
+      ]
+    },
+    {
+      "id": "configuration-7-return-all",
+      "function": {
+        "entry": "0x0EC5EE2A",
+        "language": "vc4:LE:32:default"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "gp": "0xE4000000",
+          "sp": "0x24010000"
+        },
+        "memory": [
+          {
+            "address": "0x2400FC00",
+            "size": 1088,
+            "fill": "a5"
+          },
+          {
+            "address": "0xE4001660",
+            "hex": "d454de0e"
+          },
+          {
+            "address": "0xE4001564",
+            "hex": "01000000"
+          },
+          {
+            "address": "0xE40019C8",
+            "hex": "116d7261"
+          },
+          {
+            "address": "0xE403B490",
+            "hex": "01000000"
+          },
+          {
+            "address": "0xE40CC948",
+            "hex": "01000000"
+          },
+          {
+            "address": "0xE40CC934",
+            "hex": "01000000"
+          },
+          {
+            "address": "0xE40CCA24",
+            "hex": "01000000"
+          },
+          {
+            "address": "0xE40CCA1C",
+            "hex": "01000000"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24030000",
+        "step_limit": 3000,
+        "stubs": [
+          {
+            "entry": "0x0ED65284",
+            "label": "privileged service boundary; no SWI",
+            "replies": [
+              {
+                "registers": {
+                  "r0": "0xFFFFFFFF"
+                },
+                "memory": []
+              },
+              {
+                "registers": {
+                  "r0": "0xFFFFFFFF"
+                },
+                "memory": []
+              },
+              {
+                "registers": {
+                  "r0": "0xFFFFFFFF"
+                },
+                "memory": []
+              },
+              {
+                "registers": {
+                  "r0": "0xFFFFFFFF"
+                },
+                "memory": []
+              },
+              {
+                "registers": {
+                  "r0": "0xFFFFFFFF"
+                },
+                "memory": []
+              },
+              {
+                "registers": {
+                  "r0": "0xFFFFFFFF"
+                },
+                "memory": []
+              },
+              {
+                "registers": {
+                  "r0": "0xFFFFFFFF"
+                },
+                "memory": []
+              }
+            ]
+          }
+        ],
+        "mmio_responses": []
+      },
+      "expected": {
+        "registers": {
+          "r0": "0x00000000",
+          "sp": "0x24010000"
+        },
+        "memory": [
+          {
+            "address": "0xE4001660",
+            "hex": "d454de0e"
+          },
+          {
+            "address": "0xE4001564",
+            "hex": "01000000"
+          },
+          {
+            "address": "0xE40019C8",
+            "hex": "116d7261"
+          },
+          {
+            "address": "0xE403B490",
+            "hex": "01000000"
+          },
+          {
+            "address": "0xE40CC948",
+            "hex": "01000000"
+          },
+          {
+            "address": "0xE40CC934",
+            "hex": "01000000"
+          },
+          {
+            "address": "0xE40CCA24",
+            "hex": "01000000"
+          },
+          {
+            "address": "0xE40CCA1C",
+            "hex": "01000000"
+          }
+        ],
+        "events": [
+          {
+            "kind": "stub",
+            "entry": "0x0ED65284",
+            "arguments": [
+              "0x00000001",
+              "0x0000000A",
+              "0x0000041C",
+              "0x00000000",
+              "0x00000000",
+              "0x00000000"
+            ],
+            "reply_index": 0
+          },
+          {
+            "kind": "stub",
+            "entry": "0x0ED65284",
+            "arguments": [
+              "0x00000001",
+              "0x00003030",
+              "0x00000008",
+              "0x00000000",
+              "0x00000000",
+              "0x00000000"
+            ],
+            "reply_index": 1
+          },
+          {
+            "kind": "stub",
+            "entry": "0x0ED65284",
+            "arguments": [
+              "0x00000001",
+              "0x00000400",
+              "0x00000000",
+              "0x00000000",
+              "0x00000000",
+              "0x00000000"
+            ],
+            "reply_index": 2
+          },
+          {
+            "kind": "stub",
+            "entry": "0x0ED65284",
+            "arguments": [
+              "0x00000001",
+              "0x00000030",
+              "0x004F5200",
+              "0x00000000",
+              "0x00000000",
+              "0x00000000"
+            ],
+            "reply_index": 3
+          },
+          {
+            "kind": "stub",
+            "entry": "0x0ED65284",
+            "arguments": [
+              "0x00000001",
+              "0x000FFFFF",
+              "0x004F5204",
+              "0x00000000",
+              "0x00000000",
+              "0x00000000"
+            ],
+            "reply_index": 4
+          },
+          {
+            "kind": "stub",
+            "entry": "0x0ED65284",
+            "arguments": [
+              "0x00000001",
+              "0x00000200",
+              "0x004F5220",
+              "0x00000000",
+              "0x00000000",
+              "0x00000000"
+            ],
+            "reply_index": 5
+          },
+          {
+            "kind": "stub",
+            "entry": "0x0ED65284",
+            "arguments": [
+              "0x00000001",
+              "0x0000000F",
+              "0x004F520C",
+              "0x00000000",
+              "0x00000000",
+              "0x00000000"
+            ],
+            "reply_index": 6
+          }
+        ]
+      },
+      "steps": 223,
+      "scope": [
+        "Observe only the handling of supplied call-return words without callback memory effects."
+      ],
+      "limitations": [
+        "The reply word is an experiment input, not measured device success, resource transition or mutex behavior. No MMIO, exception or ARM instruction executes."
+      ]
+    },
+    {
+      "id": "configuration-missing-driver-preserves-r0",
+      "function": {
+        "entry": "0x0EC5EE2A",
+        "language": "vc4:LE:32:default"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "gp": "0xE4000000",
+          "sp": "0x24010000",
+          "r0": "0x89ABCDEF"
+        },
+        "memory": [
+          {
+            "address": "0x2400FC00",
+            "size": 1088,
+            "fill": "a5"
+          },
+          {
+            "address": "0xE4001660",
+            "hex": "00000000"
+          },
+          {
+            "address": "0xE4001564",
+            "hex": "01000000"
+          },
+          {
+            "address": "0xE40019C8",
+            "hex": "116d7261"
+          },
+          {
+            "address": "0xE403B490",
+            "hex": "01000000"
+          },
+          {
+            "address": "0xE40CC948",
+            "hex": "00000000"
+          },
+          {
+            "address": "0xE40CC934",
+            "hex": "00000000"
+          },
+          {
+            "address": "0xE40CCA24",
+            "hex": "00000000"
+          },
+          {
+            "address": "0xE40CCA1C",
+            "hex": "00000000"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24030000",
+        "step_limit": 3000,
+        "stubs": [],
+        "mmio_responses": []
+      },
+      "expected": {
+        "registers": {
+          "r0": "0x89ABCDEF",
+          "sp": "0x24010000"
+        },
+        "memory": [
+          {
+            "address": "0xE4001660",
+            "hex": "00000000"
+          },
+          {
+            "address": "0xE4001564",
+            "hex": "01000000"
+          },
+          {
+            "address": "0xE40019C8",
+            "hex": "116d7261"
+          },
+          {
+            "address": "0xE403B490",
+            "hex": "01000000"
+          },
+          {
+            "address": "0xE40CC948",
+            "hex": "00000000"
+          },
+          {
+            "address": "0xE40CC934",
+            "hex": "00000000"
+          },
+          {
+            "address": "0xE40CCA24",
+            "hex": "00000000"
+          },
+          {
+            "address": "0xE40CCA1C",
+            "hex": "00000000"
+          }
+        ],
+        "events": []
+      },
+      "steps": 4,
+      "scope": [
+        "Observe only the handling of supplied call-return words without callback memory effects."
+      ],
+      "limitations": [
+        "The reply word is an experiment input, not measured device success, resource transition or mutex behavior. No MMIO, exception or ARM instruction executes."
+      ]
+    },
+    {
+      "id": "start-request-success-mutex-acquire",
+      "function": {
+        "entry": "0x0EC5A81E",
+        "language": "vc4:LE:32:default"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "gp": "0xE4000000",
+          "sp": "0x24010000",
+          "r0": "0x61726D11"
+        },
+        "memory": [
+          {
+            "address": "0x2400FC00",
+            "size": 1088,
+            "fill": "a5"
+          },
+          {
+            "address": "0xE403B474",
+            "hex": "01000000"
+          },
+          {
+            "address": "0xE403B518",
+            "hex": "01000000"
+          },
+          {
+            "address": "0xE403B494",
+            "hex": "00000000"
+          },
+          {
+            "address": "0xE403B478",
+            "hex": "78563412"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24030000",
+        "step_limit": 3000,
+        "stubs": [
+          {
+            "entry": "0x0ED64D02",
+            "label": "mutex acquire",
+            "replies": [
+              {
+                "registers": {
+                  "r0": "0x00000007"
+                },
+                "memory": []
+              }
+            ]
+          },
+          {
+            "entry": "0x0ED64D3A",
+            "label": "mutex release",
+            "replies": [
+              {
+                "registers": {
+                  "r0": "0x00000000"
+                },
+                "memory": []
+              }
+            ]
+          },
+          {
+            "entry": "0x0ED7C9B0",
+            "label": "resource request boundary",
+            "replies": [
+              {
+                "registers": {
+                  "r0": "0x00000000"
+                },
+                "memory": []
+              }
+            ]
+          }
+        ],
+        "mmio_responses": []
+      },
+      "expected": {
+        "registers": {
+          "r0": "0x00000000",
+          "sp": "0x24010000"
+        },
+        "memory": [
+          {
+            "address": "0xE403B474",
+            "hex": "01000000"
+          },
+          {
+            "address": "0xE403B518",
+            "hex": "01000000"
+          },
+          {
+            "address": "0xE403B494",
+            "hex": "01000000"
+          },
+          {
+            "address": "0xE403B478",
+            "hex": "78563412"
+          }
+        ],
+        "events": [
+          {
+            "kind": "stub",
+            "entry": "0x0ED64D02",
+            "arguments": [
+              "0xE403B470",
+              "0x00000000",
+              "0x00000000",
+              "0x00000000",
+              "0x00000000",
+              "0x00000000"
+            ],
+            "reply_index": 0
+          },
+          {
+            "kind": "stub",
+            "entry": "0x0ED7C9B0",
+            "arguments": [
+              "0x12345678",
+              "0x00000017",
+              "0x00000001",
+              "0x00000001",
+              "0x00000000",
+              "0x00000000"
+            ],
+            "reply_index": 0
+          },
+          {
+            "kind": "stub",
+            "entry": "0x0ED64D3A",
+            "arguments": [
+              "0xE403B470",
+              "0x00000017",
+              "0x00000001",
+              "0x00000001",
+              "0x00000000",
+              "0x00000000"
+            ],
+            "reply_index": 0
+          }
+        ]
+      },
+      "steps": 28,
+      "scope": [
+        "Observe only the handling of supplied call-return words without callback memory effects."
+      ],
+      "limitations": [
+        "The reply word is an experiment input, not measured device success, resource transition or mutex behavior. No MMIO, exception or ARM instruction executes."
+      ]
+    },
+    {
+      "id": "start-request-success-mutex-release",
+      "function": {
+        "entry": "0x0EC5A81E",
+        "language": "vc4:LE:32:default"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "gp": "0xE4000000",
+          "sp": "0x24010000",
+          "r0": "0x61726D11"
+        },
+        "memory": [
+          {
+            "address": "0x2400FC00",
+            "size": 1088,
+            "fill": "a5"
+          },
+          {
+            "address": "0xE403B474",
+            "hex": "01000000"
+          },
+          {
+            "address": "0xE403B518",
+            "hex": "01000000"
+          },
+          {
+            "address": "0xE403B494",
+            "hex": "00000000"
+          },
+          {
+            "address": "0xE403B478",
+            "hex": "78563412"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24030000",
+        "step_limit": 3000,
+        "stubs": [
+          {
+            "entry": "0x0ED64D02",
+            "label": "mutex acquire",
+            "replies": [
+              {
+                "registers": {
+                  "r0": "0x00000000"
+                },
+                "memory": []
+              }
+            ]
+          },
+          {
+            "entry": "0x0ED64D3A",
+            "label": "mutex release",
+            "replies": [
+              {
+                "registers": {
+                  "r0": "0xFFFFFFFF"
+                },
+                "memory": []
+              }
+            ]
+          },
+          {
+            "entry": "0x0ED7C9B0",
+            "label": "resource request boundary",
+            "replies": [
+              {
+                "registers": {
+                  "r0": "0x00000000"
+                },
+                "memory": []
+              }
+            ]
+          }
+        ],
+        "mmio_responses": []
+      },
+      "expected": {
+        "registers": {
+          "r0": "0x00000000",
+          "sp": "0x24010000"
+        },
+        "memory": [
+          {
+            "address": "0xE403B474",
+            "hex": "01000000"
+          },
+          {
+            "address": "0xE403B518",
+            "hex": "01000000"
+          },
+          {
+            "address": "0xE403B494",
+            "hex": "01000000"
+          },
+          {
+            "address": "0xE403B478",
+            "hex": "78563412"
+          }
+        ],
+        "events": [
+          {
+            "kind": "stub",
+            "entry": "0x0ED64D02",
+            "arguments": [
+              "0xE403B470",
+              "0x00000000",
+              "0x00000000",
+              "0x00000000",
+              "0x00000000",
+              "0x00000000"
+            ],
+            "reply_index": 0
+          },
+          {
+            "kind": "stub",
+            "entry": "0x0ED7C9B0",
+            "arguments": [
+              "0x12345678",
+              "0x00000017",
+              "0x00000001",
+              "0x00000001",
+              "0x00000000",
+              "0x00000000"
+            ],
+            "reply_index": 0
+          },
+          {
+            "kind": "stub",
+            "entry": "0x0ED64D3A",
+            "arguments": [
+              "0xE403B470",
+              "0x00000017",
+              "0x00000001",
+              "0x00000001",
+              "0x00000000",
+              "0x00000000"
+            ],
+            "reply_index": 0
+          }
+        ]
+      },
+      "steps": 28,
+      "scope": [
+        "Observe only the handling of supplied call-return words without callback memory effects."
+      ],
+      "limitations": [
+        "The reply word is an experiment input, not measured device success, resource transition or mutex behavior. No MMIO, exception or ARM instruction executes."
+      ]
+    },
+    {
+      "id": "start-request-success-mutex-both",
+      "function": {
+        "entry": "0x0EC5A81E",
+        "language": "vc4:LE:32:default"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "gp": "0xE4000000",
+          "sp": "0x24010000",
+          "r0": "0x61726D11"
+        },
+        "memory": [
+          {
+            "address": "0x2400FC00",
+            "size": 1088,
+            "fill": "a5"
+          },
+          {
+            "address": "0xE403B474",
+            "hex": "01000000"
+          },
+          {
+            "address": "0xE403B518",
+            "hex": "01000000"
+          },
+          {
+            "address": "0xE403B494",
+            "hex": "00000000"
+          },
+          {
+            "address": "0xE403B478",
+            "hex": "78563412"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24030000",
+        "step_limit": 3000,
+        "stubs": [
+          {
+            "entry": "0x0ED64D02",
+            "label": "mutex acquire",
+            "replies": [
+              {
+                "registers": {
+                  "r0": "0x00000007"
+                },
+                "memory": []
+              }
+            ]
+          },
+          {
+            "entry": "0x0ED64D3A",
+            "label": "mutex release",
+            "replies": [
+              {
+                "registers": {
+                  "r0": "0x80000000"
+                },
+                "memory": []
+              }
+            ]
+          },
+          {
+            "entry": "0x0ED7C9B0",
+            "label": "resource request boundary",
+            "replies": [
+              {
+                "registers": {
+                  "r0": "0x00000000"
+                },
+                "memory": []
+              }
+            ]
+          }
+        ],
+        "mmio_responses": []
+      },
+      "expected": {
+        "registers": {
+          "r0": "0x00000000",
+          "sp": "0x24010000"
+        },
+        "memory": [
+          {
+            "address": "0xE403B474",
+            "hex": "01000000"
+          },
+          {
+            "address": "0xE403B518",
+            "hex": "01000000"
+          },
+          {
+            "address": "0xE403B494",
+            "hex": "01000000"
+          },
+          {
+            "address": "0xE403B478",
+            "hex": "78563412"
+          }
+        ],
+        "events": [
+          {
+            "kind": "stub",
+            "entry": "0x0ED64D02",
+            "arguments": [
+              "0xE403B470",
+              "0x00000000",
+              "0x00000000",
+              "0x00000000",
+              "0x00000000",
+              "0x00000000"
+            ],
+            "reply_index": 0
+          },
+          {
+            "kind": "stub",
+            "entry": "0x0ED7C9B0",
+            "arguments": [
+              "0x12345678",
+              "0x00000017",
+              "0x00000001",
+              "0x00000001",
+              "0x00000000",
+              "0x00000000"
+            ],
+            "reply_index": 0
+          },
+          {
+            "kind": "stub",
+            "entry": "0x0ED64D3A",
+            "arguments": [
+              "0xE403B470",
+              "0x00000017",
+              "0x00000001",
+              "0x00000001",
+              "0x00000000",
+              "0x00000000"
+            ],
+            "reply_index": 0
+          }
+        ]
+      },
+      "steps": 28,
+      "scope": [
+        "Observe only the handling of supplied call-return words without callback memory effects."
+      ],
+      "limitations": [
+        "The reply word is an experiment input, not measured device success, resource transition or mutex behavior. No MMIO, exception or ARM instruction executes."
+      ]
+    },
+    {
+      "id": "start-request-service-failure-mutex-acquire",
+      "function": {
+        "entry": "0x0EC5A81E",
+        "language": "vc4:LE:32:default"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "gp": "0xE4000000",
+          "sp": "0x24010000",
+          "r0": "0x61726D11"
+        },
+        "memory": [
+          {
+            "address": "0x2400FC00",
+            "size": 1088,
+            "fill": "a5"
+          },
+          {
+            "address": "0xE403B474",
+            "hex": "01000000"
+          },
+          {
+            "address": "0xE403B518",
+            "hex": "01000000"
+          },
+          {
+            "address": "0xE403B494",
+            "hex": "00000000"
+          },
+          {
+            "address": "0xE403B478",
+            "hex": "78563412"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24030000",
+        "step_limit": 3000,
+        "stubs": [
+          {
+            "entry": "0x0ED64D02",
+            "label": "mutex acquire",
+            "replies": [
+              {
+                "registers": {
+                  "r0": "0x00000007"
+                },
+                "memory": []
+              }
+            ]
+          },
+          {
+            "entry": "0x0ED64D3A",
+            "label": "mutex release",
+            "replies": [
+              {
+                "registers": {
+                  "r0": "0x00000000"
+                },
+                "memory": []
+              }
+            ]
+          },
+          {
+            "entry": "0x0ED7C9B0",
+            "label": "resource request boundary",
+            "replies": [
+              {
+                "registers": {
+                  "r0": "0x00000007"
+                },
+                "memory": []
+              }
+            ]
+          }
+        ],
+        "mmio_responses": []
+      },
+      "expected": {
+        "registers": {
+          "r0": "0x00000007",
+          "sp": "0x24010000"
+        },
+        "memory": [
+          {
+            "address": "0xE403B474",
+            "hex": "01000000"
+          },
+          {
+            "address": "0xE403B518",
+            "hex": "01000000"
+          },
+          {
+            "address": "0xE403B494",
+            "hex": "00000000"
+          },
+          {
+            "address": "0xE403B478",
+            "hex": "78563412"
+          }
+        ],
+        "events": [
+          {
+            "kind": "stub",
+            "entry": "0x0ED64D02",
+            "arguments": [
+              "0xE403B470",
+              "0x00000000",
+              "0x00000000",
+              "0x00000000",
+              "0x00000000",
+              "0x00000000"
+            ],
+            "reply_index": 0
+          },
+          {
+            "kind": "stub",
+            "entry": "0x0ED7C9B0",
+            "arguments": [
+              "0x12345678",
+              "0x00000017",
+              "0x00000001",
+              "0x00000001",
+              "0x00000000",
+              "0x00000000"
+            ],
+            "reply_index": 0
+          },
+          {
+            "kind": "stub",
+            "entry": "0x0ED64D3A",
+            "arguments": [
+              "0xE403B470",
+              "0x00000017",
+              "0x00000001",
+              "0x00000001",
+              "0x00000000",
+              "0x00000000"
+            ],
+            "reply_index": 0
+          }
+        ]
+      },
+      "steps": 26,
+      "scope": [
+        "Observe only the handling of supplied call-return words without callback memory effects."
+      ],
+      "limitations": [
+        "The reply word is an experiment input, not measured device success, resource transition or mutex behavior. No MMIO, exception or ARM instruction executes."
+      ]
+    },
+    {
+      "id": "start-request-service-failure-mutex-release",
+      "function": {
+        "entry": "0x0EC5A81E",
+        "language": "vc4:LE:32:default"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "gp": "0xE4000000",
+          "sp": "0x24010000",
+          "r0": "0x61726D11"
+        },
+        "memory": [
+          {
+            "address": "0x2400FC00",
+            "size": 1088,
+            "fill": "a5"
+          },
+          {
+            "address": "0xE403B474",
+            "hex": "01000000"
+          },
+          {
+            "address": "0xE403B518",
+            "hex": "01000000"
+          },
+          {
+            "address": "0xE403B494",
+            "hex": "00000000"
+          },
+          {
+            "address": "0xE403B478",
+            "hex": "78563412"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24030000",
+        "step_limit": 3000,
+        "stubs": [
+          {
+            "entry": "0x0ED64D02",
+            "label": "mutex acquire",
+            "replies": [
+              {
+                "registers": {
+                  "r0": "0x00000000"
+                },
+                "memory": []
+              }
+            ]
+          },
+          {
+            "entry": "0x0ED64D3A",
+            "label": "mutex release",
+            "replies": [
+              {
+                "registers": {
+                  "r0": "0xFFFFFFFF"
+                },
+                "memory": []
+              }
+            ]
+          },
+          {
+            "entry": "0x0ED7C9B0",
+            "label": "resource request boundary",
+            "replies": [
+              {
+                "registers": {
+                  "r0": "0x00000007"
+                },
+                "memory": []
+              }
+            ]
+          }
+        ],
+        "mmio_responses": []
+      },
+      "expected": {
+        "registers": {
+          "r0": "0x00000007",
+          "sp": "0x24010000"
+        },
+        "memory": [
+          {
+            "address": "0xE403B474",
+            "hex": "01000000"
+          },
+          {
+            "address": "0xE403B518",
+            "hex": "01000000"
+          },
+          {
+            "address": "0xE403B494",
+            "hex": "00000000"
+          },
+          {
+            "address": "0xE403B478",
+            "hex": "78563412"
+          }
+        ],
+        "events": [
+          {
+            "kind": "stub",
+            "entry": "0x0ED64D02",
+            "arguments": [
+              "0xE403B470",
+              "0x00000000",
+              "0x00000000",
+              "0x00000000",
+              "0x00000000",
+              "0x00000000"
+            ],
+            "reply_index": 0
+          },
+          {
+            "kind": "stub",
+            "entry": "0x0ED7C9B0",
+            "arguments": [
+              "0x12345678",
+              "0x00000017",
+              "0x00000001",
+              "0x00000001",
+              "0x00000000",
+              "0x00000000"
+            ],
+            "reply_index": 0
+          },
+          {
+            "kind": "stub",
+            "entry": "0x0ED64D3A",
+            "arguments": [
+              "0xE403B470",
+              "0x00000017",
+              "0x00000001",
+              "0x00000001",
+              "0x00000000",
+              "0x00000000"
+            ],
+            "reply_index": 0
+          }
+        ]
+      },
+      "steps": 26,
+      "scope": [
+        "Observe only the handling of supplied call-return words without callback memory effects."
+      ],
+      "limitations": [
+        "The reply word is an experiment input, not measured device success, resource transition or mutex behavior. No MMIO, exception or ARM instruction executes."
+      ]
+    },
+    {
+      "id": "start-request-service-failure-mutex-both",
+      "function": {
+        "entry": "0x0EC5A81E",
+        "language": "vc4:LE:32:default"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "gp": "0xE4000000",
+          "sp": "0x24010000",
+          "r0": "0x61726D11"
+        },
+        "memory": [
+          {
+            "address": "0x2400FC00",
+            "size": 1088,
+            "fill": "a5"
+          },
+          {
+            "address": "0xE403B474",
+            "hex": "01000000"
+          },
+          {
+            "address": "0xE403B518",
+            "hex": "01000000"
+          },
+          {
+            "address": "0xE403B494",
+            "hex": "00000000"
+          },
+          {
+            "address": "0xE403B478",
+            "hex": "78563412"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24030000",
+        "step_limit": 3000,
+        "stubs": [
+          {
+            "entry": "0x0ED64D02",
+            "label": "mutex acquire",
+            "replies": [
+              {
+                "registers": {
+                  "r0": "0x00000007"
+                },
+                "memory": []
+              }
+            ]
+          },
+          {
+            "entry": "0x0ED64D3A",
+            "label": "mutex release",
+            "replies": [
+              {
+                "registers": {
+                  "r0": "0x80000000"
+                },
+                "memory": []
+              }
+            ]
+          },
+          {
+            "entry": "0x0ED7C9B0",
+            "label": "resource request boundary",
+            "replies": [
+              {
+                "registers": {
+                  "r0": "0x00000007"
+                },
+                "memory": []
+              }
+            ]
+          }
+        ],
+        "mmio_responses": []
+      },
+      "expected": {
+        "registers": {
+          "r0": "0x00000007",
+          "sp": "0x24010000"
+        },
+        "memory": [
+          {
+            "address": "0xE403B474",
+            "hex": "01000000"
+          },
+          {
+            "address": "0xE403B518",
+            "hex": "01000000"
+          },
+          {
+            "address": "0xE403B494",
+            "hex": "00000000"
+          },
+          {
+            "address": "0xE403B478",
+            "hex": "78563412"
+          }
+        ],
+        "events": [
+          {
+            "kind": "stub",
+            "entry": "0x0ED64D02",
+            "arguments": [
+              "0xE403B470",
+              "0x00000000",
+              "0x00000000",
+              "0x00000000",
+              "0x00000000",
+              "0x00000000"
+            ],
+            "reply_index": 0
+          },
+          {
+            "kind": "stub",
+            "entry": "0x0ED7C9B0",
+            "arguments": [
+              "0x12345678",
+              "0x00000017",
+              "0x00000001",
+              "0x00000001",
+              "0x00000000",
+              "0x00000000"
+            ],
+            "reply_index": 0
+          },
+          {
+            "kind": "stub",
+            "entry": "0x0ED64D3A",
+            "arguments": [
+              "0xE403B470",
+              "0x00000017",
+              "0x00000001",
+              "0x00000001",
+              "0x00000000",
+              "0x00000000"
+            ],
+            "reply_index": 0
+          }
+        ]
+      },
+      "steps": 26,
+      "scope": [
+        "Observe only the handling of supplied call-return words without callback memory effects."
+      ],
+      "limitations": [
+        "The reply word is an experiment input, not measured device success, resource transition or mutex behavior. No MMIO, exception or ARM instruction executes."
+      ]
+    },
+    {
+      "id": "start-request-invalid-handle-mutex-nonzero",
+      "function": {
+        "entry": "0x0EC5A81E",
+        "language": "vc4:LE:32:default"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "gp": "0xE4000000",
+          "sp": "0x24010000",
+          "r0": "0x12345678"
+        },
+        "memory": [
+          {
+            "address": "0x2400FC00",
+            "size": 1088,
+            "fill": "a5"
+          },
+          {
+            "address": "0xE403B474",
+            "hex": "01000000"
+          },
+          {
+            "address": "0xE403B518",
+            "hex": "01000000"
+          },
+          {
+            "address": "0xE403B494",
+            "hex": "00000000"
+          },
+          {
+            "address": "0xE403B478",
+            "hex": "78563412"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24030000",
+        "step_limit": 3000,
+        "stubs": [
+          {
+            "entry": "0x0ED64D02",
+            "label": "mutex acquire",
+            "replies": [
+              {
+                "registers": {
+                  "r0": "0x00000007"
+                },
+                "memory": []
+              }
+            ]
+          },
+          {
+            "entry": "0x0ED64D3A",
+            "label": "mutex release",
+            "replies": [
+              {
+                "registers": {
+                  "r0": "0xFFFFFFFF"
+                },
+                "memory": []
+              }
+            ]
+          }
+        ],
+        "mmio_responses": []
+      },
+      "expected": {
+        "registers": {
+          "r0": "0xFFFFFFFF",
+          "sp": "0x24010000"
+        },
+        "memory": [
+          {
+            "address": "0xE403B474",
+            "hex": "01000000"
+          },
+          {
+            "address": "0xE403B518",
+            "hex": "01000000"
+          },
+          {
+            "address": "0xE403B494",
+            "hex": "00000000"
+          },
+          {
+            "address": "0xE403B478",
+            "hex": "78563412"
+          }
+        ],
+        "events": [
+          {
+            "kind": "stub",
+            "entry": "0x0ED64D02",
+            "arguments": [
+              "0xE403B470",
+              "0x00000000",
+              "0x00000000",
+              "0x00000000",
+              "0x00000000",
+              "0x00000000"
+            ],
+            "reply_index": 0
+          },
+          {
+            "kind": "stub",
+            "entry": "0x0ED64D3A",
+            "arguments": [
+              "0xE403B470",
+              "0x00000000",
+              "0x00000000",
+              "0x00000000",
+              "0x00000000",
+              "0x00000000"
+            ],
+            "reply_index": 0
+          }
+        ]
+      },
+      "steps": 12,
+      "scope": [
+        "Observe only the handling of supplied call-return words without callback memory effects."
+      ],
+      "limitations": [
+        "The reply word is an experiment input, not measured device success, resource transition or mutex behavior. No MMIO, exception or ARM instruction executes."
+      ]
+    },
+    {
+      "id": "start-request-closed-mutex-nonzero",
+      "function": {
+        "entry": "0x0EC5A81E",
+        "language": "vc4:LE:32:default"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "gp": "0xE4000000",
+          "sp": "0x24010000",
+          "r0": "0x61726D11"
+        },
+        "memory": [
+          {
+            "address": "0x2400FC00",
+            "size": 1088,
+            "fill": "a5"
+          },
+          {
+            "address": "0xE403B474",
+            "hex": "00000000"
+          },
+          {
+            "address": "0xE403B518",
+            "hex": "01000000"
+          },
+          {
+            "address": "0xE403B494",
+            "hex": "00000000"
+          },
+          {
+            "address": "0xE403B478",
+            "hex": "78563412"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24030000",
+        "step_limit": 3000,
+        "stubs": [
+          {
+            "entry": "0x0ED64D02",
+            "label": "mutex acquire",
+            "replies": [
+              {
+                "registers": {
+                  "r0": "0xFFFFFFFF"
+                },
+                "memory": []
+              }
+            ]
+          },
+          {
+            "entry": "0x0ED64D3A",
+            "label": "mutex release",
+            "replies": [
+              {
+                "registers": {
+                  "r0": "0x00000007"
+                },
+                "memory": []
+              }
+            ]
+          }
+        ],
+        "mmio_responses": []
+      },
+      "expected": {
+        "registers": {
+          "r0": "0xFFFFFFFF",
+          "sp": "0x24010000"
+        },
+        "memory": [
+          {
+            "address": "0xE403B474",
+            "hex": "00000000"
+          },
+          {
+            "address": "0xE403B518",
+            "hex": "01000000"
+          },
+          {
+            "address": "0xE403B494",
+            "hex": "00000000"
+          },
+          {
+            "address": "0xE403B478",
+            "hex": "78563412"
+          }
+        ],
+        "events": [
+          {
+            "kind": "stub",
+            "entry": "0x0ED64D02",
+            "arguments": [
+              "0xE403B470",
+              "0x00000000",
+              "0x00000000",
+              "0x00000000",
+              "0x00000000",
+              "0x00000000"
+            ],
+            "reply_index": 0
+          },
+          {
+            "kind": "stub",
+            "entry": "0x0ED64D3A",
+            "arguments": [
+              "0xE403B470",
+              "0x00000000",
+              "0x00000000",
+              "0x00000000",
+              "0x00000000",
+              "0x00000000"
+            ],
+            "reply_index": 0
+          }
+        ]
+      },
+      "steps": 15,
+      "scope": [
+        "Observe only the handling of supplied call-return words without callback memory effects."
+      ],
+      "limitations": [
+        "The reply word is an experiment input, not measured device success, resource transition or mutex behavior. No MMIO, exception or ARM instruction executes."
+      ]
+    },
+    {
+      "id": "start-request-unmapped-mutex-nonzero",
+      "function": {
+        "entry": "0x0EC5A81E",
+        "language": "vc4:LE:32:default"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "gp": "0xE4000000",
+          "sp": "0x24010000",
+          "r0": "0x61726D11"
+        },
+        "memory": [
+          {
+            "address": "0x2400FC00",
+            "size": 1088,
+            "fill": "a5"
+          },
+          {
+            "address": "0xE403B474",
+            "hex": "01000000"
+          },
+          {
+            "address": "0xE403B518",
+            "hex": "00000000"
+          },
+          {
+            "address": "0xE403B494",
+            "hex": "00000000"
+          },
+          {
+            "address": "0xE403B478",
+            "hex": "78563412"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24030000",
+        "step_limit": 3000,
+        "stubs": [
+          {
+            "entry": "0x0ED64D02",
+            "label": "mutex acquire",
+            "replies": [
+              {
+                "registers": {
+                  "r0": "0x80000000"
+                },
+                "memory": []
+              }
+            ]
+          },
+          {
+            "entry": "0x0ED64D3A",
+            "label": "mutex release",
+            "replies": [
+              {
+                "registers": {
+                  "r0": "0x80000000"
+                },
+                "memory": []
+              }
+            ]
+          }
+        ],
+        "mmio_responses": []
+      },
+      "expected": {
+        "registers": {
+          "r0": "0xFFFFFFFF",
+          "sp": "0x24010000"
+        },
+        "memory": [
+          {
+            "address": "0xE403B474",
+            "hex": "01000000"
+          },
+          {
+            "address": "0xE403B518",
+            "hex": "00000000"
+          },
+          {
+            "address": "0xE403B494",
+            "hex": "00000000"
+          },
+          {
+            "address": "0xE403B478",
+            "hex": "78563412"
+          }
+        ],
+        "events": [
+          {
+            "kind": "stub",
+            "entry": "0x0ED64D02",
+            "arguments": [
+              "0xE403B470",
+              "0x00000000",
+              "0x00000000",
+              "0x00000000",
+              "0x00000000",
+              "0x00000000"
+            ],
+            "reply_index": 0
+          },
+          {
+            "kind": "stub",
+            "entry": "0x0ED64D3A",
+            "arguments": [
+              "0xE403B470",
+              "0x00000000",
+              "0x00000000",
+              "0x00000001",
+              "0x00000000",
+              "0x00000000"
+            ],
+            "reply_index": 0
+          }
+        ]
+      },
+      "steps": 17,
+      "scope": [
+        "Observe only the handling of supplied call-return words without callback memory effects."
+      ],
+      "limitations": [
+        "The reply word is an experiment input, not measured device success, resource transition or mutex behavior. No MMIO, exception or ARM instruction executes."
+      ]
+    },
+    {
+      "id": "start-request-active-mutex-nonzero",
+      "function": {
+        "entry": "0x0EC5A81E",
+        "language": "vc4:LE:32:default"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "gp": "0xE4000000",
+          "sp": "0x24010000",
+          "r0": "0x61726D11"
+        },
+        "memory": [
+          {
+            "address": "0x2400FC00",
+            "size": 1088,
+            "fill": "a5"
+          },
+          {
+            "address": "0xE403B474",
+            "hex": "01000000"
+          },
+          {
+            "address": "0xE403B518",
+            "hex": "01000000"
+          },
+          {
+            "address": "0xE403B494",
+            "hex": "01000000"
+          },
+          {
+            "address": "0xE403B478",
+            "hex": "78563412"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24030000",
+        "step_limit": 3000,
+        "stubs": [
+          {
+            "entry": "0x0ED64D02",
+            "label": "mutex acquire",
+            "replies": [
+              {
+                "registers": {
+                  "r0": "0x12345678"
+                },
+                "memory": []
+              }
+            ]
+          },
+          {
+            "entry": "0x0ED64D3A",
+            "label": "mutex release",
+            "replies": [
+              {
+                "registers": {
+                  "r0": "0x87654321"
+                },
+                "memory": []
+              }
+            ]
+          }
+        ],
+        "mmio_responses": []
+      },
+      "expected": {
+        "registers": {
+          "r0": "0xFFFFFFFF",
+          "sp": "0x24010000"
+        },
+        "memory": [
+          {
+            "address": "0xE403B474",
+            "hex": "01000000"
+          },
+          {
+            "address": "0xE403B518",
+            "hex": "01000000"
+          },
+          {
+            "address": "0xE403B494",
+            "hex": "01000000"
+          },
+          {
+            "address": "0xE403B478",
+            "hex": "78563412"
+          }
+        ],
+        "events": [
+          {
+            "kind": "stub",
+            "entry": "0x0ED64D02",
+            "arguments": [
+              "0xE403B470",
+              "0x00000000",
+              "0x00000000",
+              "0x00000000",
+              "0x00000000",
+              "0x00000000"
+            ],
+            "reply_index": 0
+          },
+          {
+            "kind": "stub",
+            "entry": "0x0ED64D3A",
+            "arguments": [
+              "0xE403B470",
+              "0x00000001",
+              "0x00000000",
+              "0x00000001",
+              "0x00000000",
+              "0x00000000"
+            ],
+            "reply_index": 0
+          }
+        ]
+      },
+      "steps": 19,
+      "scope": [
+        "Observe only the handling of supplied call-return words without callback memory effects."
+      ],
+      "limitations": [
+        "The reply word is an experiment input, not measured device success, resource transition or mutex behavior. No MMIO, exception or ARM instruction executes."
+      ]
+    }
+  ]
+}
