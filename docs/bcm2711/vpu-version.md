@@ -149,10 +149,9 @@ code-integrity, stub-consumption and step-limit guards. Scalar gains no
 MMIO read support or native RAM allowance. Clock retains only its existing
 MMIO and native-cell facilities, as specified below.
 
-The separate [IRQ and p16 specification](vpu-irq.md) describes a pending
-opt-in interface for the same recorders. It keeps an independent occurrence
-cursor and preserves this VERSION contract. That interface is not yet
-implemented and does not change the current DI rejection.
+The separate [IRQ and p16 specification](vpu-irq.md) describes the opt-in
+interface in the same recorders. It keeps an independent occurrence cursor
+and preserves this VERSION contract. DI rejects when that plan is absent.
 
 ## Clock recorder integration
 
