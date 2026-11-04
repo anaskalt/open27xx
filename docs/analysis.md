@@ -88,6 +88,12 @@ Captures without the object retain the existing VERSION rejection and
 scalar guards. Supplied words do not identify hardware or establish a
 completed native continuation.
 
+The same [VERSION contract](bcm2711/vpu-version.md#clock-recorder-integration)
+specifies a pending `CaptureClockVectors.java` extension. It retains that
+recorder's existing finite MMIO plans and native-cell guards. The
+[first-open routes](bcm2711/vpu-version.md#first-open-acceptance-target)
+are acceptance targets, not completed Clock observations.
+
 The schema tests compile against an explicitly selected public Ghidra
 installation and require its supported JDK:
 
