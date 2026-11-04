@@ -1,0 +1,286 @@
+{
+  "schema": 1,
+  "source": {
+    "file": "start4.elf",
+    "repository": "raspberrypi/firmware",
+    "version": "ab5c7f86283ceb58b7adb269cae1d16092a31bf6",
+    "sha256": "38b179897c4514ad11bc915c3fd2d4b68c51e05df2e42240717655ab92d91aeb"
+  },
+  "cases": [
+    {
+      "id": "arm-stub-metadata-present",
+      "function": {
+        "entry": "0x0ED14B8A",
+        "language": "vc4:LE:32:default"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "r17": "0x240000C0",
+          "r15": "0x00000000",
+          "r6": "0x00123400",
+          "r7": "0x00200000",
+          "sp": "0x24010000"
+        },
+        "memory": [
+          {
+            "address": "0x240000F0",
+            "hex": "0b57fe5a4433221188776655ccbbaa99"
+          },
+          {
+            "address": "0x24010000",
+            "hex": "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000100000000000000000000000000000000000000"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x0ED14BB6",
+        "step_limit": 100,
+        "stubs": [],
+        "mmio_responses": []
+      },
+      "expected": {
+        "registers": {
+          "r6": "0x00123400",
+          "r7": "0x00200000",
+          "r15": "0x00000000",
+          "sp": "0x24010000"
+        },
+        "memory": [
+          {
+            "address": "0x240000F0",
+            "hex": "00000000000000000034120000002000"
+          }
+        ],
+        "events": []
+      },
+      "steps": 13,
+      "scope": [
+        "Execute only the stub handoff metadata block inside the kernel loader with synthetic result and address inputs."
+      ],
+      "limitations": [
+        "Entry and stop are internal block boundaries. No file loading, stub instructions, memory mapping, cache operation, ARM release or hardware executes."
+      ]
+    },
+    {
+      "id": "arm-stub-metadata-no-dtb",
+      "function": {
+        "entry": "0x0ED14B8A",
+        "language": "vc4:LE:32:default"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "r17": "0x240000C0",
+          "r15": "0x00000000",
+          "r6": "0x00123400",
+          "r7": "0x00200000",
+          "sp": "0x24010000"
+        },
+        "memory": [
+          {
+            "address": "0x240000F0",
+            "hex": "0b57fe5a4433221188776655ccbbaa99"
+          },
+          {
+            "address": "0x24010000",
+            "hex": "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x0ED14BB6",
+        "step_limit": 100,
+        "stubs": [],
+        "mmio_responses": []
+      },
+      "expected": {
+        "registers": {
+          "r6": "0x00000000",
+          "r7": "0x00200000",
+          "r15": "0x00000000",
+          "sp": "0x24010000"
+        },
+        "memory": [
+          {
+            "address": "0x240000F0",
+            "hex": "00000000000000000000000000002000"
+          }
+        ],
+        "events": []
+      },
+      "steps": 13,
+      "scope": [
+        "Execute only the stub handoff metadata block inside the kernel loader with synthetic result and address inputs."
+      ],
+      "limitations": [
+        "Entry and stop are internal block boundaries. No file loading, stub instructions, memory mapping, cache operation, ARM release or hardware executes."
+      ]
+    },
+    {
+      "id": "arm-stub-metadata-kernel-error",
+      "function": {
+        "entry": "0x0ED14B8A",
+        "language": "vc4:LE:32:default"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "r17": "0x240000C0",
+          "r15": "0x00000000",
+          "r6": "0x00123400",
+          "r7": "0x00200000",
+          "sp": "0x24010000"
+        },
+        "memory": [
+          {
+            "address": "0x240000F0",
+            "hex": "0b57fe5a4433221188776655ccbbaa99"
+          },
+          {
+            "address": "0x24010000",
+            "hex": "00000000000000000000000000000000000000000000000000000000000000000000000000000000ffffffff0100000000000000000000000000000000000000"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x0ED14BB6",
+        "step_limit": 100,
+        "stubs": [],
+        "mmio_responses": []
+      },
+      "expected": {
+        "registers": {
+          "r6": "0x00123400",
+          "r7": "0x00000000",
+          "r15": "0x00000000",
+          "sp": "0x24010000"
+        },
+        "memory": [
+          {
+            "address": "0x240000F0",
+            "hex": "00000000000000000034120000000000"
+          }
+        ],
+        "events": []
+      },
+      "steps": 13,
+      "scope": [
+        "Execute only the stub handoff metadata block inside the kernel loader with synthetic result and address inputs."
+      ],
+      "limitations": [
+        "Entry and stop are internal block boundaries. No file loading, stub instructions, memory mapping, cache operation, ARM release or hardware executes."
+      ]
+    },
+    {
+      "id": "arm-stub-metadata-neither",
+      "function": {
+        "entry": "0x0ED14B8A",
+        "language": "vc4:LE:32:default"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "r17": "0x240000C0",
+          "r15": "0x00000000",
+          "r6": "0x00123400",
+          "r7": "0x00200000",
+          "sp": "0x24010000"
+        },
+        "memory": [
+          {
+            "address": "0x240000F0",
+            "hex": "0b57fe5a4433221188776655ccbbaa99"
+          },
+          {
+            "address": "0x24010000",
+            "hex": "00000000000000000000000000000000000000000000000000000000000000000000000000000000ffffffff0000000000000000000000000000000000000000"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x0ED14BB6",
+        "step_limit": 100,
+        "stubs": [],
+        "mmio_responses": []
+      },
+      "expected": {
+        "registers": {
+          "r6": "0x00000000",
+          "r7": "0x00000000",
+          "r15": "0x00000000",
+          "sp": "0x24010000"
+        },
+        "memory": [
+          {
+            "address": "0x240000F0",
+            "hex": "00000000000000000000000000000000"
+          }
+        ],
+        "events": []
+      },
+      "steps": 13,
+      "scope": [
+        "Execute only the stub handoff metadata block inside the kernel loader with synthetic result and address inputs."
+      ],
+      "limitations": [
+        "Entry and stop are internal block boundaries. No file loading, stub instructions, memory mapping, cache operation, ARM release or hardware executes."
+      ]
+    },
+    {
+      "id": "arm-stub-metadata-no-magic",
+      "function": {
+        "entry": "0x0ED14B8A",
+        "language": "vc4:LE:32:default"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "r17": "0x240000C0",
+          "r15": "0x00000000",
+          "r6": "0x00123400",
+          "r7": "0x00200000",
+          "sp": "0x24010000"
+        },
+        "memory": [
+          {
+            "address": "0x240000F0",
+            "hex": "ddccbbaa4433221188776655ccbbaa99"
+          },
+          {
+            "address": "0x24010000",
+            "hex": "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000100000000000000000000000000000000000000"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x0ED14BB6",
+        "step_limit": 100,
+        "stubs": [],
+        "mmio_responses": []
+      },
+      "expected": {
+        "registers": {
+          "r6": "0x00123400",
+          "r7": "0x00200000",
+          "r15": "0x00000000",
+          "sp": "0x24010000"
+        },
+        "memory": [
+          {
+            "address": "0x240000F0",
+            "hex": "ddccbbaa4433221188776655ccbbaa99"
+          }
+        ],
+        "events": []
+      },
+      "steps": 3,
+      "scope": [
+        "Execute only the stub handoff metadata block inside the kernel loader with synthetic result and address inputs."
+      ],
+      "limitations": [
+        "Entry and stop are internal block boundaries. No file loading, stub instructions, memory mapping, cache operation, ARM release or hardware executes."
+      ]
+    }
+  ]
+}
