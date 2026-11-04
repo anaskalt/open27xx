@@ -18,6 +18,11 @@ No MMIO or exception instruction executes. The
 [register reference](clocks.md) describes a separate source boundary;
 these request observations do not establish register programming.
 
+The separate [first clock composition](clock-composition.md) executes the
+three actual programming bodies for one initialized reference-zero profile.
+It owns their state changes and actual raw results; it does not extend the
+literal-provider interface below to callbacks with memory effects.
+
 ## Entry and initialization boundaries
 
 In the identified `start4.elf`, wrapper 0x0ED55EFA reads GP+0xD33F8.

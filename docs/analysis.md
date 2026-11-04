@@ -159,7 +159,10 @@ unchanged scripts for its original cases and separate four-case
 
 ### Fixed clock recorder
 
-`CaptureClockVectors.java` replays the [fixed clock programming fixtures](bcm2711/clock-driver.md).
+`CaptureClockVectors.java` replays the [fixed clock programming fixtures](bcm2711/clock-driver.md)
+and the [first clock composition](bcm2711/clock-composition.md#exact-fixture-and-replay).
+The latter contains two complete calls and two intermediate source-return
+prefixes; its unchanged decoder prepares the 31 listed entry points.
 It uses the same two-path invocation shape as `CaptureScalarVectors.java`,
 with separate restrictions for this pinned source and exact native cell.
 Each `mmio_responses` record supplies `pc`, `address` and four little-endian
