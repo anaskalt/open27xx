@@ -13,6 +13,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 - Boot-flow documentation and synthetic execution vectors for resource loading,
   digest checks, SDRAM selection, configuration, boot modes and firmware loading.
 - Scalar fixture capture with explicit memory and device-call boundaries.
+- Filename override and zero-length fixup checks for replacement firmware loading.
 
 ## [0.1.1] - 2026-11-04
 
