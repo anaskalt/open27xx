@@ -8,6 +8,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ### Added
 
+- Fixed clock-request state contracts and four synthetic cases for cold
+  initialization, the first request and completed-cache repeated requests.
+
 - Freestanding fixed clock-request and cold-initializer helpers with declared
   replies, bounded profiles and 12 complete synthetic fixture comparisons.
 - Fixed source, selected-word and divider clock contracts with 22 synthetic
