@@ -494,7 +494,8 @@ class ClockRequestTest(unittest.TestCase):
                 planned_source, planned_count = ((1200000000, 2) if planner == 1200
                                                  else (1800000000, 3))
                 divider_seen = 0
-                for call, snapshot in zip(request.calls, request.snapshots, strict=True):
+                self.assertEqual(len(request.calls), len(request.snapshots))
+                for call, snapshot in zip(request.calls, request.snapshots):
                     kind, _, arguments, _ = call
                     manager, state_bytes, output, raw = snapshot
                     state = State.from_buffer_copy(state_bytes)
