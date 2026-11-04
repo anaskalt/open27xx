@@ -8,6 +8,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ### Added
 
+- ARM service and mutex return-word checks, with 17 synthetic vectors
+  for ignored replies and preserved resource results.
 - ARM configuration-request routing and software start-request gates,
   with 24 synthetic vectors and explicit service boundaries.
 - Ordinary ELF feature-word requirements, 35 synthetic compatibility
