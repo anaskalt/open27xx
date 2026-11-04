@@ -118,6 +118,28 @@ For the four pairs from raspberrypi/firmware commit `ab5c7f86283ceb58b7adb269cae
 
 Each first list contains six subtract operations. The second lists contain only add operations. These counts describe the pinned files; they are not constants of the stream format.
 
+## Replacement file selection
+
+The following contract covers `bootmain` from raspberrypi/usbboot commit `fdb604d018693465c9aa6ec69879df866d2820da`, SHA-256 `4deaac8f1e266a626bb422fd7d17bb69c98cb39be2e7db5e566cae68a8e17e4d`. It establishes filename selection and the zero-length fixup path, without executing the complete firmware acceptance or handoff sequence.
+
+The case-sensitive configuration keys `fixup_file` and `start_file` have table entries at 0x000CC1F0 and 0x000CC1FC. Both string destinations have capacity 256 bytes. Selector 0x000AD57A copies nonempty overrides into separate filename buffers, limits the copy to 255 bytes and writes a terminating NUL.
+
+[loader-overrides.json](../../tests/vectors/bootmain/loader-overrides.json) records two selector cases. Both select `open27xx.elf` from `start_file`. An empty `fixup_file` leaves the standard `fixup4.dat` descriptor at 0x000CBE40 selected. A nonempty `fixup_file=open27xx-none.dat` selects the override descriptor at 0x000CBF50. An empty value therefore does not disable the default fixup request. The explicit-name case establishes only which name is requested; it does not establish whether that file exists on a boot partition.
+
+Three more cases execute fixup completion handler 0x000857A8 for event 0x17:
+
+| Request status | Device timeout result | Observed continuation |
+|---|---|---|
+| 0 | Not queried | Calls firmware finalizer 0x00086754 |
+| 4 | 0 | Reports the missing/empty file and calls the finalizer |
+| 4 | 1 | Advances the boot path without calling the finalizer |
+
+The request status and device timeout result are synthetic inputs. The finalizer and next-path calls are recorded boundaries. These cases establish callback decisions, not filesystem or device behavior.
+
+Inside finalizer 0x00086754, the fragment at 0x000869C2 reads the fixup buffer length at context offset 0xD4. The sixth case supplies zero length and reaches 0x00086A6C in two instructions, without reading a fixup pointer or modifying the image. That destination begins the post-fixup ELF validation path. This fragment starts after earlier compatibility checks and stops before later validation and loading.
+
+A replacement that needs no memory fixup must therefore avoid selecting a nonempty vendor fixup payload. The recorded cases support an explicit filename override and the zero-length continuation, while leaving complete ELF acceptance, signature policy and entry execution unproven.
+
 ## Replacement target
 
 The replacement must initialize UART and clocks, load the kernel, device tree and initramfs, start the Cortex-A72 cores through an armstub, and answer the mailbox property requests needed by Linux. Acceptance requires matching mailbox replies and a recorded boot to Linux userspace on the CM4.
