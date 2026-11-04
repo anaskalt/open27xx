@@ -77,7 +77,8 @@ extension; do not emulate vector code.
 ## Scalar observations
 
 `CaptureScalarVectors.java` runs the synthetic cases in
-`tests/vectors/bootsys/` and `tests/vectors/bootmain/` against a matching
+`tests/vectors/bootsys/`, `tests/vectors/bootmain/` and
+`tests/vectors/start4/` against a matching
 imported program. Use the versions above and a read-only project. The
 output path must not exist.
 
@@ -134,6 +135,24 @@ instructions and unsupported p-code operations. It permits and records
 writes to the main-peripheral range. Those events establish write order
 and values only; they do not assign device behavior. All fixtures leave
 `mmio_responses` empty.
+
+### Explicit instruction preparation
+
+`DecodeScalarPaths.java` prepares explicit entry points missed by automatic
+analysis. Its arguments are the expected source SHA-256 followed by one or
+more 32-bit hexadecimal addresses with a `0x` prefix. It requires
+`vc4:LE:32:default`, initialized readable executable memory, and aligned
+instruction starts. It rejects defined data and addresses inside an
+existing instruction. Existing instruction starts are accepted unchanged.
+
+The helper restricts flow discovery to initialized executable blocks and
+disables automatic code analysis. It defines instruction metadata without
+clearing existing code/data, changing firmware bytes or exporting
+instruction text. Use it only in the read-only invocation immediately
+before the scalar recorder; transient definitions are discarded afterward.
+The recorder's execution checks remain unchanged. The
+[memory-capacity replay](bcm2711/memory-capacity.md#recorded-cases-and-replay)
+lists the exact source identity and entry points for that fixture.
 
 ## Open questions
 
