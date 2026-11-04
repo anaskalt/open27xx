@@ -379,6 +379,11 @@ and retain their expected observations unchanged. The
 [native first-open routes](arm-first-open.md) record three complete
 table-zero returns; successful open and physical effects remain unresolved.
 
+The pending [IRQ and p16 observation contract](vpu-irq.md) retains these
+source, descriptor, MMIO and native-cell guards. It specifies only explicit
+instruction observations under a no-interrupt-arrival premise; the current
+recorder still rejects DI.
+
 Run from the repository root with three unused output paths:
 
 ```sh
