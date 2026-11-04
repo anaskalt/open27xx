@@ -282,6 +282,21 @@ class ClockDriverTest(unittest.TestCase):
         commands = [word for kind, address, word in request.events if kind == MMIO_WRITE and address == 0x7E101100]
         self.assertEqual(commands, [0x5A000000 | ((54000000 // 1000000) * 10)] * 253)
 
+    def test_additional_exact_composition_divider_pair(self):
+        request = self.request("divider", 3)
+        request.reads[-1].word = 0x00345678
+        self.run_request(request)
+        expected = [(KINDS[event["kind"]], int(event["address"], 0),
+                     int.from_bytes(bytes.fromhex(event["hex"]), "little"))
+                    for event in request.case["expected"]["events"]]
+        expected[-2] = (MMIO_READ, 0x7E101170, 0x00345678)
+        self.assertEqual(request.events, expected)
+        self.assertEqual(request.raw_pointer[0], 0)
+        for index in (0, 1, 2, 4, 5):
+            request = self.request("divider", index)
+            request.reads[-1].word = 0x00345678
+            self.run_request(request, UNSUPPORTED)
+
     def test_mismatched_profiles_need_no_providers(self):
         for operation in self.cases:
             request = self.request(operation, -1)

@@ -944,3 +944,83 @@ rejection. The Make target compiles `build/start4/clock-driver.o` with
 `-Os -ffixed-lr`; preserve the LR reservation for the pinned VPU compiler.
 Runtime initialization, descriptor relocation, ownership, concurrency
 and physical readback require further contracts before integration.
+
+## First owned clock composition
+
+[`clock_composition.h`](clock_composition.h) exposes
+`clock_composition_execute` from [`clock_composition.c`](clock_composition.c).
+It implements the two complete calls in the
+[first clock composition contract](../../docs/bcm2711/clock-composition.md).
+The operation owns manager transitions and dispatches the source,
+native-word and divider helpers directly. It stays unlinked from the
+runtime image. The existing manager providers retain their observation-only
+contract; installing a state-mutating leaf call as a provider is unsupported.
+
+The inputs contain the existing request fields and explicit source helper
+selection, gate, input and diagnostic fields. The manager uses exactly the
+1156-byte entry profile in the contract: table 0x0EDE7F04, handle
+0xC10C1234, clock cache 500000000 and all remaining bytes zero. The separate
+miss state has initialized flag 1 and zero misses. Source and divider
+state retain the leaf contract's initial sentinels; the native cell is zero.
+The manager reference remains zero and is distinct from the leaf arithmetic
+reference 54000000. Mutex identity is an opaque observation token supplied
+through the request inputs.
+
+The composed plan contains the immutable source/divider read arrays,
+their observers, a native-cell observer, and acquire/diagnostic/release
+observers. These last three use the existing request-provider signature
+with literal zero replies. There are no programming reply fields. Source
+accepts only enabled-equal immediate lock or exactly 2000 zero lock replies.
+Divider accepts exactly five reads: initial 5, three zero command replies,
+and final 0x00345678. The standalone divider also accepts this additional
+exact pair while retaining all eight prior divider profiles. Its other
+final 0x0034567A replies cannot be substituted independently.
+
+The native cell remains actual caller-owned storage. Composition has no
+enable-byte input or lookup. Its adapter supplies zero to the word helper's
+required, unreachable enable field as an internal compatibility constant.
+This value does not represent a firmware observation.
+
+Whole-path preflight validates every required object, observer, exact
+entry value and complete read plan before acquisition or any state change.
+It checks full declared manager/output extents, all typed objects and both
+read arrays for wrap and pairwise overlap. Invalid later divider data cannot
+leave an earlier source or cell update. Host status uses `clock_driver_status`:
+null required objects or observers return `CLOCK_DRIVER_INVALID`; short or
+wrapping spans and overflowing array sizes return `CLOCK_DRIVER_BOUNDS`;
+unsupported entry values or read plans return `CLOCK_DRIVER_UNSUPPORTED`;
+overlap returns `CLOCK_DRIVER_OVERLAP`. No host error emits an observation
+or changes any API storage. Truncated plans can report bounds or unsupported
+according to the first failing check.
+
+Acquisition and diagnostic observe entry state. Source observations see
+changed miss fields and manager count 2, with the old manager rate caches
+and output. Native-word and divider observations see manager source
+1200000000 and divider-rate 600000000, with clock cache 500000000 and
+unchanged output. Release sees completed state and output 600000000.
+The result structure receives actual `source_raw`, `word_raw`, `divider_raw`
+and `manager_raw` words only after release. The tuples are `(0,0,0,0)` and
+`(4,0,0,0)`. Source raw 4 does not skip either subsequent operation.
+
+Observers preserve every API object and use separate bookkeeping storage.
+They return normally and cannot reenter, access hardware, change plans or
+mutate the native cell asynchronously. The helper allocates no storage and
+retains no pointers. Caller backing, typed alignment, writability and
+lifetime remain preconditions. The two recorded source-return prefixes
+check intermediate state and event ordering; they do not define partial
+execution operations. Other first states, repeated requests, notifications,
+cold initialization and arbitrary callbacks require separate contracts.
+
+```sh
+python3 -m unittest tests.test_clock_composition tests.test_clock_driver
+make -C src/start4 check-clock-composition
+```
+
+The tests compare both complete event streams and final state, and compare
+the corresponding source-return prefixes as intermediate observations.
+They check every manager byte, miss field and read-plan word, observer-time
+state/result visibility, later-plan rejection, full-span overlap, address
+wrap, guards and repeated-state rejection. The target compiles composition
+and driver objects with `-Os -ffixed-lr`; preserve the LR reservation for
+the pinned VPU compiler. The shared internal leaf preflight functions are
+read-only implementation plumbing, not additional firmware operations.

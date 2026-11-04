@@ -2,7 +2,7 @@
  * SPDX-License-Identifier: GPL-2.0-or-later
  */
 
-#include "clock_driver.h"
+#include "clock_driver_internal.h"
 
 #define PASSWORD UINT32_C(0x5A000000)
 #define HANDLE UINT32_C(0xC10C1234)
@@ -159,17 +159,12 @@ static enum clock_driver_status validate_source_reads(const struct clock_driver_
     return finish_plan(&cursor);
 }
 
-enum clock_driver_status clock_source_program(
-    const struct clock_source_inputs *inputs, struct clock_source_state *state,
-    const struct clock_driver_plan *plan, uint32_t *raw_return) {
+enum clock_driver_status clock_source_preflight(
+    const struct clock_source_inputs *inputs, const struct clock_source_state *state,
+    const struct clock_driver_plan *plan, const uint32_t *raw_return) {
     struct span spans[5] = {{inputs, sizeof(*inputs)}, {state, sizeof(*state)},
         {plan, sizeof(*plan)}, {raw_return, sizeof(*raw_return)}, {NULL, 0}};
     enum clock_driver_status status = validate_plan(spans, plan);
-    struct cursor cursor = {plan, 0, CLOCK_DRIVER_OK};
-    uint32_t analog, control, initial_cm, word, ana0, integer, target, fraction;
-    uint32_t count, locked = 0;
-    uint64_t quotient;
-    int enabled, reconfigure;
     if (status != CLOCK_DRIVER_OK)
         return status;
     if (inputs->comparison_handle != HANDLE
@@ -184,15 +179,28 @@ enum clock_driver_status clock_source_program(
     if (inputs->handle != inputs->comparison_handle) {
         if (plan->count != 0)
             return CLOCK_DRIVER_UNSUPPORTED;
-        *raw_return = UINT32_MAX;
         return CLOCK_DRIVER_OK;
     }
     if (plan->observer.observe == NULL)
         return CLOCK_DRIVER_INVALID;
-    status = validate_source_reads(plan);
+    return validate_source_reads(plan);
+}
+
+enum clock_driver_status clock_source_program(
+    const struct clock_source_inputs *inputs, struct clock_source_state *state,
+    const struct clock_driver_plan *plan, uint32_t *raw_return) {
+    enum clock_driver_status status = clock_source_preflight(inputs, state, plan, raw_return);
+    struct cursor cursor = {plan, 0, CLOCK_DRIVER_OK};
+    uint32_t analog, control, initial_cm, word, ana0, integer, target, fraction;
+    uint32_t count, locked = 0;
+    uint64_t quotient;
+    int enabled, reconfigure;
     if (status != CLOCK_DRIVER_OK)
         return status;
-
+    if (inputs->handle != inputs->comparison_handle) {
+        *raw_return = UINT32_MAX;
+        return CLOCK_DRIVER_OK;
+    }
     state->marker = 1;
     state->requested = inputs->requested;
     state->cached = inputs->requested;
@@ -277,13 +285,12 @@ static void write_cell(uint32_t *cell, const struct clock_driver_observer *obser
     observe(observer, CLOCK_DRIVER_NATIVE_WRITE, CELL, word);
 }
 
-enum clock_driver_status clock_word_program(
-    const struct clock_word_inputs *inputs, uint32_t *cell,
-    const struct clock_driver_observer *observer, uint32_t *raw_return) {
+enum clock_driver_status clock_word_preflight(
+    const struct clock_word_inputs *inputs, const uint32_t *cell,
+    const struct clock_driver_observer *observer, const uint32_t *raw_return) {
     struct span spans[4] = {{inputs, sizeof(*inputs)}, {cell, sizeof(*cell)},
         {observer, sizeof(*observer)}, {raw_return, sizeof(*raw_return)}};
     enum clock_driver_status status = validate_spans(spans, 4);
-    uint32_t word, count;
     int matching, mismatch, zero;
     if (status != CLOCK_DRIVER_OK)
         return status;
@@ -298,11 +305,24 @@ enum clock_driver_status clock_word_program(
                 || (mismatch && *cell == 0x12345678) || (zero && *cell == 0)))
         return CLOCK_DRIVER_UNSUPPORTED;
     if (mismatch) {
-        *raw_return = UINT32_MAX;
         return CLOCK_DRIVER_OK;
     }
     if (observer->observe == NULL)
         return CLOCK_DRIVER_INVALID;
+    return CLOCK_DRIVER_OK;
+}
+
+enum clock_driver_status clock_word_program(
+    const struct clock_word_inputs *inputs, uint32_t *cell,
+    const struct clock_driver_observer *observer, uint32_t *raw_return) {
+    enum clock_driver_status status = clock_word_preflight(inputs, cell, observer, raw_return);
+    uint32_t word, count;
+    if (status != CLOCK_DRIVER_OK)
+        return status;
+    if (inputs->handle != inputs->comparison_handle) {
+        *raw_return = UINT32_MAX;
+        return CLOCK_DRIVER_OK;
+    }
     (void)read_cell(cell, observer);
     word = read_cell(cell, observer);
     write_cell(cell, observer, (word & UINT32_C(0xFFFFFFEF)) | PASSWORD);
@@ -320,7 +340,7 @@ enum clock_driver_status clock_word_program(
 static enum clock_driver_status validate_divider_reads(const struct clock_driver_plan *plan) {
     struct cursor cursor = {plan, 0, CLOCK_DRIVER_OK};
     uint32_t first, count;
-    int delayed;
+    int delayed, joined;
     if (plan->count < 2)
         return CLOCK_DRIVER_BOUNDS;
     if (plan->count > 255)
@@ -330,24 +350,23 @@ static enum clock_driver_status validate_divider_reads(const struct clock_driver
             && first != 255 && first != 0x12340102)
         return CLOCK_DRIVER_UNSUPPORTED;
     delayed = first == 5 && plan->count == 8;
+    joined = first == 5 && plan->count == 5 && plan->reads[4].word == 0x00345678;
     expect_read(&cursor, ARM, first);
     for (count = first & 0xFF; count > 2; --count) {
         if (delayed)
             expect_read(&cursor, COMMAND, 0x321);
         expect_read(&cursor, COMMAND, 0);
     }
-    expect_read(&cursor, CM, first == 0x12340102 ? 0x00345678 : 0x0034567A);
+    expect_read(&cursor, CM, first == 0x12340102 || joined ? 0x00345678 : 0x0034567A);
     return finish_plan(&cursor);
 }
 
-enum clock_driver_status clock_divider_program(
-    const struct clock_divider_inputs *inputs, struct clock_divider_state *state,
-    const struct clock_driver_plan *plan, uint32_t *raw_return) {
+enum clock_driver_status clock_divider_preflight(
+    const struct clock_divider_inputs *inputs, const struct clock_divider_state *state,
+    const struct clock_driver_plan *plan, const uint32_t *raw_return) {
     struct span spans[5] = {{inputs, sizeof(*inputs)}, {state, sizeof(*state)},
         {plan, sizeof(*plan)}, {raw_return, sizeof(*raw_return)}, {NULL, 0}};
     enum clock_driver_status status = validate_plan(spans, plan);
-    struct cursor cursor = {plan, 0, CLOCK_DRIVER_OK};
-    uint32_t count, word, target;
     if (status != CLOCK_DRIVER_OK)
         return status;
     if (inputs->comparison_handle != HANDLE
@@ -358,14 +377,25 @@ enum clock_driver_status clock_divider_program(
     if (inputs->handle != inputs->comparison_handle) {
         if (plan->count != 0)
             return CLOCK_DRIVER_UNSUPPORTED;
-        *raw_return = UINT32_MAX;
         return CLOCK_DRIVER_OK;
     }
     if (plan->observer.observe == NULL)
         return CLOCK_DRIVER_INVALID;
-    status = validate_divider_reads(plan);
+    return validate_divider_reads(plan);
+}
+
+enum clock_driver_status clock_divider_program(
+    const struct clock_divider_inputs *inputs, struct clock_divider_state *state,
+    const struct clock_driver_plan *plan, uint32_t *raw_return) {
+    enum clock_driver_status status = clock_divider_preflight(inputs, state, plan, raw_return);
+    struct cursor cursor = {plan, 0, CLOCK_DRIVER_OK};
+    uint32_t count, word, target;
     if (status != CLOCK_DRIVER_OK)
         return status;
+    if (inputs->handle != inputs->comparison_handle) {
+        *raw_return = UINT32_MAX;
+        return CLOCK_DRIVER_OK;
+    }
     state->marker = 1;
     state->count = inputs->count;
     target = inputs->count / 1;
