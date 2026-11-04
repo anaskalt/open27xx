@@ -149,6 +149,11 @@ bring-up image and a separate BCM2711 ARM entry stub. It does not yet
 implement the ARM release, Linux file-loading or mailbox paths. A
 successful host build does not establish those runtime requirements.
 
+The [ARM stub metadata contract](arm-handoff.md) specifies the four
+little-endian fields used to pass caller-supplied DTB and kernel values.
+Its synthetic vectors cover buffer preparation, without establishing
+ARM address placement, cache visibility or core release.
+
 ## Restoring the boot partition
 
 Before an approved hardware test, make an offline copy of the complete
