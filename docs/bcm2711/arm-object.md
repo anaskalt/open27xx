@@ -157,6 +157,11 @@ actual metadata and prior request words. First-free-slot order, earlier
 array clearing, completed open, mapping/entry preparation and lifetime
 remain unresolved runtime inputs.
 
+The separate [mapping-table contract](arm-mapping.md) covers producer
+0x0EC59C22 with supplied capacity 0x400 and explicit state. Its complete
+calls establish table/marker changes but do not complete this first-open
+path or establish that the table is applied to hardware.
+
 ## Portable storage and preflight
 
 Registration and repeated open are separate complete operations. The
@@ -268,8 +273,9 @@ headless launcher exit zero alone does not establish a successful capture.
 - Runtime records. Trace earlier clearing, allocation order, lifetime and
   release/reuse before choosing a live record or assuming request words
   start at zero. Preserve the actual registration metadata when composing.
-- Mapping and entry. Execute the relevant producer and apply/visibility
-  paths before treating the higher mapping marker as initialized state
+- Mapping and entry. Connect the bounded [table producer](arm-mapping.md)
+  to initialized inputs and apply/visibility paths before treating the
+  higher mapping marker as initialized state
   or evidence of an ARM mapping, entry address or release.
 - Wider inputs. Capture other parameter/count/record/reply profiles and
   exceptional/concurrent behavior separately before extending these fixed

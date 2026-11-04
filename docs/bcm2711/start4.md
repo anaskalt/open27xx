@@ -192,6 +192,11 @@ The [ARM object contract](arm-object.md) specifies registration at
 first-open prefix stops before `VERSION` and does not prove runtime
 initialization or ownership.
 
+The [ARM mapping-table contract](arm-mapping.md) covers preparation at
+0x0EC59C22 with twelve complete synthetic calls, actual repeated state
+and retained stores on one raw-failure path. Table preparation remains
+separate from mapping application, visibility and physical ARM release.
+
 The [resource-request contract](resource-request.md) covers fixed logical
 index 23, record aggregation, dependency order and conditional check
 callbacks. Its complete calls and bounded prefixes use explicit software

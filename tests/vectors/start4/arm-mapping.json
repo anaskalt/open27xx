@@ -1,0 +1,1856 @@
+{
+  "schema": 1,
+  "source": {
+    "file": "start4.elf",
+    "repository": "raspberrypi/firmware",
+    "version": "ab5c7f86283ceb58b7adb269cae1d16092a31bf6",
+    "sha256": "38b179897c4514ad11bc915c3fd2d4b68c51e05df2e42240717655ab92d91aeb"
+  },
+  "cases": [
+    {
+      "id": "invalid-handle",
+      "function": {
+        "entry": "0x0EC59C22",
+        "language": "vc4:LE:32:default"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "gp": "0xE4000000",
+          "sp": "0x24010000",
+          "r0": "0x00000000",
+          "r1": "0x00000000",
+          "r2": "0x7E000000",
+          "r3": "0x01000000"
+        },
+        "memory": [
+          {
+            "address": "0x2400FC00",
+            "fill": "a5",
+            "size": 1088
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24040000",
+        "step_limit": 3000,
+        "stubs": [],
+        "mmio_responses": []
+      },
+      "expected": {
+        "registers": {
+          "r0": "0xFFFFFFFF",
+          "r1": "0x00000000",
+          "r2": "0x7E000000",
+          "r3": "0x01000000",
+          "r4": "0x00000000",
+          "r5": "0x00000000",
+          "r6": "0x00000000",
+          "r7": "0x00000000",
+          "r8": "0x00000000",
+          "r9": "0x00000000",
+          "r10": "0x00000000",
+          "r11": "0x00000000",
+          "r12": "0x00000000",
+          "r13": "0x00000000",
+          "r14": "0x00000000",
+          "r15": "0x00000000",
+          "r16": "0x00000000",
+          "r17": "0x00000000",
+          "r18": "0x00000000",
+          "r19": "0x00000000",
+          "r20": "0x00000000",
+          "gp": "0xE4000000",
+          "sp": "0x24010000",
+          "lr": "0x24040000"
+        },
+        "memory": [
+          {
+            "address": "0x2400FC00",
+            "hex": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+          },
+          {
+            "address": "0x24010000",
+            "hex": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+          }
+        ],
+        "events": []
+      },
+      "scope": "Complete mapping-table producer with fixed synthetic state and literal boundary replies",
+      "limitations": [
+        "The native table and marker are software results, not established physical mappings or cache visibility.",
+        "Open acquisition, live capacity, actual synchronization and privileged service effects remain supplied or unexecuted."
+      ],
+      "steps": 9
+    },
+    {
+      "id": "active",
+      "function": {
+        "entry": "0x0EC59C22",
+        "language": "vc4:LE:32:default"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "gp": "0xE4000000",
+          "sp": "0x24010000",
+          "r0": "0x61726D11",
+          "r1": "0x00000000",
+          "r2": "0x7E000000",
+          "r3": "0x01000000"
+        },
+        "memory": [
+          {
+            "address": "0x2400FC00",
+            "fill": "a5",
+            "size": 1088
+          },
+          {
+            "address": "0xE403B494",
+            "hex": "01000000"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24040000",
+        "step_limit": 3000,
+        "stubs": [
+          {
+            "entry": "0x0ED64D02",
+            "label": "higher mutex acquire",
+            "replies": [
+              {
+                "registers": {
+                  "r0": "0x00000000"
+                },
+                "memory": []
+              }
+            ]
+          },
+          {
+            "entry": "0x0ED64D3A",
+            "label": "higher mutex release",
+            "replies": [
+              {
+                "registers": {
+                  "r0": "0x00000000"
+                },
+                "memory": []
+              }
+            ]
+          }
+        ],
+        "mmio_responses": []
+      },
+      "expected": {
+        "registers": {
+          "r0": "0xFFFFFFFE",
+          "r1": "0x00000000",
+          "r2": "0x7E000000",
+          "r3": "0x01000000",
+          "r4": "0x00000000",
+          "r5": "0x00000000",
+          "r6": "0x00000000",
+          "r7": "0x00000000",
+          "r8": "0x00000000",
+          "r9": "0x00000000",
+          "r10": "0x00000000",
+          "r11": "0x00000000",
+          "r12": "0x00000000",
+          "r13": "0x00000000",
+          "r14": "0x00000000",
+          "r15": "0x00000000",
+          "r16": "0x00000000",
+          "r17": "0x00000000",
+          "r18": "0x00000000",
+          "r19": "0x00000000",
+          "r20": "0x00000000",
+          "gp": "0xE4000000",
+          "sp": "0x24010000",
+          "lr": "0x0EC59C58"
+        },
+        "memory": [
+          {
+            "address": "0x2400FC00",
+            "hex": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+          },
+          {
+            "address": "0x24010000",
+            "hex": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+          },
+          {
+            "address": "0xE403B494",
+            "hex": "01000000"
+          }
+        ],
+        "events": [
+          {
+            "kind": "stub",
+            "entry": "0x0ED64D02",
+            "arguments": [
+              "0xE403B470",
+              "0x00000000",
+              "0x7E000000",
+              "0x01000000",
+              "0x00000000",
+              "0x00000000"
+            ],
+            "reply_index": 0
+          },
+          {
+            "kind": "stub",
+            "entry": "0x0ED64D3A",
+            "arguments": [
+              "0xE403B470",
+              "0x00000000",
+              "0x7E000000",
+              "0x01000000",
+              "0x00000000",
+              "0x00000000"
+            ],
+            "reply_index": 0
+          }
+        ]
+      },
+      "scope": "Complete mapping-table producer with fixed synthetic state and literal boundary replies",
+      "limitations": [
+        "The native table and marker are software results, not established physical mappings or cache visibility.",
+        "Open acquisition, live capacity, actual synchronization and privileged service effects remain supplied or unexecuted."
+      ],
+      "steps": 19
+    },
+    {
+      "id": "range-exceeded",
+      "function": {
+        "entry": "0x0EC59C22",
+        "language": "vc4:LE:32:default"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "gp": "0xE4000000",
+          "sp": "0x24010000",
+          "r0": "0x61726D11",
+          "r1": "0x40000000",
+          "r2": "0x7E000000",
+          "r3": "0x01000000"
+        },
+        "memory": [
+          {
+            "address": "0x2400FC00",
+            "fill": "a5",
+            "size": 1088
+          },
+          {
+            "address": "0xE403B494",
+            "hex": "00000000"
+          },
+          {
+            "address": "0xE403B47C",
+            "hex": "00040000"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24040000",
+        "step_limit": 3000,
+        "stubs": [
+          {
+            "entry": "0x0ED64D02",
+            "label": "higher mutex acquire",
+            "replies": [
+              {
+                "registers": {
+                  "r0": "0x00000000"
+                },
+                "memory": []
+              }
+            ]
+          },
+          {
+            "entry": "0x0ED64D3A",
+            "label": "higher mutex release",
+            "replies": [
+              {
+                "registers": {
+                  "r0": "0x00000000"
+                },
+                "memory": []
+              }
+            ]
+          }
+        ],
+        "mmio_responses": []
+      },
+      "expected": {
+        "registers": {
+          "r0": "0xFFFFFFFD",
+          "r1": "0x40000000",
+          "r2": "0x7E000000",
+          "r3": "0x01000000",
+          "r4": "0x41000000",
+          "r5": "0x40000000",
+          "r6": "0x00000000",
+          "r7": "0x00000000",
+          "r8": "0x00000000",
+          "r9": "0x00000000",
+          "r10": "0x00000000",
+          "r11": "0x00000000",
+          "r12": "0x00000000",
+          "r13": "0x00000000",
+          "r14": "0x00000000",
+          "r15": "0x00000000",
+          "r16": "0x00000000",
+          "r17": "0x00000000",
+          "r18": "0x00000000",
+          "r19": "0x00000000",
+          "r20": "0x00000000",
+          "gp": "0xE4000000",
+          "sp": "0x24010000",
+          "lr": "0x0EC59CA0"
+        },
+        "memory": [
+          {
+            "address": "0x2400FC00",
+            "hex": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+          },
+          {
+            "address": "0x24010000",
+            "hex": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+          },
+          {
+            "address": "0xE403B494",
+            "hex": "00000000"
+          },
+          {
+            "address": "0xE403B47C",
+            "hex": "00040000"
+          }
+        ],
+        "events": [
+          {
+            "kind": "stub",
+            "entry": "0x0ED64D02",
+            "arguments": [
+              "0xE403B470",
+              "0x40000000",
+              "0x7E000000",
+              "0x01000000",
+              "0x00000000",
+              "0x00000000"
+            ],
+            "reply_index": 0
+          },
+          {
+            "kind": "stub",
+            "entry": "0x0ED64D3A",
+            "arguments": [
+              "0xE403B470",
+              "0x40000000",
+              "0x7E000000",
+              "0x01000000",
+              "0x41000000",
+              "0x40000000"
+            ],
+            "reply_index": 0
+          }
+        ]
+      },
+      "scope": "Complete mapping-table producer with fixed synthetic state and literal boundary replies",
+      "limitations": [
+        "The native table and marker are software results, not established physical mappings or cache visibility.",
+        "Open acquisition, live capacity, actual synchronization and privileged service effects remain supplied or unexecuted."
+      ],
+      "steps": 24
+    },
+    {
+      "id": "zero-length",
+      "function": {
+        "entry": "0x0EC59C22",
+        "language": "vc4:LE:32:default"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "gp": "0xE4000000",
+          "sp": "0x24010000",
+          "r0": "0x61726D11",
+          "r1": "0x00000000",
+          "r2": "0x7E000000",
+          "r3": "0x00000000"
+        },
+        "memory": [
+          {
+            "address": "0x2400FC00",
+            "fill": "a5",
+            "size": 1088
+          },
+          {
+            "address": "0xE403B494",
+            "hex": "00000000"
+          },
+          {
+            "address": "0xE403B47C",
+            "hex": "00040000"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24040000",
+        "step_limit": 3000,
+        "stubs": [
+          {
+            "entry": "0x0ED64D02",
+            "label": "higher mutex acquire",
+            "replies": [
+              {
+                "registers": {
+                  "r0": "0x00000000"
+                },
+                "memory": []
+              }
+            ]
+          },
+          {
+            "entry": "0x0ED64D3A",
+            "label": "higher mutex release",
+            "replies": [
+              {
+                "registers": {
+                  "r0": "0x00000000"
+                },
+                "memory": []
+              }
+            ]
+          }
+        ],
+        "mmio_responses": []
+      },
+      "expected": {
+        "registers": {
+          "r0": "0xFFFFFFFD",
+          "r1": "0x00000000",
+          "r2": "0x7E000000",
+          "r3": "0x00000000",
+          "r4": "0x00000000",
+          "r5": "0x40000000",
+          "r6": "0x00000000",
+          "r7": "0x00000000",
+          "r8": "0x00000000",
+          "r9": "0x00000000",
+          "r10": "0x00000000",
+          "r11": "0x00000000",
+          "r12": "0x00000000",
+          "r13": "0x00000000",
+          "r14": "0x00000000",
+          "r15": "0x00000000",
+          "r16": "0x00000000",
+          "r17": "0x00000000",
+          "r18": "0x00000000",
+          "r19": "0x00000000",
+          "r20": "0x00000000",
+          "gp": "0xE4000000",
+          "sp": "0x24010000",
+          "lr": "0x0EC59CA0"
+        },
+        "memory": [
+          {
+            "address": "0x2400FC00",
+            "hex": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+          },
+          {
+            "address": "0x24010000",
+            "hex": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+          },
+          {
+            "address": "0xE403B494",
+            "hex": "00000000"
+          },
+          {
+            "address": "0xE403B47C",
+            "hex": "00040000"
+          }
+        ],
+        "events": [
+          {
+            "kind": "stub",
+            "entry": "0x0ED64D02",
+            "arguments": [
+              "0xE403B470",
+              "0x00000000",
+              "0x7E000000",
+              "0x00000000",
+              "0x00000000",
+              "0x00000000"
+            ],
+            "reply_index": 0
+          },
+          {
+            "kind": "stub",
+            "entry": "0x0ED64D3A",
+            "arguments": [
+              "0xE403B470",
+              "0x00000000",
+              "0x7E000000",
+              "0x00000000",
+              "0x00000000",
+              "0x40000000"
+            ],
+            "reply_index": 0
+          }
+        ]
+      },
+      "scope": "Complete mapping-table producer with fixed synthetic state and literal boundary replies",
+      "limitations": [
+        "The native table and marker are software results, not established physical mappings or cache visibility.",
+        "Open acquisition, live capacity, actual synchronization and privileged service effects remain supplied or unexecuted."
+      ],
+      "steps": 25
+    },
+    {
+      "id": "length-unaligned",
+      "function": {
+        "entry": "0x0EC59C22",
+        "language": "vc4:LE:32:default"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "gp": "0xE4000000",
+          "sp": "0x24010000",
+          "r0": "0x61726D11",
+          "r1": "0x00000000",
+          "r2": "0x7E000000",
+          "r3": "0x00000001"
+        },
+        "memory": [
+          {
+            "address": "0x2400FC00",
+            "fill": "a5",
+            "size": 1088
+          },
+          {
+            "address": "0xE403B494",
+            "hex": "00000000"
+          },
+          {
+            "address": "0xE403B47C",
+            "hex": "00040000"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24040000",
+        "step_limit": 3000,
+        "stubs": [
+          {
+            "entry": "0x0ED64D02",
+            "label": "higher mutex acquire",
+            "replies": [
+              {
+                "registers": {
+                  "r0": "0x00000000"
+                },
+                "memory": []
+              }
+            ]
+          },
+          {
+            "entry": "0x0ED64D3A",
+            "label": "higher mutex release",
+            "replies": [
+              {
+                "registers": {
+                  "r0": "0x00000000"
+                },
+                "memory": []
+              }
+            ]
+          }
+        ],
+        "mmio_responses": []
+      },
+      "expected": {
+        "registers": {
+          "r0": "0xFFFFFFFD",
+          "r1": "0x01000000",
+          "r2": "0x00000001",
+          "r3": "0x00000001",
+          "r4": "0x00000001",
+          "r5": "0x40000000",
+          "r6": "0x00000000",
+          "r7": "0x00000000",
+          "r8": "0x00000000",
+          "r9": "0x00000000",
+          "r10": "0x00000000",
+          "r11": "0x00000000",
+          "r12": "0x00000000",
+          "r13": "0x00000000",
+          "r14": "0x00000000",
+          "r15": "0x00000000",
+          "r16": "0x00000000",
+          "r17": "0x00000000",
+          "r18": "0x00000000",
+          "r19": "0x00000000",
+          "r20": "0x00000000",
+          "gp": "0xE4000000",
+          "sp": "0x24010000",
+          "lr": "0x0EC59CA0"
+        },
+        "memory": [
+          {
+            "address": "0x2400FC00",
+            "hex": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+          },
+          {
+            "address": "0x24010000",
+            "hex": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+          },
+          {
+            "address": "0xE403B494",
+            "hex": "00000000"
+          },
+          {
+            "address": "0xE403B47C",
+            "hex": "00040000"
+          }
+        ],
+        "events": [
+          {
+            "kind": "stub",
+            "entry": "0x0ED64D02",
+            "arguments": [
+              "0xE403B470",
+              "0x00000000",
+              "0x7E000000",
+              "0x00000001",
+              "0x00000000",
+              "0x00000000"
+            ],
+            "reply_index": 0
+          },
+          {
+            "kind": "stub",
+            "entry": "0x0ED64D3A",
+            "arguments": [
+              "0xE403B470",
+              "0x01000000",
+              "0x00000001",
+              "0x00000001",
+              "0x00000001",
+              "0x40000000"
+            ],
+            "reply_index": 0
+          }
+        ]
+      },
+      "scope": "Complete mapping-table producer with fixed synthetic state and literal boundary replies",
+      "limitations": [
+        "The native table and marker are software results, not established physical mappings or cache visibility.",
+        "Open acquisition, live capacity, actual synchronization and privileged service effects remain supplied or unexecuted."
+      ],
+      "steps": 34
+    },
+    {
+      "id": "zero-base",
+      "function": {
+        "entry": "0x0EC59C22",
+        "language": "vc4:LE:32:default"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "gp": "0xE4000000",
+          "sp": "0x24010000",
+          "r0": "0x61726D11",
+          "r1": "0x00000000",
+          "r2": "0x00000000",
+          "r3": "0x01000000"
+        },
+        "memory": [
+          {
+            "address": "0x2400FC00",
+            "fill": "a5",
+            "size": 1088
+          },
+          {
+            "address": "0xE403B494",
+            "hex": "00000000"
+          },
+          {
+            "address": "0xE403B47C",
+            "hex": "00040000"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24040000",
+        "step_limit": 3000,
+        "stubs": [
+          {
+            "entry": "0x0ED64D02",
+            "label": "higher mutex acquire",
+            "replies": [
+              {
+                "registers": {
+                  "r0": "0x00000000"
+                },
+                "memory": []
+              }
+            ]
+          },
+          {
+            "entry": "0x0ED64D3A",
+            "label": "higher mutex release",
+            "replies": [
+              {
+                "registers": {
+                  "r0": "0x00000000"
+                },
+                "memory": []
+              }
+            ]
+          }
+        ],
+        "mmio_responses": []
+      },
+      "expected": {
+        "registers": {
+          "r0": "0xFFFFFFFD",
+          "r1": "0x01000000",
+          "r2": "0x01000000",
+          "r3": "0x01000000",
+          "r4": "0x01000000",
+          "r5": "0x40000000",
+          "r6": "0x00000000",
+          "r7": "0x00000000",
+          "r8": "0x00000000",
+          "r9": "0x00000000",
+          "r10": "0x00000000",
+          "r11": "0x00000000",
+          "r12": "0x00000000",
+          "r13": "0x00000000",
+          "r14": "0x00000000",
+          "r15": "0x00000000",
+          "r16": "0x00000000",
+          "r17": "0x00000000",
+          "r18": "0x00000000",
+          "r19": "0x00000000",
+          "r20": "0x00000000",
+          "gp": "0xE4000000",
+          "sp": "0x24010000",
+          "lr": "0x0EC59CA0"
+        },
+        "memory": [
+          {
+            "address": "0x2400FC00",
+            "hex": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+          },
+          {
+            "address": "0x24010000",
+            "hex": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+          },
+          {
+            "address": "0xE403B494",
+            "hex": "00000000"
+          },
+          {
+            "address": "0xE403B47C",
+            "hex": "00040000"
+          }
+        ],
+        "events": [
+          {
+            "kind": "stub",
+            "entry": "0x0ED64D02",
+            "arguments": [
+              "0xE403B470",
+              "0x00000000",
+              "0x00000000",
+              "0x01000000",
+              "0x00000000",
+              "0x00000000"
+            ],
+            "reply_index": 0
+          },
+          {
+            "kind": "stub",
+            "entry": "0x0ED64D3A",
+            "arguments": [
+              "0xE403B470",
+              "0x01000000",
+              "0x01000000",
+              "0x01000000",
+              "0x01000000",
+              "0x40000000"
+            ],
+            "reply_index": 0
+          }
+        ]
+      },
+      "scope": "Complete mapping-table producer with fixed synthetic state and literal boundary replies",
+      "limitations": [
+        "The native table and marker are software results, not established physical mappings or cache visibility.",
+        "Open acquisition, live capacity, actual synchronization and privileged service effects remain supplied or unexecuted."
+      ],
+      "steps": 35
+    },
+    {
+      "id": "base-unaligned",
+      "function": {
+        "entry": "0x0EC59C22",
+        "language": "vc4:LE:32:default"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "gp": "0xE4000000",
+          "sp": "0x24010000",
+          "r0": "0x61726D11",
+          "r1": "0x00000000",
+          "r2": "0x7E000001",
+          "r3": "0x01000000"
+        },
+        "memory": [
+          {
+            "address": "0x2400FC00",
+            "fill": "a5",
+            "size": 1088
+          },
+          {
+            "address": "0xE403B494",
+            "hex": "00000000"
+          },
+          {
+            "address": "0xE403B47C",
+            "hex": "00040000"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24040000",
+        "step_limit": 3000,
+        "stubs": [
+          {
+            "entry": "0x0ED64D02",
+            "label": "higher mutex acquire",
+            "replies": [
+              {
+                "registers": {
+                  "r0": "0x00000000"
+                },
+                "memory": []
+              }
+            ]
+          },
+          {
+            "entry": "0x0ED64D3A",
+            "label": "higher mutex release",
+            "replies": [
+              {
+                "registers": {
+                  "r0": "0x00000000"
+                },
+                "memory": []
+              }
+            ]
+          }
+        ],
+        "mmio_responses": []
+      },
+      "expected": {
+        "registers": {
+          "r0": "0xFFFFFFFD",
+          "r1": "0x01000000",
+          "r2": "0x7E000001",
+          "r3": "0x01000000",
+          "r4": "0x01000000",
+          "r5": "0x40000000",
+          "r6": "0x00000000",
+          "r7": "0x00000000",
+          "r8": "0x00000000",
+          "r9": "0x00000000",
+          "r10": "0x00000000",
+          "r11": "0x00000000",
+          "r12": "0x00000000",
+          "r13": "0x00000000",
+          "r14": "0x00000000",
+          "r15": "0x00000000",
+          "r16": "0x00000000",
+          "r17": "0x00000000",
+          "r18": "0x00000000",
+          "r19": "0x00000000",
+          "r20": "0x00000000",
+          "gp": "0xE4000000",
+          "sp": "0x24010000",
+          "lr": "0x0EC59CA0"
+        },
+        "memory": [
+          {
+            "address": "0x2400FC00",
+            "hex": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+          },
+          {
+            "address": "0x24010000",
+            "hex": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+          },
+          {
+            "address": "0xE403B494",
+            "hex": "00000000"
+          },
+          {
+            "address": "0xE403B47C",
+            "hex": "00040000"
+          }
+        ],
+        "events": [
+          {
+            "kind": "stub",
+            "entry": "0x0ED64D02",
+            "arguments": [
+              "0xE403B470",
+              "0x00000000",
+              "0x7E000001",
+              "0x01000000",
+              "0x00000000",
+              "0x00000000"
+            ],
+            "reply_index": 0
+          },
+          {
+            "kind": "stub",
+            "entry": "0x0ED64D3A",
+            "arguments": [
+              "0xE403B470",
+              "0x01000000",
+              "0x7E000001",
+              "0x01000000",
+              "0x01000000",
+              "0x40000000"
+            ],
+            "reply_index": 0
+          }
+        ]
+      },
+      "scope": "Complete mapping-table producer with fixed synthetic state and literal boundary replies",
+      "limitations": [
+        "The native table and marker are software results, not established physical mappings or cache visibility.",
+        "Open acquisition, live capacity, actual synchronization and privileged service effects remain supplied or unexecuted."
+      ],
+      "steps": 44
+    },
+    {
+      "id": "offset-unaligned",
+      "function": {
+        "entry": "0x0EC59C22",
+        "language": "vc4:LE:32:default"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "gp": "0xE4000000",
+          "sp": "0x24010000",
+          "r0": "0x61726D11",
+          "r1": "0x00000001",
+          "r2": "0x7E000000",
+          "r3": "0x01000000"
+        },
+        "memory": [
+          {
+            "address": "0x2400FC00",
+            "fill": "a5",
+            "size": 1088
+          },
+          {
+            "address": "0xE403B494",
+            "hex": "00000000"
+          },
+          {
+            "address": "0xE403B47C",
+            "hex": "00040000"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24040000",
+        "step_limit": 3000,
+        "stubs": [
+          {
+            "entry": "0x0ED64D02",
+            "label": "higher mutex acquire",
+            "replies": [
+              {
+                "registers": {
+                  "r0": "0x00000000"
+                },
+                "memory": []
+              }
+            ]
+          },
+          {
+            "entry": "0x0ED64D3A",
+            "label": "higher mutex release",
+            "replies": [
+              {
+                "registers": {
+                  "r0": "0x00000000"
+                },
+                "memory": []
+              }
+            ]
+          }
+        ],
+        "mmio_responses": []
+      },
+      "expected": {
+        "registers": {
+          "r0": "0xFFFFFFFD",
+          "r1": "0x01000000",
+          "r2": "0x00000001",
+          "r3": "0x01000000",
+          "r4": "0x01000001",
+          "r5": "0x40000000",
+          "r6": "0x00000000",
+          "r7": "0x00000000",
+          "r8": "0x00000000",
+          "r9": "0x00000000",
+          "r10": "0x00000000",
+          "r11": "0x00000000",
+          "r12": "0x00000000",
+          "r13": "0x00000000",
+          "r14": "0x00000000",
+          "r15": "0x00000000",
+          "r16": "0x00000000",
+          "r17": "0x00000000",
+          "r18": "0x00000000",
+          "r19": "0x00000000",
+          "r20": "0x00000000",
+          "gp": "0xE4000000",
+          "sp": "0x24010000",
+          "lr": "0x0EC59CA0"
+        },
+        "memory": [
+          {
+            "address": "0x2400FC00",
+            "hex": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+          },
+          {
+            "address": "0x24010000",
+            "hex": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+          },
+          {
+            "address": "0xE403B494",
+            "hex": "00000000"
+          },
+          {
+            "address": "0xE403B47C",
+            "hex": "00040000"
+          }
+        ],
+        "events": [
+          {
+            "kind": "stub",
+            "entry": "0x0ED64D02",
+            "arguments": [
+              "0xE403B470",
+              "0x00000001",
+              "0x7E000000",
+              "0x01000000",
+              "0x00000000",
+              "0x00000000"
+            ],
+            "reply_index": 0
+          },
+          {
+            "kind": "stub",
+            "entry": "0x0ED64D3A",
+            "arguments": [
+              "0xE403B470",
+              "0x01000000",
+              "0x00000001",
+              "0x01000000",
+              "0x01000001",
+              "0x40000000"
+            ],
+            "reply_index": 0
+          }
+        ]
+      },
+      "scope": "Complete mapping-table producer with fixed synthetic state and literal boundary replies",
+      "limitations": [
+        "The native table and marker are software results, not established physical mappings or cache visibility.",
+        "Open acquisition, live capacity, actual synchronization and privileged service effects remain supplied or unexecuted."
+      ],
+      "steps": 53
+    },
+    {
+      "id": "fresh-table",
+      "function": {
+        "entry": "0x0EC59C22",
+        "language": "vc4:LE:32:default"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "gp": "0xE4000000",
+          "sp": "0x24010000",
+          "r0": "0x61726D11",
+          "r1": "0x00000000",
+          "r2": "0x7E000000",
+          "r3": "0x01000000"
+        },
+        "memory": [
+          {
+            "address": "0x2400FC00",
+            "fill": "a5",
+            "size": 1088
+          },
+          {
+            "address": "0xE403B494",
+            "hex": "00000000"
+          },
+          {
+            "address": "0xE403B47C",
+            "hex": "00040000"
+          },
+          {
+            "address": "0xE403B498",
+            "hex": "a55aa55aa55aa55aa55aa55aa55aa55aa55aa55aa55aa55aa55aa55aa55aa55aa55aa55aa55aa55aa55aa55aa55aa55aa55aa55aa55aa55aa55aa55aa55aa55aa55aa55aa55aa55aa55aa55aa55aa55aa55aa55aa55aa55aa55aa55aa55aa55aa55aa55aa55aa55aa55aa55aa55aa55aa55aa55aa55aa55aa55aa55aa55aa55a"
+          },
+          {
+            "address": "0xE403B518",
+            "hex": "00000000"
+          },
+          {
+            "address": "0xE403B490",
+            "hex": "d3d3d3d3"
+          },
+          {
+            "address": "0xE403B51C",
+            "hex": "e4e4e4e4e4e4e4e4"
+          },
+          {
+            "address": "0xE4001564",
+            "hex": "01000000"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24040000",
+        "step_limit": 3000,
+        "stubs": [
+          {
+            "entry": "0x0ED64D02",
+            "label": "higher mutex acquire",
+            "replies": [
+              {
+                "registers": {
+                  "r0": "0x00000000"
+                },
+                "memory": []
+              }
+            ]
+          },
+          {
+            "entry": "0x0ED64D3A",
+            "label": "higher mutex release",
+            "replies": [
+              {
+                "registers": {
+                  "r0": "0x00000000"
+                },
+                "memory": []
+              }
+            ]
+          }
+        ],
+        "mmio_responses": []
+      },
+      "expected": {
+        "registers": {
+          "r0": "0x00000000",
+          "r1": "0x000003F0",
+          "r2": "0x000003F0",
+          "r3": "0x00000001",
+          "r4": "0x00000000",
+          "r5": "0x00000000",
+          "r6": "0x00000000",
+          "r7": "0x00000000",
+          "r8": "0x00000000",
+          "r9": "0x00000000",
+          "r10": "0x00000000",
+          "r11": "0x00000000",
+          "r12": "0x00000000",
+          "r13": "0x00000000",
+          "r14": "0x00000000",
+          "r15": "0x00000000",
+          "r16": "0x00000000",
+          "r17": "0x00000000",
+          "r18": "0x00000000",
+          "r19": "0x00000000",
+          "r20": "0x00000000",
+          "gp": "0xE4000000",
+          "sp": "0x24010000",
+          "lr": "0x0EC59D20"
+        },
+        "memory": [
+          {
+            "address": "0x2400FC00",
+            "hex": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+          },
+          {
+            "address": "0x24010000",
+            "hex": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+          },
+          {
+            "address": "0xE403B494",
+            "hex": "00000000"
+          },
+          {
+            "address": "0xE403B47C",
+            "hex": "00040000"
+          },
+          {
+            "address": "0xE403B498",
+            "hex": "f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003"
+          },
+          {
+            "address": "0xE403B518",
+            "hex": "01000000"
+          },
+          {
+            "address": "0xE403B490",
+            "hex": "d3d3d3d3"
+          },
+          {
+            "address": "0xE403B51C",
+            "hex": "e4e4e4e4e4e4e4e4"
+          },
+          {
+            "address": "0xE4001564",
+            "hex": "01000000"
+          }
+        ],
+        "events": [
+          {
+            "kind": "stub",
+            "entry": "0x0ED64D02",
+            "arguments": [
+              "0xE403B470",
+              "0x00000000",
+              "0x7E000000",
+              "0x01000000",
+              "0x00000000",
+              "0x00000000"
+            ],
+            "reply_index": 0
+          },
+          {
+            "kind": "stub",
+            "entry": "0x0ED64D3A",
+            "arguments": [
+              "0xE403B470",
+              "0x000003F0",
+              "0x000003F0",
+              "0x00000001",
+              "0x00000000",
+              "0x00000000"
+            ],
+            "reply_index": 0
+          }
+        ]
+      },
+      "scope": "Complete mapping-table producer with fixed synthetic state and literal boundary replies",
+      "limitations": [
+        "The native table and marker are software results, not established physical mappings or cache visibility.",
+        "Open acquisition, live capacity, actual synchronization and privileged service effects remain supplied or unexecuted."
+      ],
+      "steps": 201
+    },
+    {
+      "id": "repeat-last-entry",
+      "function": {
+        "entry": "0x0EC59C22",
+        "language": "vc4:LE:32:default"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "gp": "0xE4000000",
+          "sp": "0x24010000",
+          "r0": "0x61726D11",
+          "r1": "0x3F000000",
+          "r2": "0x40000000",
+          "r3": "0x01000000"
+        },
+        "memory": [
+          {
+            "address": "0x2400FC00",
+            "fill": "a5",
+            "size": 1088
+          },
+          {
+            "address": "0xE403B494",
+            "hex": "00000000"
+          },
+          {
+            "address": "0xE403B47C",
+            "hex": "00040000"
+          },
+          {
+            "address": "0xE403B498",
+            "hex": "f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003"
+          },
+          {
+            "address": "0xE403B518",
+            "hex": "01000000"
+          },
+          {
+            "address": "0xE403B490",
+            "hex": "d3d3d3d3"
+          },
+          {
+            "address": "0xE403B51C",
+            "hex": "e4e4e4e4e4e4e4e4"
+          },
+          {
+            "address": "0xE4001564",
+            "hex": "01000000"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24040000",
+        "step_limit": 3000,
+        "stubs": [
+          {
+            "entry": "0x0ED64D02",
+            "label": "higher mutex acquire",
+            "replies": [
+              {
+                "registers": {
+                  "r0": "0x00000000"
+                },
+                "memory": []
+              }
+            ]
+          },
+          {
+            "entry": "0x0ED64D3A",
+            "label": "higher mutex release",
+            "replies": [
+              {
+                "registers": {
+                  "r0": "0x00000000"
+                },
+                "memory": []
+              }
+            ]
+          }
+        ],
+        "mmio_responses": []
+      },
+      "expected": {
+        "registers": {
+          "r0": "0x00000000",
+          "r1": "0x00000200",
+          "r2": "0x00000001",
+          "r3": "0x00000001",
+          "r4": "0x0000003F",
+          "r5": "0x40000000",
+          "r6": "0x00000000",
+          "r7": "0x00000000",
+          "r8": "0x00000000",
+          "r9": "0x00000000",
+          "r10": "0x00000000",
+          "r11": "0x00000000",
+          "r12": "0x00000000",
+          "r13": "0x00000000",
+          "r14": "0x00000000",
+          "r15": "0x00000000",
+          "r16": "0x00000000",
+          "r17": "0x00000000",
+          "r18": "0x00000000",
+          "r19": "0x00000000",
+          "r20": "0x00000000",
+          "gp": "0xE4000000",
+          "sp": "0x24010000",
+          "lr": "0x0EC59D20"
+        },
+        "memory": [
+          {
+            "address": "0x2400FC00",
+            "hex": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+          },
+          {
+            "address": "0x24010000",
+            "hex": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+          },
+          {
+            "address": "0xE403B494",
+            "hex": "00000000"
+          },
+          {
+            "address": "0xE403B47C",
+            "hex": "00040000"
+          },
+          {
+            "address": "0xE403B498",
+            "hex": "f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f0030002"
+          },
+          {
+            "address": "0xE403B518",
+            "hex": "01000000"
+          },
+          {
+            "address": "0xE403B490",
+            "hex": "d3d3d3d3"
+          },
+          {
+            "address": "0xE403B51C",
+            "hex": "e4e4e4e4e4e4e4e4"
+          },
+          {
+            "address": "0xE4001564",
+            "hex": "01000000"
+          }
+        ],
+        "events": [
+          {
+            "kind": "stub",
+            "entry": "0x0ED64D02",
+            "arguments": [
+              "0xE403B470",
+              "0x3F000000",
+              "0x40000000",
+              "0x01000000",
+              "0x00000000",
+              "0x00000000"
+            ],
+            "reply_index": 0
+          },
+          {
+            "kind": "stub",
+            "entry": "0x0ED64D3A",
+            "arguments": [
+              "0xE403B470",
+              "0x00000200",
+              "0x00000001",
+              "0x00000001",
+              "0x0000003F",
+              "0x40000000"
+            ],
+            "reply_index": 0
+          }
+        ]
+      },
+      "scope": "Complete mapping-table producer with fixed synthetic state and literal boundary replies",
+      "limitations": [
+        "The native table and marker are software results, not established physical mappings or cache visibility.",
+        "Open acquisition, live capacity, actual synchronization and privileged service effects remain supplied or unexecuted."
+      ],
+      "steps": 67
+    },
+    {
+      "id": "selection-zero-service-seven",
+      "function": {
+        "entry": "0x0EC59C22",
+        "language": "vc4:LE:32:default"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "gp": "0xE4000000",
+          "sp": "0x24010000",
+          "r0": "0x61726D11",
+          "r1": "0x00000000",
+          "r2": "0x7E000000",
+          "r3": "0x01000000"
+        },
+        "memory": [
+          {
+            "address": "0x2400FC00",
+            "fill": "a5",
+            "size": 1088
+          },
+          {
+            "address": "0xE403B494",
+            "hex": "00000000"
+          },
+          {
+            "address": "0xE403B47C",
+            "hex": "00040000"
+          },
+          {
+            "address": "0xE403B498",
+            "hex": "a55aa55aa55aa55aa55aa55aa55aa55aa55aa55aa55aa55aa55aa55aa55aa55aa55aa55aa55aa55aa55aa55aa55aa55aa55aa55aa55aa55aa55aa55aa55aa55aa55aa55aa55aa55aa55aa55aa55aa55aa55aa55aa55aa55aa55aa55aa55aa55aa55aa55aa55aa55aa55aa55aa55aa55aa55aa55aa55aa55aa55aa55aa55aa55a"
+          },
+          {
+            "address": "0xE403B518",
+            "hex": "00000000"
+          },
+          {
+            "address": "0xE403B490",
+            "hex": "d3d3d3d3"
+          },
+          {
+            "address": "0xE403B51C",
+            "hex": "e4e4e4e4e4e4e4e4"
+          },
+          {
+            "address": "0xE4001564",
+            "hex": "00000000"
+          },
+          {
+            "address": "0xE403B48C",
+            "hex": "01000000"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24040000",
+        "step_limit": 3000,
+        "stubs": [
+          {
+            "entry": "0x0ED64D02",
+            "label": "higher mutex acquire",
+            "replies": [
+              {
+                "registers": {
+                  "r0": "0x00000000"
+                },
+                "memory": []
+              }
+            ]
+          },
+          {
+            "entry": "0x0ED64D3A",
+            "label": "higher mutex release",
+            "replies": [
+              {
+                "registers": {
+                  "r0": "0x00000000"
+                },
+                "memory": []
+              }
+            ]
+          },
+          {
+            "entry": "0x0ED65284",
+            "label": "mapping service boundary",
+            "replies": [
+              {
+                "registers": {
+                  "r0": "0x00000007"
+                },
+                "memory": []
+              }
+            ]
+          }
+        ],
+        "mmio_responses": []
+      },
+      "expected": {
+        "registers": {
+          "r0": "0x00000000",
+          "r1": "0xE403B498",
+          "r2": "0x00000000",
+          "r3": "0x00000000",
+          "r4": "0x00000000",
+          "r5": "0x00000000",
+          "r6": "0x00000000",
+          "r7": "0x00000000",
+          "r8": "0x00000000",
+          "r9": "0x00000000",
+          "r10": "0x00000000",
+          "r11": "0x00000000",
+          "r12": "0x00000000",
+          "r13": "0x00000000",
+          "r14": "0x00000000",
+          "r15": "0x00000000",
+          "r16": "0x00000000",
+          "r17": "0x00000000",
+          "r18": "0x00000000",
+          "r19": "0x00000000",
+          "r20": "0x00000000",
+          "gp": "0xE4000000",
+          "sp": "0x24010000",
+          "lr": "0x0EC59D20"
+        },
+        "memory": [
+          {
+            "address": "0x2400FC00",
+            "hex": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+          },
+          {
+            "address": "0x24010000",
+            "hex": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+          },
+          {
+            "address": "0xE403B494",
+            "hex": "00000000"
+          },
+          {
+            "address": "0xE403B47C",
+            "hex": "00040000"
+          },
+          {
+            "address": "0xE403B498",
+            "hex": "f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003"
+          },
+          {
+            "address": "0xE403B518",
+            "hex": "01000000"
+          },
+          {
+            "address": "0xE403B490",
+            "hex": "d3d3d3d3"
+          },
+          {
+            "address": "0xE403B51C",
+            "hex": "e4e4e4e4e4e4e4e4"
+          },
+          {
+            "address": "0xE4001564",
+            "hex": "00000000"
+          },
+          {
+            "address": "0xE403B48C",
+            "hex": "01000000"
+          }
+        ],
+        "events": [
+          {
+            "kind": "stub",
+            "entry": "0x0ED64D02",
+            "arguments": [
+              "0xE403B470",
+              "0x00000000",
+              "0x7E000000",
+              "0x01000000",
+              "0x00000000",
+              "0x00000000"
+            ],
+            "reply_index": 0
+          },
+          {
+            "kind": "stub",
+            "entry": "0x0ED65284",
+            "arguments": [
+              "0x00000001",
+              "0xE403B498",
+              "0x00000000",
+              "0x00000000",
+              "0x00000000",
+              "0x00000000"
+            ],
+            "reply_index": 0
+          },
+          {
+            "kind": "stub",
+            "entry": "0x0ED64D3A",
+            "arguments": [
+              "0xE403B470",
+              "0xE403B498",
+              "0x00000000",
+              "0x00000000",
+              "0x00000000",
+              "0x00000000"
+            ],
+            "reply_index": 0
+          }
+        ]
+      },
+      "scope": "Complete mapping-table producer with fixed synthetic state and literal boundary replies",
+      "limitations": [
+        "The native table and marker are software results, not established physical mappings or cache visibility.",
+        "Open acquisition, live capacity, actual synchronization and privileged service effects remain supplied or unexecuted."
+      ],
+      "steps": 208
+    },
+    {
+      "id": "wrapped-index-outside-table",
+      "function": {
+        "entry": "0x0EC59C22",
+        "language": "vc4:LE:32:default"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "gp": "0xE4000000",
+          "sp": "0x24010000",
+          "r0": "0x61726D11",
+          "r1": "0xFF000000",
+          "r2": "0x7E000000",
+          "r3": "0x01000000"
+        },
+        "memory": [
+          {
+            "address": "0x2400FC00",
+            "fill": "a5",
+            "size": 1088
+          },
+          {
+            "address": "0xE403B494",
+            "hex": "00000000"
+          },
+          {
+            "address": "0xE403B47C",
+            "hex": "00040000"
+          },
+          {
+            "address": "0xE403B498",
+            "hex": "a55aa55aa55aa55aa55aa55aa55aa55aa55aa55aa55aa55aa55aa55aa55aa55aa55aa55aa55aa55aa55aa55aa55aa55aa55aa55aa55aa55aa55aa55aa55aa55aa55aa55aa55aa55aa55aa55aa55aa55aa55aa55aa55aa55aa55aa55aa55aa55aa55aa55aa55aa55aa55aa55aa55aa55aa55aa55aa55aa55aa55aa55aa55aa55a"
+          },
+          {
+            "address": "0xE403B518",
+            "hex": "00000000"
+          },
+          {
+            "address": "0xE403B490",
+            "hex": "d3d3d3d3"
+          },
+          {
+            "address": "0xE403B51C",
+            "hex": "e4e4e4e4e4e4e4e4"
+          },
+          {
+            "address": "0xE4001564",
+            "hex": "01000000"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24040000",
+        "step_limit": 3000,
+        "stubs": [
+          {
+            "entry": "0x0ED64D02",
+            "label": "higher mutex acquire",
+            "replies": [
+              {
+                "registers": {
+                  "r0": "0x00000000"
+                },
+                "memory": []
+              }
+            ]
+          },
+          {
+            "entry": "0x0ED64D3A",
+            "label": "higher mutex release",
+            "replies": [
+              {
+                "registers": {
+                  "r0": "0x00000000"
+                },
+                "memory": []
+              }
+            ]
+          }
+        ],
+        "mmio_responses": []
+      },
+      "expected": {
+        "registers": {
+          "r0": "0xFFFFFFFC",
+          "r1": "0x000003F0",
+          "r2": "0x000003F0",
+          "r3": "0xE403B518",
+          "r4": "0x000000FF",
+          "r5": "0x00000000",
+          "r6": "0x00000000",
+          "r7": "0x00000000",
+          "r8": "0x00000000",
+          "r9": "0x00000000",
+          "r10": "0x00000000",
+          "r11": "0x00000000",
+          "r12": "0x00000000",
+          "r13": "0x00000000",
+          "r14": "0x00000000",
+          "r15": "0x00000000",
+          "r16": "0x00000000",
+          "r17": "0x00000000",
+          "r18": "0x00000000",
+          "r19": "0x00000000",
+          "r20": "0x00000000",
+          "gp": "0xE4000000",
+          "sp": "0x24010000",
+          "lr": "0x0EC59CFA"
+        },
+        "memory": [
+          {
+            "address": "0x2400FC00",
+            "hex": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+          },
+          {
+            "address": "0x24010000",
+            "hex": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+          },
+          {
+            "address": "0xE403B494",
+            "hex": "00000000"
+          },
+          {
+            "address": "0xE403B47C",
+            "hex": "00040000"
+          },
+          {
+            "address": "0xE403B498",
+            "hex": "f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003f003"
+          },
+          {
+            "address": "0xE403B518",
+            "hex": "01000000"
+          },
+          {
+            "address": "0xE403B490",
+            "hex": "d3d3d3d3"
+          },
+          {
+            "address": "0xE403B51C",
+            "hex": "e4e4e4e4e4e4e4e4"
+          },
+          {
+            "address": "0xE4001564",
+            "hex": "01000000"
+          }
+        ],
+        "events": [
+          {
+            "kind": "stub",
+            "entry": "0x0ED64D02",
+            "arguments": [
+              "0xE403B470",
+              "0xFF000000",
+              "0x7E000000",
+              "0x01000000",
+              "0x00000000",
+              "0x00000000"
+            ],
+            "reply_index": 0
+          },
+          {
+            "kind": "stub",
+            "entry": "0x0ED64D3A",
+            "arguments": [
+              "0xE403B470",
+              "0x000003F0",
+              "0x000003F0",
+              "0xE403B518",
+              "0x000000FF",
+              "0x00000000"
+            ],
+            "reply_index": 0
+          }
+        ]
+      },
+      "scope": "Complete mapping-table producer with fixed synthetic state and literal boundary replies",
+      "limitations": [
+        "The native table and marker are software results, not established physical mappings or cache visibility.",
+        "Open acquisition, live capacity, actual synchronization and privileged service effects remain supplied or unexecuted."
+      ],
+      "steps": 196
+    }
+  ]
+}

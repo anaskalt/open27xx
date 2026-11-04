@@ -8,6 +8,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ### Added
 
+- ARM mapping-table contract with twelve complete synthetic calls,
+  actual repeated state and retained writes on a wrapped-index failure.
 - ARM object registration and repeated-open contracts with six complete
   synthetic calls, one first-open prefix and explicit retained-record fields.
 - Owned fixed ARM start composition with whole-path validation, retained

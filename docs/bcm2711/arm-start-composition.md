@@ -43,6 +43,11 @@ the existing request word. This composition's fixed unused-zero record
 profile remains unchanged; composing actual registration requires separate
 verification with those metadata and prior-state bytes preserved.
 
+The [mapping-table producer](arm-mapping.md) at 0x0EC59C22 sets marker
+1 under separate finite input profiles, including one that later returns
+raw 0xFFFFFFFC. It does not change this composition's supplied marker
+premise or establish physical mappings and visibility.
+
 All [fixed resource entry premises](resource-composition.md#fixed-state-and-boundaries)
 apply unchanged: fresh record 0, no other requests, held mask zero,
 dependency selection zero, resource selection one, prehook zero,
