@@ -1,6 +1,6 @@
 # SPDX-FileCopyrightText: 2026 The open27xx Authors
 # SPDX-License-Identifier: GPL-2.0-or-later
-"""Compare the fixed clock request and cold initializer with recorded cases."""
+"""Compare fixed clock requests, initialization and repeated state with fixtures."""
 
 import ctypes
 import itertools
@@ -136,6 +136,20 @@ class Request:
                 ctypes.byref(self.open_plan),
                 ctypes.cast(ctypes.byref(self.raw_storage, type(self.raw_storage).value.offset), WordPointer)]
 
+    def cold_arguments(self):
+        arguments = self.arguments()
+        return [arguments[0], 0x0EDE7F04, *arguments[1:6],
+                ctypes.byref(self.open_plan), *arguments[6:]]
+
+    def fresh_outputs(self):
+        self.output_storage = (Byte * 48)(*([0xA5] * 48))
+        self.output = ctypes.cast(ctypes.byref(self.output_storage, 16), BytePointer)
+        self.raw_storage = guarded(Word(SENTINEL))
+        self.calls.clear()
+        self.snapshots.clear()
+        self.contexts.clear()
+        self.bookkeeping.value = 0
+
     def storage(self):
         return tuple(bytes(value) for value in (self.manager_storage, self.state_storage,
                      self.output_storage, self.raw_storage, self.inputs, self.plan, self.open_plan))
@@ -174,14 +188,22 @@ class ClockRequestTest(unittest.TestCase):
         cls.initialize.argtypes = [Word, Word, BytePointer, ctypes.c_size_t,
                                   ctypes.POINTER(State), ctypes.POINTER(OpenPlan), WordPointer]
         cls.initialize.restype = ctypes.c_int
+        cls.execute_cold = cls.library.clock_request_execute_cold
+        cls.execute_cold.argtypes = [ctypes.POINTER(Inputs), Word, BytePointer, ctypes.c_size_t,
+                                    ctypes.POINTER(State), BytePointer, ctypes.c_size_t,
+                                    ctypes.POINTER(OpenPlan), ctypes.POINTER(Plan), WordPointer]
+        cls.execute_cold.restype = ctypes.c_int
         cls.cases = json.loads((ROOT / "tests/vectors/start4/clock-request.json")
                                .read_text())["cases"]
+        cls.state_cases = json.loads((ROOT / "tests/vectors/start4/clock-request-state.json")
+                                     .read_text())["cases"]
 
-    def run_request(self, request, status=OK, arguments=None, initialize=False):
+    def run_request(self, request, status=OK, arguments=None, initialize=False, cold=False):
         before = request.storage()
-        function = self.initialize if initialize else self.execute
+        function = self.execute_cold if cold else self.initialize if initialize else self.execute
         if arguments is None:
-            arguments = request.init_arguments() if initialize else request.arguments()
+            arguments = (request.cold_arguments() if cold else request.init_arguments()
+                         if initialize else request.arguments())
         self.assertEqual(function(*arguments), status)
         if status != OK:
             self.assertEqual(request.storage(), before)
@@ -232,6 +254,12 @@ class ClockRequestTest(unittest.TestCase):
                   0x0EC7C7D0: "clock", 0x0EC7D5EA: "divider", 0x24030000: "notify",
                   0x0ED64D3A: "release"}
         for stub in case["execution"]["stubs"]:
+            if int(stub["entry"], 0) == 0x0EC7B978:
+                reply = stub["replies"][0]
+                request.open_plan.reply = int(reply["registers"]["r0"], 0)
+                request.open_plan.handle_write = int.from_bytes(
+                    bytes.fromhex(reply["memory"][0]["hex"]), "little")
+                continue
             field = fields[int(stub["entry"], 0)]
             setattr(request.plan, field, request.provider)
             for index, reply in enumerate(stub["replies"]):
@@ -249,19 +277,22 @@ class ClockRequestTest(unittest.TestCase):
 
     def test_recorded_cases(self):
         self.assertEqual(len(self.cases), 12)
-        for case in self.cases:
+        self.assertEqual(len(self.state_cases), 4)
+        for case in self.cases + self.state_cases:
             with self.subTest(case=case["id"]):
                 request = self.fixture_request(case)
                 initialize = case["function"]["entry"] == "0x0EC7E764"
-                self.run_request(request, initialize=initialize)
+                cold = not initialize and request.state.initialized == 0
+                self.run_request(request, initialize=initialize, cold=cold)
                 self.assertEqual(request.raw_storage.value,
                                  int(case["expected"]["registers"]["r0"], 0))
                 gp = int(case["setup"]["registers"]["gp"], 0)
                 self.assertEqual(bytes(request.manager[:MANAGER_BYTES]),
                                  fixture_bytes(case, "expected", gp + 0x3E810, MANAGER_BYTES))
+                expected_flag = (fixture_word(case, "expected", gp + 0x184C)
+                                 if initialize or case in self.state_cases else 1)
+                self.assertEqual(request.state.initialized, expected_flag)
                 if initialize:
-                    self.assertEqual(request.state.initialized,
-                                     fixture_word(case, "expected", gp + 0x184C))
                     self.assertEqual(request.calls, [(0x0EDE7F04, 0,
                                      ctypes.addressof(request.manager) + 8,
                                      request.open_plan.reply, request.open_plan.handle_write)])
@@ -274,9 +305,9 @@ class ClockRequestTest(unittest.TestCase):
                                      fixture_word(case, "expected", gp + 0xD1BE4))
                     self.assertEqual(request.state.source_miss,
                                      fixture_word(case, "expected", gp + 0xD1BE0))
-                    self.assert_fixture_calls(case, request.calls)
+                    self.assert_fixture_calls(case, request)
 
-    def assert_fixture_calls(self, case, calls):
+    def assert_fixture_calls(self, case, request):
         mapping = {0x0ED64D02: (ACQUIRE, 1), 0x0ED17442: (DIAGNOSTIC, 6),
                    0x0EC7D978: (SOURCE, 4), 0x0EC7C7D0: (CLOCK, 6),
                    0x0EC7D5EA: (DIVIDER, 3), 0x24030000: (NOTIFY, 4),
@@ -285,13 +316,17 @@ class ClockRequestTest(unittest.TestCase):
         expected = []
         for event in case["expected"]["events"]:
             identity = int(event["entry"], 0)
-            kind, count = mapping[identity]
             reply = int(replies[identity][event["reply_index"]]["registers"]["r0"], 0)
+            if identity == 0x0EC7B978:
+                expected.append((0x0EDE7F04, 0, ctypes.addressof(request.manager) + HANDLE,
+                                 reply, request.open_plan.handle_write))
+                continue
+            kind, count = mapping[identity]
             arguments = [int(v, 0) for v in event["arguments"][:count]]
             if kind == DIAGNOSTIC:
                 arguments.append(0)
             expected.append((kind, identity, arguments, reply))
-        self.assertEqual(calls, expected)
+        self.assertEqual(request.calls, expected)
 
     def test_null_arguments(self):
         for initialize, indexes in ((False, (0, 1, 3, 4, 6, 7)), (True, (2, 4, 5, 6))):
@@ -604,14 +639,219 @@ class ClockRequestTest(unittest.TestCase):
         for offset in (0, 0x10, 0x30, 0x200, 0x400, NOTIFICATIONS + 1, NOTIFICATIONS + 9):
             self.assertEqual(request.manager[offset], 0x5A)
 
-    def test_repeated_request_is_unsupported(self):
-        request = Request()
-        self.run_request(request)
-        request.calls.clear()
-        request.snapshots.clear()
-        request.contexts.clear()
-        request.bookkeeping.value = 0
+    def test_sequential_requests_write_fresh_outputs(self):
+        for origin in ("initialized", "cold", "reference-zero"):
+            with self.subTest(origin=origin):
+                request = Request()
+                if origin != "reference-zero":
+                    request.manager[:MANAGER_BYTES] = b"\xa5" * MANAGER_BYTES
+                    request.state.initialized = 0
+                if origin == "initialized":
+                    self.run_request(request, initialize=True)
+                    request.fresh_outputs()
+                self.run_request(request, cold=origin == "cold")
+                previous_manager, previous_state = bytes(request.manager), bytes(request.state)
+                previous_output, previous_raw = request.output_storage, request.raw_storage
+                request.fresh_outputs()
+                self.assertNotEqual(ctypes.addressof(request.output_storage),
+                                    ctypes.addressof(previous_output))
+                self.assertNotEqual(ctypes.addressof(request.raw_storage),
+                                    ctypes.addressof(previous_raw))
+                request.plan.source = request.plan.divider = Provider()
+                request.plan.source_reply = 0x12345678
+                request.plan.divider_replies[:] = 0x87654321, 0xFFFFFFFF
+                self.run_request(request)
+                self.assertEqual(bytes(request.manager), previous_manager)
+                self.assertEqual(bytes(request.state), previous_state)
+                self.assertEqual([call[0] for call in request.calls],
+                                 [ACQUIRE, DIAGNOSTIC, CLOCK, RELEASE])
+                self.assertEqual(bytes(request.output_storage),
+                                 b"\xa5" * 16 + (600000000).to_bytes(8, "little") + b"\xa5" * 24)
+                self.assertEqual(request.raw_storage.value, 0)
+
+    def test_state_profile_callback_visibility(self):
+        for case in self.state_cases:
+            with self.subTest(case=case["id"]):
+                request = self.fixture_request(case)
+                cold = request.state.initialized == 0
+                repeated = request.get(REQUESTED) == 600000000
+                initial_manager = bytes(request.manager)
+                before_raw = bytes(request.raw_storage)
+                self.run_request(request, cold=cold)
+                for call, snapshot in zip(request.calls, request.snapshots):
+                    manager, state_bytes, output, raw = snapshot
+                    state = State.from_buffer_copy(state_bytes)
+                    expected = bytearray(initial_manager)
+                    is_open = len(call) == 5
+                    kind = None if is_open else call[0]
+                    if cold:
+                        expected[:MANAGER_BYTES] = b"\x00" * MANAGER_BYTES
+                        expected[TABLE:TABLE + 4] = (0x0EDE7F04).to_bytes(4, "little")
+                        if not is_open:
+                            expected[HANDLE:HANDLE + 4] = (0xC10C1234).to_bytes(4, "little")
+                            expected[REFERENCE:REFERENCE + 8] = (54000000).to_bytes(8, "little")
+                    if not repeated:
+                        if kind in (SOURCE, CLOCK, DIVIDER, RELEASE):
+                            expected[COUNT:COUNT + 4] = (2).to_bytes(4, "little")
+                        if kind in (CLOCK, DIVIDER, RELEASE):
+                            expected[SOURCE_RATE:SOURCE_RATE + 8] = (1200000000).to_bytes(8, "little")
+                            expected[DIVIDER_RATE:DIVIDER_RATE + 8] = (600000000).to_bytes(8, "little")
+                        if kind == RELEASE:
+                            expected[REQUESTED:REQUESTED + 8] = (600000000).to_bytes(8, "little")
+                    planned = repeated or kind in (SOURCE, CLOCK, DIVIDER, RELEASE)
+                    self.assertEqual(manager, expected)
+                    self.assertEqual(state.initialized, 1)
+                    self.assertEqual(list(state.descriptor_miss),
+                                     [1 if planned and index == 0x30 else 0 for index in range(MISS_BYTES)])
+                    self.assertEqual((state.divider_miss, state.source_miss),
+                                     (0x20, 0x80) if planned else (0, 0))
+                    expected_output = bytearray(b"\xa5" * 48)
+                    if kind == RELEASE:
+                        expected_output[16:24] = (600000000).to_bytes(8, "little")
+                    self.assertEqual(output, expected_output)
+                    self.assertEqual(raw, before_raw)
+
+    def test_state_profile_reachable_providers(self):
+        for case in self.state_cases:
+            cold = case["id"] == "cold-wrapper-open-zero"
+            repeated = case["id"].startswith("repeat-")
+            names = ["acquire", "diagnostic", "clock", "release"]
+            if not repeated:
+                names += ["source", "divider"]
+            for name in names + (["open"] if cold else []):
+                with self.subTest(case=case["id"], missing=name):
+                    request = self.fixture_request(case)
+                    if name == "open":
+                        request.open_plan.open = OpenProvider()
+                    else:
+                        setattr(request.plan, name, Provider())
+                    self.run_request(request, INVALID, cold=cold)
+
+    def test_state_profiles_do_not_expand_original_combinations(self):
+        for case in self.state_cases:
+            cold = case["id"] == "cold-wrapper-open-zero"
+            repeated = case["id"].startswith("repeat-")
+            for field, value in (("skip", 1), ("skip", 0xFFFFFFFF), ("planner_input", 1500),
+                                 ("requested", 600000001), ("selection", 0),
+                                 ("comparison_handle", 0), ("argument3", 1), ("argument4", 1)):
+                with self.subTest(case=case["id"], field=field, value=value):
+                    request = self.fixture_request(case)
+                    setattr(request.inputs, field, value)
+                    self.run_request(request, UNSUPPORTED, cold=cold)
+            for index in range(3):
+                request = self.fixture_request(case)
+                request.inputs.override_heads[index] = 1
+                self.run_request(request, UNSUPPORTED, cold=cold)
+            for name in ["clock_reply"] + ([] if repeated else ["source_reply", "divider_reply"]):
+                request = self.fixture_request(case)
+                if name == "divider_reply":
+                    request.plan.divider_replies[0] = 0xFFFFFFFF
+                else:
+                    setattr(request.plan, name, 0xFFFFFFFF)
+                self.run_request(request, UNSUPPORTED, cold=cold)
+            for index in range(4):
+                request = self.fixture_request(case)
+                request.manager[NOTIFICATIONS + 8 * index] = 0x30
+                request.put(NOTIFICATIONS + 8 * index + 4, 0x24030000, 4)
+                request.plan.notify = request.provider
+                request.plan.notification_replies[:] = 0, 7
+                self.run_request(request, UNSUPPORTED, cold=cold)
+
+    def test_state_profile_fields_must_match(self):
+        for case in self.state_cases:
+            cold = case["id"] == "cold-wrapper-open-zero"
+            for offset, size in ((TABLE, 4), (HANDLE, 4), (REFERENCE, 8), (SOURCE_RATE, 8),
+                                 (DIVIDER_RATE, 8), (COUNT, 4), (REQUESTED, 8)):
+                request = self.fixture_request(case)
+                value = 0 if offset in (TABLE, HANDLE) else request.get(offset, size) + 1
+                request.put(offset, value, size)
+                self.run_request(request, UNSUPPORTED, cold=cold)
+            for index in (0, 0x30, MISS_BYTES - 1):
+                request = self.fixture_request(case)
+                request.state.descriptor_miss[index] ^= 1
+                self.run_request(request, UNSUPPORTED, cold=cold)
+            for field in ("initialized", "divider_miss", "source_miss"):
+                request = self.fixture_request(case)
+                setattr(request.state, field, getattr(request.state, field) ^ 1)
+                self.run_request(request, UNSUPPORTED, cold=cold)
+        for offset in (0, MANAGER_BYTES - 1):
+            request = self.fixture_request(self.state_cases[1])
+            request.manager[offset] = 0
+            self.run_request(request, UNSUPPORTED, cold=True)
+
+    def test_cold_request_open_profile(self):
+        for reply, handle in ((7, 0), (7, 0xC10C1234), (0, 0), (0, 0x12345678)):
+            request = self.fixture_request(self.state_cases[1])
+            request.open_plan.reply, request.open_plan.handle_write = reply, handle
+            request.inputs.comparison_handle = handle
+            self.run_request(request, UNSUPPORTED, cold=True)
+        request = self.fixture_request(self.state_cases[1])
+        arguments = request.cold_arguments()
+        arguments[1] = 0
+        self.run_request(request, UNSUPPORTED, arguments, cold=True)
+        request = self.fixture_request(self.state_cases[1])
         self.run_request(request, UNSUPPORTED)
+
+    def test_cold_request_storage_preflight(self):
+        maximum = ctypes.c_size_t(-1).value
+        entries = ((0, Inputs), (2, Byte), (4, State), (5, Byte),
+                   (7, OpenPlan), (8, Plan), (9, Word))
+        for index, value_type in entries:
+            for invalid in (None, ctypes.cast(maximum - ctypes.sizeof(value_type) + 1,
+                                              ctypes.POINTER(value_type))):
+                request = self.fixture_request(self.state_cases[1])
+                arguments = request.cold_arguments()
+                arguments[index] = invalid
+                self.run_request(request, INVALID, arguments, cold=True)
+        for (left, _), (right, right_type) in itertools.combinations(entries, 2):
+            request = self.fixture_request(self.state_cases[1])
+            arguments = request.cold_arguments()
+            arguments[right] = ctypes.cast(arguments[left], ctypes.POINTER(right_type))
+            self.run_request(request, OVERLAP, arguments, cold=True)
+        for length, required in ((3, MANAGER_BYTES), (6, 8)):
+            for size in (0, required - 1, maximum):
+                request = self.fixture_request(self.state_cases[1])
+                arguments = request.cold_arguments()
+                arguments[length] = size
+                self.run_request(request, INVALID if size == maximum else BOUNDS,
+                                 arguments, cold=True)
+        request = self.fixture_request(self.state_cases[1])
+        arguments = request.cold_arguments()
+        arguments[5] = ctypes.cast(ctypes.byref(request.manager, MANAGER_BYTES), BytePointer)
+        self.run_request(request, OVERLAP, arguments, cold=True)
+        request = self.fixture_request(self.state_cases[1])
+        arguments = request.cold_arguments()
+        arguments[6] = 32
+        arguments[9] = ctypes.cast(ctypes.byref(request.output_storage, 32), WordPointer)
+        self.run_request(request, OVERLAP, arguments, cold=True)
+
+    def test_state_profile_identity_tokens_and_reserved_bytes(self):
+        for case in self.state_cases:
+            request = self.fixture_request(case)
+            cold = request.state.initialized == 0
+            request.inputs.mutex_identity = 0x87654321
+            if cold:
+                arguments = request.cold_arguments()
+                arguments[1] = 0x12345678
+            else:
+                request.put(TABLE, 0x12345678, 4)
+                request.put(HANDLE, 0x11223344, 4)
+                request.inputs.comparison_handle = 0x11223344
+                for offset in (0, 0x10, 0x30, 0x200, 0x400, NOTIFICATIONS + 1):
+                    request.manager[offset] = 0x5A
+                arguments = request.arguments()
+            self.run_request(request, arguments=arguments, cold=cold)
+            self.assertEqual(request.get(TABLE, 4), 0x12345678)
+            for call in request.calls:
+                if len(call) == 5:
+                    self.assertEqual(call[0], 0x12345678)
+                elif call[0] in (ACQUIRE, RELEASE):
+                    self.assertEqual(call[2], [0x87654321])
+                elif call[0] in (SOURCE, CLOCK, DIVIDER):
+                    self.assertEqual(call[2][0], 0xC10C1234 if cold else 0x11223344)
+            if not cold:
+                for offset in (0, 0x10, 0x30, 0x200, 0x400, NOTIFICATIONS + 1):
+                    self.assertEqual(request.manager[offset], 0x5A)
 
 
 if __name__ == "__main__":

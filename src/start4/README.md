@@ -670,13 +670,15 @@ or modify the firmware runtime.
 
 ## Fixed clock requests
 
-[`clock_request.h`](clock_request.h) exposes two freestanding helpers in
+[`clock_request.h`](clock_request.h) exposes three freestanding helpers in
 [`clock_request.c`](clock_request.c), following the
 [fixed clock-request contract](../../docs/bcm2711/clock-request.md).
 `clock_request_execute` handles only the documented clock 0x30 request for
 600000000. `clock_request_initialize` performs the separate cold initializer.
-Both remain unlinked from `start4.elf`. Neither acquires a real driver,
-programs registers or establishes an achieved clock rate.
+`clock_request_execute_cold` composes the documented zero-open-result
+initializer with the first request. All remain unlinked from `start4.elf`.
+They do not acquire a real driver, program registers or establish an
+achieved clock rate.
 
 The manager buffer uses the contract's 1156-byte little-endian layout.
 Cache fields contain unsigned 64-bit numerical words; handle, table and
@@ -688,7 +690,7 @@ and a separate raw-result word. Every pointer is required. Buffers may be
 larger than the required size; the helpers preserve their remaining bytes.
 Byte buffers accept unaligned addresses. Typed objects require alignment.
 
-Request inputs are bounded to the documented profiles: selection 1,
+The original request profiles accept selection 1,
 initialized flag 1, no overrides, zero initial miss state, divider count
 zero and requested-clock cache 500000000. Source and divider-rate caches
 must be one of `(0,0)`, `(1000000000,250000000)`,
@@ -697,6 +699,20 @@ Planner input 1500 accepts only `(0,0)`. The request's high word and two
 remaining argument words are zero. A table token must be nonzero, and the
 nonzero handle token must equal the comparison token. Tokens establish
 neither pointer validity nor ownership.
+
+Three further initialized profiles accept planner input 1200, zero skip
+and option words, no overrides and empty notification records:
+
+| Profile | Reference | Source / divider-rate / count / requested-clock cache | Miss state |
+|---|---:|---|---|
+| First request after initialization | 54000000 | 0 / 0 / 0 / 0 | All zero |
+| Repeat with reference zero | 0 | 1200000000 / 600000000 / 2 / 600000000 | Descriptor byte 0x30 = 1, divider/source bitmaps 0x20/0x80 |
+| Repeat after cold initialization | 54000000 | 1200000000 / 600000000 / 2 / 600000000 | Descriptor byte 0x30 = 1, divider/source bitmaps 0x20/0x80 |
+
+All other descriptor-miss bytes remain zero. These profiles require zero
+reachable programming replies. They cannot combine with notifications,
+skip paths, planner input 1500 or different cache pairs. The original
+profiles retain their own reply and notification rules below.
 
 Skip words 1 and 0xFFFFFFFF accept the zero-cache, planner-1200 profile
 with empty notification records. They return raw 0x30 without callbacks
@@ -714,7 +730,9 @@ profile declares both divider replies as zero. Unreachable reply fields
 and providers are ignored. A pre-change reply of 7 therefore needs no
 programming providers. An equal source needs no source provider. A skipped
 request needs no providers. All reachable providers are checked before
-any callback or state/output store.
+any callback or state/output store. Completed-cache repeats require the
+selected-clock, diagnostic, acquire and release providers. They require
+neither a source nor a divider provider and ignore those unreachable replies.
 
 Providers return `void` and receive a boundary enum, an opaque callback
 identity, a temporary array of defined argument words and the declared
@@ -741,7 +759,10 @@ the prior clock cache's low word. A post-change reply of 7 retains all
 updates, copies the new rate into the output after notification returns
 and returns raw 0xFFFFFFFF. Programming reply words do not alter this
 bounded software path. The raw result is written after mutex release.
-Repeated calls with the resulting state are outside the supported profiles.
+The two supported repeated profiles preserve all completed caches and miss
+state, call the selected-clock provider, and copy 600000000 into a fresh
+output buffer. The reference word remains unchanged. Other repeated states
+are unsupported.
 
 The initializer accepts selection 1, a nonzero table token, initialized
 flag zero and either open reply 0 with handle write 0xC10C1234 or open reply
@@ -753,6 +774,26 @@ helper applies the declared four-byte handle write, stores reference
 54000000 and returns the declared raw reply. The separate miss state and
 any manager tail are preserved. The initializer never continues into a
 clock request, including after open reply 7.
+
+The cold request takes the request inputs, a nonzero table token, manager
+and state, output buffer, open plan, request plan and raw-result word:
+
+```c
+clock_request_execute_cold(inputs, table, manager, manager_length, state,
+                          output, output_length, open_plan, plan, raw_return);
+```
+
+It accepts flag zero, 1156 manager bytes each equal to 0xA5, zero miss state,
+planner input 1200 and zero skip/options/override heads. The open reply is
+zero with handle write 0xC10C1234, matching the input comparison token.
+Preflight covers both plans and every reachable provider before any store
+or callback. After clearing the manager and installing the table token,
+the open observer sees zero handle, reference and numerical caches. The
+helper then writes the supplied handle and reference 54000000 before mutex
+acquisition. Source, selected-clock and divider calls follow. No intermediate
+raw result is stored: all observers see the incoming raw-result word until
+release returns. This entry does not compose nonzero open replies or other
+callbacks with a request.
 
 | Host status | Meaning |
 |---|---|
@@ -776,11 +817,13 @@ python3 -m unittest tests.test_clock_request
 make -C src/start4 check-clock-request
 ```
 
-The host tests compare all twelve complete request/initializer fixtures,
+The host tests compare all sixteen complete request/initializer fixtures,
 including defined callback arguments, identities, replies, raw results,
 all 1156 manager bytes, miss state and output guards. Additional tests
 cover callback-visible state, reachability, unsupported combinations,
-nulls, short buffers, address wrap, overlap and repeated-state rejection.
+nulls, short buffers, address wrap and overlap. Sequential tests carry
+initializer and request output state directly into subsequent requests
+with fresh output/raw storage. Unsupported repeated states are rejected.
 Incidental register words and native stack addresses are excluded from
 the portable comparison.
 
