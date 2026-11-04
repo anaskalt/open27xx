@@ -138,11 +138,12 @@ flags, memory, code, descriptors or PC. The interpreter executes the
 normal instruction and advances to its natural fallthrough. Do not use a
 function stub, address-level skip or default `CALLOTHER` callback.
 
-All other unsupported operations remain rejected, including vector
-instructions, interrupts, software interrupts and breakpoints. Preserve
-the existing source, memory, code-integrity, stub-consumption and step-limit
-guards. This extension introduces no MMIO read support or native RAM
-allowance.
+Apart from explicitly bound VERSION, mnemonics beginning with `v` and
+all other `CALLOTHER` operations remain rejected. Other instructions keep
+the existing scalar guards; this extension adds no RTI restriction or
+physical interrupt semantics. Preserve the existing source, memory,
+code-integrity, stub-consumption and step-limit guards. This extension
+introduces no MMIO read support or native RAM allowance.
 
 ## Ordered observation
 
