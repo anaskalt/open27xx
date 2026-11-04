@@ -1,0 +1,137 @@
+{
+  "schema": 1,
+  "source": {
+    "file": "bootmain",
+    "repository": "raspberrypi/usbboot",
+    "version": "fdb604d018693465c9aa6ec69879df866d2820da",
+    "sha256": "4deaac8f1e266a626bb422fd7d17bb69c98cb39be2e7db5e566cae68a8e17e4d"
+  },
+  "cases": [
+    {
+      "id": "matching-marker",
+      "function": {
+        "entry": "0x00086990",
+        "language": "vc4:LE:32:default"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "r0": "0x24000000"
+        },
+        "memory": [
+          {
+            "address": "0x24000000",
+            "hex": "42535441d4c3b2a14433221188776655"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x000869A8",
+        "step_limit": 20,
+        "stubs": [],
+        "mmio_responses": []
+      },
+      "expected": {
+        "registers": {},
+        "memory": [
+          {
+            "address": "0x24000000",
+            "hex": "42535441000004004433221188776655"
+          }
+        ],
+        "events": []
+      },
+      "steps": 6,
+      "scope": [
+        "Execute only the marked ELF bootloader-state pointer store with a supplied synthetic section pointer."
+      ],
+      "limitations": [
+        "Section lookup, earlier image policy and later segment placement are excluded. The value 0x00040000 is written as a pointer word only; no memory at that address is read."
+      ]
+    },
+    {
+      "id": "wrong-marker",
+      "function": {
+        "entry": "0x00086990",
+        "language": "vc4:LE:32:default"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "r0": "0x24000000"
+        },
+        "memory": [
+          {
+            "address": "0x24000000",
+            "hex": "43535441d4c3b2a14433221188776655"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x000869A8",
+        "step_limit": 20,
+        "stubs": [],
+        "mmio_responses": []
+      },
+      "expected": {
+        "registers": {},
+        "memory": [
+          {
+            "address": "0x24000000",
+            "hex": "43535441d4c3b2a14433221188776655"
+          }
+        ],
+        "events": []
+      },
+      "steps": 4,
+      "scope": [
+        "Execute only the marked ELF bootloader-state pointer store with a supplied synthetic section pointer."
+      ],
+      "limitations": [
+        "Section lookup, earlier image policy and later segment placement are excluded. The value 0x00040000 is written as a pointer word only; no memory at that address is read."
+      ]
+    },
+    {
+      "id": "null-section",
+      "function": {
+        "entry": "0x00086990",
+        "language": "vc4:LE:32:default"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "r0": "0x00000000"
+        },
+        "memory": [
+          {
+            "address": "0x24000000",
+            "hex": "42535441d4c3b2a14433221188776655"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x000869A8",
+        "step_limit": 20,
+        "stubs": [],
+        "mmio_responses": []
+      },
+      "expected": {
+        "registers": {},
+        "memory": [
+          {
+            "address": "0x24000000",
+            "hex": "42535441d4c3b2a14433221188776655"
+          }
+        ],
+        "events": []
+      },
+      "steps": 1,
+      "scope": [
+        "Execute only the marked ELF bootloader-state pointer store with a supplied synthetic section pointer."
+      ],
+      "limitations": [
+        "Section lookup, earlier image policy and later segment placement are excluded. The value 0x00040000 is written as a pointer word only; no memory at that address is read."
+      ]
+    }
+  ]
+}

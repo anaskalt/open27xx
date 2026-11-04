@@ -1,0 +1,719 @@
+{
+  "schema": 1,
+  "source": {
+    "file": "start4.elf",
+    "repository": "raspberrypi/firmware",
+    "version": "ab5c7f86283ceb58b7adb269cae1d16092a31bf6",
+    "sha256": "38b179897c4514ad11bc915c3fd2d4b68c51e05df2e42240717655ab92d91aeb"
+  },
+  "cases": [
+    {
+      "id": "zero-allocation-1-times-16-success",
+      "function": {
+        "entry": "0x0EC731F6",
+        "language": "vc4:LE:32:default"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "r0": "0x00000001",
+          "r1": "0x00000010",
+          "sp": "0x24010000"
+        },
+        "memory": [
+          {
+            "address": "0x2400F800",
+            "size": 2048,
+            "fill": "00"
+          },
+          {
+            "address": "0x2403FFF0",
+            "size": 288,
+            "fill": "a5"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24030000",
+        "step_limit": 10000,
+        "stubs": [
+          {
+            "entry": "0x0ED64EBC",
+            "label": "lower heap allocation boundary",
+            "replies": [
+              {
+                "registers": {
+                  "r0": "0x24040000"
+                },
+                "memory": []
+              }
+            ]
+          }
+        ],
+        "mmio_responses": []
+      },
+      "expected": {
+        "registers": {
+          "r0": "0x24040000",
+          "sp": "0x24010000"
+        },
+        "memory": [
+          {
+            "address": "0x2403FFF0",
+            "hex": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a500000000000000000000000000000000a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+          }
+        ],
+        "events": [
+          {
+            "kind": "stub",
+            "entry": "0x0ED64EBC",
+            "arguments": [
+              "0x00000010",
+              "0x00000020",
+              "0x00000001",
+              "0xA4030000",
+              "0x00000000",
+              "0x00000000"
+            ],
+            "reply_index": 0
+          }
+        ]
+      },
+      "steps": 35,
+      "scope": [
+        "Execute the count-times-size allocation wrapper, its zero-initializing wrapper and actual scalar memset."
+      ],
+      "limitations": [
+        "The lower heap allocator is intercepted with an explicit pointer or null reply. Allocation mechanics, heap failure causes, concurrency and hardware remain outside execution."
+      ]
+    },
+    {
+      "id": "zero-allocation-1-times-164-success",
+      "function": {
+        "entry": "0x0EC731F6",
+        "language": "vc4:LE:32:default"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "r0": "0x00000001",
+          "r1": "0x000000A4",
+          "sp": "0x24010000"
+        },
+        "memory": [
+          {
+            "address": "0x2400F800",
+            "size": 2048,
+            "fill": "00"
+          },
+          {
+            "address": "0x2403FFF0",
+            "size": 288,
+            "fill": "a5"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24030000",
+        "step_limit": 10000,
+        "stubs": [
+          {
+            "entry": "0x0ED64EBC",
+            "label": "lower heap allocation boundary",
+            "replies": [
+              {
+                "registers": {
+                  "r0": "0x24040000"
+                },
+                "memory": []
+              }
+            ]
+          }
+        ],
+        "mmio_responses": []
+      },
+      "expected": {
+        "registers": {
+          "r0": "0x24040000",
+          "sp": "0x24010000"
+        },
+        "memory": [
+          {
+            "address": "0x2403FFF0",
+            "hex": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a50000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+          }
+        ],
+        "events": [
+          {
+            "kind": "stub",
+            "entry": "0x0ED64EBC",
+            "arguments": [
+              "0x000000A4",
+              "0x00000020",
+              "0x00000001",
+              "0xA4030000",
+              "0x00000000",
+              "0x00000000"
+            ],
+            "reply_index": 0
+          }
+        ]
+      },
+      "steps": 109,
+      "scope": [
+        "Execute the count-times-size allocation wrapper, its zero-initializing wrapper and actual scalar memset."
+      ],
+      "limitations": [
+        "The lower heap allocator is intercepted with an explicit pointer or null reply. Allocation mechanics, heap failure causes, concurrency and hardware remain outside execution."
+      ]
+    },
+    {
+      "id": "zero-allocation-1-times-200-success",
+      "function": {
+        "entry": "0x0EC731F6",
+        "language": "vc4:LE:32:default"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "r0": "0x00000001",
+          "r1": "0x000000C8",
+          "sp": "0x24010000"
+        },
+        "memory": [
+          {
+            "address": "0x2400F800",
+            "size": 2048,
+            "fill": "00"
+          },
+          {
+            "address": "0x2403FFF0",
+            "size": 288,
+            "fill": "a5"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24030000",
+        "step_limit": 10000,
+        "stubs": [
+          {
+            "entry": "0x0ED64EBC",
+            "label": "lower heap allocation boundary",
+            "replies": [
+              {
+                "registers": {
+                  "r0": "0x24040000"
+                },
+                "memory": []
+              }
+            ]
+          }
+        ],
+        "mmio_responses": []
+      },
+      "expected": {
+        "registers": {
+          "r0": "0x24040000",
+          "sp": "0x24010000"
+        },
+        "memory": [
+          {
+            "address": "0x2403FFF0",
+            "hex": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a50000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+          }
+        ],
+        "events": [
+          {
+            "kind": "stub",
+            "entry": "0x0ED64EBC",
+            "arguments": [
+              "0x000000C8",
+              "0x00000020",
+              "0x00000001",
+              "0xA4030000",
+              "0x00000000",
+              "0x00000000"
+            ],
+            "reply_index": 0
+          }
+        ]
+      },
+      "steps": 127,
+      "scope": [
+        "Execute the count-times-size allocation wrapper, its zero-initializing wrapper and actual scalar memset."
+      ],
+      "limitations": [
+        "The lower heap allocator is intercepted with an explicit pointer or null reply. Allocation mechanics, heap failure causes, concurrency and hardware remain outside execution."
+      ]
+    },
+    {
+      "id": "zero-allocation-3-times-7-success",
+      "function": {
+        "entry": "0x0EC731F6",
+        "language": "vc4:LE:32:default"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "r0": "0x00000003",
+          "r1": "0x00000007",
+          "sp": "0x24010000"
+        },
+        "memory": [
+          {
+            "address": "0x2400F800",
+            "size": 2048,
+            "fill": "00"
+          },
+          {
+            "address": "0x2403FFF0",
+            "size": 288,
+            "fill": "a5"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24030000",
+        "step_limit": 10000,
+        "stubs": [
+          {
+            "entry": "0x0ED64EBC",
+            "label": "lower heap allocation boundary",
+            "replies": [
+              {
+                "registers": {
+                  "r0": "0x24040000"
+                },
+                "memory": []
+              }
+            ]
+          }
+        ],
+        "mmio_responses": []
+      },
+      "expected": {
+        "registers": {
+          "r0": "0x24040000",
+          "sp": "0x24010000"
+        },
+        "memory": [
+          {
+            "address": "0x2403FFF0",
+            "hex": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5000000000000000000000000000000000000000000a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+          }
+        ],
+        "events": [
+          {
+            "kind": "stub",
+            "entry": "0x0ED64EBC",
+            "arguments": [
+              "0x00000015",
+              "0x00000020",
+              "0x00000001",
+              "0xA4030000",
+              "0x00000000",
+              "0x00000000"
+            ],
+            "reply_index": 0
+          }
+        ]
+      },
+      "steps": 39,
+      "scope": [
+        "Execute the count-times-size allocation wrapper, its zero-initializing wrapper and actual scalar memset."
+      ],
+      "limitations": [
+        "The lower heap allocator is intercepted with an explicit pointer or null reply. Allocation mechanics, heap failure causes, concurrency and hardware remain outside execution."
+      ]
+    },
+    {
+      "id": "zero-allocation-0-times-164-success",
+      "function": {
+        "entry": "0x0EC731F6",
+        "language": "vc4:LE:32:default"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "r0": "0x00000000",
+          "r1": "0x000000A4",
+          "sp": "0x24010000"
+        },
+        "memory": [
+          {
+            "address": "0x2400F800",
+            "size": 2048,
+            "fill": "00"
+          },
+          {
+            "address": "0x2403FFF0",
+            "size": 288,
+            "fill": "a5"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24030000",
+        "step_limit": 10000,
+        "stubs": [
+          {
+            "entry": "0x0ED64EBC",
+            "label": "lower heap allocation boundary",
+            "replies": [
+              {
+                "registers": {
+                  "r0": "0x24040000"
+                },
+                "memory": []
+              }
+            ]
+          }
+        ],
+        "mmio_responses": []
+      },
+      "expected": {
+        "registers": {
+          "r0": "0x24040000",
+          "sp": "0x24010000"
+        },
+        "memory": [
+          {
+            "address": "0x2403FFF0",
+            "hex": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+          }
+        ],
+        "events": [
+          {
+            "kind": "stub",
+            "entry": "0x0ED64EBC",
+            "arguments": [
+              "0x00000000",
+              "0x00000020",
+              "0x00000001",
+              "0xA4030000",
+              "0x00000000",
+              "0x00000000"
+            ],
+            "reply_index": 0
+          }
+        ]
+      },
+      "steps": 23,
+      "scope": [
+        "Execute the count-times-size allocation wrapper, its zero-initializing wrapper and actual scalar memset."
+      ],
+      "limitations": [
+        "The lower heap allocator is intercepted with an explicit pointer or null reply. Allocation mechanics, heap failure causes, concurrency and hardware remain outside execution."
+      ]
+    },
+    {
+      "id": "zero-allocation-1-times-164-null",
+      "function": {
+        "entry": "0x0EC731F6",
+        "language": "vc4:LE:32:default"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "r0": "0x00000001",
+          "r1": "0x000000A4",
+          "sp": "0x24010000"
+        },
+        "memory": [
+          {
+            "address": "0x2400F800",
+            "size": 2048,
+            "fill": "00"
+          },
+          {
+            "address": "0x2403FFF0",
+            "size": 288,
+            "fill": "a5"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24030000",
+        "step_limit": 10000,
+        "stubs": [
+          {
+            "entry": "0x0ED64EBC",
+            "label": "lower heap allocation boundary",
+            "replies": [
+              {
+                "registers": {
+                  "r0": "0x00000000"
+                },
+                "memory": []
+              }
+            ]
+          }
+        ],
+        "mmio_responses": []
+      },
+      "expected": {
+        "registers": {
+          "r0": "0x00000000",
+          "sp": "0x24010000"
+        },
+        "memory": [
+          {
+            "address": "0x2403FFF0",
+            "hex": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+          }
+        ],
+        "events": [
+          {
+            "kind": "stub",
+            "entry": "0x0ED64EBC",
+            "arguments": [
+              "0x000000A4",
+              "0x00000020",
+              "0x00000001",
+              "0xA4030000",
+              "0x00000000",
+              "0x00000000"
+            ],
+            "reply_index": 0
+          }
+        ]
+      },
+      "steps": 14,
+      "scope": [
+        "Execute the count-times-size allocation wrapper, its zero-initializing wrapper and actual scalar memset."
+      ],
+      "limitations": [
+        "The lower heap allocator is intercepted with an explicit pointer or null reply. Allocation mechanics, heap failure causes, concurrency and hardware remain outside execution."
+      ]
+    },
+    {
+      "id": "zero-allocation-parser-tag-52455642-length-0",
+      "function": {
+        "entry": "0x0EC644E0",
+        "language": "vc4:LE:32:default"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "gp": "0x24020000",
+          "sp": "0x24010000"
+        },
+        "memory": [
+          {
+            "address": "0x2400F800",
+            "size": 2048,
+            "fill": "00"
+          },
+          {
+            "address": "0x2401FFD4",
+            "hex": "00000024"
+          },
+          {
+            "address": "0x2402171C",
+            "hex": "00000000"
+          },
+          {
+            "address": "0x24021734",
+            "hex": "000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+          },
+          {
+            "address": "0x2402FCD8",
+            "hex": "00"
+          },
+          {
+            "address": "0x24021564",
+            "hex": "01000000"
+          },
+          {
+            "address": "0x24000000",
+            "hex": "42535445180000000c000000425645520000000000000000"
+          },
+          {
+            "address": "0x2403FFF0",
+            "size": 288,
+            "fill": "a5"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24030000",
+        "step_limit": 10000,
+        "stubs": [
+          {
+            "entry": "0x0ED64EBC",
+            "label": "lower heap allocation boundary",
+            "replies": [
+              {
+                "registers": {
+                  "r0": "0x24040000"
+                },
+                "memory": []
+              }
+            ]
+          }
+        ],
+        "mmio_responses": []
+      },
+      "expected": {
+        "registers": {
+          "sp": "0x24010000"
+        },
+        "memory": [
+          {
+            "address": "0x2402171C",
+            "hex": "01000000"
+          },
+          {
+            "address": "0x24021734",
+            "hex": "000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000424"
+          },
+          {
+            "address": "0x24000000",
+            "hex": "42535445180000000c000000425645520000000000000000"
+          },
+          {
+            "address": "0x2403FFF0",
+            "hex": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a50000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+          }
+        ],
+        "events": [
+          {
+            "kind": "stub",
+            "entry": "0x0ED64EBC",
+            "arguments": [
+              "0x000000A4",
+              "0x00000020",
+              "0x00000001",
+              "0x8EC646C8",
+              "0x45545342",
+              "0x0000000C"
+            ],
+            "reply_index": 0
+          }
+        ]
+      },
+      "steps": 172,
+      "scope": [
+        "Execute the parser, both real allocation wrappers and scalar memset/memcpy with a declared synthetic heap result."
+      ],
+      "limitations": [
+        "Only the lower heap allocator0x0ED64EBC is intercepted. Actual zero initialization and bounded copying execute; raw acquisition, physical identity, heap mechanics and later initialization remain outside execution."
+      ]
+    },
+    {
+      "id": "zero-allocation-parser-revision-copy-length-100",
+      "function": {
+        "entry": "0x0EC644E0",
+        "language": "vc4:LE:32:default"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "gp": "0x24020000",
+          "sp": "0x24010000"
+        },
+        "memory": [
+          {
+            "address": "0x2400F800",
+            "size": 2048,
+            "fill": "00"
+          },
+          {
+            "address": "0x2401FFD4",
+            "hex": "00000024"
+          },
+          {
+            "address": "0x2402171C",
+            "hex": "00000000"
+          },
+          {
+            "address": "0x24021734",
+            "hex": "000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+          },
+          {
+            "address": "0x2402FCD8",
+            "hex": "00"
+          },
+          {
+            "address": "0x24021564",
+            "hex": "01000000"
+          },
+          {
+            "address": "0x24000000",
+            "hex": "42535445700000000c000000425645526400000000000000cddae7f4010e1b2835424f5c697683909daab7c4d1deebf805121f2c394653606d7a8794a1aebbc8d5e2effc091623303d4a5764717e8b98a5b2bfccd9e6f3000d1a2734414e5b6875828f9ca9b6c3d0ddeaf704111e2b38"
+          },
+          {
+            "address": "0x2403FFF0",
+            "size": 288,
+            "fill": "a5"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24030000",
+        "step_limit": 10000,
+        "stubs": [
+          {
+            "entry": "0x0ED64EBC",
+            "label": "lower heap allocation boundary",
+            "replies": [
+              {
+                "registers": {
+                  "r0": "0x24040000"
+                },
+                "memory": []
+              }
+            ]
+          }
+        ],
+        "mmio_responses": []
+      },
+      "expected": {
+        "registers": {
+          "sp": "0x24010000"
+        },
+        "memory": [
+          {
+            "address": "0x2402171C",
+            "hex": "01000000"
+          },
+          {
+            "address": "0x24021734",
+            "hex": "000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000424"
+          },
+          {
+            "address": "0x24000000",
+            "hex": "42535445700000000c000000425645526400000000000000cddae7f4010e1b2835424f5c697683909daab7c4d1deebf805121f2c394653606d7a8794a1aebbc8d5e2effc091623303d4a5764717e8b98a5b2bfccd9e6f3000d1a2734414e5b6875828f9ca9b6c3d0ddeaf704111e2b38"
+          },
+          {
+            "address": "0x2403FFF0",
+            "hex": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5425645526400000000000000cddae7f4010e1b2835424f5c697683909daab7c4d1deebf805121f2c394653606d7a8794a1aebbc8d5e2effc091623303d4a5764717e8b98a5b2bfccd9e6f3000d1a2734414e5b6875828f9ca9b6c3d0ddeaf704111e2b3800000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+          }
+        ],
+        "events": [
+          {
+            "kind": "stub",
+            "entry": "0x0ED64EBC",
+            "arguments": [
+              "0x000000A4",
+              "0x00000020",
+              "0x00000001",
+              "0x8EC646C8",
+              "0x45545342",
+              "0x0000000C"
+            ],
+            "reply_index": 0
+          }
+        ]
+      },
+      "steps": 248,
+      "scope": [
+        "Execute the parser, both real allocation wrappers and scalar memset/memcpy with a declared synthetic heap result."
+      ],
+      "limitations": [
+        "Only the lower heap allocator0x0ED64EBC is intercepted. Actual zero initialization and bounded copying execute; raw acquisition, physical identity, heap mechanics and later initialization remain outside execution."
+      ]
+    }
+  ]
+}
