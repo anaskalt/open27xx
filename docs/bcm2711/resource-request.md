@@ -199,6 +199,12 @@ manager frame contains synthetic outer LR 0x0ED55648. These actual saved
 frames are not a natural caller frame ready for a full unwind. The prefix
 does not execute the selected clock/release body or return from the request.
 
+The separate [complete resource composition](resource-composition.md)
+starts with an external return sentinel and executes fresh frames through
+both resource bodies, two clock requests and the actual outer return.
+It retains explicit state and readback premises; the prefix's saved frames
+are not reused.
+
 The three context prefixes likewise seed incoming LR with stop 0x0ED7C75A.
 They stop with SP below its input by eight bytes for a direct check or
 40 bytes for a manager check. The latter helper return word is 0x0ED7CAA2

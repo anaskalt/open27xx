@@ -8,6 +8,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ### Added
 
+- Fixed resource composition with two state-sharing clock requests,
+  ordered control-register operations and two complete synthetic calls.
 - Cold clock-request composition and completed-cache repeated requests with
   full provider preflight and four additional synthetic fixture comparisons.
 - First fixed clock-composition contract with two complete synthetic calls,

@@ -403,6 +403,12 @@ or an out-of-cell write must also fail. Removing the first cell produces
 an uninitialized read at 0x0EC7C918, rather than a guessed value. These are
 harness guards, not firmware return values or measurements of hardware.
 
+The [fixed resource composition](resource-composition.md#two-clock-calls-in-persistent-state)
+adds the exact matching-handle native-word profile with initial cell
+0x5A000000 for its second request. It preserves updated source/divider
+state without calling those operations again; it does not extend their
+initial-state domains.
+
 ## Open questions
 
 - Runtime state. Establish descriptor relocation, live aliases, acquisition,

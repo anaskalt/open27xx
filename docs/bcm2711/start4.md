@@ -191,6 +191,9 @@ The [resource-request contract](resource-request.md) covers fixed logical
 index 23, record aggregation, dependency order and conditional check
 callbacks. Its complete calls and bounded prefixes use explicit software
 state and callback replies.
+The [complete resource composition](resource-composition.md) records two
+clock requests in persistent state and the selected control phases, while
+keeping the higher ARM wrapper and physical completion outside its scope.
 
 The [fixed clock-request contract](clock-request.md) specifies software
 planning, cache changes and notification outcomes for clock 0x30 and
