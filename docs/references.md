@@ -30,7 +30,8 @@
 
 | Source | Content |
 |---|---|
-| [aleph-void/ghidra-videocore4](https://github.com/aleph-void/ghidra-videocore4) | Ghidra processor module for the VideoCore IV VPU |
+| [aleph-void/ghidra-videocore4 `README.md`](https://github.com/aleph-void/ghidra-videocore4/blob/db09a308c2db6a31ba5e060e6b763713f77e4f7b/README.md) | VideoCoreIV ghidra-rare-v1.0.0; ELF recognition and scalar/vector support |
+| [aleph-void/ghidra-videocore4 `data/languages/vc4.cspec`](https://github.com/aleph-void/ghidra-videocore4/blob/db09a308c2db6a31ba5e060e6b763713f77e4f7b/data/languages/vc4.cspec) | compiler specification used for scalar calling-convention comparison |
 | [librerpi/lk-overlay](https://github.com/librerpi/lk-overlay) | open VPU firmware, including the `rpi4-start4` project (GPL-2.0-or-later) |
 | [librerpi/rpi-tools `signing-tool/docs.txt`](https://github.com/librerpi/rpi-tools/blob/a700385d9b1c2f93d755d4455792ce7b08f90ede/signing-tool/docs.txt) | footer field layout |
 | [christinaa/rpi-open-firmware](https://github.com/christinaa/rpi-open-firmware) | open bootcode for the VideoCore IV (BCM2835 to BCM2837) |
@@ -39,6 +40,8 @@
 | [Linux `brcmstb_dpfe.c`](https://github.com/torvalds/linux/blob/v6.12/drivers/memory/brcmstb_dpfe.c) | DPFE and DCPU of Broadcom set-top-box SoCs |
 | [Linux `raspberrypi-firmware.h`](https://github.com/torvalds/linux/blob/master/include/soc/bcm2835/raspberrypi-firmware.h) | mailbox property tags |
 | [Mbed TLS](https://github.com/Mbed-TLS/mbedtls) | cryptographic library source and API reference |
+| [Mbed TLS 2.28.10 `library/sha256.c`](https://github.com/Mbed-TLS/mbedtls/blob/2fc8413bfcb51354c8e679141b17b3f1a5942561/library/sha256.c) | SHA-224 and SHA-256 implementation used for comparison |
+| [Mbed TLS 2.28.10 `library/rsa.c`](https://github.com/Mbed-TLS/mbedtls/blob/2fc8413bfcb51354c8e679141b17b3f1a5942561/library/rsa.c), [`include/mbedtls/rsa.h`](https://github.com/Mbed-TLS/mbedtls/blob/2fc8413bfcb51354c8e679141b17b3f1a5942561/include/mbedtls/rsa.h) | RSA API, control flow and error codes used for comparison |
 | [LZ4 frame format](https://github.com/lz4/lz4/blob/dev/doc/lz4_Frame_format.md) | type 0x44 sections |
 
 ## File formats

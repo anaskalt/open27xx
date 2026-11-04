@@ -13,6 +13,7 @@ Early development. Nothing here is ready for production use.
 | Component | State |
 |---|---|
 | EEPROM image tool | lists, extracts, verifies and rebuilds BCM2711 images |
+| Headless firmware analysis | repeatable imports and metadata exports |
 | Documentation of the BCM2711 boot chain | first revision |
 | Open `start4.elf` | planned |
 | bootmain, bootsys, SDRAM initialization | analysis |
@@ -35,7 +36,8 @@ python3 -m unittest
 ## Documentation
 
 - [Architecture](docs/architecture.md): boot chain, replacement plan, code map
-- [BCM2711](docs/bcm2711/): [EEPROM image](docs/bcm2711/eeprom.md), [bootsys](docs/bcm2711/bootsys.md), [bootmain](docs/bcm2711/bootmain.md), [SDRAM](docs/bcm2711/sdram.md), [start4.elf](docs/bcm2711/start4.md), [USB boot](docs/bcm2711/usbboot.md), [vendor files](docs/bcm2711/vendor-files.md)
+- [Headless analysis](docs/analysis.md): imports, memory maps and repeatability
+- [BCM2711](docs/bcm2711/): [EEPROM image](docs/bcm2711/eeprom.md), [bootsys](docs/bcm2711/bootsys.md), [bootmain](docs/bcm2711/bootmain.md), [calling convention](docs/bcm2711/abi.md), [SDRAM](docs/bcm2711/sdram.md), [start4.elf](docs/bcm2711/start4.md), [USB boot](docs/bcm2711/usbboot.md), [vendor files](docs/bcm2711/vendor-files.md)
 - [References](docs/references.md)
 
 ## Vendor firmware
