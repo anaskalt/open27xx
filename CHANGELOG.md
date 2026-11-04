@@ -8,6 +8,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ### Added
 
+- Fixed resource-request contract and 17 synthetic cases for dependency
+  order, shared-state suppression and conditional check-context behavior.
 - Standard-pair lower-span arithmetic and 27 synthetic cases for explicit
   byte-argument transfers into the memory-bank serializer.
 - Freestanding memory-bank serializer with bounded output, explicit host

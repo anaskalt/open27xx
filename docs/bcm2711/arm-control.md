@@ -127,6 +127,11 @@ mapping marker does not establish actual mapping or cache visibility. An
 active word of 1 does not establish that an ARM core has started. The
 opaque object and handle do not identify a physical reset vector.
 
+The [resource-request contract](resource-request.md) follows the fixed
+logical index 23 through record aggregation, dependency selection and
+conditional check callbacks. It distinguishes completed software calls
+from stops before unsupported operations.
+
 ## Callback return words
 
 In the identified `start4.elf`, the service boundary at 0x0ED65284 returns
@@ -219,9 +224,9 @@ failure recovery.
   service implementation and actual result semantics before connecting
   requests to hardware access or defining recovery behavior. Ignoring a
   supplied return word does not establish the operation's physical outcome.
-- Resource transition. Resolve resource dependencies, clock-driver calls,
-  required initial state and readback semantics before treating the
-  logical request as an ARM release operation.
+- Resource transition. Connect the fixed [resource dependencies](resource-request.md)
+  to clock-driver calls, required initial state and readback semantics
+  before treating the logical request as an ARM release operation.
 - Memory and entry. Connect loader buffers, address translation, mapping,
   cache visibility and reset-vector placement, then verify the complete
   handoff on hardware. The tested handle supplies no ARM PC.

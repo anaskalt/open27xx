@@ -187,6 +187,11 @@ The [ARM control-request contract](arm-control.md) covers configuration
 arguments and software start-request gates with supplied service replies.
 It keeps logical requests separate from hardware effects and ARM execution.
 
+The [resource-request contract](resource-request.md) covers fixed logical
+index 23, record aggregation, dependency order and conditional check
+callbacks. Its complete calls and bounded prefixes use explicit software
+state and callback replies.
+
 ## Restoring the boot partition
 
 Before an approved hardware test, make an offline copy of the complete
