@@ -51,6 +51,34 @@ into a clock request, acquire a real driver handle or establish that the
 initialized flag implies a usable handle. The value 7 is not assigned an
 open-error enum. The real open body remains an explicit callback boundary.
 
+## Diagnostic boundary
+
+In the identified `start4.elf`, call 0x0EC7EAC2 targets diagnostic entry
+0x0ED17442. Its defined input is seven 32-bit words in this order:
+
+| Position | Fixed request value | Meaning at the callsite |
+|---:|---|---|
+| 0 | 0x4000 | Opaque diagnostic control word |
+| 1 | 0x0EC7EF38 | Opaque format identity |
+| 2 | 0x30 | Clock identifier |
+| 3 | 600000000 | Requested value, low word |
+| 4 | 0 | Requested value, high word |
+| 5 | 0 | Original request word in incoming `r3` |
+| 6 | 0 | Original request word in incoming `r4` |
+
+The first six words occupy `r0` through `r5` at the boundary. Store
+0x0EC7EAA8 places the seventh at the outgoing stack pointer before the
+register setup at 0x0EC7EAAA–0x0EC7EABE. The caller's output pointer is not
+a diagnostic argument. Preserve all seven logical words in a portable
+callback; represent entry and format identities as opaque tokens, without
+dereferencing the firmware format address or exposing a native stack.
+No logging severity, rendered text or diagnostic implementation is defined.
+
+The fixture records only the six register words in its boundary event.
+The seventh word's placement follows the static callsite stores; it is not
+an extra field captured in that event. The supplied diagnostic reply is
+raw zero with no memory effects, as in the recorded request profiles.
+
 ## Selected table and state
 
 For supplied selection GP+0x1564=1, the identified `start4.elf` resolver
