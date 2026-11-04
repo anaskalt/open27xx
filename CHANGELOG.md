@@ -8,6 +8,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ### Added
 
+- Freestanding memory-bank serializer with bounded output, explicit host
+  validation and 44 complete synthetic fixture comparisons.
 - Memory-bank serialization contract and 48 synthetic cases for ordered
   big-endian cells, numeric range selection and bounded caller stores.
 - Freestanding memory-capacity helper with ordered byte callbacks, separate
