@@ -2,8 +2,9 @@
 
 `VERSION` reads CPU version and core information into a scalar register.
 The pinned VideoCoreIV extension represents that result as an unresolved
-instruction operation. `CaptureScalarVectors.java` currently rejects it.
-The interface below defines an opt-in recorder extension; it does not
+instruction operation. `CaptureScalarVectors.java` accepts an explicit
+result through the opt-in interface below;
+an absent plan still rejects VERSION. The supplied result does not
 supply a BCM2711 hardware value or execute a physical CPU-identification
 instruction.
 

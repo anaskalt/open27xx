@@ -7,10 +7,13 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HexFormat;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
@@ -21,12 +24,16 @@ import com.google.gson.JsonParser;
 import ghidra.app.emulator.EmulatorHelper;
 import ghidra.app.emulator.MemoryAccessFilter;
 import ghidra.app.script.GhidraScript;
+import ghidra.pcode.emulate.BreakCallBack;
 import ghidra.pcode.memstate.MemoryFaultHandler;
+import ghidra.pcode.pcoderaw.PcodeOpRaw;
 import ghidra.program.model.address.Address;
 import ghidra.program.model.address.AddressRange;
 import ghidra.program.model.address.AddressSet;
 import ghidra.program.model.address.AddressSpace;
+import ghidra.program.model.lang.Register;
 import ghidra.program.model.listing.Instruction;
+import ghidra.program.model.mem.MemoryBlock;
 import ghidra.program.model.pcode.PcodeOp;
 
 public class CaptureScalarVectors extends GhidraScript {
@@ -46,9 +53,134 @@ public class CaptureScalarVectors extends GhidraScript {
             || (address >= 0xE4000000L && address + size <= 0xE5000000L);
     }
 
-    private void check(boolean condition, String message) {
+    private static void check(boolean condition, String message) {
         if (!condition) {
             throw new IllegalStateException(message);
+        }
+    }
+
+    static final class VersionSite {
+        final long pc;
+        final String destination;
+        final int index;
+
+        VersionSite(long pc, String destination, int index) {
+            this.pc = pc;
+            this.destination = destination;
+            this.index = index;
+        }
+    }
+
+    static final class VersionInput {
+        final long word;
+        final List<VersionSite> sites;
+        final Map<Long, VersionSite> byPc;
+        int consumed;
+        VersionSite pending;
+        int step;
+
+        VersionInput(long word, List<VersionSite> sites, Map<Long, VersionSite> byPc) {
+            this.word = word;
+            this.sites = List.copyOf(sites);
+            this.byPc = Map.copyOf(byPc);
+        }
+    }
+
+    private static String versionString(JsonElement value, String field) {
+        check(value != null && value.isJsonPrimitive() && value.getAsJsonPrimitive().isString(),
+            "VERSION " + field + " must be a string");
+        return value.getAsString();
+    }
+
+    private static long versionWord(JsonElement value, String field) {
+        String text = versionString(value, field);
+        check(text.matches("0x[0-9a-fA-F]{8}"), "Invalid VERSION " + field);
+        return Long.parseUnsignedLong(text.substring(2), 16);
+    }
+
+    static VersionInput parseVersionInput(JsonObject execution) {
+        if (!execution.has("version_input")) {
+            return null;
+        }
+        JsonElement value = execution.get("version_input");
+        check(value.isJsonObject(), "VERSION input must be an object");
+        JsonObject input = value.getAsJsonObject();
+        check(input.keySet().equals(Set.of("word", "sites")), "Invalid VERSION input members");
+        long word = versionWord(input.get("word"), "word");
+        check(input.get("sites").isJsonArray(), "VERSION sites must be an array");
+        JsonArray entries = input.getAsJsonArray("sites");
+        check(!entries.isEmpty(), "VERSION sites must not be empty");
+        List<VersionSite> sites = new ArrayList<>();
+        Map<Long, VersionSite> byPc = new HashMap<>();
+        for (JsonElement entry : entries) {
+            check(entry.isJsonObject(), "VERSION site must be an object");
+            JsonObject site = entry.getAsJsonObject();
+            check(site.keySet().equals(Set.of("pc", "destination")), "Invalid VERSION site members");
+            long pc = versionWord(site.get("pc"), "pc");
+            check((pc & 1) == 0, "Unaligned VERSION pc");
+            String destination = versionString(site.get("destination"), "destination");
+            check(destination.matches("r(?:[0-9]|1[0-9]|2[0-3])"), "Invalid VERSION destination");
+            VersionSite declared = new VersionSite(pc, destination, sites.size());
+            check(byPc.put(pc, declared) == null, "Duplicate VERSION site");
+            sites.add(declared);
+        }
+        return new VersionInput(word, sites, byPc);
+    }
+
+    private void versionOperation(PcodeOp operation, VersionSite site) {
+        Register destination = currentProgram.getRegister(site.destination);
+        check(destination != null && destination.getBitLength() == 32,
+            "Invalid VERSION destination register at " + hex(site.pc));
+        check(operation.getOpcode() == PcodeOp.CALLOTHER && operation.getNumInputs() == 1
+                && operation.getInput(0).isConstant() && operation.getInput(0).getSize() == 4
+                && operation.getInput(0).getOffset() == 1
+                && "version".equals(currentProgram.getLanguage().getUserDefinedOpName(1))
+                && operation.getOutput() != null && operation.getOutput().isRegister()
+                && operation.getOutput().getSize() == 4
+                && operation.getOutput().getAddress().equals(destination.getAddress()),
+            "VERSION operation mismatch at " + hex(site.pc));
+    }
+
+    private Instruction versionInstruction(VersionSite site, EmulatorHelper emulator) throws Exception {
+        Address address = toAddr(site.pc);
+        for (int index = 0; index < 2; index++) {
+            MemoryBlock block = currentProgram.getMemory().getBlock(address.addNoWrap(index));
+            check(block != null && block.isInitialized() && block.isRead() && block.isExecute(),
+                "VERSION site requires initialized readable executable bytes at " + hex(site.pc));
+        }
+        check(!allowedMemory.intersects(address, address.addNoWrap(1)),
+            "Synthetic memory overlaps VERSION instruction at " + hex(site.pc));
+        Instruction instruction = getInstructionAt(address);
+        check(instruction != null, "Missing VERSION instruction at " + hex(site.pc));
+        int register = Integer.parseInt(site.destination.substring(1));
+        check(instruction.getLength() == 2 && instruction.getMnemonicString().equalsIgnoreCase("version")
+                && Arrays.equals(instruction.getBytes(), new byte[]{(byte)(0xE0 | register), 0})
+                && address.addNoWrap(2).equals(instruction.getFallThrough()),
+            "VERSION instruction mismatch at " + hex(site.pc));
+        Object[] operands = instruction.getOpObjects(0);
+        check(instruction.getNumOperands() == 1 && operands.length == 1
+                && operands[0] instanceof Register
+                && operands[0].equals(currentProgram.getRegister(site.destination)),
+            "VERSION decoded destination mismatch at " + hex(site.pc));
+        PcodeOp[] operations = instruction.getPcode();
+        check(operations.length == 1, "VERSION operation count mismatch at " + hex(site.pc));
+        versionOperation(operations[0], site);
+        if (emulator != null) {
+            check(Arrays.equals(instruction.getBytes(), emulator.readMemory(address, 2)),
+                "VERSION instruction bytes differ at " + hex(site.pc));
+        }
+        return instruction;
+    }
+
+    private void validateVersionInput(VersionInput input, Map<Long, JsonObject> stubs) throws Exception {
+        if (input == null) {
+            return;
+        }
+        check(currentProgram.getCompilerSpec().getCompilerSpecID().toString().equals("default"),
+            "VERSION requires the default compiler specification");
+        for (VersionSite site : input.sites) {
+            check(!stubs.containsKey(site.pc), "VERSION site collides with stub at " + hex(site.pc));
+            versionInstruction(site, null);
         }
     }
 
@@ -99,7 +231,6 @@ public class CaptureScalarVectors extends GhidraScript {
             check(stubs.put(entry, stub) == null, "Duplicate stub");
             consumed.put(entry, 0);
         }
-        EmulatorHelper emulator = new EmulatorHelper(currentProgram);
         fault = null;
         allowedMemory = new AddressSet();
         for (JsonElement element : setup.getAsJsonArray("memory")) {
@@ -110,7 +241,34 @@ public class CaptureScalarVectors extends GhidraScript {
                 allowedMemory.add(toAddr(start), toAddr(start + size - 1));
             }
         }
+        VersionInput version = parseVersionInput(execution);
+        validateVersionInput(version, stubs);
+        EmulatorHelper emulator = new EmulatorHelper(currentProgram);
         try {
+            if (version != null) {
+                emulator.registerCallOtherCallback("version", new BreakCallBack() {
+                    @Override
+                    public boolean pcodeCallback(PcodeOpRaw operation) {
+                        VersionSite site = version.pending;
+                        check(site != null && operation.getAddress().equals(toAddr(site.pc))
+                                && emulator.getExecutionAddress().getOffset() == site.pc,
+                            "Unexpected VERSION callback");
+                        versionOperation(operation, site);
+                        emulate.getMemoryState().setValue(operation.getOutput(), version.word);
+                        JsonObject event = new JsonObject();
+                        event.addProperty("kind", "version");
+                        event.addProperty("pc", hex(site.pc));
+                        event.addProperty("destination", site.destination);
+                        event.addProperty("value", hex(version.word));
+                        event.addProperty("site_index", site.index);
+                        event.addProperty("step", version.step);
+                        events.add(event);
+                        version.consumed++;
+                        version.pending = null;
+                        return true;
+                    }
+                });
+            }
             emulator.setMemoryFaultHandler(new MemoryFaultHandler() {
                 public boolean uninitializedRead(Address address, int size, byte[] buffer, int offset) {
                     fault = "Uninitialized read " + address + " size " + size;
@@ -187,16 +345,35 @@ public class CaptureScalarVectors extends GhidraScript {
                 check(instruction != null, id + ": missing instruction at " + hex(pc));
                 check(Arrays.equals(instruction.getBytes(), emulator.readMemory(toAddr(pc), instruction.getLength())),
                     id + ": instruction bytes differ at " + hex(pc));
-                check(!instruction.getMnemonicString().toLowerCase().startsWith("v"),
-                    id + ": vector instruction at " + hex(pc));
-                for (PcodeOp operation : instruction.getPcode()) {
-                    check(operation.getOpcode() != PcodeOp.CALLOTHER,
-                        id + ": unsupported operation at " + hex(pc));
+                VersionSite site = version == null ? null : version.byPc.get(pc);
+                boolean versionInstruction = version != null
+                    && (site != null || instruction.getMnemonicString().equalsIgnoreCase("version"));
+                if (versionInstruction) {
+                    check(site != null, id + ": undeclared VERSION site at " + hex(pc));
+                    check(site.index >= version.consumed, id + ": exhausted VERSION site at " + hex(pc));
+                    check(site.index == version.consumed, id + ": reordered VERSION site at " + hex(pc));
+                    versionInstruction(site, emulator);
+                    version.pending = site;
+                    version.step = steps;
+                } else {
+                    check(!instruction.getMnemonicString().toLowerCase().startsWith("v"),
+                        id + ": vector instruction at " + hex(pc));
+                    for (PcodeOp operation : instruction.getPcode()) {
+                        check(operation.getOpcode() != PcodeOp.CALLOTHER,
+                            id + ": unsupported operation at " + hex(pc));
+                    }
                 }
-                steps++;
                 check(emulator.step(monitor), id + ": " + fault + " at " + hex(pc) + " " + emulator.getLastError());
                 check(fault == null, id + ": " + fault + " at " + hex(pc));
+                if (versionInstruction) {
+                    check(version.pending == null && version.consumed == site.index + 1,
+                        id + ": VERSION callback was not consumed at " + hex(pc));
+                    check(emulator.getExecutionAddress().equals(instruction.getFallThrough()),
+                        id + ": VERSION did not reach natural fallthrough at " + hex(pc));
+                }
+                steps++;
             }
+            check(version == null || version.consumed == version.sites.size(), id + ": unused VERSION sites");
             for (Map.Entry<Long, JsonObject> stub : stubs.entrySet()) {
                 check(consumed.get(stub.getKey()) == stub.getValue().getAsJsonArray("replies").size(),
                     id + ": unused replies for " + hex(stub.getKey()));
