@@ -8,6 +8,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ### Added
 
+- ARM configuration-request routing and software start-request gates,
+  with 24 synthetic vectors and explicit service boundaries.
 - Ordinary ELF feature-word requirements, 35 synthetic compatibility
   vectors and conditional observations for the open VPU image.
 - Freestanding boot-information parser, cache lookup, zeroing allocator,

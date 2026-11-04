@@ -85,4 +85,6 @@ extracted files and disassembly are excluded from the repository.
   emulation.
 - ARM handoff. Identify the entry address, memory layout and register state
   established by the pinned `start4.elf`; reproduce those observations in
-  emulation before defining the replacement's handoff contract.
+  emulation before defining the replacement's handoff contract. The
+  [control-request checks](bcm2711/arm-control.md) cover software decisions
+  with supplied replies, not a complete hardware transition.
