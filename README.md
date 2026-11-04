@@ -12,7 +12,7 @@ Early development. Nothing here is ready for production use.
 
 | Component | State |
 |---|---|
-| EEPROM image tool | lists, extracts and verifies BCM2711 images |
+| EEPROM image tool | lists, extracts, verifies and rebuilds BCM2711 images |
 | Documentation of the BCM2711 boot chain | first revision |
 | Open `start4.elf` | planned |
 | bootmain, bootsys, SDRAM initialization | analysis |

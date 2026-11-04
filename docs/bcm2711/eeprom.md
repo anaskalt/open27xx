@@ -4,7 +4,7 @@
 `236b4406753e604fde3315cb521a2f843c9f8f85` is 524288 bytes, SHA-256
 `6abfaea480f93da47a790f89751ed45d3af6e88ee8fb337d4eb62ad125ca3e8a`.
 Offsets below refer to this file unless another sample is named.
-`tools/eeprom.py` lists, extracts and checks the section contents.
+`tools/eeprom.py` lists, extracts, verifies and rebuilds the image.
 
 ## Sections
 
@@ -70,6 +70,15 @@ Type `0x44` sections in the 2026-10-30 image decode as LZ4 frames. For
 example, the frame at `0x00C930` yields `bootmain`, whose digest is listed
 in [vendor-files.md](vendor-files.md).
 
+The host LZSS encoder chooses the longest match of 3 to 256 bytes within
+the 256-byte window, including its initial zero bytes. Equal-length
+matches select the smallest distance. Shorter matches become literals.
+This produces deterministic output; it does not reproduce the original
+compressed bytes. The host LZ4 encoder uses 65536-byte linked blocks,
+compression level 9 and a stored content size, without frame or block
+checksums. Both encoders append the SHA-256 of the decoded contents to
+the section payload.
+
 ## Section map
 
 Offsets identify section headers. Length includes the name and, for
@@ -130,6 +139,67 @@ the words into the last 8 bytes of the image.
 
 For `pieeprom-2026-10-30.bin`, the section at `0x06C588` lies outside that
 search range. The host method therefore selects `0x07FFF8` and `0x07FFFC`.
+
+## Host tool
+
+```sh
+python3 tools/eeprom.py list image.bin
+python3 tools/eeprom.py verify image.bin
+python3 tools/eeprom.py extract image.bin contents
+python3 tools/eeprom.py rebuild image.bin copy.bin
+python3 tools/eeprom.py rebuild image.bin rebuilt.bin --recompress original
+```
+
+`rebuild` without `--recompress` preserves every byte: section headers,
+names, payloads, alignment gaps, padding sections and the entire trailer.
+It does not require the LZ4 package. `--recompress original` re-encodes each
+compressed CM4 resource with its existing codec. `--recompress lzss` and
+`--recompress lz4` select one codec for those resources. Sections whose
+names start with `vl805` remain unchanged. Plain and file sections also
+remain unchanged. Recompression checks each selected resource's original
+digest before encoding, then stores a digest of the same decoded bytes.
+
+Recompression uses this host allocation policy:
+
+1. Preserve section order and padding sections. Align changed sections
+   with `0xFF` bytes.
+2. Keep the original image size. A shorter section chain adds `0xFF`
+   bytes before the original trailer.
+3. A longer chain consumes only the initial `0xFF` run of the trailer,
+   leaving at least 8 `0xFF` bytes before any non-`0xFF` contents.
+4. Preserve the final 4096 bytes and all non-`0xFF` trailer contents at
+   their original offsets. Reject an image that cannot fit.
+
+These are host-tool rules. Recompression does not establish device support
+for a different codec or layout. Verification checks the bootsys footer
+length and compressed-section SHA-256 values; it does not validate
+signatures or establish that an image boots.
+
+Output files must not exist. Extraction rejects duplicate filenames and
+names containing path separators, and checks all destination names before
+writing any files. Rebuilding the input file in place is rejected, including
+through a hard link or symbolic link. Format and capacity errors are
+reported before a rebuilt output is created.
+
+The Python API exposes the same format operations:
+
+```python
+from tools.eeprom import Image, LZSS, Section
+
+image = Image.parse(raw_image)
+assert image.serialize() == raw_image
+packed = Section.from_data(LZSS, b"example contents", name="example.bin")
+assert packed.data() == b"example contents"
+rebuilt = image.recompress("original").serialize()
+```
+
+`Section.with_data(data, kind=None)` encodes decoded contents using the
+existing type unless another type is supplied. It preserves the raw name
+area when the source and destination use the same name layout. Conversion
+between the 12-byte file name layout and the 16-byte layout validates and
+re-encodes the name. Section codecs accept arbitrary byte contents.
+`Image.recompress()` returns a new image or raises `FormatError` if a
+digest, codec choice or capacity check fails.
 
 ## Open questions
 
