@@ -8,6 +8,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ### Added
 
+- Freestanding memory-capacity helper with ordered byte callbacks, separate
+  MiB/class outputs and 24 complete synthetic fixture comparisons.
 - Memory-capacity calculation contract and 28 synthetic cases, with separate
   MiB/class observations and explicit instruction preparation for replay.
 - BCM2711 PLLB register addresses and fields from pinned public sources,
