@@ -232,7 +232,7 @@ enum clock_driver_status resource_composition_execute(
         {cell, sizeof(*cell)}, {scratch, scratch_length}, {plan, sizeof(*plan)},
         {result, sizeof(*result)}, {NULL, 0}, {NULL, 0}, {NULL, 0}, {NULL, 0}, {NULL, 0}};
     const struct clock_driver_plan *reads[5];
-    struct resource_composition_result actual;
+    struct resource_composition_result actual = {0};
     struct clock_word_inputs repeated_word;
     uint32_t predicted_cell = PASSWORD, arguments[6], old, added, mask, configuration_raw;
     size_t index;

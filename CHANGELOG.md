@@ -77,6 +77,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 - Reserve LR in the isolated boot-information VPU compilation target.
 
+### Fixed
+
+- Initialize clock and resource composition validation buffers so optimized
+  GCC builds pass with uninitialized-value warnings treated as errors.
+
 ## [0.1.1] - 2026-11-04
 
 ### Fixed

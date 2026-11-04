@@ -97,7 +97,7 @@ enum clock_driver_status clock_composition_preflight(
     struct clock_source_inputs source_inputs;
     struct clock_word_inputs word_inputs;
     struct clock_divider_inputs divider_inputs;
-    struct clock_composition_result actual;
+    struct clock_composition_result actual = {0};
     enum clock_driver_status status = validate_spans(spans, 9);
     if (status != CLOCK_DRIVER_OK)
         return status;
