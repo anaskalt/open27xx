@@ -12,3 +12,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 - Scripts to fetch and verify the pinned vendor firmware.
 - Documentation of the BCM2711 boot chain and EEPROM image format.
 - Continuous integration: license compliance, lint and tests.
+
+### Changed
+
+- Tie BCM2711 firmware observations to pinned files, hashes and offsets; separate unverified behavior from format evidence.

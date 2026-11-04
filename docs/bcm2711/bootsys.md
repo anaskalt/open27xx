@@ -1,60 +1,85 @@
 # bootsys
 
-bootsys is the first stage that the boot ROM loads from the SPI EEPROM. It is raw VPU code without an ELF header, followed by a signature footer. The name comes from the BCM2711 chain-of-trust diagram in usbboot (`docs/secure-boot-chain-of-trust-2711.pdf`).
+bootsys is the first EEPROM stage in raspberrypi/usbboot
+`docs/secure-boot-chain-of-trust-2711.pdf`, page 1, at commit
+`fdb604d018693465c9aa6ec69879df866d2820da`. The diagram describes the
+secure-boot chain; it does not establish the behavior of every boot mode.
 
-bootsys is section 0 of the EEPROM image (magic 0x55AAF00F). `bootfiles.bin` in usbboot carries the same bytes as `2711/bootcode4.bin`.
-
-Offsets refer to the bootsys of `pieeprom-2026-10-30.bin`, 50930 bytes.
+All binary offsets below refer to `2711/bootcode4.bin` from that commit's
+`firmware/bootfiles.bin`: 50930 bytes, SHA-256
+`9e1b0b7df904a7fdc22e263d530c6e4c48921229631dd7ea2325271843996f6c`.
+These bytes equal the first section payload at EEPROM offset `0x000008` in
+`pieeprom-2026-10-30.bin`, identified in [vendor-files.md](vendor-files.md).
 
 ## Layout
 
-| Offset | Size | Contents |
+| Offset | Size (bytes) | Contents |
 |---|---|---|
-| 0x0000 | 0x200 | zero bytes |
-| 0x0200 | 0xC3D6 | code and data, including the digest table |
-| 0xC5D6 | 0x11C | footer |
+| 0x0000 | 512 | zero bytes |
+| 0x0200 | 50134 | body, including the digests below |
+| 0xC5D6 | 284 | footer |
 
-Digest table, 32 bytes per entry:
+## Resource digests
 
-| Offset | SHA-256 of |
+Each location contains the 32-byte SHA-256 of the named decompressed section
+of `pieeprom-2026-10-30.bin`. The digest also equals the final 32 bytes of
+that compressed section. Section locations are in [eeprom.md](eeprom.md).
+
+| Offset in bootsys | Resource |
 |---|---|
 | 0xB8C0 | `logo.bin` |
 | 0xB8E0 | `font.bin` |
 | 0xB900 | `mcb.bin` |
-| 0xB920–0xBA20 | `memsys00.bin`–`memsys08.bin` |
-| 0xBA40 | `vl805hub.bin` |
-| 0xBA60 | `vl805mcu.bin` |
+| 0xB920 | `memsys00.bin` |
+| 0xB940 | `memsys01.bin` |
+| 0xB960 | `memsys02.bin` |
+| 0xB980 | `memsys03.bin` |
+| 0xB9A0 | `memsys04.bin` |
+| 0xB9C0 | `memsys05.bin` |
+| 0xB9E0 | `memsys06.bin` |
+| 0xBA00 | `memsys07.bin` |
+| 0xBA20 | `memsys08.bin` |
 | 0xBBA8 | `bootmain` |
 
-Each digest covers the decompressed contents and equals the digest stored in the section itself. Older images do not cover every resource: images from 2020-03-04 to 2020-07-06 carry none of these digests, images up to 2021-04-29 lack the VL805 digests, and images from 2024-04-17 to 2024-12-07 lack the digest of `qrcode.bin`.
+Digest equality establishes the stored values. It does not establish which
+execution paths check them or how a mismatch is handled.
 
 ## Footer
 
-| Offset in footer | Size | Field |
+The field boundaries follow librerpi/rpi-tools `signing-tool/docs.txt` at
+commit `a700385d9b1c2f93d755d4455792ce7b08f90ede`. The first two fields are
+checked directly in `bootcode4.bin`; the cryptographic interpretation is
+from that source.
+
+| Offset in bootsys | Size (bytes) | Field |
 |---|---|---|
-| 0 | 4 | length of the signed data, little-endian: 50646, the section size minus 284 |
-| 4 | 4 | key index, little-endian |
-| 8 | 256 | RSA-2048 signature |
-| 264 | 20 | legacy checksum |
+| 0xC5D6 | 4 | body length, little-endian: 50646 |
+| 0xC5DA | 4 | key index, little-endian: 1 |
+| 0xC5DE | 256 | RSA signature field |
+| 0xC6DE | 20 | legacy checksum field |
 
-The layout matches `signing-tool/docs.txt` in librerpi/rpi-tools. `tools/rpi-sign-bootcode` in rpi-eeprom computes the legacy checksum as an HMAC-SHA1. `recovery.bin` uses the same footer.
+The body length equals the file size minus 284. The matching footer
+boundaries in `recovery.bin` are listed in [usbboot.md](usbboot.md).
 
-The key index selects a public key in the boot ROM. The chain-of-trust diagram lists key 0 as the development key, key 1 as the secure key and keys 2 and 3 as reserved, and states that old and beta bootloaders are signed with the development key. Published images use index 0 up to 2022-01-20, both indexes from 2022-01-25 to 2023-01-04, and index 1 from 2023-01-11 onward.
+## Documented role
 
-## Function
-
-From the chain-of-trust diagram: when secure boot is enabled, bootsys verifies the customer public key against its digest in OTP. It then loads bootmain and the resources into RAM and checks them against the digest table.
-
-From its log messages:
-
-- SDRAM initialization: bootsys selects a memsys and MCB configuration by density, rank count, part configuration and on-die termination, and reports the DDR rate. See [sdram.md](sdram.md).
-- OTP anti-rollback: a bootloader revision below the minimum in OTP is rejected.
-- EEPROM configuration: bootsys reads it before loading bootmain.
-- Network install: a path and a download host name are present as strings.
-
-bootsys contains a SHA-256 implementation: the first initial hash word, 0x6A09E667, is stored little-endian at 0x4C84, and the round constants start at 0xB5A0.
+The pinned usbboot chain-of-trust diagram assigns these operations to
+bootsys: checking the customer public-key digest, verifying the EEPROM
+configuration, and loading bootmain and resources while checking embedded
+hashes. These are the vendor's description of secure boot, not execution
+results for the pinned `bootcode4.bin`.
 
 ## Open questions
 
-- Load address and entry point. The 0x200 zero bytes fit the layout used by librerpi for VPU code, where a 128-entry vector table at the base address precedes the entry point at base + 0x200. With a base of 0x80000000 the entry point would be 0x80000200. Absolute addresses in the code would confirm it.
-- Which check the boot ROM applies when secure boot is disabled: the RSA signature, the HMAC-SHA1 checksum or both.
+- Load address and entry point. The 512 zero bytes at `0x0000` do not
+  establish either. Resolve the absolute references in the body starting
+  at `0x0200`, then validate a candidate memory map in emulation.
+- Digest verification. Trace references to `0xB8C0`–`0xBA20` and `0xBBA8`;
+  compare the result for an unchanged resource and a one-byte mismatch in
+  emulated input.
+- Footer checks with secure boot disabled. Obtain a vendor specification
+  for the relevant ROM revision. The secure-boot diagram alone does not
+  determine which footer fields the ROM checks in that mode.
+- SDRAM and configuration flow. Identify the callers that consume the
+  resource names and configuration before assigning initialization order
+  or rejection behavior to this build.
