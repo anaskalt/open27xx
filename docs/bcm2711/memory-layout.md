@@ -14,6 +14,9 @@ establish physical RAM, usable ownership, reserved ranges or a safe payload
 placement. The [capacity calculation](memory-capacity.md) and the
 [boot-information parser](boot-information.md) are separate contracts.
 The caller observations below stop before device-tree insertion.
+The [lower-span contract](memory-span.md) relates the standard pair's
+bound fields to the bootmain ARM split and records explicit byte-argument
+transfers. It keeps complete caller execution separate.
 
 ## Inputs
 
@@ -264,10 +267,10 @@ proof of a safe short-buffer interface.
 
 ## Open questions
 
-- Lower-span provenance. Trace the surrounding constructor's second
-  argument and establish its relation to the separately documented
-  [bootmain ARM/GPU split](bootmain.md#firmware-and-fixup-selection).
-  No transport from that split is assumed here.
+- Complete lower-span transport. The [paired bound arithmetic and explicit
+  transfers](memory-span.md) connect the standard ARM split field to the
+  byte-count argument. Execute intervening callees and branch conditions
+  before claiming preservation through the complete startup path.
 - Record and control-word provenance. Identify the producers of record
   words 0x80/0x88 and GP+0xCC948, including their lifetime after import and
   relocation, before assigning hardware meanings to their values.
