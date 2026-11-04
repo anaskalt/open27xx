@@ -371,11 +371,13 @@ It checks the pinned file identity, literal first-cell pointer, exact block
 bounds, uninitialized read/write/non-executable status and absence of
 instruction bytes at the four-byte cell. Only 0x0EE056B0 with size 4 can
 be supplied outside the ordinary synthetic RAM ranges. The existing
-`CaptureScalarVectors.java` has a separate memory policy. The pending
+`CaptureScalarVectors.java` has a separate memory policy. The implemented
 [Clock VERSION extension](vpu-version.md#clock-recorder-integration)
 adds only an explicit instruction-result boundary and preserves every
 guard described here. The clock fixtures below contain no VERSION plan
-and must remain byte-identical when that extension is implemented.
+and retain their expected observations unchanged. The
+[native first-open routes](vpu-version.md#first-open-acceptance-target)
+remain pending acceptance targets.
 
 Run from the repository root with three unused output paths:
 
