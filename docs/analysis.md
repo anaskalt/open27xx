@@ -166,6 +166,9 @@ prefixes; its unchanged decoder prepares the 31 listed entry points.
 The [resource composition](bcm2711/resource-composition.md#complete-call-fixture-and-replay)
 uses the same recorder for two complete requests with shared state across
 both clock calls, control phases and the final resource/manager return.
+The [higher start composition](bcm2711/arm-start-composition.md#exact-fixture-and-replay)
+adds the actual outer caller and uses 54 decoder entries. Its fixture
+contains two complete calls and two lower-return prefixes.
 It uses the same two-path invocation shape as `CaptureScalarVectors.java`,
 with separate restrictions for this pinned source and exact native cell.
 Each `mmio_responses` record supplies `pc`, `address` and four little-endian

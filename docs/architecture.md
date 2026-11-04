@@ -93,6 +93,9 @@ extracted files and disassembly are excluded from the repository.
   The [fixed resource composition](bcm2711/resource-composition.md) joins
   two clock requests and selected body operations under explicit state
   and readback premises; it does not establish a complete ARM launch.
+  The [higher start composition](bcm2711/arm-start-composition.md) connects
+  that route to 0x0EC5A81E with supplied successful gates and a record-0
+  object binding; its active flag remains a software result.
   The [first clock composition](bcm2711/clock-composition.md) specifies
   the initialized request at 0x0ED55EFA in the pinned `start4.elf`, with
   actual source, native-word and divider bodies under finite supplied

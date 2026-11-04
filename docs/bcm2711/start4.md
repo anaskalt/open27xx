@@ -194,6 +194,9 @@ state and callback replies.
 The [complete resource composition](resource-composition.md) records two
 clock requests in persistent state and the selected control phases, while
 keeping the higher ARM wrapper and physical completion outside its scope.
+The [higher start composition](arm-start-composition.md) joins that route
+to the software gate at 0x0EC5A81E with explicit object binding and separate
+lower/higher raw-zero results. Physical ARM launch remains unresolved.
 
 The [fixed clock-request contract](clock-request.md) specifies software
 planning, cache changes and notification outcomes for clock 0x30 and

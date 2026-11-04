@@ -15,6 +15,9 @@ in shared state, control-register requests and the full outer return.
 They cover immediate first-source lock observation and finite lock-count
 exhaustion. Both return raw zero. This is a conditional software resource
 request, not the higher ARM-start wrapper or a hardware launch result.
+The separate [higher start composition](arm-start-composition.md) connects
+this route to 0x0EC5A81E under exact successful gate and object-binding
+premises, with direct lower-return checkpoints.
 
 ## Fixed state and boundaries
 
