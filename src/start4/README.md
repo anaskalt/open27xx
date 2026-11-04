@@ -75,6 +75,70 @@ unverified. The check requires only `PT_LOAD` nonzero program headers
 because the documented bootmain helper copies every
 nonzero type. These structural checks do not establish hardware bootability.
 
+## ARM configuration control
+
+[`arm_configuration.h`](arm_configuration.h) exposes
+`arm_configuration_execute` from [`arm_configuration.c`](arm_configuration.c).
+The [configuration-control contract](../../docs/bcm2711/arm-configuration.md)
+defines its two paired profiles. Both require handle 0x61726D11, control 1
+and incoming configuration 0x1230FC1B. The caller supplies a separate CPU
+word, optional service index, literal-reply plan, observer configuration
+and writable raw-result word.
+
+| CPU word | Service index | Ordered reply words | Required observations |
+|---|---|---|---|
+| 0 | 1 | `(0,7,0)` | Acquire, VERSION, service, release |
+| 0x40 | Unused | `(0,0)` | Acquire, VERSION, release |
+
+The reply plan is a typed descriptor containing a word pointer and count.
+Every logical reply must match before execution. A short count returns
+`ARM_CONFIGURATION_BOUNDS`; extra entries or other words return
+`ARM_CONFIGURATION_UNSUPPORTED`. An available unused service observer is
+permitted. VERSION has its own observer signature with site 0x0EC59EEE,
+destination register index 2 and the complete supplied CPU word. It is an
+instruction-result observation, with no function reply or default CPU word.
+
+The helper acquires, sets configuration bit 6, observes VERSION, selects
+the optional service using CPU bit 6, and releases. Acquire sees the initial
+configuration. The remaining observers see 0x1230FC5B. A service reply of 7
+does not affect raw zero. The raw-result destination retains its incoming
+value through every observer and receives zero only after release.
+
+Preflight checks required pointers, all full storage spans, address and
+size wrap, pairwise overlap, the exact profile, every reply and every
+reachable observer. All typed objects and the complete declared reply
+array are disjoint. An optional service-index pointer on the CPU-bit-set
+profile still contributes its full span, but its contents are not accessed.
+There is no index read or service call on that profile. Typed alignment,
+actual backing, writable configuration/result storage and lifetime remain
+caller requirements.
+
+Host failures preserve all inputs, configuration and result storage, and
+emit no events. `ARM_CONFIGURATION_INVALID` identifies missing required
+storage or observers; `ARM_CONFIGURATION_OVERLAP` identifies intersecting
+declared objects. `ARM_CONFIGURATION_BOUNDS` also identifies address/size
+wrap. `ARM_CONFIGURATION_OK` identifies a complete host operation; the
+separate raw word preserves its native result. No invalid-handle or
+control-zero portable operation is admitted.
+
+Observers return normally and preserve every API object and argument.
+Read-only context references may inspect state/result objects; mutable
+bookkeeping and indirectly writable storage remain separate. Observers
+avoid reentry, concurrent mutation and hardware access. Mutex, service and
+instruction identities are opaque tokens, never callable host addresses.
+
+```sh
+python3 -m unittest tests.test_arm_configuration
+make -C src/start4 check-arm-configuration
+```
+
+Tests compare both fixtures and callback-visible configuration/result
+ordering. They also cover unused index storage, exact inputs and reply
+plans, every declared object pair, complete reply-array overlap and host
+address/size wrap. The VPU target writes `build/start4/arm-configuration.o`;
+the runtime does not link it. These calls establish no physical CPU
+identity, synchronization, configuration application or ARM execution.
+
 ## ARM mapping-table preparation
 
 [`arm_mapping.h`](arm_mapping.h) exposes `arm_mapping_prepare` from

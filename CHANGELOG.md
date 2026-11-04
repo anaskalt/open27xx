@@ -8,6 +8,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ### Added
 
+- Freestanding ARM configuration control with explicit CPU and reply inputs,
+  complete preflight and two ordered fixture comparisons.
 - Complete ARM configuration-control contract with two explicit CPU inputs,
   ordered service observations and finite portable profiles.
 - Opt-in scalar VERSION observations with strict input and instruction
