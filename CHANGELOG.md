@@ -8,6 +8,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ### Added
 
+- ARM object registration and repeated-open contracts with six complete
+  synthetic calls, one first-open prefix and explicit retained-record fields.
 - Fixed ARM start composition with explicit resource-object binding,
   two complete synthetic calls and two lower-return checkpoints.
 - Owned fixed resource composition with shared clock state, algorithmic

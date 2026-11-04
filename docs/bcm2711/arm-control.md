@@ -127,6 +127,10 @@ mapping marker does not establish actual mapping or cache visibility. An
 active word of 1 does not establish that an ARM core has started. The
 opaque object and handle do not identify a physical reset vector.
 
+The [object/open contract](arm-object.md) covers the registrar and a
+complete count-1 repeated open at 0x0EC59D24. Its first-open observation
+stops before `VERSION`; it does not establish these start-request gates.
+
 The [resource-request contract](resource-request.md) follows the fixed
 logical index 23 through record aggregation, dependency selection and
 conditional check callbacks. It distinguishes completed software calls

@@ -37,6 +37,12 @@ the higher object field, lower request identity and record 0's self word.
 The token is not a dereferenceable host pointer. No other record binding
 or object relationship is included.
 
+The [registration producer](arm-object.md#first-open-observation-and-runtime-gap)
+at 0x0ED7C928 writes metadata at record offsets 0x14 and 0x18 and preserves
+the existing request word. This composition's fixed unused-zero record
+profile remains unchanged; composing actual registration requires separate
+verification with those metadata and prior-state bytes preserved.
+
 All [fixed resource entry premises](resource-composition.md#fixed-state-and-boundaries)
 apply unchanged: fresh record 0, no other requests, held mask zero,
 dependency selection zero, resource selection one, prehook zero,
