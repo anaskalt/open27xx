@@ -241,8 +241,9 @@ Its four executions of the identified `start4.elf` are:
 | source-return-lock-exhausted | Before 0x0EC7ED46 / 4 | 11180 | 2006 / 3 | 0 / 0 |
 
 Only the first two rows are whole-call implementation comparisons. They
-restore SP and observe all declared state/output guards. The last two rows
-retain active frames and untouched output; their event streams equal the
+restore SP and observe the specified non-stack state/output regions and
+two 64-byte stack-edge guards. The last two rows retain active frames and
+untouched output; their event streams equal the
 corresponding complete-call prefixes. They check the intermediate source
 return and must not require a portable partial-execution API. Across all
 four executions there are 25654 instructions, 4036 MMIO reads, 28 MMIO
