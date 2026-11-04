@@ -8,6 +8,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ### Added
 
+- Freestanding ARM mapping-table preparation with exact profile validation,
+  retained failure writes and twelve complete fixture comparisons.
 - ARM mapping-table contract with twelve complete synthetic calls,
   actual repeated state and retained writes on a wrapped-index failure.
 - ARM object registration and repeated-open contracts with six complete
