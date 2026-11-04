@@ -237,6 +237,73 @@ helper with the pinned VPU toolchain. Native host builds do not use this
 option. The target does not link the helper into `start4.elf`; acquisition
 and runtime integration require further contracts.
 
+## Memory-capacity helper
+
+[`memory_capacity.h`](memory_capacity.h) exposes the freestanding
+`memory_capacity_measure` helper from [`memory_capacity.c`](memory_capacity.c).
+It implements the complete two-pass calculation in the
+[capacity contract](../../docs/bcm2711/memory-capacity.md). The caller selects
+the supported nonzero path with diagnostics disabled and supplies the byte
+service. The helper does not acquire hardware data, initialize board state,
+assign memory ownership or construct a usable memory map.
+
+The arguments are a byte-service callback, its context, a writable
+`uint32_t` size output in MiB and a separate writable `uint32_t` class output.
+The callback receives its context and three unsigned words: selector,
+first index and second index. Its `uint8_t` return value is a byte reply;
+there is no callback failure code. Each pass requests selectors 5 then 8
+at `(0,0)`, `(1,0)`, `(0,1)` and `(1,1)`, in that order. Both passes execute
+all eight requests, including the replies unused by the calculation.
+
+The helper writes 256 to the size output before the first callback and
+preserves that value throughout all sixteen callbacks. The class output
+keeps its incoming value during the callbacks. On completion, the first
+pass supplies the size in MiB and the second pass supplies the raw class.
+Class 7 is a successful numeric result and can accompany different sizes.
+The samples can differ; the helper does not reuse first-pass replies in
+the second pass. The maximum arithmetic result is 16384 MiB; converting
+MiB to bytes requires arithmetic wider than 32 bits.
+
+| Host result | Meaning |
+|---|---|
+| `MEMORY_CAPACITY_OK` | Both passes completed; both output words are written |
+| `MEMORY_CAPACITY_INVALID` | A callback or output pointer is null |
+| `MEMORY_CAPACITY_OVERLAP` | The two output words overlap |
+
+Host validation happens before any write or callback. A validation error
+preserves both outputs. These statuses are separate from the raw class.
+Both output objects must be aligned, writable and valid throughout the
+call. They must not overlap each other or any storage the callback mutates,
+including storage reached indirectly through its context. The caller owns
+all objects and enforces lifetime, alignment and context separation; the
+helper checks null arguments and output/output overlap only.
+
+The context may be null if the callback accepts it. Otherwise it and its
+referenced objects remain valid throughout both passes. The callback may
+update its own bookkeeping, such as a reply cursor, and observe the output
+words. It must preserve the outputs and fixed configuration, return
+normally and not reenter the operation. Concurrent output or configuration
+mutation, callback failure and hardware access are outside this API.
+
+```sh
+python3 -m unittest tests.test_memory_capacity
+make -C src/start4 check-memory-capacity
+```
+
+The host test compiles with `CC` and compares all 24 complete helper cases
+with the recorded MiB output, raw class, output guards and first three
+callback arguments. Incidental register words, native stack state and the
+four internal initializer slices are outside this helper comparison.
+Separate tests cover mutable callback bookkeeping, output visibility,
+distinct observations, unused replies, null arguments and overlapping or
+adjacent outputs.
+
+The Make target writes `build/start4/memory-capacity.o` with the pinned VPU
+compiler using `-Os -ffixed-lr`. Preserve `-ffixed-lr` when integrating with
+that toolchain; native host builds omit it. The target does not link the
+helper into `start4.elf`. Runtime integration needs acquisition, path
+selection and memory-ownership contracts.
+
 ## ARM control request helpers
 
 [`arm_control.h`](arm_control.h) exposes the freestanding configuration and
