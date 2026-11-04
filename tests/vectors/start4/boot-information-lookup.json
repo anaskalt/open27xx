@@ -1,0 +1,2123 @@
+{
+  "schema": 1,
+  "source": {
+    "file": "start4.elf",
+    "repository": "raspberrypi/firmware",
+    "version": "ab5c7f86283ceb58b7adb269cae1d16092a31bf6",
+    "sha256": "38b179897c4514ad11bc915c3fd2d4b68c51e05df2e42240717655ab92d91aeb"
+  },
+  "cases": [
+    {
+      "id": "cached-lookup-434d4d42-distinct",
+      "function": {
+        "entry": "0x0EC642FC",
+        "language": "vc4:LE:32:default"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "r0": "0x434D4D42",
+          "gp": "0x24020000",
+          "sp": "0x24010000"
+        },
+        "memory": [
+          {
+            "address": "0x2400F800",
+            "size": 2048,
+            "fill": "00"
+          },
+          {
+            "address": "0x2401FFD4",
+            "hex": "00000724"
+          },
+          {
+            "address": "0x2402171C",
+            "hex": "01000000"
+          },
+          {
+            "address": "0x24021734",
+            "hex": "00000424000104240002042400030424000404240005042400060424000704240008042400090424000a0424000b0424000c0424000d0424000e0424"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24030000",
+        "step_limit": 1000,
+        "stubs": [],
+        "mmio_responses": []
+      },
+      "expected": {
+        "registers": {
+          "r0": "0x24040200",
+          "sp": "0x24010000"
+        },
+        "memory": [
+          {
+            "address": "0x2402171C",
+            "hex": "01000000"
+          },
+          {
+            "address": "0x24021734",
+            "hex": "00000424000104240002042400030424000404240005042400060424000704240008042400090424000a0424000b0424000c0424000d0424000e0424"
+          }
+        ],
+        "events": []
+      },
+      "steps": 21,
+      "scope": [
+        "Execute cached tag lookup after parsing is already complete, with distinct supplied pointer words in every cache slot."
+      ],
+      "limitations": [
+        "Cached pointers are returned without dereferencing them. Source acquisition, record parsing, allocation, pointer lifetime and platform initialization are outside these completed-state cases."
+      ]
+    },
+    {
+      "id": "cached-lookup-434d4d42-empty",
+      "function": {
+        "entry": "0x0EC642FC",
+        "language": "vc4:LE:32:default"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "r0": "0x434D4D42",
+          "gp": "0x24020000",
+          "sp": "0x24010000"
+        },
+        "memory": [
+          {
+            "address": "0x2400F800",
+            "size": 2048,
+            "fill": "00"
+          },
+          {
+            "address": "0x2401FFD4",
+            "hex": "00000724"
+          },
+          {
+            "address": "0x2402171C",
+            "hex": "01000000"
+          },
+          {
+            "address": "0x24021734",
+            "hex": "00000424000104240000000000030424000404240005042400060424000704240008042400090424000a0424000b0424000c0424000d0424000e0424"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24030000",
+        "step_limit": 1000,
+        "stubs": [],
+        "mmio_responses": []
+      },
+      "expected": {
+        "registers": {
+          "r0": "0x00000000",
+          "sp": "0x24010000"
+        },
+        "memory": [
+          {
+            "address": "0x2402171C",
+            "hex": "01000000"
+          },
+          {
+            "address": "0x24021734",
+            "hex": "00000424000104240000000000030424000404240005042400060424000704240008042400090424000a0424000b0424000c0424000d0424000e0424"
+          }
+        ],
+        "events": []
+      },
+      "steps": 21,
+      "scope": [
+        "Execute cached tag lookup after parsing is already complete, with distinct supplied pointer words in every cache slot."
+      ],
+      "limitations": [
+        "Cached pointers are returned without dereferencing them. Source acquisition, record parsing, allocation, pointer lifetime and platform initialization are outside these completed-state cases."
+      ]
+    },
+    {
+      "id": "cached-lookup-42535542-distinct",
+      "function": {
+        "entry": "0x0EC642FC",
+        "language": "vc4:LE:32:default"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "r0": "0x42535542",
+          "gp": "0x24020000",
+          "sp": "0x24010000"
+        },
+        "memory": [
+          {
+            "address": "0x2400F800",
+            "size": 2048,
+            "fill": "00"
+          },
+          {
+            "address": "0x2401FFD4",
+            "hex": "00000724"
+          },
+          {
+            "address": "0x2402171C",
+            "hex": "01000000"
+          },
+          {
+            "address": "0x24021734",
+            "hex": "00000424000104240002042400030424000404240005042400060424000704240008042400090424000a0424000b0424000c0424000d0424000e0424"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24030000",
+        "step_limit": 1000,
+        "stubs": [],
+        "mmio_responses": []
+      },
+      "expected": {
+        "registers": {
+          "r0": "0x24040D00",
+          "sp": "0x24010000"
+        },
+        "memory": [
+          {
+            "address": "0x2402171C",
+            "hex": "01000000"
+          },
+          {
+            "address": "0x24021734",
+            "hex": "00000424000104240002042400030424000404240005042400060424000704240008042400090424000a0424000b0424000c0424000d0424000e0424"
+          }
+        ],
+        "events": []
+      },
+      "steps": 24,
+      "scope": [
+        "Execute cached tag lookup after parsing is already complete, with distinct supplied pointer words in every cache slot."
+      ],
+      "limitations": [
+        "Cached pointers are returned without dereferencing them. Source acquisition, record parsing, allocation, pointer lifetime and platform initialization are outside these completed-state cases."
+      ]
+    },
+    {
+      "id": "cached-lookup-42535542-empty",
+      "function": {
+        "entry": "0x0EC642FC",
+        "language": "vc4:LE:32:default"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "r0": "0x42535542",
+          "gp": "0x24020000",
+          "sp": "0x24010000"
+        },
+        "memory": [
+          {
+            "address": "0x2400F800",
+            "size": 2048,
+            "fill": "00"
+          },
+          {
+            "address": "0x2401FFD4",
+            "hex": "00000724"
+          },
+          {
+            "address": "0x2402171C",
+            "hex": "01000000"
+          },
+          {
+            "address": "0x24021734",
+            "hex": "00000424000104240002042400030424000404240005042400060424000704240008042400090424000a0424000b0424000c042400000000000e0424"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24030000",
+        "step_limit": 1000,
+        "stubs": [],
+        "mmio_responses": []
+      },
+      "expected": {
+        "registers": {
+          "r0": "0x00000000",
+          "sp": "0x24010000"
+        },
+        "memory": [
+          {
+            "address": "0x2402171C",
+            "hex": "01000000"
+          },
+          {
+            "address": "0x24021734",
+            "hex": "00000424000104240002042400030424000404240005042400060424000704240008042400090424000a0424000b0424000c042400000000000e0424"
+          }
+        ],
+        "events": []
+      },
+      "steps": 24,
+      "scope": [
+        "Execute cached tag lookup after parsing is already complete, with distinct supplied pointer words in every cache slot."
+      ],
+      "limitations": [
+        "Cached pointers are returned without dereferencing them. Source acquisition, record parsing, allocation, pointer lifetime and platform initialization are outside these completed-state cases."
+      ]
+    },
+    {
+      "id": "cached-lookup-36565049-distinct",
+      "function": {
+        "entry": "0x0EC642FC",
+        "language": "vc4:LE:32:default"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "r0": "0x36565049",
+          "gp": "0x24020000",
+          "sp": "0x24010000"
+        },
+        "memory": [
+          {
+            "address": "0x2400F800",
+            "size": 2048,
+            "fill": "00"
+          },
+          {
+            "address": "0x2401FFD4",
+            "hex": "00000724"
+          },
+          {
+            "address": "0x2402171C",
+            "hex": "01000000"
+          },
+          {
+            "address": "0x24021734",
+            "hex": "00000424000104240002042400030424000404240005042400060424000704240008042400090424000a0424000b0424000c0424000d0424000e0424"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24030000",
+        "step_limit": 1000,
+        "stubs": [],
+        "mmio_responses": []
+      },
+      "expected": {
+        "registers": {
+          "r0": "0x24040500",
+          "sp": "0x24010000"
+        },
+        "memory": [
+          {
+            "address": "0x2402171C",
+            "hex": "01000000"
+          },
+          {
+            "address": "0x24021734",
+            "hex": "00000424000104240002042400030424000404240005042400060424000704240008042400090424000a0424000b0424000c0424000d0424000e0424"
+          }
+        ],
+        "events": []
+      },
+      "steps": 27,
+      "scope": [
+        "Execute cached tag lookup after parsing is already complete, with distinct supplied pointer words in every cache slot."
+      ],
+      "limitations": [
+        "Cached pointers are returned without dereferencing them. Source acquisition, record parsing, allocation, pointer lifetime and platform initialization are outside these completed-state cases."
+      ]
+    },
+    {
+      "id": "cached-lookup-36565049-empty",
+      "function": {
+        "entry": "0x0EC642FC",
+        "language": "vc4:LE:32:default"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "r0": "0x36565049",
+          "gp": "0x24020000",
+          "sp": "0x24010000"
+        },
+        "memory": [
+          {
+            "address": "0x2400F800",
+            "size": 2048,
+            "fill": "00"
+          },
+          {
+            "address": "0x2401FFD4",
+            "hex": "00000724"
+          },
+          {
+            "address": "0x2402171C",
+            "hex": "01000000"
+          },
+          {
+            "address": "0x24021734",
+            "hex": "00000424000104240002042400030424000404240000000000060424000704240008042400090424000a0424000b0424000c0424000d0424000e0424"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24030000",
+        "step_limit": 1000,
+        "stubs": [],
+        "mmio_responses": []
+      },
+      "expected": {
+        "registers": {
+          "r0": "0x00000000",
+          "sp": "0x24010000"
+        },
+        "memory": [
+          {
+            "address": "0x2402171C",
+            "hex": "01000000"
+          },
+          {
+            "address": "0x24021734",
+            "hex": "00000424000104240002042400030424000404240000000000060424000704240008042400090424000a0424000b0424000c0424000d0424000e0424"
+          }
+        ],
+        "events": []
+      },
+      "steps": 27,
+      "scope": [
+        "Execute cached tag lookup after parsing is already complete, with distinct supplied pointer words in every cache slot."
+      ],
+      "limitations": [
+        "Cached pointers are returned without dereferencing them. Source acquisition, record parsing, allocation, pointer lifetime and platform initialization are outside these completed-state cases."
+      ]
+    },
+    {
+      "id": "cached-lookup-43455342-distinct",
+      "function": {
+        "entry": "0x0EC642FC",
+        "language": "vc4:LE:32:default"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "r0": "0x43455342",
+          "gp": "0x24020000",
+          "sp": "0x24010000"
+        },
+        "memory": [
+          {
+            "address": "0x2400F800",
+            "size": 2048,
+            "fill": "00"
+          },
+          {
+            "address": "0x2401FFD4",
+            "hex": "00000724"
+          },
+          {
+            "address": "0x2402171C",
+            "hex": "01000000"
+          },
+          {
+            "address": "0x24021734",
+            "hex": "00000424000104240002042400030424000404240005042400060424000704240008042400090424000a0424000b0424000c0424000d0424000e0424"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24030000",
+        "step_limit": 1000,
+        "stubs": [],
+        "mmio_responses": []
+      },
+      "expected": {
+        "registers": {
+          "r0": "0x24040B00",
+          "sp": "0x24010000"
+        },
+        "memory": [
+          {
+            "address": "0x2402171C",
+            "hex": "01000000"
+          },
+          {
+            "address": "0x24021734",
+            "hex": "00000424000104240002042400030424000404240005042400060424000704240008042400090424000a0424000b0424000c0424000d0424000e0424"
+          }
+        ],
+        "events": []
+      },
+      "steps": 27,
+      "scope": [
+        "Execute cached tag lookup after parsing is already complete, with distinct supplied pointer words in every cache slot."
+      ],
+      "limitations": [
+        "Cached pointers are returned without dereferencing them. Source acquisition, record parsing, allocation, pointer lifetime and platform initialization are outside these completed-state cases."
+      ]
+    },
+    {
+      "id": "cached-lookup-43455342-empty",
+      "function": {
+        "entry": "0x0EC642FC",
+        "language": "vc4:LE:32:default"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "r0": "0x43455342",
+          "gp": "0x24020000",
+          "sp": "0x24010000"
+        },
+        "memory": [
+          {
+            "address": "0x2400F800",
+            "size": 2048,
+            "fill": "00"
+          },
+          {
+            "address": "0x2401FFD4",
+            "hex": "00000724"
+          },
+          {
+            "address": "0x2402171C",
+            "hex": "01000000"
+          },
+          {
+            "address": "0x24021734",
+            "hex": "00000424000104240002042400030424000404240005042400060424000704240008042400090424000a042400000000000c0424000d0424000e0424"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24030000",
+        "step_limit": 1000,
+        "stubs": [],
+        "mmio_responses": []
+      },
+      "expected": {
+        "registers": {
+          "r0": "0x00000000",
+          "sp": "0x24010000"
+        },
+        "memory": [
+          {
+            "address": "0x2402171C",
+            "hex": "01000000"
+          },
+          {
+            "address": "0x24021734",
+            "hex": "00000424000104240002042400030424000404240005042400060424000704240008042400090424000a042400000000000c0424000d0424000e0424"
+          }
+        ],
+        "events": []
+      },
+      "steps": 27,
+      "scope": [
+        "Execute cached tag lookup after parsing is already complete, with distinct supplied pointer words in every cache slot."
+      ],
+      "limitations": [
+        "Cached pointers are returned without dereferencing them. Source acquisition, record parsing, allocation, pointer lifetime and platform initialization are outside these completed-state cases."
+      ]
+    },
+    {
+      "id": "cached-lookup-454d564e-distinct",
+      "function": {
+        "entry": "0x0EC642FC",
+        "language": "vc4:LE:32:default"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "r0": "0x454D564E",
+          "gp": "0x24020000",
+          "sp": "0x24010000"
+        },
+        "memory": [
+          {
+            "address": "0x2400F800",
+            "size": 2048,
+            "fill": "00"
+          },
+          {
+            "address": "0x2401FFD4",
+            "hex": "00000724"
+          },
+          {
+            "address": "0x2402171C",
+            "hex": "01000000"
+          },
+          {
+            "address": "0x24021734",
+            "hex": "00000424000104240002042400030424000404240005042400060424000704240008042400090424000a0424000b0424000c0424000d0424000e0424"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24030000",
+        "step_limit": 1000,
+        "stubs": [],
+        "mmio_responses": []
+      },
+      "expected": {
+        "registers": {
+          "r0": "0x24040600",
+          "sp": "0x24010000"
+        },
+        "memory": [
+          {
+            "address": "0x2402171C",
+            "hex": "01000000"
+          },
+          {
+            "address": "0x24021734",
+            "hex": "00000424000104240002042400030424000404240005042400060424000704240008042400090424000a0424000b0424000c0424000d0424000e0424"
+          }
+        ],
+        "events": []
+      },
+      "steps": 24,
+      "scope": [
+        "Execute cached tag lookup after parsing is already complete, with distinct supplied pointer words in every cache slot."
+      ],
+      "limitations": [
+        "Cached pointers are returned without dereferencing them. Source acquisition, record parsing, allocation, pointer lifetime and platform initialization are outside these completed-state cases."
+      ]
+    },
+    {
+      "id": "cached-lookup-454d564e-empty",
+      "function": {
+        "entry": "0x0EC642FC",
+        "language": "vc4:LE:32:default"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "r0": "0x454D564E",
+          "gp": "0x24020000",
+          "sp": "0x24010000"
+        },
+        "memory": [
+          {
+            "address": "0x2400F800",
+            "size": 2048,
+            "fill": "00"
+          },
+          {
+            "address": "0x2401FFD4",
+            "hex": "00000724"
+          },
+          {
+            "address": "0x2402171C",
+            "hex": "01000000"
+          },
+          {
+            "address": "0x24021734",
+            "hex": "00000424000104240002042400030424000404240005042400000000000704240008042400090424000a0424000b0424000c0424000d0424000e0424"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24030000",
+        "step_limit": 1000,
+        "stubs": [],
+        "mmio_responses": []
+      },
+      "expected": {
+        "registers": {
+          "r0": "0x00000000",
+          "sp": "0x24010000"
+        },
+        "memory": [
+          {
+            "address": "0x2402171C",
+            "hex": "01000000"
+          },
+          {
+            "address": "0x24021734",
+            "hex": "00000424000104240002042400030424000404240005042400000000000704240008042400090424000a0424000b0424000c0424000d0424000e0424"
+          }
+        ],
+        "events": []
+      },
+      "steps": 24,
+      "scope": [
+        "Execute cached tag lookup after parsing is already complete, with distinct supplied pointer words in every cache slot."
+      ],
+      "limitations": [
+        "Cached pointers are returned without dereferencing them. Source acquisition, record parsing, allocation, pointer lifetime and platform initialization are outside these completed-state cases."
+      ]
+    },
+    {
+      "id": "cached-lookup-43545242-distinct",
+      "function": {
+        "entry": "0x0EC642FC",
+        "language": "vc4:LE:32:default"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "r0": "0x43545242",
+          "gp": "0x24020000",
+          "sp": "0x24010000"
+        },
+        "memory": [
+          {
+            "address": "0x2400F800",
+            "size": 2048,
+            "fill": "00"
+          },
+          {
+            "address": "0x2401FFD4",
+            "hex": "00000724"
+          },
+          {
+            "address": "0x2402171C",
+            "hex": "01000000"
+          },
+          {
+            "address": "0x24021734",
+            "hex": "00000424000104240002042400030424000404240005042400060424000704240008042400090424000a0424000b0424000c0424000d0424000e0424"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24030000",
+        "step_limit": 1000,
+        "stubs": [],
+        "mmio_responses": []
+      },
+      "expected": {
+        "registers": {
+          "r0": "0x24040900",
+          "sp": "0x24010000"
+        },
+        "memory": [
+          {
+            "address": "0x2402171C",
+            "hex": "01000000"
+          },
+          {
+            "address": "0x24021734",
+            "hex": "00000424000104240002042400030424000404240005042400060424000704240008042400090424000a0424000b0424000c0424000d0424000e0424"
+          }
+        ],
+        "events": []
+      },
+      "steps": 27,
+      "scope": [
+        "Execute cached tag lookup after parsing is already complete, with distinct supplied pointer words in every cache slot."
+      ],
+      "limitations": [
+        "Cached pointers are returned without dereferencing them. Source acquisition, record parsing, allocation, pointer lifetime and platform initialization are outside these completed-state cases."
+      ]
+    },
+    {
+      "id": "cached-lookup-43545242-empty",
+      "function": {
+        "entry": "0x0EC642FC",
+        "language": "vc4:LE:32:default"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "r0": "0x43545242",
+          "gp": "0x24020000",
+          "sp": "0x24010000"
+        },
+        "memory": [
+          {
+            "address": "0x2400F800",
+            "size": 2048,
+            "fill": "00"
+          },
+          {
+            "address": "0x2401FFD4",
+            "hex": "00000724"
+          },
+          {
+            "address": "0x2402171C",
+            "hex": "01000000"
+          },
+          {
+            "address": "0x24021734",
+            "hex": "00000424000104240002042400030424000404240005042400060424000704240008042400000000000a0424000b0424000c0424000d0424000e0424"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24030000",
+        "step_limit": 1000,
+        "stubs": [],
+        "mmio_responses": []
+      },
+      "expected": {
+        "registers": {
+          "r0": "0x00000000",
+          "sp": "0x24010000"
+        },
+        "memory": [
+          {
+            "address": "0x2402171C",
+            "hex": "01000000"
+          },
+          {
+            "address": "0x24021734",
+            "hex": "00000424000104240002042400030424000404240005042400060424000704240008042400000000000a0424000b0424000c0424000d0424000e0424"
+          }
+        ],
+        "events": []
+      },
+      "steps": 27,
+      "scope": [
+        "Execute cached tag lookup after parsing is already complete, with distinct supplied pointer words in every cache slot."
+      ],
+      "limitations": [
+        "Cached pointers are returned without dereferencing them. Source acquisition, record parsing, allocation, pointer lifetime and platform initialization are outside these completed-state cases."
+      ]
+    },
+    {
+      "id": "cached-lookup-45535047-distinct",
+      "function": {
+        "entry": "0x0EC642FC",
+        "language": "vc4:LE:32:default"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "r0": "0x45535047",
+          "gp": "0x24020000",
+          "sp": "0x24010000"
+        },
+        "memory": [
+          {
+            "address": "0x2400F800",
+            "size": 2048,
+            "fill": "00"
+          },
+          {
+            "address": "0x2401FFD4",
+            "hex": "00000724"
+          },
+          {
+            "address": "0x2402171C",
+            "hex": "01000000"
+          },
+          {
+            "address": "0x24021734",
+            "hex": "00000424000104240002042400030424000404240005042400060424000704240008042400090424000a0424000b0424000c0424000d0424000e0424"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24030000",
+        "step_limit": 1000,
+        "stubs": [],
+        "mmio_responses": []
+      },
+      "expected": {
+        "registers": {
+          "r0": "0x24040100",
+          "sp": "0x24010000"
+        },
+        "memory": [
+          {
+            "address": "0x2402171C",
+            "hex": "01000000"
+          },
+          {
+            "address": "0x24021734",
+            "hex": "00000424000104240002042400030424000404240005042400060424000704240008042400090424000a0424000b0424000c0424000d0424000e0424"
+          }
+        ],
+        "events": []
+      },
+      "steps": 27,
+      "scope": [
+        "Execute cached tag lookup after parsing is already complete, with distinct supplied pointer words in every cache slot."
+      ],
+      "limitations": [
+        "Cached pointers are returned without dereferencing them. Source acquisition, record parsing, allocation, pointer lifetime and platform initialization are outside these completed-state cases."
+      ]
+    },
+    {
+      "id": "cached-lookup-45535047-empty",
+      "function": {
+        "entry": "0x0EC642FC",
+        "language": "vc4:LE:32:default"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "r0": "0x45535047",
+          "gp": "0x24020000",
+          "sp": "0x24010000"
+        },
+        "memory": [
+          {
+            "address": "0x2400F800",
+            "size": 2048,
+            "fill": "00"
+          },
+          {
+            "address": "0x2401FFD4",
+            "hex": "00000724"
+          },
+          {
+            "address": "0x2402171C",
+            "hex": "01000000"
+          },
+          {
+            "address": "0x24021734",
+            "hex": "00000424000000000002042400030424000404240005042400060424000704240008042400090424000a0424000b0424000c0424000d0424000e0424"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24030000",
+        "step_limit": 1000,
+        "stubs": [],
+        "mmio_responses": []
+      },
+      "expected": {
+        "registers": {
+          "r0": "0x00000000",
+          "sp": "0x24010000"
+        },
+        "memory": [
+          {
+            "address": "0x2402171C",
+            "hex": "01000000"
+          },
+          {
+            "address": "0x24021734",
+            "hex": "00000424000000000002042400030424000404240005042400060424000704240008042400090424000a0424000b0424000c0424000d0424000e0424"
+          }
+        ],
+        "events": []
+      },
+      "steps": 27,
+      "scope": [
+        "Execute cached tag lookup after parsing is already complete, with distinct supplied pointer words in every cache slot."
+      ],
+      "limitations": [
+        "Cached pointers are returned without dereferencing them. Source acquisition, record parsing, allocation, pointer lifetime and platform initialization are outside these completed-state cases."
+      ]
+    },
+    {
+      "id": "cached-lookup-4e545342-distinct",
+      "function": {
+        "entry": "0x0EC642FC",
+        "language": "vc4:LE:32:default"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "r0": "0x4E545342",
+          "gp": "0x24020000",
+          "sp": "0x24010000"
+        },
+        "memory": [
+          {
+            "address": "0x2400F800",
+            "size": 2048,
+            "fill": "00"
+          },
+          {
+            "address": "0x2401FFD4",
+            "hex": "00000724"
+          },
+          {
+            "address": "0x2402171C",
+            "hex": "01000000"
+          },
+          {
+            "address": "0x24021734",
+            "hex": "00000424000104240002042400030424000404240005042400060424000704240008042400090424000a0424000b0424000c0424000d0424000e0424"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24030000",
+        "step_limit": 1000,
+        "stubs": [],
+        "mmio_responses": []
+      },
+      "expected": {
+        "registers": {
+          "r0": "0x24040400",
+          "sp": "0x24010000"
+        },
+        "memory": [
+          {
+            "address": "0x2402171C",
+            "hex": "01000000"
+          },
+          {
+            "address": "0x24021734",
+            "hex": "00000424000104240002042400030424000404240005042400060424000704240008042400090424000a0424000b0424000c0424000d0424000e0424"
+          }
+        ],
+        "events": []
+      },
+      "steps": 27,
+      "scope": [
+        "Execute cached tag lookup after parsing is already complete, with distinct supplied pointer words in every cache slot."
+      ],
+      "limitations": [
+        "Cached pointers are returned without dereferencing them. Source acquisition, record parsing, allocation, pointer lifetime and platform initialization are outside these completed-state cases."
+      ]
+    },
+    {
+      "id": "cached-lookup-4e545342-empty",
+      "function": {
+        "entry": "0x0EC642FC",
+        "language": "vc4:LE:32:default"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "r0": "0x4E545342",
+          "gp": "0x24020000",
+          "sp": "0x24010000"
+        },
+        "memory": [
+          {
+            "address": "0x2400F800",
+            "size": 2048,
+            "fill": "00"
+          },
+          {
+            "address": "0x2401FFD4",
+            "hex": "00000724"
+          },
+          {
+            "address": "0x2402171C",
+            "hex": "01000000"
+          },
+          {
+            "address": "0x24021734",
+            "hex": "00000424000104240002042400030424000000000005042400060424000704240008042400090424000a0424000b0424000c0424000d0424000e0424"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24030000",
+        "step_limit": 1000,
+        "stubs": [],
+        "mmio_responses": []
+      },
+      "expected": {
+        "registers": {
+          "r0": "0x00000000",
+          "sp": "0x24010000"
+        },
+        "memory": [
+          {
+            "address": "0x2402171C",
+            "hex": "01000000"
+          },
+          {
+            "address": "0x24021734",
+            "hex": "00000424000104240002042400030424000000000005042400060424000704240008042400090424000a0424000b0424000c0424000d0424000e0424"
+          }
+        ],
+        "events": []
+      },
+      "steps": 27,
+      "scope": [
+        "Execute cached tag lookup after parsing is already complete, with distinct supplied pointer words in every cache slot."
+      ],
+      "limitations": [
+        "Cached pointers are returned without dereferencing them. Source acquisition, record parsing, allocation, pointer lifetime and platform initialization are outside these completed-state cases."
+      ]
+    },
+    {
+      "id": "cached-lookup-4d545342-distinct",
+      "function": {
+        "entry": "0x0EC642FC",
+        "language": "vc4:LE:32:default"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "r0": "0x4D545342",
+          "gp": "0x24020000",
+          "sp": "0x24010000"
+        },
+        "memory": [
+          {
+            "address": "0x2400F800",
+            "size": 2048,
+            "fill": "00"
+          },
+          {
+            "address": "0x2401FFD4",
+            "hex": "00000724"
+          },
+          {
+            "address": "0x2402171C",
+            "hex": "01000000"
+          },
+          {
+            "address": "0x24021734",
+            "hex": "00000424000104240002042400030424000404240005042400060424000704240008042400090424000a0424000b0424000c0424000d0424000e0424"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24030000",
+        "step_limit": 1000,
+        "stubs": [],
+        "mmio_responses": []
+      },
+      "expected": {
+        "registers": {
+          "r0": "0x24040300",
+          "sp": "0x24010000"
+        },
+        "memory": [
+          {
+            "address": "0x2402171C",
+            "hex": "01000000"
+          },
+          {
+            "address": "0x24021734",
+            "hex": "00000424000104240002042400030424000404240005042400060424000704240008042400090424000a0424000b0424000c0424000d0424000e0424"
+          }
+        ],
+        "events": []
+      },
+      "steps": 27,
+      "scope": [
+        "Execute cached tag lookup after parsing is already complete, with distinct supplied pointer words in every cache slot."
+      ],
+      "limitations": [
+        "Cached pointers are returned without dereferencing them. Source acquisition, record parsing, allocation, pointer lifetime and platform initialization are outside these completed-state cases."
+      ]
+    },
+    {
+      "id": "cached-lookup-4d545342-empty",
+      "function": {
+        "entry": "0x0EC642FC",
+        "language": "vc4:LE:32:default"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "r0": "0x4D545342",
+          "gp": "0x24020000",
+          "sp": "0x24010000"
+        },
+        "memory": [
+          {
+            "address": "0x2400F800",
+            "size": 2048,
+            "fill": "00"
+          },
+          {
+            "address": "0x2401FFD4",
+            "hex": "00000724"
+          },
+          {
+            "address": "0x2402171C",
+            "hex": "01000000"
+          },
+          {
+            "address": "0x24021734",
+            "hex": "00000424000104240002042400000000000404240005042400060424000704240008042400090424000a0424000b0424000c0424000d0424000e0424"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24030000",
+        "step_limit": 1000,
+        "stubs": [],
+        "mmio_responses": []
+      },
+      "expected": {
+        "registers": {
+          "r0": "0x00000000",
+          "sp": "0x24010000"
+        },
+        "memory": [
+          {
+            "address": "0x2402171C",
+            "hex": "01000000"
+          },
+          {
+            "address": "0x24021734",
+            "hex": "00000424000104240002042400000000000404240005042400060424000704240008042400090424000a0424000b0424000c0424000d0424000e0424"
+          }
+        ],
+        "events": []
+      },
+      "steps": 27,
+      "scope": [
+        "Execute cached tag lookup after parsing is already complete, with distinct supplied pointer words in every cache slot."
+      ],
+      "limitations": [
+        "Cached pointers are returned without dereferencing them. Source acquisition, record parsing, allocation, pointer lifetime and platform initialization are outside these completed-state cases."
+      ]
+    },
+    {
+      "id": "cached-lookup-4b534452-distinct",
+      "function": {
+        "entry": "0x0EC642FC",
+        "language": "vc4:LE:32:default"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "r0": "0x4B534452",
+          "gp": "0x24020000",
+          "sp": "0x24010000"
+        },
+        "memory": [
+          {
+            "address": "0x2400F800",
+            "size": 2048,
+            "fill": "00"
+          },
+          {
+            "address": "0x2401FFD4",
+            "hex": "00000724"
+          },
+          {
+            "address": "0x2402171C",
+            "hex": "01000000"
+          },
+          {
+            "address": "0x24021734",
+            "hex": "00000424000104240002042400030424000404240005042400060424000704240008042400090424000a0424000b0424000c0424000d0424000e0424"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24030000",
+        "step_limit": 1000,
+        "stubs": [],
+        "mmio_responses": []
+      },
+      "expected": {
+        "registers": {
+          "r0": "0x24040800",
+          "sp": "0x24010000"
+        },
+        "memory": [
+          {
+            "address": "0x2402171C",
+            "hex": "01000000"
+          },
+          {
+            "address": "0x24021734",
+            "hex": "00000424000104240002042400030424000404240005042400060424000704240008042400090424000a0424000b0424000c0424000d0424000e0424"
+          }
+        ],
+        "events": []
+      },
+      "steps": 18,
+      "scope": [
+        "Execute cached tag lookup after parsing is already complete, with distinct supplied pointer words in every cache slot."
+      ],
+      "limitations": [
+        "Cached pointers are returned without dereferencing them. Source acquisition, record parsing, allocation, pointer lifetime and platform initialization are outside these completed-state cases."
+      ]
+    },
+    {
+      "id": "cached-lookup-4b534452-empty",
+      "function": {
+        "entry": "0x0EC642FC",
+        "language": "vc4:LE:32:default"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "r0": "0x4B534452",
+          "gp": "0x24020000",
+          "sp": "0x24010000"
+        },
+        "memory": [
+          {
+            "address": "0x2400F800",
+            "size": 2048,
+            "fill": "00"
+          },
+          {
+            "address": "0x2401FFD4",
+            "hex": "00000724"
+          },
+          {
+            "address": "0x2402171C",
+            "hex": "01000000"
+          },
+          {
+            "address": "0x24021734",
+            "hex": "00000424000104240002042400030424000404240005042400060424000704240000000000090424000a0424000b0424000c0424000d0424000e0424"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24030000",
+        "step_limit": 1000,
+        "stubs": [],
+        "mmio_responses": []
+      },
+      "expected": {
+        "registers": {
+          "r0": "0x00000000",
+          "sp": "0x24010000"
+        },
+        "memory": [
+          {
+            "address": "0x2402171C",
+            "hex": "01000000"
+          },
+          {
+            "address": "0x24021734",
+            "hex": "00000424000104240002042400030424000404240005042400060424000704240000000000090424000a0424000b0424000c0424000d0424000e0424"
+          }
+        ],
+        "events": []
+      },
+      "steps": 18,
+      "scope": [
+        "Execute cached tag lookup after parsing is already complete, with distinct supplied pointer words in every cache slot."
+      ],
+      "limitations": [
+        "Cached pointers are returned without dereferencing them. Source acquisition, record parsing, allocation, pointer lifetime and platform initialization are outside these completed-state cases."
+      ]
+    },
+    {
+      "id": "cached-lookup-4e4f4342-distinct",
+      "function": {
+        "entry": "0x0EC642FC",
+        "language": "vc4:LE:32:default"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "r0": "0x4E4F4342",
+          "gp": "0x24020000",
+          "sp": "0x24010000"
+        },
+        "memory": [
+          {
+            "address": "0x2400F800",
+            "size": 2048,
+            "fill": "00"
+          },
+          {
+            "address": "0x2401FFD4",
+            "hex": "00000724"
+          },
+          {
+            "address": "0x2402171C",
+            "hex": "01000000"
+          },
+          {
+            "address": "0x24021734",
+            "hex": "00000424000104240002042400030424000404240005042400060424000704240008042400090424000a0424000b0424000c0424000d0424000e0424"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24030000",
+        "step_limit": 1000,
+        "stubs": [],
+        "mmio_responses": []
+      },
+      "expected": {
+        "registers": {
+          "r0": "0x24040000",
+          "sp": "0x24010000"
+        },
+        "memory": [
+          {
+            "address": "0x2402171C",
+            "hex": "01000000"
+          },
+          {
+            "address": "0x24021734",
+            "hex": "00000424000104240002042400030424000404240005042400060424000704240008042400090424000a0424000b0424000c0424000d0424000e0424"
+          }
+        ],
+        "events": []
+      },
+      "steps": 24,
+      "scope": [
+        "Execute cached tag lookup after parsing is already complete, with distinct supplied pointer words in every cache slot."
+      ],
+      "limitations": [
+        "Cached pointers are returned without dereferencing them. Source acquisition, record parsing, allocation, pointer lifetime and platform initialization are outside these completed-state cases."
+      ]
+    },
+    {
+      "id": "cached-lookup-4e4f4342-empty",
+      "function": {
+        "entry": "0x0EC642FC",
+        "language": "vc4:LE:32:default"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "r0": "0x4E4F4342",
+          "gp": "0x24020000",
+          "sp": "0x24010000"
+        },
+        "memory": [
+          {
+            "address": "0x2400F800",
+            "size": 2048,
+            "fill": "00"
+          },
+          {
+            "address": "0x2401FFD4",
+            "hex": "00000724"
+          },
+          {
+            "address": "0x2402171C",
+            "hex": "01000000"
+          },
+          {
+            "address": "0x24021734",
+            "hex": "00000000000104240002042400030424000404240005042400060424000704240008042400090424000a0424000b0424000c0424000d0424000e0424"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24030000",
+        "step_limit": 1000,
+        "stubs": [],
+        "mmio_responses": []
+      },
+      "expected": {
+        "registers": {
+          "r0": "0x00000000",
+          "sp": "0x24010000"
+        },
+        "memory": [
+          {
+            "address": "0x2402171C",
+            "hex": "01000000"
+          },
+          {
+            "address": "0x24021734",
+            "hex": "00000000000104240002042400030424000404240005042400060424000704240008042400090424000a0424000b0424000c0424000d0424000e0424"
+          }
+        ],
+        "events": []
+      },
+      "steps": 24,
+      "scope": [
+        "Execute cached tag lookup after parsing is already complete, with distinct supplied pointer words in every cache slot."
+      ],
+      "limitations": [
+        "Cached pointers are returned without dereferencing them. Source acquisition, record parsing, allocation, pointer lifetime and platform initialization are outside these completed-state cases."
+      ]
+    },
+    {
+      "id": "cached-lookup-52455642-distinct",
+      "function": {
+        "entry": "0x0EC642FC",
+        "language": "vc4:LE:32:default"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "r0": "0x52455642",
+          "gp": "0x24020000",
+          "sp": "0x24010000"
+        },
+        "memory": [
+          {
+            "address": "0x2400F800",
+            "size": 2048,
+            "fill": "00"
+          },
+          {
+            "address": "0x2401FFD4",
+            "hex": "00000724"
+          },
+          {
+            "address": "0x2402171C",
+            "hex": "01000000"
+          },
+          {
+            "address": "0x24021734",
+            "hex": "00000424000104240002042400030424000404240005042400060424000704240008042400090424000a0424000b0424000c0424000d0424000e0424"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24030000",
+        "step_limit": 1000,
+        "stubs": [],
+        "mmio_responses": []
+      },
+      "expected": {
+        "registers": {
+          "r0": "0x24040E00",
+          "sp": "0x24010000"
+        },
+        "memory": [
+          {
+            "address": "0x2402171C",
+            "hex": "01000000"
+          },
+          {
+            "address": "0x24021734",
+            "hex": "00000424000104240002042400030424000404240005042400060424000704240008042400090424000a0424000b0424000c0424000d0424000e0424"
+          }
+        ],
+        "events": []
+      },
+      "steps": 27,
+      "scope": [
+        "Execute cached tag lookup after parsing is already complete, with distinct supplied pointer words in every cache slot."
+      ],
+      "limitations": [
+        "Cached pointers are returned without dereferencing them. Source acquisition, record parsing, allocation, pointer lifetime and platform initialization are outside these completed-state cases."
+      ]
+    },
+    {
+      "id": "cached-lookup-52455642-empty",
+      "function": {
+        "entry": "0x0EC642FC",
+        "language": "vc4:LE:32:default"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "r0": "0x52455642",
+          "gp": "0x24020000",
+          "sp": "0x24010000"
+        },
+        "memory": [
+          {
+            "address": "0x2400F800",
+            "size": 2048,
+            "fill": "00"
+          },
+          {
+            "address": "0x2401FFD4",
+            "hex": "00000724"
+          },
+          {
+            "address": "0x2402171C",
+            "hex": "01000000"
+          },
+          {
+            "address": "0x24021734",
+            "hex": "00000424000104240002042400030424000404240005042400060424000704240008042400090424000a0424000b0424000c0424000d042400000000"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24030000",
+        "step_limit": 1000,
+        "stubs": [],
+        "mmio_responses": []
+      },
+      "expected": {
+        "registers": {
+          "r0": "0x00000000",
+          "sp": "0x24010000"
+        },
+        "memory": [
+          {
+            "address": "0x2402171C",
+            "hex": "01000000"
+          },
+          {
+            "address": "0x24021734",
+            "hex": "00000424000104240002042400030424000404240005042400060424000704240008042400090424000a0424000b0424000c0424000d042400000000"
+          }
+        ],
+        "events": []
+      },
+      "steps": 27,
+      "scope": [
+        "Execute cached tag lookup after parsing is already complete, with distinct supplied pointer words in every cache slot."
+      ],
+      "limitations": [
+        "Cached pointers are returned without dereferencing them. Source acquisition, record parsing, allocation, pointer lifetime and platform initialization are outside these completed-state cases."
+      ]
+    },
+    {
+      "id": "cached-lookup-52445342-distinct",
+      "function": {
+        "entry": "0x0EC642FC",
+        "language": "vc4:LE:32:default"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "r0": "0x52445342",
+          "gp": "0x24020000",
+          "sp": "0x24010000"
+        },
+        "memory": [
+          {
+            "address": "0x2400F800",
+            "size": 2048,
+            "fill": "00"
+          },
+          {
+            "address": "0x2401FFD4",
+            "hex": "00000724"
+          },
+          {
+            "address": "0x2402171C",
+            "hex": "01000000"
+          },
+          {
+            "address": "0x24021734",
+            "hex": "00000424000104240002042400030424000404240005042400060424000704240008042400090424000a0424000b0424000c0424000d0424000e0424"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24030000",
+        "step_limit": 1000,
+        "stubs": [],
+        "mmio_responses": []
+      },
+      "expected": {
+        "registers": {
+          "r0": "0x24040A00",
+          "sp": "0x24010000"
+        },
+        "memory": [
+          {
+            "address": "0x2402171C",
+            "hex": "01000000"
+          },
+          {
+            "address": "0x24021734",
+            "hex": "00000424000104240002042400030424000404240005042400060424000704240008042400090424000a0424000b0424000c0424000d0424000e0424"
+          }
+        ],
+        "events": []
+      },
+      "steps": 21,
+      "scope": [
+        "Execute cached tag lookup after parsing is already complete, with distinct supplied pointer words in every cache slot."
+      ],
+      "limitations": [
+        "Cached pointers are returned without dereferencing them. Source acquisition, record parsing, allocation, pointer lifetime and platform initialization are outside these completed-state cases."
+      ]
+    },
+    {
+      "id": "cached-lookup-52445342-empty",
+      "function": {
+        "entry": "0x0EC642FC",
+        "language": "vc4:LE:32:default"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "r0": "0x52445342",
+          "gp": "0x24020000",
+          "sp": "0x24010000"
+        },
+        "memory": [
+          {
+            "address": "0x2400F800",
+            "size": 2048,
+            "fill": "00"
+          },
+          {
+            "address": "0x2401FFD4",
+            "hex": "00000724"
+          },
+          {
+            "address": "0x2402171C",
+            "hex": "01000000"
+          },
+          {
+            "address": "0x24021734",
+            "hex": "0000042400010424000204240003042400040424000504240006042400070424000804240009042400000000000b0424000c0424000d0424000e0424"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24030000",
+        "step_limit": 1000,
+        "stubs": [],
+        "mmio_responses": []
+      },
+      "expected": {
+        "registers": {
+          "r0": "0x00000000",
+          "sp": "0x24010000"
+        },
+        "memory": [
+          {
+            "address": "0x2402171C",
+            "hex": "01000000"
+          },
+          {
+            "address": "0x24021734",
+            "hex": "0000042400010424000204240003042400040424000504240006042400070424000804240009042400000000000b0424000c0424000d0424000e0424"
+          }
+        ],
+        "events": []
+      },
+      "steps": 21,
+      "scope": [
+        "Execute cached tag lookup after parsing is already complete, with distinct supplied pointer words in every cache slot."
+      ],
+      "limitations": [
+        "Cached pointers are returned without dereferencing them. Source acquisition, record parsing, allocation, pointer lifetime and platform initialization are outside these completed-state cases."
+      ]
+    },
+    {
+      "id": "cached-lookup-52575042-distinct",
+      "function": {
+        "entry": "0x0EC642FC",
+        "language": "vc4:LE:32:default"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "r0": "0x52575042",
+          "gp": "0x24020000",
+          "sp": "0x24010000"
+        },
+        "memory": [
+          {
+            "address": "0x2400F800",
+            "size": 2048,
+            "fill": "00"
+          },
+          {
+            "address": "0x2401FFD4",
+            "hex": "00000724"
+          },
+          {
+            "address": "0x2402171C",
+            "hex": "01000000"
+          },
+          {
+            "address": "0x24021734",
+            "hex": "00000424000104240002042400030424000404240005042400060424000704240008042400090424000a0424000b0424000c0424000d0424000e0424"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24030000",
+        "step_limit": 1000,
+        "stubs": [],
+        "mmio_responses": []
+      },
+      "expected": {
+        "registers": {
+          "r0": "0x24040700",
+          "sp": "0x24010000"
+        },
+        "memory": [
+          {
+            "address": "0x2402171C",
+            "hex": "01000000"
+          },
+          {
+            "address": "0x24021734",
+            "hex": "00000424000104240002042400030424000404240005042400060424000704240008042400090424000a0424000b0424000c0424000d0424000e0424"
+          }
+        ],
+        "events": []
+      },
+      "steps": 24,
+      "scope": [
+        "Execute cached tag lookup after parsing is already complete, with distinct supplied pointer words in every cache slot."
+      ],
+      "limitations": [
+        "Cached pointers are returned without dereferencing them. Source acquisition, record parsing, allocation, pointer lifetime and platform initialization are outside these completed-state cases."
+      ]
+    },
+    {
+      "id": "cached-lookup-52575042-empty",
+      "function": {
+        "entry": "0x0EC642FC",
+        "language": "vc4:LE:32:default"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "r0": "0x52575042",
+          "gp": "0x24020000",
+          "sp": "0x24010000"
+        },
+        "memory": [
+          {
+            "address": "0x2400F800",
+            "size": 2048,
+            "fill": "00"
+          },
+          {
+            "address": "0x2401FFD4",
+            "hex": "00000724"
+          },
+          {
+            "address": "0x2402171C",
+            "hex": "01000000"
+          },
+          {
+            "address": "0x24021734",
+            "hex": "00000424000104240002042400030424000404240005042400060424000000000008042400090424000a0424000b0424000c0424000d0424000e0424"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24030000",
+        "step_limit": 1000,
+        "stubs": [],
+        "mmio_responses": []
+      },
+      "expected": {
+        "registers": {
+          "r0": "0x00000000",
+          "sp": "0x24010000"
+        },
+        "memory": [
+          {
+            "address": "0x2402171C",
+            "hex": "01000000"
+          },
+          {
+            "address": "0x24021734",
+            "hex": "00000424000104240002042400030424000404240005042400060424000000000008042400090424000a0424000b0424000c0424000d0424000e0424"
+          }
+        ],
+        "events": []
+      },
+      "steps": 24,
+      "scope": [
+        "Execute cached tag lookup after parsing is already complete, with distinct supplied pointer words in every cache slot."
+      ],
+      "limitations": [
+        "Cached pointers are returned without dereferencing them. Source acquisition, record parsing, allocation, pointer lifetime and platform initialization are outside these completed-state cases."
+      ]
+    },
+    {
+      "id": "cached-lookup-53545342-distinct",
+      "function": {
+        "entry": "0x0EC642FC",
+        "language": "vc4:LE:32:default"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "r0": "0x53545342",
+          "gp": "0x24020000",
+          "sp": "0x24010000"
+        },
+        "memory": [
+          {
+            "address": "0x2400F800",
+            "size": 2048,
+            "fill": "00"
+          },
+          {
+            "address": "0x2401FFD4",
+            "hex": "00000724"
+          },
+          {
+            "address": "0x2402171C",
+            "hex": "01000000"
+          },
+          {
+            "address": "0x24021734",
+            "hex": "00000424000104240002042400030424000404240005042400060424000704240008042400090424000a0424000b0424000c0424000d0424000e0424"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24030000",
+        "step_limit": 1000,
+        "stubs": [],
+        "mmio_responses": []
+      },
+      "expected": {
+        "registers": {
+          "r0": "0x24040C00",
+          "sp": "0x24010000"
+        },
+        "memory": [
+          {
+            "address": "0x2402171C",
+            "hex": "01000000"
+          },
+          {
+            "address": "0x24021734",
+            "hex": "00000424000104240002042400030424000404240005042400060424000704240008042400090424000a0424000b0424000c0424000d0424000e0424"
+          }
+        ],
+        "events": []
+      },
+      "steps": 27,
+      "scope": [
+        "Execute cached tag lookup after parsing is already complete, with distinct supplied pointer words in every cache slot."
+      ],
+      "limitations": [
+        "Cached pointers are returned without dereferencing them. Source acquisition, record parsing, allocation, pointer lifetime and platform initialization are outside these completed-state cases."
+      ]
+    },
+    {
+      "id": "cached-lookup-53545342-empty",
+      "function": {
+        "entry": "0x0EC642FC",
+        "language": "vc4:LE:32:default"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "r0": "0x53545342",
+          "gp": "0x24020000",
+          "sp": "0x24010000"
+        },
+        "memory": [
+          {
+            "address": "0x2400F800",
+            "size": 2048,
+            "fill": "00"
+          },
+          {
+            "address": "0x2401FFD4",
+            "hex": "00000724"
+          },
+          {
+            "address": "0x2402171C",
+            "hex": "01000000"
+          },
+          {
+            "address": "0x24021734",
+            "hex": "00000424000104240002042400030424000404240005042400060424000704240008042400090424000a0424000b042400000000000d0424000e0424"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24030000",
+        "step_limit": 1000,
+        "stubs": [],
+        "mmio_responses": []
+      },
+      "expected": {
+        "registers": {
+          "r0": "0x00000000",
+          "sp": "0x24010000"
+        },
+        "memory": [
+          {
+            "address": "0x2402171C",
+            "hex": "01000000"
+          },
+          {
+            "address": "0x24021734",
+            "hex": "00000424000104240002042400030424000404240005042400060424000704240008042400090424000a0424000b042400000000000d0424000e0424"
+          }
+        ],
+        "events": []
+      },
+      "steps": 27,
+      "scope": [
+        "Execute cached tag lookup after parsing is already complete, with distinct supplied pointer words in every cache slot."
+      ],
+      "limitations": [
+        "Cached pointers are returned without dereferencing them. Source acquisition, record parsing, allocation, pointer lifetime and platform initialization are outside these completed-state cases."
+      ]
+    },
+    {
+      "id": "cached-lookup-00000000-distinct",
+      "function": {
+        "entry": "0x0EC642FC",
+        "language": "vc4:LE:32:default"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "r0": "0x00000000",
+          "gp": "0x24020000",
+          "sp": "0x24010000"
+        },
+        "memory": [
+          {
+            "address": "0x2400F800",
+            "size": 2048,
+            "fill": "00"
+          },
+          {
+            "address": "0x2401FFD4",
+            "hex": "00000724"
+          },
+          {
+            "address": "0x2402171C",
+            "hex": "01000000"
+          },
+          {
+            "address": "0x24021734",
+            "hex": "00000424000104240002042400030424000404240005042400060424000704240008042400090424000a0424000b0424000c0424000d0424000e0424"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24030000",
+        "step_limit": 1000,
+        "stubs": [],
+        "mmio_responses": []
+      },
+      "expected": {
+        "registers": {
+          "r0": "0x00000000",
+          "sp": "0x24010000"
+        },
+        "memory": [
+          {
+            "address": "0x2402171C",
+            "hex": "01000000"
+          },
+          {
+            "address": "0x24021734",
+            "hex": "00000424000104240002042400030424000404240005042400060424000704240008042400090424000a0424000b0424000c0424000d0424000e0424"
+          }
+        ],
+        "events": []
+      },
+      "steps": 26,
+      "scope": [
+        "Execute cached tag lookup after parsing is already complete, with distinct supplied pointer words in every cache slot."
+      ],
+      "limitations": [
+        "Cached pointers are returned without dereferencing them. Source acquisition, record parsing, allocation, pointer lifetime and platform initialization are outside these completed-state cases."
+      ]
+    },
+    {
+      "id": "cached-lookup-12345678-distinct",
+      "function": {
+        "entry": "0x0EC642FC",
+        "language": "vc4:LE:32:default"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "r0": "0x12345678",
+          "gp": "0x24020000",
+          "sp": "0x24010000"
+        },
+        "memory": [
+          {
+            "address": "0x2400F800",
+            "size": 2048,
+            "fill": "00"
+          },
+          {
+            "address": "0x2401FFD4",
+            "hex": "00000724"
+          },
+          {
+            "address": "0x2402171C",
+            "hex": "01000000"
+          },
+          {
+            "address": "0x24021734",
+            "hex": "00000424000104240002042400030424000404240005042400060424000704240008042400090424000a0424000b0424000c0424000d0424000e0424"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24030000",
+        "step_limit": 1000,
+        "stubs": [],
+        "mmio_responses": []
+      },
+      "expected": {
+        "registers": {
+          "r0": "0x00000000",
+          "sp": "0x24010000"
+        },
+        "memory": [
+          {
+            "address": "0x2402171C",
+            "hex": "01000000"
+          },
+          {
+            "address": "0x24021734",
+            "hex": "00000424000104240002042400030424000404240005042400060424000704240008042400090424000a0424000b0424000c0424000d0424000e0424"
+          }
+        ],
+        "events": []
+      },
+      "steps": 26,
+      "scope": [
+        "Execute cached tag lookup after parsing is already complete, with distinct supplied pointer words in every cache slot."
+      ],
+      "limitations": [
+        "Cached pointers are returned without dereferencing them. Source acquisition, record parsing, allocation, pointer lifetime and platform initialization are outside these completed-state cases."
+      ]
+    },
+    {
+      "id": "cached-lookup-ffffffff-distinct",
+      "function": {
+        "entry": "0x0EC642FC",
+        "language": "vc4:LE:32:default"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "r0": "0xFFFFFFFF",
+          "gp": "0x24020000",
+          "sp": "0x24010000"
+        },
+        "memory": [
+          {
+            "address": "0x2400F800",
+            "size": 2048,
+            "fill": "00"
+          },
+          {
+            "address": "0x2401FFD4",
+            "hex": "00000724"
+          },
+          {
+            "address": "0x2402171C",
+            "hex": "01000000"
+          },
+          {
+            "address": "0x24021734",
+            "hex": "00000424000104240002042400030424000404240005042400060424000704240008042400090424000a0424000b0424000c0424000d0424000e0424"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24030000",
+        "step_limit": 1000,
+        "stubs": [],
+        "mmio_responses": []
+      },
+      "expected": {
+        "registers": {
+          "r0": "0x00000000",
+          "sp": "0x24010000"
+        },
+        "memory": [
+          {
+            "address": "0x2402171C",
+            "hex": "01000000"
+          },
+          {
+            "address": "0x24021734",
+            "hex": "00000424000104240002042400030424000404240005042400060424000704240008042400090424000a0424000b0424000c0424000d0424000e0424"
+          }
+        ],
+        "events": []
+      },
+      "steps": 26,
+      "scope": [
+        "Execute cached tag lookup after parsing is already complete, with distinct supplied pointer words in every cache slot."
+      ],
+      "limitations": [
+        "Cached pointers are returned without dereferencing them. Source acquisition, record parsing, allocation, pointer lifetime and platform initialization are outside these completed-state cases."
+      ]
+    }
+  ]
+}

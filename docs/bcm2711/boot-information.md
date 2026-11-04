@@ -158,27 +158,42 @@ storage allocation is a precondition of its supported copy paths.
 ## Lookup and bounded revision selection
 
 Pinned `start4.elf` lookup 0x0EC642FC calls the parser before selecting a
-cached pointer. Recorded calls for tag 0x52455642 return its cache slot
-when populated. An unknown tag returns zero; an incomplete parse with a
-null source also returns zero.
+cached pointer. If completion remains zero, it returns zero. Otherwise,
+each recognized tag returns the pointer in its table entry above, including
+a zero pointer for an empty slot. An unknown tag returns zero. The lookup
+neither dereferences a returned pointer nor changes the cached records.
+Completed-state cases cover all fifteen tags with distinct pointers in
+every slot, then each requested slot empty while the others stay populated.
 
-An internal fallback block at 0x0EC6246E requests that tag and examines
-the word at copied-record offset 0x68. The recorded block stops before
+An internal fallback block at 0x0EC6246E requests tag 0x52455642 and
+examines the word at copied-record offset 0x68. The recorded block stops before
 0x0EC624C0, with the preceding fallback gates assumed and GP+0x1564
 supplied as 1.
 
-| Supplied word at offset 0x68 | Selected local revision value |
-|---:|---|
-| 0 | 0x00A03110 |
-| 2 | 0x00A03114 |
-| 4 | 0x00C031C0 |
-| 6 | 0x00A03115 |
-| Record absent | 0x00A03110 |
+The tests at 0x0EC62486, 0x0EC6248A, 0x0EC624A0 and 0x0EC624B6
+inspect only bits 2 and 1 of that unsigned 32-bit word. Masking it with
+0x06 gives the complete decision for a present record:
 
-These are fallback outputs for synthetic inputs. They do not identify a
+| Record present | Word masked with 0x06 | Selected local revision value |
+|---|---:|---|
+| No | Ignored | 0x00A03110 |
+| Yes | 0x00 | 0x00A03110 |
+| Yes | 0x02 | 0x00A03114 |
+| Yes | 0x04 | 0x00C031C0 |
+| Yes | 0x06 | 0x00A03115 |
+
+Bit 0 and bits 3–31 do not affect this decision. Recorded cases cover the
+four combinations alone, with bit 0 set, with bit 31 set and with every
+other bit set. An absent record requires no word read. For a present record,
+a host decision helper may accept the decoded word directly; a helper that
+reads a record buffer must require at least 108 accessible bytes before
+reading offset 0x68. That buffer check is a host precondition.
+
+These are outputs of the bounded internal fallback. They do not identify a
 physical board or establish the earlier gates, raw information acquisition,
-complete board initializer or ARM loader selection. An implementation of
-this internal decision remains separate from the generic record parser.
+complete board initializer or ARM loader selection. The selected value is
+observed in local `r6`, not a standalone vendor-function return. This
+decision remains separate from the generic record parser.
 
 ## Bounds and host requirements
 
@@ -223,6 +238,8 @@ not vendor error outputs or evidence of a general malformed-input policy.
 | [boot-information.json](../../tests/vectors/start4/boot-information.json) | 70 | 6681 | Real parser, lookup and bounded fallback; allocation result supplied |
 | [boot-information-allocation.json](../../tests/vectors/start4/boot-information-allocation.json) | 8 | 767 | Real wrappers and zeroing; lower heap result supplied; two composed parser cases |
 | [boot-information-pointer.json](../../tests/vectors/bootmain/boot-information-pointer.json) | 3 | 11 | Real bootmain marker check and pointer-word store |
+| [boot-information-lookup.json](../../tests/vectors/start4/boot-information-lookup.json) | 33 | 822 | Completed-state lookup for all fifteen tags, empty slots and unknown tags |
+| [boot-information-revision.json](../../tests/vectors/start4/boot-information-revision.json) | 12 | 2682 | Additional word-bit combinations through parsing, lookup and the bounded revision decision |
 
 Each fixture includes the source identity, entry/stop addresses, synthetic
 registers and memory, intercepted call replies and observed outputs. No

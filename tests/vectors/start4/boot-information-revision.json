@@ -1,0 +1,1427 @@
+{
+  "schema": 1,
+  "source": {
+    "file": "start4.elf",
+    "repository": "raspberrypi/firmware",
+    "version": "ab5c7f86283ceb58b7adb269cae1d16092a31bf6",
+    "sha256": "38b179897c4514ad11bc915c3fd2d4b68c51e05df2e42240717655ab92d91aeb"
+  },
+  "cases": [
+    {
+      "id": "revision-fallback-word-00000001",
+      "function": {
+        "entry": "0x0EC6246E",
+        "language": "vc4:LE:32:default"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "gp": "0x24020000",
+          "sp": "0x24010000",
+          "r8": "0x24021564"
+        },
+        "memory": [
+          {
+            "address": "0x2400F800",
+            "size": 2048,
+            "fill": "00"
+          },
+          {
+            "address": "0x2401FFD4",
+            "hex": "00000024"
+          },
+          {
+            "address": "0x2402171C",
+            "hex": "00000000"
+          },
+          {
+            "address": "0x24021734",
+            "hex": "000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+          },
+          {
+            "address": "0x2402FCD8",
+            "hex": "00"
+          },
+          {
+            "address": "0x24021564",
+            "hex": "01000000"
+          },
+          {
+            "address": "0x24000000",
+            "hex": "42535445b00000000c00000042564552a400000000000000cddae7f4010e1b2835424f5c697683909daab7c4d1deebf805121f2c394653606d7a8794a1aebbc8d5e2effc091623303d4a5764717e8b98a5b2bfccd9e6f3000d1a2734414e5b6875828f9ca9b6c3d0ddeaf704111e2b3845525f6c01000000adbac7d4e1eefb0815222f3c495663707d8a97a4b1becbd8e5f2ff0c192633404d5a6774818e9ba8b5c2cfdce9f603101d2a3744515e6b78"
+          },
+          {
+            "address": "0x2403FFF0",
+            "size": 288,
+            "fill": "a5"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x0EC624C0",
+        "step_limit": 10000,
+        "stubs": [
+          {
+            "entry": "0x0EC731F6",
+            "label": "synthetic allocation boundary",
+            "replies": [
+              {
+                "registers": {
+                  "r0": "0x24040000"
+                },
+                "memory": []
+              }
+            ]
+          }
+        ],
+        "mmio_responses": []
+      },
+      "expected": {
+        "registers": {
+          "sp": "0x24010000",
+          "r6": "0x00A03110",
+          "r1": "0x00000001"
+        },
+        "memory": [
+          {
+            "address": "0x2402171C",
+            "hex": "01000000"
+          },
+          {
+            "address": "0x24021734",
+            "hex": "000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000424"
+          },
+          {
+            "address": "0x24000000",
+            "hex": "42535445b00000000c00000042564552a400000000000000cddae7f4010e1b2835424f5c697683909daab7c4d1deebf805121f2c394653606d7a8794a1aebbc8d5e2effc091623303d4a5764717e8b98a5b2bfccd9e6f3000d1a2734414e5b6875828f9ca9b6c3d0ddeaf704111e2b3845525f6c01000000adbac7d4e1eefb0815222f3c495663707d8a97a4b1becbd8e5f2ff0c192633404d5a6774818e9ba8b5c2cfdce9f603101d2a3744515e6b78"
+          },
+          {
+            "address": "0x2403FFF0",
+            "hex": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a542564552a400000000000000cddae7f4010e1b2835424f5c697683909daab7c4d1deebf805121f2c394653606d7a8794a1aebbc8d5e2effc091623303d4a5764717e8b98a5b2bfccd9e6f3000d1a2734414e5b6875828f9ca9b6c3d0ddeaf704111e2b3845525f6c01000000adbac7d4e1eefb0815222f3c495663707d8a97a4b1becbd8e5f2ff0c192633404d5a6774818e9ba8b5c2cfdce9f603101d2a3744515e6b78a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+          }
+        ],
+        "events": [
+          {
+            "kind": "stub",
+            "entry": "0x0EC731F6",
+            "arguments": [
+              "0x00000001",
+              "0x000000A4",
+              "0x2401FFD0",
+              "0x000000B0",
+              "0x45545342",
+              "0x0000000C"
+            ],
+            "reply_index": 0
+          }
+        ]
+      },
+      "steps": 224,
+      "scope": [
+        "Execute synthetic record parsing and lookup followed by the bounded revision fallback, varying bits outside the two tested decision bits."
+      ],
+      "limitations": [
+        "Raw acquisition, physical identity, real heap behavior and later platform initialization are excluded. Logging is disabled by the explicit synthetic verbosity byte. Any allocation call returns a declared buffer filled with 0xA5; this does not establish allocator initialization or failure behavior.",
+        "Entry assumes the earlier fallback gates selected this path. The selected revision is a bounded fallback result, not an observed board identity. No standalone function return is claimed."
+      ]
+    },
+    {
+      "id": "revision-fallback-word-00000003",
+      "function": {
+        "entry": "0x0EC6246E",
+        "language": "vc4:LE:32:default"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "gp": "0x24020000",
+          "sp": "0x24010000",
+          "r8": "0x24021564"
+        },
+        "memory": [
+          {
+            "address": "0x2400F800",
+            "size": 2048,
+            "fill": "00"
+          },
+          {
+            "address": "0x2401FFD4",
+            "hex": "00000024"
+          },
+          {
+            "address": "0x2402171C",
+            "hex": "00000000"
+          },
+          {
+            "address": "0x24021734",
+            "hex": "000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+          },
+          {
+            "address": "0x2402FCD8",
+            "hex": "00"
+          },
+          {
+            "address": "0x24021564",
+            "hex": "01000000"
+          },
+          {
+            "address": "0x24000000",
+            "hex": "42535445b00000000c00000042564552a400000000000000cddae7f4010e1b2835424f5c697683909daab7c4d1deebf805121f2c394653606d7a8794a1aebbc8d5e2effc091623303d4a5764717e8b98a5b2bfccd9e6f3000d1a2734414e5b6875828f9ca9b6c3d0ddeaf704111e2b3845525f6c03000000adbac7d4e1eefb0815222f3c495663707d8a97a4b1becbd8e5f2ff0c192633404d5a6774818e9ba8b5c2cfdce9f603101d2a3744515e6b78"
+          },
+          {
+            "address": "0x2403FFF0",
+            "size": 288,
+            "fill": "a5"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x0EC624C0",
+        "step_limit": 10000,
+        "stubs": [
+          {
+            "entry": "0x0EC731F6",
+            "label": "synthetic allocation boundary",
+            "replies": [
+              {
+                "registers": {
+                  "r0": "0x24040000"
+                },
+                "memory": []
+              }
+            ]
+          }
+        ],
+        "mmio_responses": []
+      },
+      "expected": {
+        "registers": {
+          "sp": "0x24010000",
+          "r6": "0x00A03114",
+          "r1": "0x00000001"
+        },
+        "memory": [
+          {
+            "address": "0x2402171C",
+            "hex": "01000000"
+          },
+          {
+            "address": "0x24021734",
+            "hex": "000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000424"
+          },
+          {
+            "address": "0x24000000",
+            "hex": "42535445b00000000c00000042564552a400000000000000cddae7f4010e1b2835424f5c697683909daab7c4d1deebf805121f2c394653606d7a8794a1aebbc8d5e2effc091623303d4a5764717e8b98a5b2bfccd9e6f3000d1a2734414e5b6875828f9ca9b6c3d0ddeaf704111e2b3845525f6c03000000adbac7d4e1eefb0815222f3c495663707d8a97a4b1becbd8e5f2ff0c192633404d5a6774818e9ba8b5c2cfdce9f603101d2a3744515e6b78"
+          },
+          {
+            "address": "0x2403FFF0",
+            "hex": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a542564552a400000000000000cddae7f4010e1b2835424f5c697683909daab7c4d1deebf805121f2c394653606d7a8794a1aebbc8d5e2effc091623303d4a5764717e8b98a5b2bfccd9e6f3000d1a2734414e5b6875828f9ca9b6c3d0ddeaf704111e2b3845525f6c03000000adbac7d4e1eefb0815222f3c495663707d8a97a4b1becbd8e5f2ff0c192633404d5a6774818e9ba8b5c2cfdce9f603101d2a3744515e6b78a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+          }
+        ],
+        "events": [
+          {
+            "kind": "stub",
+            "entry": "0x0EC731F6",
+            "arguments": [
+              "0x00000001",
+              "0x000000A4",
+              "0x2401FFD0",
+              "0x000000B0",
+              "0x45545342",
+              "0x0000000C"
+            ],
+            "reply_index": 0
+          }
+        ]
+      },
+      "steps": 225,
+      "scope": [
+        "Execute synthetic record parsing and lookup followed by the bounded revision fallback, varying bits outside the two tested decision bits."
+      ],
+      "limitations": [
+        "Raw acquisition, physical identity, real heap behavior and later platform initialization are excluded. Logging is disabled by the explicit synthetic verbosity byte. Any allocation call returns a declared buffer filled with 0xA5; this does not establish allocator initialization or failure behavior.",
+        "Entry assumes the earlier fallback gates selected this path. The selected revision is a bounded fallback result, not an observed board identity. No standalone function return is claimed."
+      ]
+    },
+    {
+      "id": "revision-fallback-word-00000005",
+      "function": {
+        "entry": "0x0EC6246E",
+        "language": "vc4:LE:32:default"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "gp": "0x24020000",
+          "sp": "0x24010000",
+          "r8": "0x24021564"
+        },
+        "memory": [
+          {
+            "address": "0x2400F800",
+            "size": 2048,
+            "fill": "00"
+          },
+          {
+            "address": "0x2401FFD4",
+            "hex": "00000024"
+          },
+          {
+            "address": "0x2402171C",
+            "hex": "00000000"
+          },
+          {
+            "address": "0x24021734",
+            "hex": "000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+          },
+          {
+            "address": "0x2402FCD8",
+            "hex": "00"
+          },
+          {
+            "address": "0x24021564",
+            "hex": "01000000"
+          },
+          {
+            "address": "0x24000000",
+            "hex": "42535445b00000000c00000042564552a400000000000000cddae7f4010e1b2835424f5c697683909daab7c4d1deebf805121f2c394653606d7a8794a1aebbc8d5e2effc091623303d4a5764717e8b98a5b2bfccd9e6f3000d1a2734414e5b6875828f9ca9b6c3d0ddeaf704111e2b3845525f6c05000000adbac7d4e1eefb0815222f3c495663707d8a97a4b1becbd8e5f2ff0c192633404d5a6774818e9ba8b5c2cfdce9f603101d2a3744515e6b78"
+          },
+          {
+            "address": "0x2403FFF0",
+            "size": 288,
+            "fill": "a5"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x0EC624C0",
+        "step_limit": 10000,
+        "stubs": [
+          {
+            "entry": "0x0EC731F6",
+            "label": "synthetic allocation boundary",
+            "replies": [
+              {
+                "registers": {
+                  "r0": "0x24040000"
+                },
+                "memory": []
+              }
+            ]
+          }
+        ],
+        "mmio_responses": []
+      },
+      "expected": {
+        "registers": {
+          "sp": "0x24010000",
+          "r6": "0x00C031C0",
+          "r1": "0x00000001"
+        },
+        "memory": [
+          {
+            "address": "0x2402171C",
+            "hex": "01000000"
+          },
+          {
+            "address": "0x24021734",
+            "hex": "000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000424"
+          },
+          {
+            "address": "0x24000000",
+            "hex": "42535445b00000000c00000042564552a400000000000000cddae7f4010e1b2835424f5c697683909daab7c4d1deebf805121f2c394653606d7a8794a1aebbc8d5e2effc091623303d4a5764717e8b98a5b2bfccd9e6f3000d1a2734414e5b6875828f9ca9b6c3d0ddeaf704111e2b3845525f6c05000000adbac7d4e1eefb0815222f3c495663707d8a97a4b1becbd8e5f2ff0c192633404d5a6774818e9ba8b5c2cfdce9f603101d2a3744515e6b78"
+          },
+          {
+            "address": "0x2403FFF0",
+            "hex": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a542564552a400000000000000cddae7f4010e1b2835424f5c697683909daab7c4d1deebf805121f2c394653606d7a8794a1aebbc8d5e2effc091623303d4a5764717e8b98a5b2bfccd9e6f3000d1a2734414e5b6875828f9ca9b6c3d0ddeaf704111e2b3845525f6c05000000adbac7d4e1eefb0815222f3c495663707d8a97a4b1becbd8e5f2ff0c192633404d5a6774818e9ba8b5c2cfdce9f603101d2a3744515e6b78a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+          }
+        ],
+        "events": [
+          {
+            "kind": "stub",
+            "entry": "0x0EC731F6",
+            "arguments": [
+              "0x00000001",
+              "0x000000A4",
+              "0x2401FFD0",
+              "0x000000B0",
+              "0x45545342",
+              "0x0000000C"
+            ],
+            "reply_index": 0
+          }
+        ]
+      },
+      "steps": 220,
+      "scope": [
+        "Execute synthetic record parsing and lookup followed by the bounded revision fallback, varying bits outside the two tested decision bits."
+      ],
+      "limitations": [
+        "Raw acquisition, physical identity, real heap behavior and later platform initialization are excluded. Logging is disabled by the explicit synthetic verbosity byte. Any allocation call returns a declared buffer filled with 0xA5; this does not establish allocator initialization or failure behavior.",
+        "Entry assumes the earlier fallback gates selected this path. The selected revision is a bounded fallback result, not an observed board identity. No standalone function return is claimed."
+      ]
+    },
+    {
+      "id": "revision-fallback-word-00000007",
+      "function": {
+        "entry": "0x0EC6246E",
+        "language": "vc4:LE:32:default"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "gp": "0x24020000",
+          "sp": "0x24010000",
+          "r8": "0x24021564"
+        },
+        "memory": [
+          {
+            "address": "0x2400F800",
+            "size": 2048,
+            "fill": "00"
+          },
+          {
+            "address": "0x2401FFD4",
+            "hex": "00000024"
+          },
+          {
+            "address": "0x2402171C",
+            "hex": "00000000"
+          },
+          {
+            "address": "0x24021734",
+            "hex": "000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+          },
+          {
+            "address": "0x2402FCD8",
+            "hex": "00"
+          },
+          {
+            "address": "0x24021564",
+            "hex": "01000000"
+          },
+          {
+            "address": "0x24000000",
+            "hex": "42535445b00000000c00000042564552a400000000000000cddae7f4010e1b2835424f5c697683909daab7c4d1deebf805121f2c394653606d7a8794a1aebbc8d5e2effc091623303d4a5764717e8b98a5b2bfccd9e6f3000d1a2734414e5b6875828f9ca9b6c3d0ddeaf704111e2b3845525f6c07000000adbac7d4e1eefb0815222f3c495663707d8a97a4b1becbd8e5f2ff0c192633404d5a6774818e9ba8b5c2cfdce9f603101d2a3744515e6b78"
+          },
+          {
+            "address": "0x2403FFF0",
+            "size": 288,
+            "fill": "a5"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x0EC624C0",
+        "step_limit": 10000,
+        "stubs": [
+          {
+            "entry": "0x0EC731F6",
+            "label": "synthetic allocation boundary",
+            "replies": [
+              {
+                "registers": {
+                  "r0": "0x24040000"
+                },
+                "memory": []
+              }
+            ]
+          }
+        ],
+        "mmio_responses": []
+      },
+      "expected": {
+        "registers": {
+          "sp": "0x24010000",
+          "r6": "0x00A03115",
+          "r1": "0x00000001"
+        },
+        "memory": [
+          {
+            "address": "0x2402171C",
+            "hex": "01000000"
+          },
+          {
+            "address": "0x24021734",
+            "hex": "000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000424"
+          },
+          {
+            "address": "0x24000000",
+            "hex": "42535445b00000000c00000042564552a400000000000000cddae7f4010e1b2835424f5c697683909daab7c4d1deebf805121f2c394653606d7a8794a1aebbc8d5e2effc091623303d4a5764717e8b98a5b2bfccd9e6f3000d1a2734414e5b6875828f9ca9b6c3d0ddeaf704111e2b3845525f6c07000000adbac7d4e1eefb0815222f3c495663707d8a97a4b1becbd8e5f2ff0c192633404d5a6774818e9ba8b5c2cfdce9f603101d2a3744515e6b78"
+          },
+          {
+            "address": "0x2403FFF0",
+            "hex": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a542564552a400000000000000cddae7f4010e1b2835424f5c697683909daab7c4d1deebf805121f2c394653606d7a8794a1aebbc8d5e2effc091623303d4a5764717e8b98a5b2bfccd9e6f3000d1a2734414e5b6875828f9ca9b6c3d0ddeaf704111e2b3845525f6c07000000adbac7d4e1eefb0815222f3c495663707d8a97a4b1becbd8e5f2ff0c192633404d5a6774818e9ba8b5c2cfdce9f603101d2a3744515e6b78a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+          }
+        ],
+        "events": [
+          {
+            "kind": "stub",
+            "entry": "0x0EC731F6",
+            "arguments": [
+              "0x00000001",
+              "0x000000A4",
+              "0x2401FFD0",
+              "0x000000B0",
+              "0x45545342",
+              "0x0000000C"
+            ],
+            "reply_index": 0
+          }
+        ]
+      },
+      "steps": 225,
+      "scope": [
+        "Execute synthetic record parsing and lookup followed by the bounded revision fallback, varying bits outside the two tested decision bits."
+      ],
+      "limitations": [
+        "Raw acquisition, physical identity, real heap behavior and later platform initialization are excluded. Logging is disabled by the explicit synthetic verbosity byte. Any allocation call returns a declared buffer filled with 0xA5; this does not establish allocator initialization or failure behavior.",
+        "Entry assumes the earlier fallback gates selected this path. The selected revision is a bounded fallback result, not an observed board identity. No standalone function return is claimed."
+      ]
+    },
+    {
+      "id": "revision-fallback-word-80000000",
+      "function": {
+        "entry": "0x0EC6246E",
+        "language": "vc4:LE:32:default"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "gp": "0x24020000",
+          "sp": "0x24010000",
+          "r8": "0x24021564"
+        },
+        "memory": [
+          {
+            "address": "0x2400F800",
+            "size": 2048,
+            "fill": "00"
+          },
+          {
+            "address": "0x2401FFD4",
+            "hex": "00000024"
+          },
+          {
+            "address": "0x2402171C",
+            "hex": "00000000"
+          },
+          {
+            "address": "0x24021734",
+            "hex": "000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+          },
+          {
+            "address": "0x2402FCD8",
+            "hex": "00"
+          },
+          {
+            "address": "0x24021564",
+            "hex": "01000000"
+          },
+          {
+            "address": "0x24000000",
+            "hex": "42535445b00000000c00000042564552a400000000000000cddae7f4010e1b2835424f5c697683909daab7c4d1deebf805121f2c394653606d7a8794a1aebbc8d5e2effc091623303d4a5764717e8b98a5b2bfccd9e6f3000d1a2734414e5b6875828f9ca9b6c3d0ddeaf704111e2b3845525f6c00000080adbac7d4e1eefb0815222f3c495663707d8a97a4b1becbd8e5f2ff0c192633404d5a6774818e9ba8b5c2cfdce9f603101d2a3744515e6b78"
+          },
+          {
+            "address": "0x2403FFF0",
+            "size": 288,
+            "fill": "a5"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x0EC624C0",
+        "step_limit": 10000,
+        "stubs": [
+          {
+            "entry": "0x0EC731F6",
+            "label": "synthetic allocation boundary",
+            "replies": [
+              {
+                "registers": {
+                  "r0": "0x24040000"
+                },
+                "memory": []
+              }
+            ]
+          }
+        ],
+        "mmio_responses": []
+      },
+      "expected": {
+        "registers": {
+          "sp": "0x24010000",
+          "r6": "0x00A03110",
+          "r1": "0x00000001"
+        },
+        "memory": [
+          {
+            "address": "0x2402171C",
+            "hex": "01000000"
+          },
+          {
+            "address": "0x24021734",
+            "hex": "000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000424"
+          },
+          {
+            "address": "0x24000000",
+            "hex": "42535445b00000000c00000042564552a400000000000000cddae7f4010e1b2835424f5c697683909daab7c4d1deebf805121f2c394653606d7a8794a1aebbc8d5e2effc091623303d4a5764717e8b98a5b2bfccd9e6f3000d1a2734414e5b6875828f9ca9b6c3d0ddeaf704111e2b3845525f6c00000080adbac7d4e1eefb0815222f3c495663707d8a97a4b1becbd8e5f2ff0c192633404d5a6774818e9ba8b5c2cfdce9f603101d2a3744515e6b78"
+          },
+          {
+            "address": "0x2403FFF0",
+            "hex": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a542564552a400000000000000cddae7f4010e1b2835424f5c697683909daab7c4d1deebf805121f2c394653606d7a8794a1aebbc8d5e2effc091623303d4a5764717e8b98a5b2bfccd9e6f3000d1a2734414e5b6875828f9ca9b6c3d0ddeaf704111e2b3845525f6c00000080adbac7d4e1eefb0815222f3c495663707d8a97a4b1becbd8e5f2ff0c192633404d5a6774818e9ba8b5c2cfdce9f603101d2a3744515e6b78a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+          }
+        ],
+        "events": [
+          {
+            "kind": "stub",
+            "entry": "0x0EC731F6",
+            "arguments": [
+              "0x00000001",
+              "0x000000A4",
+              "0x2401FFD0",
+              "0x000000B0",
+              "0x45545342",
+              "0x0000000C"
+            ],
+            "reply_index": 0
+          }
+        ]
+      },
+      "steps": 224,
+      "scope": [
+        "Execute synthetic record parsing and lookup followed by the bounded revision fallback, varying bits outside the two tested decision bits."
+      ],
+      "limitations": [
+        "Raw acquisition, physical identity, real heap behavior and later platform initialization are excluded. Logging is disabled by the explicit synthetic verbosity byte. Any allocation call returns a declared buffer filled with 0xA5; this does not establish allocator initialization or failure behavior.",
+        "Entry assumes the earlier fallback gates selected this path. The selected revision is a bounded fallback result, not an observed board identity. No standalone function return is claimed."
+      ]
+    },
+    {
+      "id": "revision-fallback-word-80000002",
+      "function": {
+        "entry": "0x0EC6246E",
+        "language": "vc4:LE:32:default"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "gp": "0x24020000",
+          "sp": "0x24010000",
+          "r8": "0x24021564"
+        },
+        "memory": [
+          {
+            "address": "0x2400F800",
+            "size": 2048,
+            "fill": "00"
+          },
+          {
+            "address": "0x2401FFD4",
+            "hex": "00000024"
+          },
+          {
+            "address": "0x2402171C",
+            "hex": "00000000"
+          },
+          {
+            "address": "0x24021734",
+            "hex": "000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+          },
+          {
+            "address": "0x2402FCD8",
+            "hex": "00"
+          },
+          {
+            "address": "0x24021564",
+            "hex": "01000000"
+          },
+          {
+            "address": "0x24000000",
+            "hex": "42535445b00000000c00000042564552a400000000000000cddae7f4010e1b2835424f5c697683909daab7c4d1deebf805121f2c394653606d7a8794a1aebbc8d5e2effc091623303d4a5764717e8b98a5b2bfccd9e6f3000d1a2734414e5b6875828f9ca9b6c3d0ddeaf704111e2b3845525f6c02000080adbac7d4e1eefb0815222f3c495663707d8a97a4b1becbd8e5f2ff0c192633404d5a6774818e9ba8b5c2cfdce9f603101d2a3744515e6b78"
+          },
+          {
+            "address": "0x2403FFF0",
+            "size": 288,
+            "fill": "a5"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x0EC624C0",
+        "step_limit": 10000,
+        "stubs": [
+          {
+            "entry": "0x0EC731F6",
+            "label": "synthetic allocation boundary",
+            "replies": [
+              {
+                "registers": {
+                  "r0": "0x24040000"
+                },
+                "memory": []
+              }
+            ]
+          }
+        ],
+        "mmio_responses": []
+      },
+      "expected": {
+        "registers": {
+          "sp": "0x24010000",
+          "r6": "0x00A03114",
+          "r1": "0x00000001"
+        },
+        "memory": [
+          {
+            "address": "0x2402171C",
+            "hex": "01000000"
+          },
+          {
+            "address": "0x24021734",
+            "hex": "000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000424"
+          },
+          {
+            "address": "0x24000000",
+            "hex": "42535445b00000000c00000042564552a400000000000000cddae7f4010e1b2835424f5c697683909daab7c4d1deebf805121f2c394653606d7a8794a1aebbc8d5e2effc091623303d4a5764717e8b98a5b2bfccd9e6f3000d1a2734414e5b6875828f9ca9b6c3d0ddeaf704111e2b3845525f6c02000080adbac7d4e1eefb0815222f3c495663707d8a97a4b1becbd8e5f2ff0c192633404d5a6774818e9ba8b5c2cfdce9f603101d2a3744515e6b78"
+          },
+          {
+            "address": "0x2403FFF0",
+            "hex": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a542564552a400000000000000cddae7f4010e1b2835424f5c697683909daab7c4d1deebf805121f2c394653606d7a8794a1aebbc8d5e2effc091623303d4a5764717e8b98a5b2bfccd9e6f3000d1a2734414e5b6875828f9ca9b6c3d0ddeaf704111e2b3845525f6c02000080adbac7d4e1eefb0815222f3c495663707d8a97a4b1becbd8e5f2ff0c192633404d5a6774818e9ba8b5c2cfdce9f603101d2a3744515e6b78a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+          }
+        ],
+        "events": [
+          {
+            "kind": "stub",
+            "entry": "0x0EC731F6",
+            "arguments": [
+              "0x00000001",
+              "0x000000A4",
+              "0x2401FFD0",
+              "0x000000B0",
+              "0x45545342",
+              "0x0000000C"
+            ],
+            "reply_index": 0
+          }
+        ]
+      },
+      "steps": 225,
+      "scope": [
+        "Execute synthetic record parsing and lookup followed by the bounded revision fallback, varying bits outside the two tested decision bits."
+      ],
+      "limitations": [
+        "Raw acquisition, physical identity, real heap behavior and later platform initialization are excluded. Logging is disabled by the explicit synthetic verbosity byte. Any allocation call returns a declared buffer filled with 0xA5; this does not establish allocator initialization or failure behavior.",
+        "Entry assumes the earlier fallback gates selected this path. The selected revision is a bounded fallback result, not an observed board identity. No standalone function return is claimed."
+      ]
+    },
+    {
+      "id": "revision-fallback-word-80000004",
+      "function": {
+        "entry": "0x0EC6246E",
+        "language": "vc4:LE:32:default"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "gp": "0x24020000",
+          "sp": "0x24010000",
+          "r8": "0x24021564"
+        },
+        "memory": [
+          {
+            "address": "0x2400F800",
+            "size": 2048,
+            "fill": "00"
+          },
+          {
+            "address": "0x2401FFD4",
+            "hex": "00000024"
+          },
+          {
+            "address": "0x2402171C",
+            "hex": "00000000"
+          },
+          {
+            "address": "0x24021734",
+            "hex": "000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+          },
+          {
+            "address": "0x2402FCD8",
+            "hex": "00"
+          },
+          {
+            "address": "0x24021564",
+            "hex": "01000000"
+          },
+          {
+            "address": "0x24000000",
+            "hex": "42535445b00000000c00000042564552a400000000000000cddae7f4010e1b2835424f5c697683909daab7c4d1deebf805121f2c394653606d7a8794a1aebbc8d5e2effc091623303d4a5764717e8b98a5b2bfccd9e6f3000d1a2734414e5b6875828f9ca9b6c3d0ddeaf704111e2b3845525f6c04000080adbac7d4e1eefb0815222f3c495663707d8a97a4b1becbd8e5f2ff0c192633404d5a6774818e9ba8b5c2cfdce9f603101d2a3744515e6b78"
+          },
+          {
+            "address": "0x2403FFF0",
+            "size": 288,
+            "fill": "a5"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x0EC624C0",
+        "step_limit": 10000,
+        "stubs": [
+          {
+            "entry": "0x0EC731F6",
+            "label": "synthetic allocation boundary",
+            "replies": [
+              {
+                "registers": {
+                  "r0": "0x24040000"
+                },
+                "memory": []
+              }
+            ]
+          }
+        ],
+        "mmio_responses": []
+      },
+      "expected": {
+        "registers": {
+          "sp": "0x24010000",
+          "r6": "0x00C031C0",
+          "r1": "0x00000001"
+        },
+        "memory": [
+          {
+            "address": "0x2402171C",
+            "hex": "01000000"
+          },
+          {
+            "address": "0x24021734",
+            "hex": "000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000424"
+          },
+          {
+            "address": "0x24000000",
+            "hex": "42535445b00000000c00000042564552a400000000000000cddae7f4010e1b2835424f5c697683909daab7c4d1deebf805121f2c394653606d7a8794a1aebbc8d5e2effc091623303d4a5764717e8b98a5b2bfccd9e6f3000d1a2734414e5b6875828f9ca9b6c3d0ddeaf704111e2b3845525f6c04000080adbac7d4e1eefb0815222f3c495663707d8a97a4b1becbd8e5f2ff0c192633404d5a6774818e9ba8b5c2cfdce9f603101d2a3744515e6b78"
+          },
+          {
+            "address": "0x2403FFF0",
+            "hex": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a542564552a400000000000000cddae7f4010e1b2835424f5c697683909daab7c4d1deebf805121f2c394653606d7a8794a1aebbc8d5e2effc091623303d4a5764717e8b98a5b2bfccd9e6f3000d1a2734414e5b6875828f9ca9b6c3d0ddeaf704111e2b3845525f6c04000080adbac7d4e1eefb0815222f3c495663707d8a97a4b1becbd8e5f2ff0c192633404d5a6774818e9ba8b5c2cfdce9f603101d2a3744515e6b78a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+          }
+        ],
+        "events": [
+          {
+            "kind": "stub",
+            "entry": "0x0EC731F6",
+            "arguments": [
+              "0x00000001",
+              "0x000000A4",
+              "0x2401FFD0",
+              "0x000000B0",
+              "0x45545342",
+              "0x0000000C"
+            ],
+            "reply_index": 0
+          }
+        ]
+      },
+      "steps": 220,
+      "scope": [
+        "Execute synthetic record parsing and lookup followed by the bounded revision fallback, varying bits outside the two tested decision bits."
+      ],
+      "limitations": [
+        "Raw acquisition, physical identity, real heap behavior and later platform initialization are excluded. Logging is disabled by the explicit synthetic verbosity byte. Any allocation call returns a declared buffer filled with 0xA5; this does not establish allocator initialization or failure behavior.",
+        "Entry assumes the earlier fallback gates selected this path. The selected revision is a bounded fallback result, not an observed board identity. No standalone function return is claimed."
+      ]
+    },
+    {
+      "id": "revision-fallback-word-80000006",
+      "function": {
+        "entry": "0x0EC6246E",
+        "language": "vc4:LE:32:default"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "gp": "0x24020000",
+          "sp": "0x24010000",
+          "r8": "0x24021564"
+        },
+        "memory": [
+          {
+            "address": "0x2400F800",
+            "size": 2048,
+            "fill": "00"
+          },
+          {
+            "address": "0x2401FFD4",
+            "hex": "00000024"
+          },
+          {
+            "address": "0x2402171C",
+            "hex": "00000000"
+          },
+          {
+            "address": "0x24021734",
+            "hex": "000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+          },
+          {
+            "address": "0x2402FCD8",
+            "hex": "00"
+          },
+          {
+            "address": "0x24021564",
+            "hex": "01000000"
+          },
+          {
+            "address": "0x24000000",
+            "hex": "42535445b00000000c00000042564552a400000000000000cddae7f4010e1b2835424f5c697683909daab7c4d1deebf805121f2c394653606d7a8794a1aebbc8d5e2effc091623303d4a5764717e8b98a5b2bfccd9e6f3000d1a2734414e5b6875828f9ca9b6c3d0ddeaf704111e2b3845525f6c06000080adbac7d4e1eefb0815222f3c495663707d8a97a4b1becbd8e5f2ff0c192633404d5a6774818e9ba8b5c2cfdce9f603101d2a3744515e6b78"
+          },
+          {
+            "address": "0x2403FFF0",
+            "size": 288,
+            "fill": "a5"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x0EC624C0",
+        "step_limit": 10000,
+        "stubs": [
+          {
+            "entry": "0x0EC731F6",
+            "label": "synthetic allocation boundary",
+            "replies": [
+              {
+                "registers": {
+                  "r0": "0x24040000"
+                },
+                "memory": []
+              }
+            ]
+          }
+        ],
+        "mmio_responses": []
+      },
+      "expected": {
+        "registers": {
+          "sp": "0x24010000",
+          "r6": "0x00A03115",
+          "r1": "0x00000001"
+        },
+        "memory": [
+          {
+            "address": "0x2402171C",
+            "hex": "01000000"
+          },
+          {
+            "address": "0x24021734",
+            "hex": "000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000424"
+          },
+          {
+            "address": "0x24000000",
+            "hex": "42535445b00000000c00000042564552a400000000000000cddae7f4010e1b2835424f5c697683909daab7c4d1deebf805121f2c394653606d7a8794a1aebbc8d5e2effc091623303d4a5764717e8b98a5b2bfccd9e6f3000d1a2734414e5b6875828f9ca9b6c3d0ddeaf704111e2b3845525f6c06000080adbac7d4e1eefb0815222f3c495663707d8a97a4b1becbd8e5f2ff0c192633404d5a6774818e9ba8b5c2cfdce9f603101d2a3744515e6b78"
+          },
+          {
+            "address": "0x2403FFF0",
+            "hex": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a542564552a400000000000000cddae7f4010e1b2835424f5c697683909daab7c4d1deebf805121f2c394653606d7a8794a1aebbc8d5e2effc091623303d4a5764717e8b98a5b2bfccd9e6f3000d1a2734414e5b6875828f9ca9b6c3d0ddeaf704111e2b3845525f6c06000080adbac7d4e1eefb0815222f3c495663707d8a97a4b1becbd8e5f2ff0c192633404d5a6774818e9ba8b5c2cfdce9f603101d2a3744515e6b78a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+          }
+        ],
+        "events": [
+          {
+            "kind": "stub",
+            "entry": "0x0EC731F6",
+            "arguments": [
+              "0x00000001",
+              "0x000000A4",
+              "0x2401FFD0",
+              "0x000000B0",
+              "0x45545342",
+              "0x0000000C"
+            ],
+            "reply_index": 0
+          }
+        ]
+      },
+      "steps": 225,
+      "scope": [
+        "Execute synthetic record parsing and lookup followed by the bounded revision fallback, varying bits outside the two tested decision bits."
+      ],
+      "limitations": [
+        "Raw acquisition, physical identity, real heap behavior and later platform initialization are excluded. Logging is disabled by the explicit synthetic verbosity byte. Any allocation call returns a declared buffer filled with 0xA5; this does not establish allocator initialization or failure behavior.",
+        "Entry assumes the earlier fallback gates selected this path. The selected revision is a bounded fallback result, not an observed board identity. No standalone function return is claimed."
+      ]
+    },
+    {
+      "id": "revision-fallback-word-fffffff9",
+      "function": {
+        "entry": "0x0EC6246E",
+        "language": "vc4:LE:32:default"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "gp": "0x24020000",
+          "sp": "0x24010000",
+          "r8": "0x24021564"
+        },
+        "memory": [
+          {
+            "address": "0x2400F800",
+            "size": 2048,
+            "fill": "00"
+          },
+          {
+            "address": "0x2401FFD4",
+            "hex": "00000024"
+          },
+          {
+            "address": "0x2402171C",
+            "hex": "00000000"
+          },
+          {
+            "address": "0x24021734",
+            "hex": "000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+          },
+          {
+            "address": "0x2402FCD8",
+            "hex": "00"
+          },
+          {
+            "address": "0x24021564",
+            "hex": "01000000"
+          },
+          {
+            "address": "0x24000000",
+            "hex": "42535445b00000000c00000042564552a400000000000000cddae7f4010e1b2835424f5c697683909daab7c4d1deebf805121f2c394653606d7a8794a1aebbc8d5e2effc091623303d4a5764717e8b98a5b2bfccd9e6f3000d1a2734414e5b6875828f9ca9b6c3d0ddeaf704111e2b3845525f6cf9ffffffadbac7d4e1eefb0815222f3c495663707d8a97a4b1becbd8e5f2ff0c192633404d5a6774818e9ba8b5c2cfdce9f603101d2a3744515e6b78"
+          },
+          {
+            "address": "0x2403FFF0",
+            "size": 288,
+            "fill": "a5"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x0EC624C0",
+        "step_limit": 10000,
+        "stubs": [
+          {
+            "entry": "0x0EC731F6",
+            "label": "synthetic allocation boundary",
+            "replies": [
+              {
+                "registers": {
+                  "r0": "0x24040000"
+                },
+                "memory": []
+              }
+            ]
+          }
+        ],
+        "mmio_responses": []
+      },
+      "expected": {
+        "registers": {
+          "sp": "0x24010000",
+          "r6": "0x00A03110",
+          "r1": "0x00000001"
+        },
+        "memory": [
+          {
+            "address": "0x2402171C",
+            "hex": "01000000"
+          },
+          {
+            "address": "0x24021734",
+            "hex": "000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000424"
+          },
+          {
+            "address": "0x24000000",
+            "hex": "42535445b00000000c00000042564552a400000000000000cddae7f4010e1b2835424f5c697683909daab7c4d1deebf805121f2c394653606d7a8794a1aebbc8d5e2effc091623303d4a5764717e8b98a5b2bfccd9e6f3000d1a2734414e5b6875828f9ca9b6c3d0ddeaf704111e2b3845525f6cf9ffffffadbac7d4e1eefb0815222f3c495663707d8a97a4b1becbd8e5f2ff0c192633404d5a6774818e9ba8b5c2cfdce9f603101d2a3744515e6b78"
+          },
+          {
+            "address": "0x2403FFF0",
+            "hex": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a542564552a400000000000000cddae7f4010e1b2835424f5c697683909daab7c4d1deebf805121f2c394653606d7a8794a1aebbc8d5e2effc091623303d4a5764717e8b98a5b2bfccd9e6f3000d1a2734414e5b6875828f9ca9b6c3d0ddeaf704111e2b3845525f6cf9ffffffadbac7d4e1eefb0815222f3c495663707d8a97a4b1becbd8e5f2ff0c192633404d5a6774818e9ba8b5c2cfdce9f603101d2a3744515e6b78a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+          }
+        ],
+        "events": [
+          {
+            "kind": "stub",
+            "entry": "0x0EC731F6",
+            "arguments": [
+              "0x00000001",
+              "0x000000A4",
+              "0x2401FFD0",
+              "0x000000B0",
+              "0x45545342",
+              "0x0000000C"
+            ],
+            "reply_index": 0
+          }
+        ]
+      },
+      "steps": 224,
+      "scope": [
+        "Execute synthetic record parsing and lookup followed by the bounded revision fallback, varying bits outside the two tested decision bits."
+      ],
+      "limitations": [
+        "Raw acquisition, physical identity, real heap behavior and later platform initialization are excluded. Logging is disabled by the explicit synthetic verbosity byte. Any allocation call returns a declared buffer filled with 0xA5; this does not establish allocator initialization or failure behavior.",
+        "Entry assumes the earlier fallback gates selected this path. The selected revision is a bounded fallback result, not an observed board identity. No standalone function return is claimed."
+      ]
+    },
+    {
+      "id": "revision-fallback-word-fffffffb",
+      "function": {
+        "entry": "0x0EC6246E",
+        "language": "vc4:LE:32:default"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "gp": "0x24020000",
+          "sp": "0x24010000",
+          "r8": "0x24021564"
+        },
+        "memory": [
+          {
+            "address": "0x2400F800",
+            "size": 2048,
+            "fill": "00"
+          },
+          {
+            "address": "0x2401FFD4",
+            "hex": "00000024"
+          },
+          {
+            "address": "0x2402171C",
+            "hex": "00000000"
+          },
+          {
+            "address": "0x24021734",
+            "hex": "000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+          },
+          {
+            "address": "0x2402FCD8",
+            "hex": "00"
+          },
+          {
+            "address": "0x24021564",
+            "hex": "01000000"
+          },
+          {
+            "address": "0x24000000",
+            "hex": "42535445b00000000c00000042564552a400000000000000cddae7f4010e1b2835424f5c697683909daab7c4d1deebf805121f2c394653606d7a8794a1aebbc8d5e2effc091623303d4a5764717e8b98a5b2bfccd9e6f3000d1a2734414e5b6875828f9ca9b6c3d0ddeaf704111e2b3845525f6cfbffffffadbac7d4e1eefb0815222f3c495663707d8a97a4b1becbd8e5f2ff0c192633404d5a6774818e9ba8b5c2cfdce9f603101d2a3744515e6b78"
+          },
+          {
+            "address": "0x2403FFF0",
+            "size": 288,
+            "fill": "a5"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x0EC624C0",
+        "step_limit": 10000,
+        "stubs": [
+          {
+            "entry": "0x0EC731F6",
+            "label": "synthetic allocation boundary",
+            "replies": [
+              {
+                "registers": {
+                  "r0": "0x24040000"
+                },
+                "memory": []
+              }
+            ]
+          }
+        ],
+        "mmio_responses": []
+      },
+      "expected": {
+        "registers": {
+          "sp": "0x24010000",
+          "r6": "0x00A03114",
+          "r1": "0x00000001"
+        },
+        "memory": [
+          {
+            "address": "0x2402171C",
+            "hex": "01000000"
+          },
+          {
+            "address": "0x24021734",
+            "hex": "000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000424"
+          },
+          {
+            "address": "0x24000000",
+            "hex": "42535445b00000000c00000042564552a400000000000000cddae7f4010e1b2835424f5c697683909daab7c4d1deebf805121f2c394653606d7a8794a1aebbc8d5e2effc091623303d4a5764717e8b98a5b2bfccd9e6f3000d1a2734414e5b6875828f9ca9b6c3d0ddeaf704111e2b3845525f6cfbffffffadbac7d4e1eefb0815222f3c495663707d8a97a4b1becbd8e5f2ff0c192633404d5a6774818e9ba8b5c2cfdce9f603101d2a3744515e6b78"
+          },
+          {
+            "address": "0x2403FFF0",
+            "hex": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a542564552a400000000000000cddae7f4010e1b2835424f5c697683909daab7c4d1deebf805121f2c394653606d7a8794a1aebbc8d5e2effc091623303d4a5764717e8b98a5b2bfccd9e6f3000d1a2734414e5b6875828f9ca9b6c3d0ddeaf704111e2b3845525f6cfbffffffadbac7d4e1eefb0815222f3c495663707d8a97a4b1becbd8e5f2ff0c192633404d5a6774818e9ba8b5c2cfdce9f603101d2a3744515e6b78a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+          }
+        ],
+        "events": [
+          {
+            "kind": "stub",
+            "entry": "0x0EC731F6",
+            "arguments": [
+              "0x00000001",
+              "0x000000A4",
+              "0x2401FFD0",
+              "0x000000B0",
+              "0x45545342",
+              "0x0000000C"
+            ],
+            "reply_index": 0
+          }
+        ]
+      },
+      "steps": 225,
+      "scope": [
+        "Execute synthetic record parsing and lookup followed by the bounded revision fallback, varying bits outside the two tested decision bits."
+      ],
+      "limitations": [
+        "Raw acquisition, physical identity, real heap behavior and later platform initialization are excluded. Logging is disabled by the explicit synthetic verbosity byte. Any allocation call returns a declared buffer filled with 0xA5; this does not establish allocator initialization or failure behavior.",
+        "Entry assumes the earlier fallback gates selected this path. The selected revision is a bounded fallback result, not an observed board identity. No standalone function return is claimed."
+      ]
+    },
+    {
+      "id": "revision-fallback-word-fffffffd",
+      "function": {
+        "entry": "0x0EC6246E",
+        "language": "vc4:LE:32:default"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "gp": "0x24020000",
+          "sp": "0x24010000",
+          "r8": "0x24021564"
+        },
+        "memory": [
+          {
+            "address": "0x2400F800",
+            "size": 2048,
+            "fill": "00"
+          },
+          {
+            "address": "0x2401FFD4",
+            "hex": "00000024"
+          },
+          {
+            "address": "0x2402171C",
+            "hex": "00000000"
+          },
+          {
+            "address": "0x24021734",
+            "hex": "000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+          },
+          {
+            "address": "0x2402FCD8",
+            "hex": "00"
+          },
+          {
+            "address": "0x24021564",
+            "hex": "01000000"
+          },
+          {
+            "address": "0x24000000",
+            "hex": "42535445b00000000c00000042564552a400000000000000cddae7f4010e1b2835424f5c697683909daab7c4d1deebf805121f2c394653606d7a8794a1aebbc8d5e2effc091623303d4a5764717e8b98a5b2bfccd9e6f3000d1a2734414e5b6875828f9ca9b6c3d0ddeaf704111e2b3845525f6cfdffffffadbac7d4e1eefb0815222f3c495663707d8a97a4b1becbd8e5f2ff0c192633404d5a6774818e9ba8b5c2cfdce9f603101d2a3744515e6b78"
+          },
+          {
+            "address": "0x2403FFF0",
+            "size": 288,
+            "fill": "a5"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x0EC624C0",
+        "step_limit": 10000,
+        "stubs": [
+          {
+            "entry": "0x0EC731F6",
+            "label": "synthetic allocation boundary",
+            "replies": [
+              {
+                "registers": {
+                  "r0": "0x24040000"
+                },
+                "memory": []
+              }
+            ]
+          }
+        ],
+        "mmio_responses": []
+      },
+      "expected": {
+        "registers": {
+          "sp": "0x24010000",
+          "r6": "0x00C031C0",
+          "r1": "0x00000001"
+        },
+        "memory": [
+          {
+            "address": "0x2402171C",
+            "hex": "01000000"
+          },
+          {
+            "address": "0x24021734",
+            "hex": "000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000424"
+          },
+          {
+            "address": "0x24000000",
+            "hex": "42535445b00000000c00000042564552a400000000000000cddae7f4010e1b2835424f5c697683909daab7c4d1deebf805121f2c394653606d7a8794a1aebbc8d5e2effc091623303d4a5764717e8b98a5b2bfccd9e6f3000d1a2734414e5b6875828f9ca9b6c3d0ddeaf704111e2b3845525f6cfdffffffadbac7d4e1eefb0815222f3c495663707d8a97a4b1becbd8e5f2ff0c192633404d5a6774818e9ba8b5c2cfdce9f603101d2a3744515e6b78"
+          },
+          {
+            "address": "0x2403FFF0",
+            "hex": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a542564552a400000000000000cddae7f4010e1b2835424f5c697683909daab7c4d1deebf805121f2c394653606d7a8794a1aebbc8d5e2effc091623303d4a5764717e8b98a5b2bfccd9e6f3000d1a2734414e5b6875828f9ca9b6c3d0ddeaf704111e2b3845525f6cfdffffffadbac7d4e1eefb0815222f3c495663707d8a97a4b1becbd8e5f2ff0c192633404d5a6774818e9ba8b5c2cfdce9f603101d2a3744515e6b78a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+          }
+        ],
+        "events": [
+          {
+            "kind": "stub",
+            "entry": "0x0EC731F6",
+            "arguments": [
+              "0x00000001",
+              "0x000000A4",
+              "0x2401FFD0",
+              "0x000000B0",
+              "0x45545342",
+              "0x0000000C"
+            ],
+            "reply_index": 0
+          }
+        ]
+      },
+      "steps": 220,
+      "scope": [
+        "Execute synthetic record parsing and lookup followed by the bounded revision fallback, varying bits outside the two tested decision bits."
+      ],
+      "limitations": [
+        "Raw acquisition, physical identity, real heap behavior and later platform initialization are excluded. Logging is disabled by the explicit synthetic verbosity byte. Any allocation call returns a declared buffer filled with 0xA5; this does not establish allocator initialization or failure behavior.",
+        "Entry assumes the earlier fallback gates selected this path. The selected revision is a bounded fallback result, not an observed board identity. No standalone function return is claimed."
+      ]
+    },
+    {
+      "id": "revision-fallback-word-ffffffff",
+      "function": {
+        "entry": "0x0EC6246E",
+        "language": "vc4:LE:32:default"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "gp": "0x24020000",
+          "sp": "0x24010000",
+          "r8": "0x24021564"
+        },
+        "memory": [
+          {
+            "address": "0x2400F800",
+            "size": 2048,
+            "fill": "00"
+          },
+          {
+            "address": "0x2401FFD4",
+            "hex": "00000024"
+          },
+          {
+            "address": "0x2402171C",
+            "hex": "00000000"
+          },
+          {
+            "address": "0x24021734",
+            "hex": "000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+          },
+          {
+            "address": "0x2402FCD8",
+            "hex": "00"
+          },
+          {
+            "address": "0x24021564",
+            "hex": "01000000"
+          },
+          {
+            "address": "0x24000000",
+            "hex": "42535445b00000000c00000042564552a400000000000000cddae7f4010e1b2835424f5c697683909daab7c4d1deebf805121f2c394653606d7a8794a1aebbc8d5e2effc091623303d4a5764717e8b98a5b2bfccd9e6f3000d1a2734414e5b6875828f9ca9b6c3d0ddeaf704111e2b3845525f6cffffffffadbac7d4e1eefb0815222f3c495663707d8a97a4b1becbd8e5f2ff0c192633404d5a6774818e9ba8b5c2cfdce9f603101d2a3744515e6b78"
+          },
+          {
+            "address": "0x2403FFF0",
+            "size": 288,
+            "fill": "a5"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x0EC624C0",
+        "step_limit": 10000,
+        "stubs": [
+          {
+            "entry": "0x0EC731F6",
+            "label": "synthetic allocation boundary",
+            "replies": [
+              {
+                "registers": {
+                  "r0": "0x24040000"
+                },
+                "memory": []
+              }
+            ]
+          }
+        ],
+        "mmio_responses": []
+      },
+      "expected": {
+        "registers": {
+          "sp": "0x24010000",
+          "r6": "0x00A03115",
+          "r1": "0x00000001"
+        },
+        "memory": [
+          {
+            "address": "0x2402171C",
+            "hex": "01000000"
+          },
+          {
+            "address": "0x24021734",
+            "hex": "000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000424"
+          },
+          {
+            "address": "0x24000000",
+            "hex": "42535445b00000000c00000042564552a400000000000000cddae7f4010e1b2835424f5c697683909daab7c4d1deebf805121f2c394653606d7a8794a1aebbc8d5e2effc091623303d4a5764717e8b98a5b2bfccd9e6f3000d1a2734414e5b6875828f9ca9b6c3d0ddeaf704111e2b3845525f6cffffffffadbac7d4e1eefb0815222f3c495663707d8a97a4b1becbd8e5f2ff0c192633404d5a6774818e9ba8b5c2cfdce9f603101d2a3744515e6b78"
+          },
+          {
+            "address": "0x2403FFF0",
+            "hex": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a542564552a400000000000000cddae7f4010e1b2835424f5c697683909daab7c4d1deebf805121f2c394653606d7a8794a1aebbc8d5e2effc091623303d4a5764717e8b98a5b2bfccd9e6f3000d1a2734414e5b6875828f9ca9b6c3d0ddeaf704111e2b3845525f6cffffffffadbac7d4e1eefb0815222f3c495663707d8a97a4b1becbd8e5f2ff0c192633404d5a6774818e9ba8b5c2cfdce9f603101d2a3744515e6b78a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+          }
+        ],
+        "events": [
+          {
+            "kind": "stub",
+            "entry": "0x0EC731F6",
+            "arguments": [
+              "0x00000001",
+              "0x000000A4",
+              "0x2401FFD0",
+              "0x000000B0",
+              "0x45545342",
+              "0x0000000C"
+            ],
+            "reply_index": 0
+          }
+        ]
+      },
+      "steps": 225,
+      "scope": [
+        "Execute synthetic record parsing and lookup followed by the bounded revision fallback, varying bits outside the two tested decision bits."
+      ],
+      "limitations": [
+        "Raw acquisition, physical identity, real heap behavior and later platform initialization are excluded. Logging is disabled by the explicit synthetic verbosity byte. Any allocation call returns a declared buffer filled with 0xA5; this does not establish allocator initialization or failure behavior.",
+        "Entry assumes the earlier fallback gates selected this path. The selected revision is a bounded fallback result, not an observed board identity. No standalone function return is claimed."
+      ]
+    }
+  ]
+}
