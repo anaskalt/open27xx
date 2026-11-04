@@ -161,6 +161,10 @@ The native cell has no scripted read plan. Its reads/writes at
 0x0EC7C918, 0x0EC7CB0A, 0x0EC7CB16 and 0x0EC7E66A access actual storage.
 The second native cell 0x0EE056B4, later enable-byte lookup and
 GP+0x1570/+0x04 are not reached or supplied by the joined fixture.
+The composed interface requires no firmware enable-byte input or lookup.
+An adapter using the existing word helper supplies zero in its required
+but unreachable enable field as an internal compatibility constant; that
+constant is not an observation of firmware or hardware state.
 
 ## State visibility and host validation
 
