@@ -8,6 +8,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ### Added
 
+- Freestanding fixed resource-request helper with literal boundary replies,
+  tagged return/stop outcomes and 16 synthetic fixture comparisons.
 - Fixed resource-request contract and 17 synthetic cases for dependency
   order, shared-state suppression and conditional check-context behavior.
 - Standard-pair lower-span arithmetic and 27 synthetic cases for explicit
