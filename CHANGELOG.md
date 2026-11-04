@@ -8,6 +8,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ### Added
 
+- Freestanding boot-information parser, cache lookup, zeroing allocator,
+  bounded revision fallback and metadata-pointer preparation, with 126
+  synthetic fixture comparisons and host bounds checks.
 - Boot-information record layouts, copy bounds, allocation zeroing and
   state-pointer execution vectors.
 - Pinned VPU bring-up build with ELF bounds checks and a separate BCM2711
@@ -21,6 +24,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 - Scalar fixture capture with explicit memory and device-call boundaries.
 - Filename override and zero-length fixup checks for replacement firmware loading.
 - ARM stub metadata format and five scalar execution vectors for buffer preparation.
+
+### Changed
+
+- Reserve LR in the isolated boot-information VPU compilation target.
 
 ## [0.1.1] - 2026-11-04
 

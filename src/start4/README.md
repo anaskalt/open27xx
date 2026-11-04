@@ -125,6 +125,118 @@ The Make target compiles the same helper with the VPU compiler and writes
 Connecting this helper to a loader still requires contracts for buffer
 placement, cache visibility and ARM release.
 
+## Boot-information helpers
+
+[`boot_info.h`](boot_info.h) exposes the freestanding parser, lookup,
+zeroing allocator, bounded revision fallback and metadata-pointer preparation in
+[`boot_info.c`](boot_info.c). The [format contract](../../docs/bcm2711/boot-information.md)
+defines the fifteen tags, capacities, traversal and allocation behavior.
+These helpers operate on caller-supplied buffers. They do not acquire boot
+information, initialize a board or start an ARM core.
+
+Initialize `struct boot_info_state` to zero. `boot_info_parse` receives that
+state, a source pointer and accessible byte length, an allocation callback
+and its context. The source length is independent of the declared traversal
+length: only the bytes actually read must be backed. Field accesses use
+bytes and accept unaligned source and destination buffers.
+
+The callback receives count 1 and the record capacity. It returns a host
+status and fills `struct boot_info_buffer` with a writable pointer and its
+accessible length. A null pointer reports allocation failure to the parser.
+A successful allocation must provide the requested capacity. The parser
+checks its extent and rejects overlap with source bytes, state or a live
+cached span before copying. Callbacks must not modify the source, state or
+existing cached storage, and must not reenter the same parser state.
+
+Each cache slot retains the allocation's pointer and the tag's capacity.
+The first record for a tag wins. An existing pointer is not dereferenced
+merely to skip a duplicate or return a lookup result. Storage remains owned
+by the callback's caller and must outlive the state and every returned
+view. The helper does not free storage. A callback retains responsibility
+for any allocation rejected by host checks.
+
+`boot_info_lookup` first runs the parser, then returns the cached buffer
+for its tag, or a null buffer for an incomplete parse, unknown tag or
+missing record. A nonzero completion word preserves its exact value and
+prevents further source access, even when the source changes. A null source
+also preserves state. Create a separate zero-initialized state for another independent record
+set; automatic cache invalidation is outside the contract.
+
+| Host result | Meaning |
+|---|---|
+| `BOOT_INFO_OK` | The documented operation returned; inspect completion or the output buffer for its effect |
+| `BOOT_INFO_INVALID` | A required state, output or wrapper-context argument is absent |
+| `BOOT_INFO_BOUNDS` | An accessed header, copied prefix or allocated span lacks backing |
+| `BOOT_INFO_OVERFLOW` | A supplied span or size calculation wraps the host address/size range |
+| `BOOT_INFO_ALLOCATION` | A needed parser callback or its returned pointer is absent |
+| `BOOT_INFO_OVERLAP` | Writable storage overlaps source, state or a cached span, or a lookup output overlaps state |
+
+These statuses are host safety results, not recovered firmware return
+codes. A parse failure leaves completion unset and retains any records
+cached before the failure. It does not cache the failing record. Retrying
+uses the retained records. Callback effects are not rolled back, including
+zeroing performed before parser overlap checks. A callback status other
+than `BOOT_INFO_OK` is returned unchanged. Callers must supply valid state,
+result and context objects with correct extents. These objects must not
+overlap each other, source bytes or any live cached or allocated storage.
+The parser detects source/state overlap and checks each allocation against
+the source, state and cached spans. Lookup detects output/state overlap
+before modifying either object. Callers must enforce all other separation
+requirements. The helpers cannot establish the lifetime of a supplied
+pointer or detect a falsely reported allocation extent.
+
+`boot_info_allocate_zeroed` is a separate allocation callback. Its context
+is `struct boot_info_zero_allocator`, containing the lower callback, lower
+context and an opaque 32-bit caller word. The wrapper checks count times
+item size, passes the product, literals 32 and 1, and the caller word with
+bit 31 set to the lower callback. It clears exactly the requested number
+of bytes on success, preserving any remaining accessible tail. A null
+lower result returns a null output with `BOOT_INFO_OK`; the parser treats
+that null output as its own allocation failure. A nonnull zero-size result
+is returned without writes. The extra lower arguments have no assigned
+platform meaning in this API.
+
+Using this wrapper with the parser gives zeroed record tails. Supplying a
+prefilled allocator directly preserves those tails. The two operations
+remain separately testable. The lower callback must also satisfy the
+storage-separation requirements before the wrapper clears its result.
+
+`boot_info_prepare_pointer` accepts an absent section unchanged. A present
+section requires at least 8 bytes; a matching marker writes 0x00040000 to
+its second little-endian word. Other bytes remain unchanged. The helper
+does not access the memory addressed by that field.
+
+`boot_info_fallback_revision` receives a presence flag and the decoded
+32-bit word at record offset 0x68. Only word bits 1 and 2 affect its result;
+an absent record selects 0x00A03110. The caller selects this bounded fallback
+path and obtains the word from an accessible record. The helper does not
+infer board identity or implement the preceding selection gates.
+
+```sh
+python3 -m unittest tests.test_boot_info
+make -C src/start4 check-boot-info
+OPEN27XX_SANITIZERS=1 python3 -m unittest tests.test_boot_info
+```
+
+The host test compiles the C helper with `CC` and replays synthetic records,
+cache identity, allocation calls, zeroing and pointer-store cases. It
+checks every observed memory span, including guards, and the documented
+lookup, allocation and bounded revision outputs. All 126 recorded cases
+are covered. Native registers and stack locations are outside this
+portable API. Composed allocation cases supply the recorded
+opaque caller word at the lower-call boundary; they test its forwarding,
+not native call-site identity. Separate wrapper cases derive that word
+from the supplied return-address input. A native harness runs 16384
+deterministic inputs with exact allocation sizes; the optional sanitizer
+mode compiles that harness with AddressSanitizer and UndefinedBehaviorSanitizer.
+
+The Make target compiles `build/start4/boot-info.o` with the pinned VPU
+compiler and `-Os -ffixed-lr`. This target verification configuration reserves
+LR from register allocation. Preserve `-ffixed-lr` when integrating the
+helper with the pinned VPU toolchain. Native host builds do not use this
+option. The target does not link the helper into `start4.elf`; acquisition
+and runtime integration require further contracts.
+
 ## Host staging
 
 ```sh
