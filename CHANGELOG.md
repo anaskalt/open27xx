@@ -8,6 +8,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ### Added
 
+- Suspend lookup, string-length and bounded-copy contracts with general
+  bounded inputs and 20 complete scalar fixture comparisons.
 - Freestanding selected callback registration and complete table-zero first
   opens with actual object registration, whole-call preflight and ordered observations.
 - Callback-registration and complete first-open return contracts with six
