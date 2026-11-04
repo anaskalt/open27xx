@@ -1536,3 +1536,52 @@ overflowing spans, count products and unterminated sources before copy
 writes. The isolated target preserves `-Os -ffixed-lr` for the VPU compiler.
 The helpers have no callbacks, MMIO or interrupt effects and do not
 establish runtime registration or physical state.
+
+## Bounded suspend registration
+
+[`suspend_registrar.h`](suspend_registrar.h) exposes `suspend_register` from
+[`suspend_registrar.c`](suspend_registrar.c). The
+[registrar contract](../../docs/bcm2711/suspend-registrar.md) defines its
+general bounded inputs. The separate operation remains unlinked from the
+runtime image and performs no physical interrupt or p16 access.
+
+```c
+suspend_register(inputs, object, name, logging, reads, observers, raw_result);
+```
+
+Inputs contain the first key, opaque callback token, cookie and incoming
+SR. The object byte view starts at saved SR and covers at least 2936 bytes.
+Its signed count accepts zero through `INT32_MAX`. Counts at least 40
+return raw `UINT32_MAX` before lookup. Lower counts use `suspend_lookup`:
+a match returns zero, and absence with a zero callback returns one.
+An absent nonzero callback inserts the tuple and basename, increments
+count and clears the insertion flag. `suspend_length` finds the first
+NUL; the last slash or backslash selects the basename; `suspend_copy`
+writes at most 21 bytes and one NUL. Other object bytes remain unchanged.
+
+Name storage is required only for insertion. Logging storage is required
+only below capacity and its byte must be below four. Every supplied view,
+including unused names and object tails, participates in full extent,
+overflow and pairwise overlap checks. Typed objects and read words require
+natural alignment; object and name bytes may be unaligned.
+
+The finite read plan contains zero or more ones followed by one zero.
+Required observers report DI with the incoming and masked SR, each read,
+and the complete saved-SR write. DI and reads see the unchanged object;
+write sees all completed object stores. Every observer sees the incoming
+raw-result word. The final raw result is published after write returns.
+Whole-call read-only preflight validates all storage, conditional inputs,
+the complete plan and observer availability before any effect. Host errors
+use the existing `suspend_status` values and preserve every supplied byte.
+Observer side effects and indirect storage follow the header's caller
+premises. Callback tokens remain data and are never invoked.
+
+```sh
+python3 -m unittest tests.test_suspend_registrar
+make -C src/start4 check-suspend-registrar
+```
+
+Tests compare all 16 public calls, full guarded storage and observation
+snapshots. Additional cases cover every count below capacity, arbitrary
+tuple words and SR bits, mixed separators, long names, declared tails,
+repeated final-slot insertion and host invalidity before any observation.
