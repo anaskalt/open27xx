@@ -51,30 +51,78 @@ Both files are in the pinned rpi-eeprom `firmware-2711/` tree.
 
 ## Compression
 
-The host LZSS decoder uses a 256-byte window:
+The LZSS rules below refer to `2711/bootcode4.bin` from raspberrypi/usbboot
+commit `fdb604d018693465c9aa6ec69879df866d2820da`, SHA-256
+`9e1b0b7df904a7fdc22e263d530c6e4c48921229631dd7ea2325271843996f6c`.
+The scalar decoder starts at file offset `0x0F7E`, address `0x80000F7E`
+under the provisional `0x80000000` mapping.
 
 1. A flag byte describes up to eight items, least significant bit first.
 2. A clear bit denotes one literal output byte.
 3. A set bit denotes two bytes: distance minus one, then length minus one.
-   Copy from that distance back, updating the window after each byte so
-   that overlapping copies repeat the bytes just written.
-4. The window is a ring buffer initialized to zero.
-5. Stop at the end of the compressed input; ignore unused flag bits.
+   Both distance and length range from 1 to 256.
+4. The history contains 256 bytes. Its write position starts at zero and
+   advances modulo 256 for every output byte.
+5. Before emitting a reference, copy all its source bytes from the
+   current history into a temporary buffer. For write position `p`,
+   distance `d` and length `n`, source byte `i` comes from
+   `(p - d + i) & 0xFF`, for `0 <= i < n`. This copy wraps at the end of
+   the history and completes before any history update for that item.
+6. Emit the temporary bytes in order, writing each to the history at the
+   current write position. A literal updates the history in the same way.
+7. Complete streams terminate at input exhaustion. An incomplete
+   reference is an error; the cases below do not specify every possible
+   trailing flag or truncated-item combination.
 
-These rules reproduce the stored SHA-256 values of the non-controller
-LZSS resources in the 120-image pinned catalog, including `memsys00.bin`
-in the 2020-03-04 sample above. This checks the successful decoded output,
-not the vendor decoder's handling of malformed input.
+A reference therefore reads a snapshot of the ring. For example, after
+literal bytes `0x00` through `0xFF`, a distance-1, length-8 reference emits
+`FF 00 01 02 03 04 05 06`. The first emitted `0xFF` does not replace the
+source bytes of the same reference.
+
+The decoder at `0x80000F7E` does not initialize the supplied history. Its
+SPI caller at file offset `0x9A70` passes two 256-byte stack areas for
+history and temporary storage without clearing the history in that
+routine. This does not establish the stack contents on entry. Output
+that reads unwritten history depends on those prior contents.
+
+A portable stream references only initialized history: every source slot
+of a reference must have been written by earlier output before that
+reference begins, including slots reached by wrapping. Testing only
+`distance <= output length` is insufficient. After 256 output bytes,
+all slots are initialized; before then, validity must cover the complete
+source range. A decoder without an explicit initial-history input rejects
+references to unwritten slots instead of assigning them zero values.
+
+[lzss.json](../../tests/vectors/lzss.json) contains 26 synthetic cases
+recorded from the decoder with an actual vendor output callback at
+`0x8000A56C`. Each case includes the encoded bytes, supplied initial
+history byte, observed decoded bytes and whether all references use
+initialized history. The zero-filled and `0x5A`-filled probes distinguish
+caller-dependent output from portable streams. The cases cover overlap,
+ring wrap and a 256-byte reference. Their supplied history is a test
+condition, not a boot-path guarantee.
+
+The 120-image pinned catalog contains 1079 LZSS occurrences of `bootmain`,
+`mcb.bin`, `memsys*.bin`, `logo.bin` and `font.bin`, with 94 distinct
+encoded streams. None references unwritten history or uses a length
+greater than its distance. Snapshot decoding reproduces every stored
+SHA-256, including the `memsys00.bin` resource at `0x020000` in the
+2020-03-04 sample above. Catalog digest checks alone cannot distinguish
+the snapshot rule from a decoder that feeds newly emitted bytes back
+into the same reference.
 
 Type `0x44` sections in the 2026-10-30 image decode as LZ4 frames. For
 example, the frame at `0x00C930` yields `bootmain`, whose digest is listed
 in [vendor-files.md](vendor-files.md).
 
-The host LZSS encoder chooses the longest match of 3 to 256 bytes within
-the 256-byte window, including its initial zero bytes. Equal-length
+The host LZSS encoder chooses the longest snapshot match of 3 to 256
+bytes within the 256-byte window. It considers only references whose
+complete source range is initialized by prior output. Equal-length
 matches select the smallest distance. Shorter matches become literals.
-This produces deterministic output; it does not reproduce the original
-compressed bytes. The host LZ4 encoder uses 65536-byte linked blocks,
+A match may have a length greater than its distance when the existing
+ring snapshot contains the required bytes. It must not rely on bytes
+that the same reference will emit. This produces deterministic output;
+it does not reproduce the original compressed bytes. The host LZ4 encoder uses 65536-byte linked blocks,
 compression level 9 and a stored content size, without frame or block
 checksums. Both encoders append the SHA-256 of the decoded contents to
 the section payload.
@@ -206,9 +254,10 @@ digest, codec choice or capacity check fails.
 - Timestamp selection on the device. Trace the references to `updatetime`
   and the end-of-image timestamp, then compare their precedence in
   emulation with distinct timestamp values.
-- Decoder edge cases. Compare truncated items, initial-window references
-  and trailing flag bits with the vendor LZSS routine in emulation.
-  Matching digests for complete resources does not settle these cases.
+- Decoder edge cases. Extend the synthetic cases for truncated items and
+  trailing flag bits before specifying all malformed-input behavior.
+  The decoder's initial history depends on caller memory; trace earlier
+  stack use before assigning an initial fill to a particular boot path.
 - Signature and key slots. Determine the firmware's accepted lengths and
   parsing rules for the slots at `0x06C600` and `0x06D200` using synthetic
   input in emulation; the zero-filled published slots cannot establish

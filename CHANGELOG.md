@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+## [0.1.1] - 2026-11-04
+
+### Fixed
+
+- Use LZSS history snapshots for references and reject unwritten history.
+- Limit LZSS encoder matches to bytes initialized before each reference.
+
 ## [0.1.0] - 2026-11-04
 
 ### Added
