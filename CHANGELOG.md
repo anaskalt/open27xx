@@ -8,6 +8,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ### Added
 
+- Memory-capacity calculation contract and 28 synthetic cases, with separate
+  MiB/class observations and explicit instruction preparation for replay.
 - BCM2711 PLLB register addresses and fields from pinned public sources,
   with explicit applicability and clock-state limits.
 - Freestanding ARM configuration-request and software start-request helpers,

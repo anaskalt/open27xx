@@ -159,6 +159,10 @@ The [BCM2711 clock-register reference](clocks.md) lists PLLB addresses,
 fields and applicability from pinned public sources. It leaves initial
 clock state and a complete ARM release sequence unresolved.
 
+The [memory-capacity calculation](memory-capacity.md) derives a MiB count
+and a separate class from supplied service bytes. Physical banks and
+reserved ranges remain prerequisites for payload placement.
+
 The [host build](../../src/start4/README.md) provides a pinned unsigned VPU
 bring-up image and a separate BCM2711 ARM entry stub. It does not yet
 implement the ARM release, Linux file-loading or mailbox paths. A

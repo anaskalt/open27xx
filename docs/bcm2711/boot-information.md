@@ -13,6 +13,10 @@ The contract covers parsing supplied records, caching their copies and
 preparing a state-pointer field. It does not establish record acquisition,
 physical memory placement, complete platform initialization or ARM release.
 
+The separate [memory-capacity contract](memory-capacity.md) covers numeric
+derivation from supplied byte replies. Neither that result nor the record
+parser establishes usable memory banks or reserved ranges.
+
 ## State-pointer field
 
 In pinned `start4.elf`, `.text.bootloader_state` occupies 16 bytes at
