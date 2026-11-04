@@ -79,7 +79,9 @@ extracted files and disassembly are excluded from the repository.
 
 - Normal boot without secure boot. Establish the file-loading and
   validation paths in the pinned bootmain before claiming which
-  replacement formats it accepts. Test the relevant loader functions in
+  replacement formats it accepts. The [ordinary ELF compatibility
+  checks](bcm2711/elf-compatibility.md) cover supplied state before segment
+  loading; connect them to storage completion and entry preparation in
   emulation.
 - ARM handoff. Identify the entry address, memory layout and register state
   established by the pinned `start4.elf`; reproduce those observations in

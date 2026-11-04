@@ -64,6 +64,12 @@ The loader behavior in this section belongs to `bootmain` from raspberrypi/usbbo
 
 The completion path at 0x00086754 validates the image with 0x0008E2A2, looks up `.text.firmware_rev` and `.text.bootloader_state` through 0x0008E19C, processes an available fixup and validates the result again. It then calls 0x0008E1EA to place segments in memory. [elf-section.json](../../tests/vectors/bootmain/elf-section.json) records successful and missing section-name lookups using a synthetic section table.
 
+The [ELF compatibility contract](elf-compatibility.md) describes the feature
+word checks between metadata lookup and segment loading. Its 35 synthetic
+cases cover ordinary-path decisions with supplied state. Six additional
+open-image observations stop at rejection or before the segment-loader
+call; they do not establish earlier security acceptance or complete boot.
+
 The [boot-information contract](boot-information.md) describes the state-pointer
 store in `.text.bootloader_state` and the supplied-record parser in `start4.elf`.
 Its vectors cover copy bounds, cached records and allocation zeroing. Record

@@ -8,6 +8,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ### Added
 
+- Ordinary ELF feature-word requirements, 35 synthetic compatibility
+  vectors and conditional observations for the open VPU image.
 - Freestanding boot-information parser, cache lookup, zeroing allocator,
   bounded revision fallback and metadata-pointer preparation, with 126
   synthetic fixture comparisons and host bounds checks.
