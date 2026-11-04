@@ -22,6 +22,11 @@ The 22 cases use the original reference-address descriptors and explicit
 cached state. They establish software effects and raw results, not live
 initialization, physical lock, elapsed time or an achieved clock rate.
 
+The [first clock composition](clock-composition.md) joins these bodies to
+the initialized manager and adds one exact divider read pair, beginning
+with 5 and ending with 0x00345678. Its separate contract owns nested state
+and cell effects. The 22 standalone fixture profiles below stay unchanged.
+
 ## Common premises
 
 In the identified `start4.elf`, all three entries compare the incoming
