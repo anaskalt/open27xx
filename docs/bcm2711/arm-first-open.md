@@ -310,6 +310,9 @@ returns and do not define rollback behavior.
   table slots 0x0C/0x14 after successful callback registration, preserving
   preceding MMIO/software writes and actual output handles. Inspect and
   execute those bodies before declaring external reply boundaries.
+  The separate [suspend software helpers](suspend-helpers.md) specify
+  lookup, length and bounded copy used after the registrar's interrupt
+  boundary; their complete calls do not establish a complete first open.
 - Runtime state acquisition. Establish the producer of the callback table,
   record clearing, count, configuration source and service index. Supplied
   zero/default tokens do not prove a live first-open state.

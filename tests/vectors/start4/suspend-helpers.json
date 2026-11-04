@@ -1,0 +1,2060 @@
+{
+  "schema": 1,
+  "source": {
+    "file": "start4.elf",
+    "repository": "raspberrypi/firmware",
+    "version": "ab5c7f86283ceb58b7adb269cae1d16092a31bf6",
+    "sha256": "38b179897c4514ad11bc915c3fd2d4b68c51e05df2e42240717655ab92d91aeb"
+  },
+  "cases": [
+    {
+      "id": "lookup-zero-count",
+      "function": {
+        "entry": "0x0EDA6DA6",
+        "language": "vc4:LE:32:default"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "gp": "0xE4000000",
+          "sp": "0x24010000",
+          "sr": "0x123450A0",
+          "r4": "0x44444444",
+          "r5": "0x55555555",
+          "r6": "0x66666666",
+          "r7": "0x77777777",
+          "r8": "0x88888888",
+          "r0": "0x00000001",
+          "r1": "0x0ED004C6",
+          "r2": "0x00000000"
+        },
+        "memory": [
+          {
+            "address": "0x2400FFA0",
+            "fill": "a5",
+            "size": 128
+          },
+          {
+            "address": "0xE40014E4",
+            "hex": "00000224"
+          },
+          {
+            "address": "0x24020B5C",
+            "hex": "00000000"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24040000",
+        "step_limit": 2000,
+        "stubs": [],
+        "mmio_responses": []
+      },
+      "scope": "Signed-count, first matching tag/callback/cookie record lookup.",
+      "limitations": [
+        "Synthetic declared software inputs; no claim of live object initialization.",
+        "Complete selected scalar helper call only; suspend registrar and IRQ boundary do not execute.",
+        "No computational stubs, supplied hardware identity, MMIO, processor-control register or interrupt semantics."
+      ],
+      "expected": {
+        "registers": {
+          "r0": "0xFFFFFFFF",
+          "r1": "0x0ED004C6",
+          "r2": "0x00000000",
+          "r3": "0x00000001",
+          "r4": "0x44444444",
+          "r5": "0x55555555",
+          "r6": "0x66666666",
+          "r7": "0x77777777",
+          "r8": "0x88888888",
+          "r9": "0x00000000",
+          "r10": "0x00000000",
+          "r11": "0x00000000",
+          "r12": "0x00000000",
+          "r13": "0x00000000",
+          "r14": "0x00000000",
+          "r15": "0x00000000",
+          "r16": "0x00000000",
+          "r17": "0x00000000",
+          "r18": "0x00000000",
+          "r19": "0x00000000",
+          "r20": "0x00000000",
+          "r21": "0x00000000",
+          "r22": "0x00000000",
+          "r23": "0x00000000",
+          "gp": "0xE4000000",
+          "sp": "0x24010000",
+          "lr": "0x24040000",
+          "r27": "0x00000000",
+          "r28": "0x00000000",
+          "r29": "0x00000000",
+          "sr": "0x123450A0",
+          "pc": "0x24040000"
+        },
+        "memory": [
+          {
+            "address": "0x2400FFA0",
+            "hex": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a588888888777777776666666600000424a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+          },
+          {
+            "address": "0xE40014E4",
+            "hex": "00000224"
+          },
+          {
+            "address": "0x24020B5C",
+            "hex": "00000000"
+          }
+        ],
+        "events": []
+      },
+      "steps": 8
+    },
+    {
+      "id": "lookup-negative-count",
+      "function": {
+        "entry": "0x0EDA6DA6",
+        "language": "vc4:LE:32:default"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "gp": "0xE4000000",
+          "sp": "0x24010000",
+          "sr": "0x123450A0",
+          "r4": "0x44444444",
+          "r5": "0x55555555",
+          "r6": "0x66666666",
+          "r7": "0x77777777",
+          "r8": "0x88888888",
+          "r0": "0x00000001",
+          "r1": "0x0ED004C6",
+          "r2": "0x00000000"
+        },
+        "memory": [
+          {
+            "address": "0x2400FFA0",
+            "fill": "a5",
+            "size": 128
+          },
+          {
+            "address": "0xE40014E4",
+            "hex": "00000224"
+          },
+          {
+            "address": "0x24020B5C",
+            "hex": "ffffffff"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24040000",
+        "step_limit": 2000,
+        "stubs": [],
+        "mmio_responses": []
+      },
+      "scope": "Signed-count, first matching tag/callback/cookie record lookup.",
+      "limitations": [
+        "Synthetic declared software inputs; no claim of live object initialization.",
+        "Complete selected scalar helper call only; suspend registrar and IRQ boundary do not execute.",
+        "No computational stubs, supplied hardware identity, MMIO, processor-control register or interrupt semantics."
+      ],
+      "expected": {
+        "registers": {
+          "r0": "0xFFFFFFFF",
+          "r1": "0x0ED004C6",
+          "r2": "0x00000000",
+          "r3": "0x00000001",
+          "r4": "0x44444444",
+          "r5": "0x55555555",
+          "r6": "0x66666666",
+          "r7": "0x77777777",
+          "r8": "0x88888888",
+          "r9": "0x00000000",
+          "r10": "0x00000000",
+          "r11": "0x00000000",
+          "r12": "0x00000000",
+          "r13": "0x00000000",
+          "r14": "0x00000000",
+          "r15": "0x00000000",
+          "r16": "0x00000000",
+          "r17": "0x00000000",
+          "r18": "0x00000000",
+          "r19": "0x00000000",
+          "r20": "0x00000000",
+          "r21": "0x00000000",
+          "r22": "0x00000000",
+          "r23": "0x00000000",
+          "gp": "0xE4000000",
+          "sp": "0x24010000",
+          "lr": "0x24040000",
+          "r27": "0x00000000",
+          "r28": "0x00000000",
+          "r29": "0x00000000",
+          "sr": "0x123450A0",
+          "pc": "0x24040000"
+        },
+        "memory": [
+          {
+            "address": "0x2400FFA0",
+            "hex": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a588888888777777776666666600000424a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+          },
+          {
+            "address": "0xE40014E4",
+            "hex": "00000224"
+          },
+          {
+            "address": "0x24020B5C",
+            "hex": "ffffffff"
+          }
+        ],
+        "events": []
+      },
+      "steps": 8
+    },
+    {
+      "id": "lookup-first-record",
+      "function": {
+        "entry": "0x0EDA6DA6",
+        "language": "vc4:LE:32:default"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "gp": "0xE4000000",
+          "sp": "0x24010000",
+          "sr": "0x123450A0",
+          "r4": "0x44444444",
+          "r5": "0x55555555",
+          "r6": "0x66666666",
+          "r7": "0x77777777",
+          "r8": "0x88888888",
+          "r0": "0x00000002",
+          "r1": "0x0ED004C6",
+          "r2": "0x00000000"
+        },
+        "memory": [
+          {
+            "address": "0x2400FFA0",
+            "fill": "a5",
+            "size": 128
+          },
+          {
+            "address": "0xE40014E4",
+            "hex": "00000224"
+          },
+          {
+            "address": "0x24020B5C",
+            "hex": "04000000"
+          },
+          {
+            "address": "0x24020010",
+            "hex": "c7c7c7c7c7c7c7c7c7c7c7c702c7c7c7c604d00e00000000c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c701c7c7c74006d00e00000000c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c701c7c7c7c604d00e00003412c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c701c7c7c7c604d00e00000000c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24040000",
+        "step_limit": 2000,
+        "stubs": [],
+        "mmio_responses": []
+      },
+      "scope": "Signed-count, first matching tag/callback/cookie record lookup.",
+      "limitations": [
+        "Synthetic declared software inputs; no claim of live object initialization.",
+        "Complete selected scalar helper call only; suspend registrar and IRQ boundary do not execute.",
+        "No computational stubs, supplied hardware identity, MMIO, processor-control register or interrupt semantics."
+      ],
+      "expected": {
+        "registers": {
+          "r0": "0x00000000",
+          "r1": "0x0ED004C6",
+          "r2": "0x00000000",
+          "r3": "0x00000002",
+          "r4": "0x00000000",
+          "r5": "0x0ED004C6",
+          "r6": "0x66666666",
+          "r7": "0x77777777",
+          "r8": "0x88888888",
+          "r9": "0x00000000",
+          "r10": "0x00000000",
+          "r11": "0x00000000",
+          "r12": "0x00000000",
+          "r13": "0x00000000",
+          "r14": "0x00000000",
+          "r15": "0x00000000",
+          "r16": "0x00000000",
+          "r17": "0x00000000",
+          "r18": "0x00000000",
+          "r19": "0x00000000",
+          "r20": "0x00000000",
+          "r21": "0x00000000",
+          "r22": "0x00000000",
+          "r23": "0x00000000",
+          "gp": "0xE4000000",
+          "sp": "0x24010000",
+          "lr": "0x24040000",
+          "r27": "0x00000000",
+          "r28": "0x00000000",
+          "r29": "0x00000000",
+          "sr": "0x123450A0",
+          "pc": "0x24040000"
+        },
+        "memory": [
+          {
+            "address": "0x2400FFA0",
+            "hex": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a588888888777777776666666600000424a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+          },
+          {
+            "address": "0xE40014E4",
+            "hex": "00000224"
+          },
+          {
+            "address": "0x24020B5C",
+            "hex": "04000000"
+          },
+          {
+            "address": "0x24020010",
+            "hex": "c7c7c7c7c7c7c7c7c7c7c7c702c7c7c7c604d00e00000000c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c701c7c7c74006d00e00000000c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c701c7c7c7c604d00e00003412c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c701c7c7c7c604d00e00000000c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7"
+          }
+        ],
+        "events": []
+      },
+      "steps": 16
+    },
+    {
+      "id": "lookup-last-record",
+      "function": {
+        "entry": "0x0EDA6DA6",
+        "language": "vc4:LE:32:default"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "gp": "0xE4000000",
+          "sp": "0x24010000",
+          "sr": "0x123450A0",
+          "r4": "0x44444444",
+          "r5": "0x55555555",
+          "r6": "0x66666666",
+          "r7": "0x77777777",
+          "r8": "0x88888888",
+          "r0": "0x00000001",
+          "r1": "0x0ED004C6",
+          "r2": "0x00000000"
+        },
+        "memory": [
+          {
+            "address": "0x2400FFA0",
+            "fill": "a5",
+            "size": 128
+          },
+          {
+            "address": "0xE40014E4",
+            "hex": "00000224"
+          },
+          {
+            "address": "0x24020B5C",
+            "hex": "04000000"
+          },
+          {
+            "address": "0x24020010",
+            "hex": "c7c7c7c7c7c7c7c7c7c7c7c702c7c7c7c604d00e00000000c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c701c7c7c74006d00e00000000c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c701c7c7c7c604d00e00003412c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c701c7c7c7c604d00e00000000c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24040000",
+        "step_limit": 2000,
+        "stubs": [],
+        "mmio_responses": []
+      },
+      "scope": "Signed-count, first matching tag/callback/cookie record lookup.",
+      "limitations": [
+        "Synthetic declared software inputs; no claim of live object initialization.",
+        "Complete selected scalar helper call only; suspend registrar and IRQ boundary do not execute.",
+        "No computational stubs, supplied hardware identity, MMIO, processor-control register or interrupt semantics."
+      ],
+      "expected": {
+        "registers": {
+          "r0": "0x00000003",
+          "r1": "0x0ED004C6",
+          "r2": "0x00000000",
+          "r3": "0x00000001",
+          "r4": "0x00000000",
+          "r5": "0x0ED004C6",
+          "r6": "0x66666666",
+          "r7": "0x77777777",
+          "r8": "0x88888888",
+          "r9": "0x00000000",
+          "r10": "0x00000000",
+          "r11": "0x00000000",
+          "r12": "0x00000000",
+          "r13": "0x00000000",
+          "r14": "0x00000000",
+          "r15": "0x00000000",
+          "r16": "0x00000000",
+          "r17": "0x00000000",
+          "r18": "0x00000000",
+          "r19": "0x00000000",
+          "r20": "0x00000000",
+          "r21": "0x00000000",
+          "r22": "0x00000000",
+          "r23": "0x00000000",
+          "gp": "0xE4000000",
+          "sp": "0x24010000",
+          "lr": "0x24040000",
+          "r27": "0x00000000",
+          "r28": "0x00000000",
+          "r29": "0x00000000",
+          "sr": "0x123450A0",
+          "pc": "0x24040000"
+        },
+        "memory": [
+          {
+            "address": "0x2400FFA0",
+            "hex": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a588888888777777776666666600000424a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+          },
+          {
+            "address": "0xE40014E4",
+            "hex": "00000224"
+          },
+          {
+            "address": "0x24020B5C",
+            "hex": "04000000"
+          },
+          {
+            "address": "0x24020010",
+            "hex": "c7c7c7c7c7c7c7c7c7c7c7c702c7c7c7c604d00e00000000c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c701c7c7c74006d00e00000000c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c701c7c7c7c604d00e00003412c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c701c7c7c7c604d00e00000000c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7"
+          }
+        ],
+        "events": []
+      },
+      "steps": 40
+    },
+    {
+      "id": "lookup-no-match",
+      "function": {
+        "entry": "0x0EDA6DA6",
+        "language": "vc4:LE:32:default"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "gp": "0xE4000000",
+          "sp": "0x24010000",
+          "sr": "0x123450A0",
+          "r4": "0x44444444",
+          "r5": "0x55555555",
+          "r6": "0x66666666",
+          "r7": "0x77777777",
+          "r8": "0x88888888",
+          "r0": "0x00000001",
+          "r1": "0x0ED004C6",
+          "r2": "0x11223344"
+        },
+        "memory": [
+          {
+            "address": "0x2400FFA0",
+            "fill": "a5",
+            "size": 128
+          },
+          {
+            "address": "0xE40014E4",
+            "hex": "00000224"
+          },
+          {
+            "address": "0x24020B5C",
+            "hex": "04000000"
+          },
+          {
+            "address": "0x24020010",
+            "hex": "c7c7c7c7c7c7c7c7c7c7c7c702c7c7c7c604d00e00000000c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c701c7c7c74006d00e00000000c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c701c7c7c7c604d00e00003412c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c701c7c7c7c604d00e00000000c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24040000",
+        "step_limit": 2000,
+        "stubs": [],
+        "mmio_responses": []
+      },
+      "scope": "Signed-count, first matching tag/callback/cookie record lookup.",
+      "limitations": [
+        "Synthetic declared software inputs; no claim of live object initialization.",
+        "Complete selected scalar helper call only; suspend registrar and IRQ boundary do not execute.",
+        "No computational stubs, supplied hardware identity, MMIO, processor-control register or interrupt semantics."
+      ],
+      "expected": {
+        "registers": {
+          "r0": "0xFFFFFFFF",
+          "r1": "0x0ED004C6",
+          "r2": "0x11223344",
+          "r3": "0x00000001",
+          "r4": "0x00000000",
+          "r5": "0x0ED004C6",
+          "r6": "0x66666666",
+          "r7": "0x77777777",
+          "r8": "0x88888888",
+          "r9": "0x00000000",
+          "r10": "0x00000000",
+          "r11": "0x00000000",
+          "r12": "0x00000000",
+          "r13": "0x00000000",
+          "r14": "0x00000000",
+          "r15": "0x00000000",
+          "r16": "0x00000000",
+          "r17": "0x00000000",
+          "r18": "0x00000000",
+          "r19": "0x00000000",
+          "r20": "0x00000000",
+          "r21": "0x00000000",
+          "r22": "0x00000000",
+          "r23": "0x00000000",
+          "gp": "0xE4000000",
+          "sp": "0x24010000",
+          "lr": "0x24040000",
+          "r27": "0x00000000",
+          "r28": "0x00000000",
+          "r29": "0x00000000",
+          "sr": "0x123450A0",
+          "pc": "0x24040000"
+        },
+        "memory": [
+          {
+            "address": "0x2400FFA0",
+            "hex": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a588888888777777776666666600000424a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+          },
+          {
+            "address": "0xE40014E4",
+            "hex": "00000224"
+          },
+          {
+            "address": "0x24020B5C",
+            "hex": "04000000"
+          },
+          {
+            "address": "0x24020010",
+            "hex": "c7c7c7c7c7c7c7c7c7c7c7c702c7c7c7c604d00e00000000c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c701c7c7c74006d00e00000000c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c701c7c7c7c604d00e00003412c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c701c7c7c7c604d00e00000000c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7"
+          }
+        ],
+        "events": []
+      },
+      "steps": 42
+    },
+    {
+      "id": "lookup-wide-tag",
+      "function": {
+        "entry": "0x0EDA6DA6",
+        "language": "vc4:LE:32:default"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "gp": "0xE4000000",
+          "sp": "0x24010000",
+          "sr": "0x123450A0",
+          "r4": "0x44444444",
+          "r5": "0x55555555",
+          "r6": "0x66666666",
+          "r7": "0x77777777",
+          "r8": "0x88888888",
+          "r0": "0x00000101",
+          "r1": "0x0ED004C6",
+          "r2": "0x00000000"
+        },
+        "memory": [
+          {
+            "address": "0x2400FFA0",
+            "fill": "a5",
+            "size": 128
+          },
+          {
+            "address": "0xE40014E4",
+            "hex": "00000224"
+          },
+          {
+            "address": "0x24020B5C",
+            "hex": "04000000"
+          },
+          {
+            "address": "0x24020010",
+            "hex": "c7c7c7c7c7c7c7c7c7c7c7c702c7c7c7c604d00e00000000c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c701c7c7c74006d00e00000000c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c701c7c7c7c604d00e00003412c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c701c7c7c7c604d00e00000000c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24040000",
+        "step_limit": 2000,
+        "stubs": [],
+        "mmio_responses": []
+      },
+      "scope": "Signed-count, first matching tag/callback/cookie record lookup.",
+      "limitations": [
+        "Synthetic declared software inputs; no claim of live object initialization.",
+        "Complete selected scalar helper call only; suspend registrar and IRQ boundary do not execute.",
+        "No computational stubs, supplied hardware identity, MMIO, processor-control register or interrupt semantics."
+      ],
+      "expected": {
+        "registers": {
+          "r0": "0xFFFFFFFF",
+          "r1": "0x0ED004C6",
+          "r2": "0x00000000",
+          "r3": "0x00000101",
+          "r4": "0x00000001",
+          "r5": "0x55555555",
+          "r6": "0x66666666",
+          "r7": "0x77777777",
+          "r8": "0x88888888",
+          "r9": "0x00000000",
+          "r10": "0x00000000",
+          "r11": "0x00000000",
+          "r12": "0x00000000",
+          "r13": "0x00000000",
+          "r14": "0x00000000",
+          "r15": "0x00000000",
+          "r16": "0x00000000",
+          "r17": "0x00000000",
+          "r18": "0x00000000",
+          "r19": "0x00000000",
+          "r20": "0x00000000",
+          "r21": "0x00000000",
+          "r22": "0x00000000",
+          "r23": "0x00000000",
+          "gp": "0xE4000000",
+          "sp": "0x24010000",
+          "lr": "0x24040000",
+          "r27": "0x00000000",
+          "r28": "0x00000000",
+          "r29": "0x00000000",
+          "sr": "0x123450A0",
+          "pc": "0x24040000"
+        },
+        "memory": [
+          {
+            "address": "0x2400FFA0",
+            "hex": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a588888888777777776666666600000424a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+          },
+          {
+            "address": "0xE40014E4",
+            "hex": "00000224"
+          },
+          {
+            "address": "0x24020B5C",
+            "hex": "04000000"
+          },
+          {
+            "address": "0x24020010",
+            "hex": "c7c7c7c7c7c7c7c7c7c7c7c702c7c7c7c604d00e00000000c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c701c7c7c74006d00e00000000c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c701c7c7c7c604d00e00003412c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c701c7c7c7c604d00e00000000c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7"
+          }
+        ],
+        "events": []
+      },
+      "steps": 32
+    },
+    {
+      "id": "lookup-first-duplicate",
+      "function": {
+        "entry": "0x0EDA6DA6",
+        "language": "vc4:LE:32:default"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "gp": "0xE4000000",
+          "sp": "0x24010000",
+          "sr": "0x123450A0",
+          "r4": "0x44444444",
+          "r5": "0x55555555",
+          "r6": "0x66666666",
+          "r7": "0x77777777",
+          "r8": "0x88888888",
+          "r0": "0x00000001",
+          "r1": "0x0ED004C6",
+          "r2": "0x00000000"
+        },
+        "memory": [
+          {
+            "address": "0x2400FFA0",
+            "fill": "a5",
+            "size": 128
+          },
+          {
+            "address": "0xE40014E4",
+            "hex": "00000224"
+          },
+          {
+            "address": "0x24020B5C",
+            "hex": "04000000"
+          },
+          {
+            "address": "0x24020010",
+            "hex": "c7c7c7c7c7c7c7c7c7c7c7c701c7c7c7c604d00e00000000c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c701c7c7c74006d00e00000000c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c701c7c7c7c604d00e00003412c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c701c7c7c7c604d00e00000000c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24040000",
+        "step_limit": 2000,
+        "stubs": [],
+        "mmio_responses": []
+      },
+      "scope": "Signed-count, first matching tag/callback/cookie record lookup.",
+      "limitations": [
+        "Synthetic declared software inputs; no claim of live object initialization.",
+        "Complete selected scalar helper call only; suspend registrar and IRQ boundary do not execute.",
+        "No computational stubs, supplied hardware identity, MMIO, processor-control register or interrupt semantics."
+      ],
+      "expected": {
+        "registers": {
+          "r0": "0x00000000",
+          "r1": "0x0ED004C6",
+          "r2": "0x00000000",
+          "r3": "0x00000001",
+          "r4": "0x00000000",
+          "r5": "0x0ED004C6",
+          "r6": "0x66666666",
+          "r7": "0x77777777",
+          "r8": "0x88888888",
+          "r9": "0x00000000",
+          "r10": "0x00000000",
+          "r11": "0x00000000",
+          "r12": "0x00000000",
+          "r13": "0x00000000",
+          "r14": "0x00000000",
+          "r15": "0x00000000",
+          "r16": "0x00000000",
+          "r17": "0x00000000",
+          "r18": "0x00000000",
+          "r19": "0x00000000",
+          "r20": "0x00000000",
+          "r21": "0x00000000",
+          "r22": "0x00000000",
+          "r23": "0x00000000",
+          "gp": "0xE4000000",
+          "sp": "0x24010000",
+          "lr": "0x24040000",
+          "r27": "0x00000000",
+          "r28": "0x00000000",
+          "r29": "0x00000000",
+          "sr": "0x123450A0",
+          "pc": "0x24040000"
+        },
+        "memory": [
+          {
+            "address": "0x2400FFA0",
+            "hex": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a588888888777777776666666600000424a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+          },
+          {
+            "address": "0xE40014E4",
+            "hex": "00000224"
+          },
+          {
+            "address": "0x24020B5C",
+            "hex": "04000000"
+          },
+          {
+            "address": "0x24020010",
+            "hex": "c7c7c7c7c7c7c7c7c7c7c7c701c7c7c7c604d00e00000000c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c701c7c7c74006d00e00000000c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c701c7c7c7c604d00e00003412c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c701c7c7c7c604d00e00000000c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7"
+          }
+        ],
+        "events": []
+      },
+      "steps": 16
+    },
+    {
+      "id": "length-empty",
+      "function": {
+        "entry": "0x0ED7B898",
+        "language": "vc4:LE:32:default"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "gp": "0xE4000000",
+          "sp": "0x24010000",
+          "sr": "0x123450A0",
+          "r4": "0x44444444",
+          "r5": "0x55555555",
+          "r6": "0x66666666",
+          "r7": "0x77777777",
+          "r8": "0x88888888",
+          "r0": "0x24022003"
+        },
+        "memory": [
+          {
+            "address": "0x2400FFA0",
+            "fill": "a5",
+            "size": 128
+          },
+          {
+            "address": "0x24022000",
+            "hex": "d1d2d300e1e2e3"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24040000",
+        "step_limit": 2000,
+        "stubs": [],
+        "mmio_responses": []
+      },
+      "scope": "String length through the real nested byte-search helper.",
+      "limitations": [
+        "Synthetic declared software inputs; no claim of live object initialization.",
+        "Complete selected scalar helper call only; suspend registrar and IRQ boundary do not execute.",
+        "No computational stubs, supplied hardware identity, MMIO, processor-control register or interrupt semantics."
+      ],
+      "expected": {
+        "registers": {
+          "r0": "0x00000000",
+          "r1": "0x00000000",
+          "r2": "0x7FFFFFFE",
+          "r3": "0x00000000",
+          "r4": "0x44444444",
+          "r5": "0x55555555",
+          "r6": "0x66666666",
+          "r7": "0x77777777",
+          "r8": "0x88888888",
+          "r9": "0x00000000",
+          "r10": "0x00000000",
+          "r11": "0x00000000",
+          "r12": "0x00000000",
+          "r13": "0x00000000",
+          "r14": "0x00000000",
+          "r15": "0x00000000",
+          "r16": "0x00000000",
+          "r17": "0x00000000",
+          "r18": "0x00000000",
+          "r19": "0x00000000",
+          "r20": "0x00000000",
+          "r21": "0x00000000",
+          "r22": "0x00000000",
+          "r23": "0x00000000",
+          "gp": "0xE4000000",
+          "sp": "0x24010000",
+          "lr": "0x0ED7B8A8",
+          "r27": "0x00000000",
+          "r28": "0x00000000",
+          "r29": "0x00000000",
+          "sr": "0x123450A0",
+          "pc": "0x24040000"
+        },
+        "memory": [
+          {
+            "address": "0x2400FFA0",
+            "hex": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a56666666600000424a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+          },
+          {
+            "address": "0x24022000",
+            "hex": "d1d2d300e1e2e3"
+          }
+        ],
+        "events": []
+      },
+      "steps": 16
+    },
+    {
+      "id": "length-high-byte",
+      "function": {
+        "entry": "0x0ED7B898",
+        "language": "vc4:LE:32:default"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "gp": "0xE4000000",
+          "sp": "0x24010000",
+          "sr": "0x123450A0",
+          "r4": "0x44444444",
+          "r5": "0x55555555",
+          "r6": "0x66666666",
+          "r7": "0x77777777",
+          "r8": "0x88888888",
+          "r0": "0x24022003"
+        },
+        "memory": [
+          {
+            "address": "0x2400FFA0",
+            "fill": "a5",
+            "size": 128
+          },
+          {
+            "address": "0x24022000",
+            "hex": "d1d2d38000e1e2e3"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24040000",
+        "step_limit": 2000,
+        "stubs": [],
+        "mmio_responses": []
+      },
+      "scope": "String length through the real nested byte-search helper.",
+      "limitations": [
+        "Synthetic declared software inputs; no claim of live object initialization.",
+        "Complete selected scalar helper call only; suspend registrar and IRQ boundary do not execute.",
+        "No computational stubs, supplied hardware identity, MMIO, processor-control register or interrupt semantics."
+      ],
+      "expected": {
+        "registers": {
+          "r0": "0x00000001",
+          "r1": "0x00000000",
+          "r2": "0x7FFFFFFD",
+          "r3": "0x00000000",
+          "r4": "0x44444444",
+          "r5": "0x55555555",
+          "r6": "0x66666666",
+          "r7": "0x77777777",
+          "r8": "0x88888888",
+          "r9": "0x00000000",
+          "r10": "0x00000000",
+          "r11": "0x00000000",
+          "r12": "0x00000000",
+          "r13": "0x00000000",
+          "r14": "0x00000000",
+          "r15": "0x00000000",
+          "r16": "0x00000000",
+          "r17": "0x00000000",
+          "r18": "0x00000000",
+          "r19": "0x00000000",
+          "r20": "0x00000000",
+          "r21": "0x00000000",
+          "r22": "0x00000000",
+          "r23": "0x00000000",
+          "gp": "0xE4000000",
+          "sp": "0x24010000",
+          "lr": "0x0ED7B8A8",
+          "r27": "0x00000000",
+          "r28": "0x00000000",
+          "r29": "0x00000000",
+          "sr": "0x123450A0",
+          "pc": "0x24040000"
+        },
+        "memory": [
+          {
+            "address": "0x2400FFA0",
+            "hex": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a56666666600000424a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+          },
+          {
+            "address": "0x24022000",
+            "hex": "d1d2d38000e1e2e3"
+          }
+        ],
+        "events": []
+      },
+      "steps": 22
+    },
+    {
+      "id": "length-path",
+      "function": {
+        "entry": "0x0ED7B898",
+        "language": "vc4:LE:32:default"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "gp": "0xE4000000",
+          "sp": "0x24010000",
+          "sr": "0x123450A0",
+          "r4": "0x44444444",
+          "r5": "0x55555555",
+          "r6": "0x66666666",
+          "r7": "0x77777777",
+          "r8": "0x88888888",
+          "r0": "0x24022003"
+        },
+        "memory": [
+          {
+            "address": "0x2400FFA0",
+            "fill": "a5",
+            "size": 128
+          },
+          {
+            "address": "0x24022000",
+            "hex": "d1d2d3666f6c6465725c6368696c642f6e616d6500e1e2e3"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24040000",
+        "step_limit": 2000,
+        "stubs": [],
+        "mmio_responses": []
+      },
+      "scope": "String length through the real nested byte-search helper.",
+      "limitations": [
+        "Synthetic declared software inputs; no claim of live object initialization.",
+        "Complete selected scalar helper call only; suspend registrar and IRQ boundary do not execute.",
+        "No computational stubs, supplied hardware identity, MMIO, processor-control register or interrupt semantics."
+      ],
+      "expected": {
+        "registers": {
+          "r0": "0x00000011",
+          "r1": "0x00000000",
+          "r2": "0x7FFFFFED",
+          "r3": "0x00000000",
+          "r4": "0x44444444",
+          "r5": "0x55555555",
+          "r6": "0x66666666",
+          "r7": "0x77777777",
+          "r8": "0x88888888",
+          "r9": "0x00000000",
+          "r10": "0x00000000",
+          "r11": "0x00000000",
+          "r12": "0x00000000",
+          "r13": "0x00000000",
+          "r14": "0x00000000",
+          "r15": "0x00000000",
+          "r16": "0x00000000",
+          "r17": "0x00000000",
+          "r18": "0x00000000",
+          "r19": "0x00000000",
+          "r20": "0x00000000",
+          "r21": "0x00000000",
+          "r22": "0x00000000",
+          "r23": "0x00000000",
+          "gp": "0xE4000000",
+          "sp": "0x24010000",
+          "lr": "0x0ED7B8A8",
+          "r27": "0x00000000",
+          "r28": "0x00000000",
+          "r29": "0x00000000",
+          "sr": "0x123450A0",
+          "pc": "0x24040000"
+        },
+        "memory": [
+          {
+            "address": "0x2400FFA0",
+            "hex": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a56666666600000424a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+          },
+          {
+            "address": "0x24022000",
+            "hex": "d1d2d3666f6c6465725c6368696c642f6e616d6500e1e2e3"
+          }
+        ],
+        "events": []
+      },
+      "steps": 118
+    },
+    {
+      "id": "length-first-nul",
+      "function": {
+        "entry": "0x0ED7B898",
+        "language": "vc4:LE:32:default"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "gp": "0xE4000000",
+          "sp": "0x24010000",
+          "sr": "0x123450A0",
+          "r4": "0x44444444",
+          "r5": "0x55555555",
+          "r6": "0x66666666",
+          "r7": "0x77777777",
+          "r8": "0x88888888",
+          "r0": "0x24022003"
+        },
+        "memory": [
+          {
+            "address": "0x2400FFA0",
+            "fill": "a5",
+            "size": 128
+          },
+          {
+            "address": "0x24022000",
+            "hex": "d1d2d361620069676e6f72656400e1e2e3"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24040000",
+        "step_limit": 2000,
+        "stubs": [],
+        "mmio_responses": []
+      },
+      "scope": "String length through the real nested byte-search helper.",
+      "limitations": [
+        "Synthetic declared software inputs; no claim of live object initialization.",
+        "Complete selected scalar helper call only; suspend registrar and IRQ boundary do not execute.",
+        "No computational stubs, supplied hardware identity, MMIO, processor-control register or interrupt semantics."
+      ],
+      "expected": {
+        "registers": {
+          "r0": "0x00000002",
+          "r1": "0x00000000",
+          "r2": "0x7FFFFFFC",
+          "r3": "0x00000000",
+          "r4": "0x44444444",
+          "r5": "0x55555555",
+          "r6": "0x66666666",
+          "r7": "0x77777777",
+          "r8": "0x88888888",
+          "r9": "0x00000000",
+          "r10": "0x00000000",
+          "r11": "0x00000000",
+          "r12": "0x00000000",
+          "r13": "0x00000000",
+          "r14": "0x00000000",
+          "r15": "0x00000000",
+          "r16": "0x00000000",
+          "r17": "0x00000000",
+          "r18": "0x00000000",
+          "r19": "0x00000000",
+          "r20": "0x00000000",
+          "r21": "0x00000000",
+          "r22": "0x00000000",
+          "r23": "0x00000000",
+          "gp": "0xE4000000",
+          "sp": "0x24010000",
+          "lr": "0x0ED7B8A8",
+          "r27": "0x00000000",
+          "r28": "0x00000000",
+          "r29": "0x00000000",
+          "sr": "0x123450A0",
+          "pc": "0x24040000"
+        },
+        "memory": [
+          {
+            "address": "0x2400FFA0",
+            "hex": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a56666666600000424a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+          },
+          {
+            "address": "0x24022000",
+            "hex": "d1d2d361620069676e6f72656400e1e2e3"
+          }
+        ],
+        "events": []
+      },
+      "steps": 28
+    },
+    {
+      "id": "copy-zero-capacity",
+      "function": {
+        "entry": "0x0EDA6698",
+        "language": "vc4:LE:32:default"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "gp": "0xE4000000",
+          "sp": "0x24010000",
+          "sr": "0x123450A0",
+          "r4": "0x44444444",
+          "r5": "0x55555555",
+          "r6": "0x66666666",
+          "r7": "0x77777777",
+          "r8": "0x88888888",
+          "r0": "0x24023005",
+          "r1": "0x24022003",
+          "r2": "0x00000000",
+          "r3": "0x00000000"
+        },
+        "memory": [
+          {
+            "address": "0x2400FFA0",
+            "fill": "a5",
+            "size": 128
+          },
+          {
+            "address": "0x24022000",
+            "hex": "d1d2d361626300e1e2e3"
+          },
+          {
+            "address": "0x24023000",
+            "hex": "d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24040000",
+        "step_limit": 2000,
+        "stubs": [],
+        "mmio_responses": []
+      },
+      "scope": "Bounded copy at explicit offset, terminator when capacity permits, full source length plus offset return.",
+      "limitations": [
+        "Synthetic declared software inputs; no claim of live object initialization.",
+        "Complete selected scalar helper call only; suspend registrar and IRQ boundary do not execute.",
+        "No computational stubs, supplied hardware identity, MMIO, processor-control register or interrupt semantics."
+      ],
+      "expected": {
+        "registers": {
+          "r0": "0x00000003",
+          "r1": "0x00000000",
+          "r2": "0x7FFFFFFB",
+          "r3": "0x00000000",
+          "r4": "0x44444444",
+          "r5": "0x55555555",
+          "r6": "0x66666666",
+          "r7": "0x77777777",
+          "r8": "0x88888888",
+          "r9": "0x00000000",
+          "r10": "0x00000000",
+          "r11": "0x00000000",
+          "r12": "0x00000000",
+          "r13": "0x00000000",
+          "r14": "0x00000000",
+          "r15": "0x00000000",
+          "r16": "0x00000000",
+          "r17": "0x00000000",
+          "r18": "0x00000000",
+          "r19": "0x00000000",
+          "r20": "0x00000000",
+          "r21": "0x00000000",
+          "r22": "0x00000000",
+          "r23": "0x00000000",
+          "gp": "0xE4000000",
+          "sp": "0x24010000",
+          "lr": "0x0ED7B8A8",
+          "r27": "0x00000000",
+          "r28": "0x00000000",
+          "r29": "0x00000000",
+          "sr": "0x123450A0",
+          "pc": "0x24040000"
+        },
+        "memory": [
+          {
+            "address": "0x2400FFA0",
+            "hex": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a500000000c666da0e6666666600000424a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+          },
+          {
+            "address": "0x24022000",
+            "hex": "d1d2d361626300e1e2e3"
+          },
+          {
+            "address": "0x24023000",
+            "hex": "d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7"
+          }
+        ],
+        "events": []
+      },
+      "steps": 41
+    },
+    {
+      "id": "copy-offset-at-capacity",
+      "function": {
+        "entry": "0x0EDA6698",
+        "language": "vc4:LE:32:default"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "gp": "0xE4000000",
+          "sp": "0x24010000",
+          "sr": "0x123450A0",
+          "r4": "0x44444444",
+          "r5": "0x55555555",
+          "r6": "0x66666666",
+          "r7": "0x77777777",
+          "r8": "0x88888888",
+          "r0": "0x24023005",
+          "r1": "0x24022003",
+          "r2": "0x00000004",
+          "r3": "0x00000004"
+        },
+        "memory": [
+          {
+            "address": "0x2400FFA0",
+            "fill": "a5",
+            "size": 128
+          },
+          {
+            "address": "0x24022000",
+            "hex": "d1d2d361626300e1e2e3"
+          },
+          {
+            "address": "0x24023000",
+            "hex": "d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24040000",
+        "step_limit": 2000,
+        "stubs": [],
+        "mmio_responses": []
+      },
+      "scope": "Bounded copy at explicit offset, terminator when capacity permits, full source length plus offset return.",
+      "limitations": [
+        "Synthetic declared software inputs; no claim of live object initialization.",
+        "Complete selected scalar helper call only; suspend registrar and IRQ boundary do not execute.",
+        "No computational stubs, supplied hardware identity, MMIO, processor-control register or interrupt semantics."
+      ],
+      "expected": {
+        "registers": {
+          "r0": "0x00000007",
+          "r1": "0x00000000",
+          "r2": "0x7FFFFFFB",
+          "r3": "0x00000000",
+          "r4": "0x44444444",
+          "r5": "0x55555555",
+          "r6": "0x66666666",
+          "r7": "0x77777777",
+          "r8": "0x88888888",
+          "r9": "0x00000000",
+          "r10": "0x00000000",
+          "r11": "0x00000000",
+          "r12": "0x00000000",
+          "r13": "0x00000000",
+          "r14": "0x00000000",
+          "r15": "0x00000000",
+          "r16": "0x00000000",
+          "r17": "0x00000000",
+          "r18": "0x00000000",
+          "r19": "0x00000000",
+          "r20": "0x00000000",
+          "r21": "0x00000000",
+          "r22": "0x00000000",
+          "r23": "0x00000000",
+          "gp": "0xE4000000",
+          "sp": "0x24010000",
+          "lr": "0x0ED7B8A8",
+          "r27": "0x00000000",
+          "r28": "0x00000000",
+          "r29": "0x00000000",
+          "sr": "0x123450A0",
+          "pc": "0x24040000"
+        },
+        "memory": [
+          {
+            "address": "0x2400FFA0",
+            "hex": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a504000000c666da0e6666666600000424a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+          },
+          {
+            "address": "0x24022000",
+            "hex": "d1d2d361626300e1e2e3"
+          },
+          {
+            "address": "0x24023000",
+            "hex": "d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7"
+          }
+        ],
+        "events": []
+      },
+      "steps": 41
+    },
+    {
+      "id": "copy-offset-above-capacity",
+      "function": {
+        "entry": "0x0EDA6698",
+        "language": "vc4:LE:32:default"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "gp": "0xE4000000",
+          "sp": "0x24010000",
+          "sr": "0x123450A0",
+          "r4": "0x44444444",
+          "r5": "0x55555555",
+          "r6": "0x66666666",
+          "r7": "0x77777777",
+          "r8": "0x88888888",
+          "r0": "0x24023005",
+          "r1": "0x24022003",
+          "r2": "0x00000004",
+          "r3": "0x00000005"
+        },
+        "memory": [
+          {
+            "address": "0x2400FFA0",
+            "fill": "a5",
+            "size": 128
+          },
+          {
+            "address": "0x24022000",
+            "hex": "d1d2d361626300e1e2e3"
+          },
+          {
+            "address": "0x24023000",
+            "hex": "d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24040000",
+        "step_limit": 2000,
+        "stubs": [],
+        "mmio_responses": []
+      },
+      "scope": "Bounded copy at explicit offset, terminator when capacity permits, full source length plus offset return.",
+      "limitations": [
+        "Synthetic declared software inputs; no claim of live object initialization.",
+        "Complete selected scalar helper call only; suspend registrar and IRQ boundary do not execute.",
+        "No computational stubs, supplied hardware identity, MMIO, processor-control register or interrupt semantics."
+      ],
+      "expected": {
+        "registers": {
+          "r0": "0x00000008",
+          "r1": "0x00000000",
+          "r2": "0x7FFFFFFB",
+          "r3": "0x00000000",
+          "r4": "0x44444444",
+          "r5": "0x55555555",
+          "r6": "0x66666666",
+          "r7": "0x77777777",
+          "r8": "0x88888888",
+          "r9": "0x00000000",
+          "r10": "0x00000000",
+          "r11": "0x00000000",
+          "r12": "0x00000000",
+          "r13": "0x00000000",
+          "r14": "0x00000000",
+          "r15": "0x00000000",
+          "r16": "0x00000000",
+          "r17": "0x00000000",
+          "r18": "0x00000000",
+          "r19": "0x00000000",
+          "r20": "0x00000000",
+          "r21": "0x00000000",
+          "r22": "0x00000000",
+          "r23": "0x00000000",
+          "gp": "0xE4000000",
+          "sp": "0x24010000",
+          "lr": "0x0ED7B8A8",
+          "r27": "0x00000000",
+          "r28": "0x00000000",
+          "r29": "0x00000000",
+          "sr": "0x123450A0",
+          "pc": "0x24040000"
+        },
+        "memory": [
+          {
+            "address": "0x2400FFA0",
+            "hex": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a505000000c666da0e6666666600000424a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+          },
+          {
+            "address": "0x24022000",
+            "hex": "d1d2d361626300e1e2e3"
+          },
+          {
+            "address": "0x24023000",
+            "hex": "d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7"
+          }
+        ],
+        "events": []
+      },
+      "steps": 41
+    },
+    {
+      "id": "copy-one-byte-capacity",
+      "function": {
+        "entry": "0x0EDA6698",
+        "language": "vc4:LE:32:default"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "gp": "0xE4000000",
+          "sp": "0x24010000",
+          "sr": "0x123450A0",
+          "r4": "0x44444444",
+          "r5": "0x55555555",
+          "r6": "0x66666666",
+          "r7": "0x77777777",
+          "r8": "0x88888888",
+          "r0": "0x24023005",
+          "r1": "0x24022003",
+          "r2": "0x00000001",
+          "r3": "0x00000000"
+        },
+        "memory": [
+          {
+            "address": "0x2400FFA0",
+            "fill": "a5",
+            "size": 128
+          },
+          {
+            "address": "0x24022000",
+            "hex": "d1d2d361626300e1e2e3"
+          },
+          {
+            "address": "0x24023000",
+            "hex": "d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24040000",
+        "step_limit": 2000,
+        "stubs": [],
+        "mmio_responses": []
+      },
+      "scope": "Bounded copy at explicit offset, terminator when capacity permits, full source length plus offset return.",
+      "limitations": [
+        "Synthetic declared software inputs; no claim of live object initialization.",
+        "Complete selected scalar helper call only; suspend registrar and IRQ boundary do not execute.",
+        "No computational stubs, supplied hardware identity, MMIO, processor-control register or interrupt semantics."
+      ],
+      "expected": {
+        "registers": {
+          "r0": "0x00000003",
+          "r1": "0x00000000",
+          "r2": "0x7FFFFFFB",
+          "r3": "0x00000000",
+          "r4": "0x00000000",
+          "r5": "0x24022003",
+          "r6": "0x66666666",
+          "r7": "0x77777777",
+          "r8": "0x88888888",
+          "r9": "0x00000000",
+          "r10": "0x00000000",
+          "r11": "0x00000000",
+          "r12": "0x00000000",
+          "r13": "0x00000000",
+          "r14": "0x00000000",
+          "r15": "0x00000000",
+          "r16": "0x00000000",
+          "r17": "0x00000000",
+          "r18": "0x00000000",
+          "r19": "0x00000000",
+          "r20": "0x00000000",
+          "r21": "0x00000000",
+          "r22": "0x00000000",
+          "r23": "0x00000000",
+          "gp": "0xE4000000",
+          "sp": "0x24010000",
+          "lr": "0x0ED7B8A8",
+          "r27": "0x00000000",
+          "r28": "0x00000000",
+          "r29": "0x00000000",
+          "sr": "0x123450A0",
+          "pc": "0x24040000"
+        },
+        "memory": [
+          {
+            "address": "0x2400FFA0",
+            "hex": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a500000000c666da0e6666666600000424a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+          },
+          {
+            "address": "0x24022000",
+            "hex": "d1d2d361626300e1e2e3"
+          },
+          {
+            "address": "0x24023000",
+            "hex": "d7d7d7d7d700d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7"
+          }
+        ],
+        "events": []
+      },
+      "steps": 52
+    },
+    {
+      "id": "copy-empty-source",
+      "function": {
+        "entry": "0x0EDA6698",
+        "language": "vc4:LE:32:default"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "gp": "0xE4000000",
+          "sp": "0x24010000",
+          "sr": "0x123450A0",
+          "r4": "0x44444444",
+          "r5": "0x55555555",
+          "r6": "0x66666666",
+          "r7": "0x77777777",
+          "r8": "0x88888888",
+          "r0": "0x24023005",
+          "r1": "0x24022003",
+          "r2": "0x00000016",
+          "r3": "0x00000000"
+        },
+        "memory": [
+          {
+            "address": "0x2400FFA0",
+            "fill": "a5",
+            "size": 128
+          },
+          {
+            "address": "0x24022000",
+            "hex": "d1d2d300e1e2e3"
+          },
+          {
+            "address": "0x24023000",
+            "hex": "d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24040000",
+        "step_limit": 2000,
+        "stubs": [],
+        "mmio_responses": []
+      },
+      "scope": "Bounded copy at explicit offset, terminator when capacity permits, full source length plus offset return.",
+      "limitations": [
+        "Synthetic declared software inputs; no claim of live object initialization.",
+        "Complete selected scalar helper call only; suspend registrar and IRQ boundary do not execute.",
+        "No computational stubs, supplied hardware identity, MMIO, processor-control register or interrupt semantics."
+      ],
+      "expected": {
+        "registers": {
+          "r0": "0x00000000",
+          "r1": "0x00000000",
+          "r2": "0x7FFFFFFE",
+          "r3": "0x00000000",
+          "r4": "0x00000000",
+          "r5": "0x24022003",
+          "r6": "0x66666666",
+          "r7": "0x77777777",
+          "r8": "0x88888888",
+          "r9": "0x00000000",
+          "r10": "0x00000000",
+          "r11": "0x00000000",
+          "r12": "0x00000000",
+          "r13": "0x00000000",
+          "r14": "0x00000000",
+          "r15": "0x00000000",
+          "r16": "0x00000000",
+          "r17": "0x00000000",
+          "r18": "0x00000000",
+          "r19": "0x00000000",
+          "r20": "0x00000000",
+          "r21": "0x00000000",
+          "r22": "0x00000000",
+          "r23": "0x00000000",
+          "gp": "0xE4000000",
+          "sp": "0x24010000",
+          "lr": "0x0ED7B8A8",
+          "r27": "0x00000000",
+          "r28": "0x00000000",
+          "r29": "0x00000000",
+          "sr": "0x123450A0",
+          "pc": "0x24040000"
+        },
+        "memory": [
+          {
+            "address": "0x2400FFA0",
+            "hex": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a500000000c666da0e6666666600000424a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+          },
+          {
+            "address": "0x24022000",
+            "hex": "d1d2d300e1e2e3"
+          },
+          {
+            "address": "0x24023000",
+            "hex": "d7d7d7d7d700d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7"
+          }
+        ],
+        "events": []
+      },
+      "steps": 34
+    },
+    {
+      "id": "copy-complete-source",
+      "function": {
+        "entry": "0x0EDA6698",
+        "language": "vc4:LE:32:default"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "gp": "0xE4000000",
+          "sp": "0x24010000",
+          "sr": "0x123450A0",
+          "r4": "0x44444444",
+          "r5": "0x55555555",
+          "r6": "0x66666666",
+          "r7": "0x77777777",
+          "r8": "0x88888888",
+          "r0": "0x24023005",
+          "r1": "0x24022003",
+          "r2": "0x00000016",
+          "r3": "0x00000000"
+        },
+        "memory": [
+          {
+            "address": "0x2400FFA0",
+            "fill": "a5",
+            "size": 128
+          },
+          {
+            "address": "0x24022000",
+            "hex": "d1d2d373757370656e642e6300e1e2e3"
+          },
+          {
+            "address": "0x24023000",
+            "hex": "d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24040000",
+        "step_limit": 2000,
+        "stubs": [],
+        "mmio_responses": []
+      },
+      "scope": "Bounded copy at explicit offset, terminator when capacity permits, full source length plus offset return.",
+      "limitations": [
+        "Synthetic declared software inputs; no claim of live object initialization.",
+        "Complete selected scalar helper call only; suspend registrar and IRQ boundary do not execute.",
+        "No computational stubs, supplied hardware identity, MMIO, processor-control register or interrupt semantics."
+      ],
+      "expected": {
+        "registers": {
+          "r0": "0x00000009",
+          "r1": "0x00000000",
+          "r2": "0x7FFFFFF5",
+          "r3": "0x00000000",
+          "r4": "0x00000000",
+          "r5": "0x2402200C",
+          "r6": "0x66666666",
+          "r7": "0x77777777",
+          "r8": "0x88888888",
+          "r9": "0x00000000",
+          "r10": "0x00000000",
+          "r11": "0x00000000",
+          "r12": "0x00000000",
+          "r13": "0x00000000",
+          "r14": "0x00000000",
+          "r15": "0x00000000",
+          "r16": "0x00000000",
+          "r17": "0x00000000",
+          "r18": "0x00000000",
+          "r19": "0x00000000",
+          "r20": "0x00000000",
+          "r21": "0x00000000",
+          "r22": "0x00000000",
+          "r23": "0x00000000",
+          "gp": "0xE4000000",
+          "sp": "0x24010000",
+          "lr": "0x0ED7B8A8",
+          "r27": "0x00000000",
+          "r28": "0x00000000",
+          "r29": "0x00000000",
+          "sr": "0x123450A0",
+          "pc": "0x24040000"
+        },
+        "memory": [
+          {
+            "address": "0x2400FFA0",
+            "hex": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a500000000c666da0e6666666600000424a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+          },
+          {
+            "address": "0x24022000",
+            "hex": "d1d2d373757370656e642e6300e1e2e3"
+          },
+          {
+            "address": "0x24023000",
+            "hex": "d7d7d7d7d773757370656e642e6300d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7"
+          }
+        ],
+        "events": []
+      },
+      "steps": 142
+    },
+    {
+      "id": "copy-truncated-source",
+      "function": {
+        "entry": "0x0EDA6698",
+        "language": "vc4:LE:32:default"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "gp": "0xE4000000",
+          "sp": "0x24010000",
+          "sr": "0x123450A0",
+          "r4": "0x44444444",
+          "r5": "0x55555555",
+          "r6": "0x66666666",
+          "r7": "0x77777777",
+          "r8": "0x88888888",
+          "r0": "0x24023005",
+          "r1": "0x24022003",
+          "r2": "0x00000016",
+          "r3": "0x00000000"
+        },
+        "memory": [
+          {
+            "address": "0x2400FFA0",
+            "fill": "a5",
+            "size": 128
+          },
+          {
+            "address": "0x24022000",
+            "hex": "d1d2d3303132333435363738396162636465666768696a6b6c6d6e6f7000e1e2e3"
+          },
+          {
+            "address": "0x24023000",
+            "hex": "d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24040000",
+        "step_limit": 2000,
+        "stubs": [],
+        "mmio_responses": []
+      },
+      "scope": "Bounded copy at explicit offset, terminator when capacity permits, full source length plus offset return.",
+      "limitations": [
+        "Synthetic declared software inputs; no claim of live object initialization.",
+        "Complete selected scalar helper call only; suspend registrar and IRQ boundary do not execute.",
+        "No computational stubs, supplied hardware identity, MMIO, processor-control register or interrupt semantics."
+      ],
+      "expected": {
+        "registers": {
+          "r0": "0x0000001A",
+          "r1": "0x00000000",
+          "r2": "0x7FFFFFE4",
+          "r3": "0x00000000",
+          "r4": "0x00000000",
+          "r5": "0x24022018",
+          "r6": "0x66666666",
+          "r7": "0x77777777",
+          "r8": "0x88888888",
+          "r9": "0x00000000",
+          "r10": "0x00000000",
+          "r11": "0x00000000",
+          "r12": "0x00000000",
+          "r13": "0x00000000",
+          "r14": "0x00000000",
+          "r15": "0x00000000",
+          "r16": "0x00000000",
+          "r17": "0x00000000",
+          "r18": "0x00000000",
+          "r19": "0x00000000",
+          "r20": "0x00000000",
+          "r21": "0x00000000",
+          "r22": "0x00000000",
+          "r23": "0x00000000",
+          "gp": "0xE4000000",
+          "sp": "0x24010000",
+          "lr": "0x0ED7B8A8",
+          "r27": "0x00000000",
+          "r28": "0x00000000",
+          "r29": "0x00000000",
+          "sr": "0x123450A0",
+          "pc": "0x24040000"
+        },
+        "memory": [
+          {
+            "address": "0x2400FFA0",
+            "hex": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a500000000c666da0e6666666600000424a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+          },
+          {
+            "address": "0x24022000",
+            "hex": "d1d2d3303132333435363738396162636465666768696a6b6c6d6e6f7000e1e2e3"
+          },
+          {
+            "address": "0x24023000",
+            "hex": "d7d7d7d7d7303132333435363738396162636465666768696a6b00d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7"
+          }
+        ],
+        "events": []
+      },
+      "steps": 316
+    },
+    {
+      "id": "copy-nonzero-offset",
+      "function": {
+        "entry": "0x0EDA6698",
+        "language": "vc4:LE:32:default"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "gp": "0xE4000000",
+          "sp": "0x24010000",
+          "sr": "0x123450A0",
+          "r4": "0x44444444",
+          "r5": "0x55555555",
+          "r6": "0x66666666",
+          "r7": "0x77777777",
+          "r8": "0x88888888",
+          "r0": "0x24023005",
+          "r1": "0x24022003",
+          "r2": "0x00000008",
+          "r3": "0x00000003"
+        },
+        "memory": [
+          {
+            "address": "0x2400FFA0",
+            "fill": "a5",
+            "size": 128
+          },
+          {
+            "address": "0x24022000",
+            "hex": "d1d2d361626300e1e2e3"
+          },
+          {
+            "address": "0x24023000",
+            "hex": "d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24040000",
+        "step_limit": 2000,
+        "stubs": [],
+        "mmio_responses": []
+      },
+      "scope": "Bounded copy at explicit offset, terminator when capacity permits, full source length plus offset return.",
+      "limitations": [
+        "Synthetic declared software inputs; no claim of live object initialization.",
+        "Complete selected scalar helper call only; suspend registrar and IRQ boundary do not execute.",
+        "No computational stubs, supplied hardware identity, MMIO, processor-control register or interrupt semantics."
+      ],
+      "expected": {
+        "registers": {
+          "r0": "0x00000006",
+          "r1": "0x00000000",
+          "r2": "0x7FFFFFFB",
+          "r3": "0x00000000",
+          "r4": "0x00000000",
+          "r5": "0x24022006",
+          "r6": "0x66666666",
+          "r7": "0x77777777",
+          "r8": "0x88888888",
+          "r9": "0x00000000",
+          "r10": "0x00000000",
+          "r11": "0x00000000",
+          "r12": "0x00000000",
+          "r13": "0x00000000",
+          "r14": "0x00000000",
+          "r15": "0x00000000",
+          "r16": "0x00000000",
+          "r17": "0x00000000",
+          "r18": "0x00000000",
+          "r19": "0x00000000",
+          "r20": "0x00000000",
+          "r21": "0x00000000",
+          "r22": "0x00000000",
+          "r23": "0x00000000",
+          "gp": "0xE4000000",
+          "sp": "0x24010000",
+          "lr": "0x0ED7B8A8",
+          "r27": "0x00000000",
+          "r28": "0x00000000",
+          "r29": "0x00000000",
+          "sr": "0x123450A0",
+          "pc": "0x24040000"
+        },
+        "memory": [
+          {
+            "address": "0x2400FFA0",
+            "hex": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a503000000c666da0e6666666600000424a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+          },
+          {
+            "address": "0x24022000",
+            "hex": "d1d2d361626300e1e2e3"
+          },
+          {
+            "address": "0x24023000",
+            "hex": "d7d7d7d7d7d7d7d761626300d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7"
+          }
+        ],
+        "events": []
+      },
+      "steps": 70
+    },
+    {
+      "id": "copy-return-wrap",
+      "function": {
+        "entry": "0x0EDA6698",
+        "language": "vc4:LE:32:default"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "gp": "0xE4000000",
+          "sp": "0x24010000",
+          "sr": "0x123450A0",
+          "r4": "0x44444444",
+          "r5": "0x55555555",
+          "r6": "0x66666666",
+          "r7": "0x77777777",
+          "r8": "0x88888888",
+          "r0": "0x24023005",
+          "r1": "0x24022003",
+          "r2": "0x00000000",
+          "r3": "0xFFFFFFFF"
+        },
+        "memory": [
+          {
+            "address": "0x2400FFA0",
+            "fill": "a5",
+            "size": 128
+          },
+          {
+            "address": "0x24022000",
+            "hex": "d1d2d361626300e1e2e3"
+          },
+          {
+            "address": "0x24023000",
+            "hex": "d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24040000",
+        "step_limit": 2000,
+        "stubs": [],
+        "mmio_responses": []
+      },
+      "scope": "Bounded copy at explicit offset, terminator when capacity permits, full source length plus offset return.",
+      "limitations": [
+        "Synthetic declared software inputs; no claim of live object initialization.",
+        "Complete selected scalar helper call only; suspend registrar and IRQ boundary do not execute.",
+        "No computational stubs, supplied hardware identity, MMIO, processor-control register or interrupt semantics."
+      ],
+      "expected": {
+        "registers": {
+          "r0": "0x00000002",
+          "r1": "0x00000000",
+          "r2": "0x7FFFFFFB",
+          "r3": "0x00000000",
+          "r4": "0x44444444",
+          "r5": "0x55555555",
+          "r6": "0x66666666",
+          "r7": "0x77777777",
+          "r8": "0x88888888",
+          "r9": "0x00000000",
+          "r10": "0x00000000",
+          "r11": "0x00000000",
+          "r12": "0x00000000",
+          "r13": "0x00000000",
+          "r14": "0x00000000",
+          "r15": "0x00000000",
+          "r16": "0x00000000",
+          "r17": "0x00000000",
+          "r18": "0x00000000",
+          "r19": "0x00000000",
+          "r20": "0x00000000",
+          "r21": "0x00000000",
+          "r22": "0x00000000",
+          "r23": "0x00000000",
+          "gp": "0xE4000000",
+          "sp": "0x24010000",
+          "lr": "0x0ED7B8A8",
+          "r27": "0x00000000",
+          "r28": "0x00000000",
+          "r29": "0x00000000",
+          "sr": "0x123450A0",
+          "pc": "0x24040000"
+        },
+        "memory": [
+          {
+            "address": "0x2400FFA0",
+            "hex": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5ffffffffc666da0e6666666600000424a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+          },
+          {
+            "address": "0x24022000",
+            "hex": "d1d2d361626300e1e2e3"
+          },
+          {
+            "address": "0x24023000",
+            "hex": "d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7"
+          }
+        ],
+        "events": []
+      },
+      "steps": 41
+    }
+  ]
+}
