@@ -8,6 +8,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ### Added
 
+- Memory-bank serialization contract and 48 synthetic cases for ordered
+  big-endian cells, numeric range selection and bounded caller stores.
 - Freestanding memory-capacity helper with ordered byte callbacks, separate
   MiB/class outputs and 24 complete synthetic fixture comparisons.
 - Memory-capacity calculation contract and 28 synthetic cases, with separate

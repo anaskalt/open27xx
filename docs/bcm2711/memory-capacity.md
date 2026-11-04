@@ -15,6 +15,10 @@ usable banks, reserved ranges, initialization order or payload placement.
 The [boot-information parser](boot-information.md) has a separate contract;
 its record copies do not supply a memory-map interpretation.
 
+The [memory-bank serializer](memory-layout.md) consumes a supplied capacity
+and separate lower-span and record inputs. Its encoded tuples still require
+independent validation of physical mapping and ownership.
+
 ## Indexed byte service
 
 In the identified `start4.elf`, helper 0x0ED6B440 calls boundary
