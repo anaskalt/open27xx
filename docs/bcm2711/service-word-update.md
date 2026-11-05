@@ -218,6 +218,9 @@ already have recorded the write, so absent output does not imply rollback.
   hardware; supplied scalar values do not identify a real processor state.
 - Runtime index and opaque word producers. Establish executed initialization
   and caller state before claiming a complete first-open service call.
+  The [initialization prefix](driver-initialization.md) clears the first
+  lookup destination and prepares its request, but stops before SWI and
+  the result store. The cleared word is not a demonstrated lookup result.
 - Exception composition. Establish vector selection, trap-frame production,
   privilege and return behavior before joining the wrapper, dispatcher,
   selected body and RTI. Preserve the independent standalone evidence.

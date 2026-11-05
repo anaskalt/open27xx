@@ -242,9 +242,11 @@ emulated effects.
 
 ## Open questions
 
-- Runtime mask producers. Establish executed initialization and mask
-  updates before treating supplied words as live startup state. The memory
-  mapping and optional copy do not establish initial contents.
+- Runtime mask state. Establish startup ordering and subsequent mask
+  updates before treating supplied words as live startup state. The recorded
+  [initialization prefix](driver-initialization.md) clears both masks before
+  its first SWI, but does not establish live startup ordering or subsequent
+  mask writes. The optional copy remains a separate producer path.
 - Physical extended-count semantics. Compare the four variable-shift
   sites and signed-wrap boundary with authoritative scalar ISA evidence
   or a separate permitted hardware observation before making a hardware

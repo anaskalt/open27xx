@@ -261,9 +261,11 @@ does not imply rollback.
 
 ## Open questions
 
-- Runtime mask, object and name producers. Establish executed initialization
-  and lifetime before treating explicit inputs as live startup state.
-  Known optional-copy and initialization relationships do not prove it.
+- Runtime mask, object and name producers. Establish startup ordering and
+  lifetime before treating explicit inputs as live startup state.
+  The [initialization prefix](driver-initialization.md) clears the mask
+  control span before its first SWI; it does not establish startup ordering,
+  registrar-object initialization or the name's producer and lifetime.
 - Higher caller and opaque output. The first-open call at 0x0EC59E56 supplies
   a null source. Nonnull standalone cases do not establish a higher runtime
   path. This callback does not write GP+0x3B484 or produce its opaque word;
