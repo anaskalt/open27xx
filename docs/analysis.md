@@ -74,6 +74,53 @@ convention before emulating a function. Vector instructions have
 processor-specific p-code operations without execution semantics in this
 extension; do not emulate vector code.
 
+## Bounded startup inspection
+
+`InspectStartupInitialization.java` exports instruction bytes and compiled
+p-code from two fixed ranges in `start4.elf`, raspberrypi/firmware
+commit `ab5c7f86283ceb58b7adb269cae1d16092a31bf6`, SHA-256
+`38b179897c4514ad11bc915c3fd2d4b68c51e05df2e42240717655ab92d91aeb`.
+The ranges are 182 bytes at 0x0EC3D740, file offset 0x3D140, and two
+bytes at 0x0EC3D7F6, file offset 0x3D1F6. It also inspects the 36-byte
+table at 0x0EDD7870, file offset 0x1D7270.
+
+The script verifies the complete original file digest, direct file mapping,
+and current-byte equality for each range. Its default `listing` mode
+requires existing instructions at every selected code address and stops
+if an instruction is missing or crosses a range boundary.
+
+An optional final argument `pseudo` selects Ghidra's `PseudoDisassembler`.
+Each instruction receives only the remaining bytes of its exact range,
+with a fresh decoder using the current program context. The output records
+the current, default, nondefault and default-disassembly context masks and
+values. Omitted context keys represent null API results. A zero context
+mask marks bits whose values are unknown. No context value is supplied
+or changed. Unknown instructions, low-bit code modes, delay slots and
+next-instruction dependencies are rejected. Results describe that recorded
+decoder context; they do not establish equivalence to an omitted
+flow-specific context.
+
+Neither mode performs analysis, emulation or program modification. Selected
+current bytes, instruction definitions and context values are checked again
+before output. Limits are 92 instructions, 4096 p-code operations and
+1048576 output characters.
+
+Use an unused output path outside the tracked tree. The JSON contains
+firmware bytes and instruction text and must remain local.
+
+```sh
+GHIDRA_HEADLESS_MAXMEM=2G /opt/ghidra/support/analyzeHeadless \
+  /work/analysis/projects firmware_a \
+  -process start4.elf -readOnly -noanalysis -max-cpu 1 \
+  -scriptPath tools/ghidra \
+  -postScript InspectStartupInitialization.java \
+  38b179897c4514ad11bc915c3fd2d4b68c51e05df2e42240717655ab92d91aeb \
+  /work/analysis/startup-initialization.json
+```
+
+Append `pseudo` after the output path to select detached decoding. The
+default mode does not fall back to it when an instruction is missing.
+
 ## Scalar observations
 
 The [source-backed ELF data contract](elf-data-observations.md) permits
