@@ -1696,6 +1696,57 @@ spans, all virtual exclusions, host overlap and unchanged storage on
 rejection. The isolated VPU compilation target uses the existing flags
 and leaves the helper unlinked from the runtime image.
 
+## Conditional SoC initialization
+
+[`soc_initialization.h`](soc_initialization.h) exposes
+`soc_initialization_run` from [`soc_initialization.c`](soc_initialization.c).
+The [conditional contract](../../docs/bcm2711/soc-initialization.md)
+defines the general scalar inputs, guarded ordinary buffers and stack frame.
+
+```c
+soc_initialization_run(input, observations, memory, stack, result);
+```
+
+Input supplies all 31 scalar words. Observations supplies VERSION1 and one
+follow-up word, tagged as MMIO for a recognized selector or VERSION2 for
+every other selector. The follow-up word is independent of VERSION1.
+Memory supplies seven buffers of exactly 16, 16, 12, 8, 20, 12 and 12 bytes
+in region-enum order. Their numeric addresses derive from GP. The diagnostic
+byte is at offset 4 in its buffer and accepts values 0 through 3.
+
+Success updates selected flag, classification, control, mode and completion
+fields, and saves incoming LR and r6 through r10 in the 24-byte stack frame.
+All transfers use little-endian byte order. Unselected flags, every guard,
+and the complete diagnostic and watched buffers remain unchanged. The
+default path neither reads nor writes the control word. Result contains
+all final scalar words and PC, published after the ordinary and frame
+stores. Status is separate from final r0.
+
+All five typed objects and eight byte pointers are required. Typed objects
+have natural host alignment; byte storage may be unaligned. Complete
+preflight checks all 13 full host spans, exact buffer lengths, virtual
+bounds and exclusions, GP and SP alignment, frame containment, even LR,
+the observation tag and diagnostic range. Adjacent half-open spans are
+permitted. Rejection preserves all supplied storage, including result.
+
+Callers supply backing, readability, writable result/frame and selected
+ordinary fields, and lifetime without concurrent access until return.
+Numeric addresses never become host pointers. No hardware access,
+callbacks, intermediate-state observer or physical timing is exposed.
+The operation establishes no startup arrival or allocation lifetime.
+
+```sh
+python3 -m unittest tests.test_soc_initialization
+make -C src/start4 check-soc-initialization
+```
+
+Tests cover every selector, both conditional bits, full-width observations,
+all admitted diagnostic values, arbitrary scalar and ordinary state, and
+complete frame/guard preservation. Additional cases check unsupported
+values, all host-span overlaps, virtual exclusions, adjacent boundaries
+and atomic rejection. The isolated VPU compilation target leaves the
+operation unlinked from the runtime image.
+
 ## Service initialization
 
 [`service_initialization.h`](service_initialization.h) exposes
