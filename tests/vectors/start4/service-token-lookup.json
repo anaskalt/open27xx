@@ -1,0 +1,547 @@
+{
+  "schema": 1,
+  "source": {
+    "file": "start4.elf",
+    "repository": "raspberrypi/firmware",
+    "version": "ab5c7f86283ceb58b7adb269cae1d16092a31bf6",
+    "bytes": 2303104,
+    "sha256": "38b179897c4514ad11bc915c3fd2d4b68c51e05df2e42240717655ab92d91aeb"
+  },
+  "cases": [
+    {
+      "id": "first-table-token",
+      "function": {
+        "entry": "0xCEC00D82",
+        "language": "vc4:LE:32:default"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "r0": "0xCEC00D82",
+          "r1": "0xA1000001",
+          "r2": "0xA1000002",
+          "r3": "0xA1000003",
+          "r4": "0xA1000004",
+          "r5": "0xA1000005",
+          "r6": "0xA1000006",
+          "r7": "0xA1000007",
+          "r8": "0xA1000008",
+          "r9": "0xA1000009",
+          "r10": "0xA100000A",
+          "r11": "0xA100000B",
+          "r12": "0xA100000C",
+          "r13": "0xA100000D",
+          "r14": "0xA100000E",
+          "r15": "0xA100000F",
+          "r16": "0xA1000010",
+          "r17": "0xA1000011",
+          "r18": "0xA1000012",
+          "r19": "0xA1000013",
+          "r20": "0xA1000014",
+          "r21": "0xA1000015",
+          "r22": "0xA1000016",
+          "r23": "0xA1000017",
+          "gp": "0xE4000000",
+          "sp": "0x24010000",
+          "sr": "0x00000000",
+          "r27": "0xB0000027",
+          "r28": "0xB0000028",
+          "r29": "0xB0000029"
+        },
+        "memory": [
+          {
+            "address": "0x2400FFC0",
+            "size": 128,
+            "fill": "a5"
+          },
+          {
+            "address": "0xE40CB488",
+            "hex": "d5d5d5d5"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24040000",
+        "step_limit": 160,
+        "stubs": [],
+        "mmio_responses": []
+      },
+      "expected": {
+        "registers": {
+          "r0": "0x00000000",
+          "r1": "0xCEC01B64",
+          "r2": "0x0000002A",
+          "r3": "0x00000000",
+          "r4": "0xCEC00D82",
+          "r5": "0xA1000005",
+          "r6": "0xA1000006",
+          "r7": "0xA1000007",
+          "r8": "0xA1000008",
+          "r9": "0xA1000009",
+          "r10": "0xA100000A",
+          "r11": "0xA100000B",
+          "r12": "0xA100000C",
+          "r13": "0xA100000D",
+          "r14": "0xA100000E",
+          "r15": "0xA100000F",
+          "r16": "0xA1000010",
+          "r17": "0xA1000011",
+          "r18": "0xA1000012",
+          "r19": "0xA1000013",
+          "r20": "0xA1000014",
+          "r21": "0xA1000015",
+          "r22": "0xA1000016",
+          "r23": "0xA1000017",
+          "gp": "0xE4000000",
+          "sp": "0x24010000",
+          "lr": "0x24040000",
+          "r27": "0xB0000027",
+          "r28": "0xB0000028",
+          "r29": "0xB0000029",
+          "sr": "0x00000000",
+          "pc": "0x24040000"
+        },
+        "memory": [
+          {
+            "address": "0x2400FFC0",
+            "hex": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+          },
+          {
+            "address": "0xE40CB488",
+            "hex": "d5d5d5d5"
+          }
+        ],
+        "events": []
+      },
+      "steps": 7
+    },
+    {
+      "id": "first-open-service-token",
+      "function": {
+        "entry": "0xCEC00D82",
+        "language": "vc4:LE:32:default"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "r0": "0xCEC006D0",
+          "r1": "0xA1010001",
+          "r2": "0xA1010002",
+          "r3": "0xA1010003",
+          "r4": "0xA1010004",
+          "r5": "0xA1010005",
+          "r6": "0xA1010006",
+          "r7": "0xA1010007",
+          "r8": "0xA1010008",
+          "r9": "0xA1010009",
+          "r10": "0xA101000A",
+          "r11": "0xA101000B",
+          "r12": "0xA101000C",
+          "r13": "0xA101000D",
+          "r14": "0xA101000E",
+          "r15": "0xA101000F",
+          "r16": "0xA1010010",
+          "r17": "0xA1010011",
+          "r18": "0xA1010012",
+          "r19": "0xA1010013",
+          "r20": "0xA1010014",
+          "r21": "0xA1010015",
+          "r22": "0xA1010016",
+          "r23": "0xA1010017",
+          "gp": "0xE4000000",
+          "sp": "0x24010000",
+          "sr": "0x400000A5",
+          "r27": "0xB0000027",
+          "r28": "0xB0000028",
+          "r29": "0xB0000029"
+        },
+        "memory": [
+          {
+            "address": "0x2400FFC0",
+            "size": 128,
+            "fill": "a5"
+          },
+          {
+            "address": "0xE40CB488",
+            "hex": "d4d5d5d5"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24040000",
+        "step_limit": 160,
+        "stubs": [],
+        "mmio_responses": []
+      },
+      "expected": {
+        "registers": {
+          "r0": "0x0000000A",
+          "r1": "0xCEC01B8C",
+          "r2": "0x0000002A",
+          "r3": "0x0000000A",
+          "r4": "0xCEC006D0",
+          "r5": "0xA1010005",
+          "r6": "0xA1010006",
+          "r7": "0xA1010007",
+          "r8": "0xA1010008",
+          "r9": "0xA1010009",
+          "r10": "0xA101000A",
+          "r11": "0xA101000B",
+          "r12": "0xA101000C",
+          "r13": "0xA101000D",
+          "r14": "0xA101000E",
+          "r15": "0xA101000F",
+          "r16": "0xA1010010",
+          "r17": "0xA1010011",
+          "r18": "0xA1010012",
+          "r19": "0xA1010013",
+          "r20": "0xA1010014",
+          "r21": "0xA1010015",
+          "r22": "0xA1010016",
+          "r23": "0xA1010017",
+          "gp": "0xE4000000",
+          "sp": "0x24010000",
+          "lr": "0x24040000",
+          "r27": "0xB0000027",
+          "r28": "0xB0000028",
+          "r29": "0xB0000029",
+          "sr": "0x400000A5",
+          "pc": "0x24040000"
+        },
+        "memory": [
+          {
+            "address": "0x2400FFC0",
+            "hex": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+          },
+          {
+            "address": "0xE40CB488",
+            "hex": "d4d5d5d5"
+          }
+        ],
+        "events": []
+      },
+      "steps": 37
+    },
+    {
+      "id": "last-table-token",
+      "function": {
+        "entry": "0xCEC00D82",
+        "language": "vc4:LE:32:default"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "r0": "0xCEC01B20",
+          "r1": "0xA1020001",
+          "r2": "0xA1020002",
+          "r3": "0xA1020003",
+          "r4": "0xA1020004",
+          "r5": "0xA1020005",
+          "r6": "0xA1020006",
+          "r7": "0xA1020007",
+          "r8": "0xA1020008",
+          "r9": "0xA1020009",
+          "r10": "0xA102000A",
+          "r11": "0xA102000B",
+          "r12": "0xA102000C",
+          "r13": "0xA102000D",
+          "r14": "0xA102000E",
+          "r15": "0xA102000F",
+          "r16": "0xA1020010",
+          "r17": "0xA1020011",
+          "r18": "0xA1020012",
+          "r19": "0xA1020013",
+          "r20": "0xA1020014",
+          "r21": "0xA1020015",
+          "r22": "0xA1020016",
+          "r23": "0xA1020017",
+          "gp": "0xE4000000",
+          "sp": "0x24010000",
+          "sr": "0xFFFFFFFF",
+          "r27": "0xB0000027",
+          "r28": "0xB0000028",
+          "r29": "0xB0000029"
+        },
+        "memory": [
+          {
+            "address": "0x2400FFC0",
+            "size": 128,
+            "fill": "a5"
+          },
+          {
+            "address": "0xE40CB488",
+            "hex": "d7d5d5d5"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24040000",
+        "step_limit": 160,
+        "stubs": [],
+        "mmio_responses": []
+      },
+      "expected": {
+        "registers": {
+          "r0": "0x00000029",
+          "r1": "0xCEC01C08",
+          "r2": "0x0000002A",
+          "r3": "0x00000029",
+          "r4": "0xCEC01B20",
+          "r5": "0xA1020005",
+          "r6": "0xA1020006",
+          "r7": "0xA1020007",
+          "r8": "0xA1020008",
+          "r9": "0xA1020009",
+          "r10": "0xA102000A",
+          "r11": "0xA102000B",
+          "r12": "0xA102000C",
+          "r13": "0xA102000D",
+          "r14": "0xA102000E",
+          "r15": "0xA102000F",
+          "r16": "0xA1020010",
+          "r17": "0xA1020011",
+          "r18": "0xA1020012",
+          "r19": "0xA1020013",
+          "r20": "0xA1020014",
+          "r21": "0xA1020015",
+          "r22": "0xA1020016",
+          "r23": "0xA1020017",
+          "gp": "0xE4000000",
+          "sp": "0x24010000",
+          "lr": "0x24040000",
+          "r27": "0xB0000027",
+          "r28": "0xB0000028",
+          "r29": "0xB0000029",
+          "sr": "0xFFFFFFFF",
+          "pc": "0x24040000"
+        },
+        "memory": [
+          {
+            "address": "0x2400FFC0",
+            "hex": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+          },
+          {
+            "address": "0xE40CB488",
+            "hex": "d7d5d5d5"
+          }
+        ],
+        "events": []
+      },
+      "steps": 130
+    },
+    {
+      "id": "low-bit-difference",
+      "function": {
+        "entry": "0xCEC00D82",
+        "language": "vc4:LE:32:default"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "r0": "0xCEC006D1",
+          "r1": "0xA1030001",
+          "r2": "0xA1030002",
+          "r3": "0xA1030003",
+          "r4": "0xA1030004",
+          "r5": "0xA1030005",
+          "r6": "0xA1030006",
+          "r7": "0xA1030007",
+          "r8": "0xA1030008",
+          "r9": "0xA1030009",
+          "r10": "0xA103000A",
+          "r11": "0xA103000B",
+          "r12": "0xA103000C",
+          "r13": "0xA103000D",
+          "r14": "0xA103000E",
+          "r15": "0xA103000F",
+          "r16": "0xA1030010",
+          "r17": "0xA1030011",
+          "r18": "0xA1030012",
+          "r19": "0xA1030013",
+          "r20": "0xA1030014",
+          "r21": "0xA1030015",
+          "r22": "0xA1030016",
+          "r23": "0xA1030017",
+          "gp": "0xE4000000",
+          "sp": "0x24010000",
+          "sr": "0x80000008",
+          "r27": "0xB0000027",
+          "r28": "0xB0000028",
+          "r29": "0xB0000029"
+        },
+        "memory": [
+          {
+            "address": "0x2400FFC0",
+            "size": 128,
+            "fill": "a5"
+          },
+          {
+            "address": "0xE40CB488",
+            "hex": "d6d5d5d5"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24040000",
+        "step_limit": 160,
+        "stubs": [],
+        "mmio_responses": []
+      },
+      "expected": {
+        "registers": {
+          "r0": "0xFFFFFFFF",
+          "r1": "0xCEC01C08",
+          "r2": "0x0000002A",
+          "r3": "0xFFFFFFFF",
+          "r4": "0xCEC01B20",
+          "r5": "0xA1030005",
+          "r6": "0xA1030006",
+          "r7": "0xA1030007",
+          "r8": "0xA1030008",
+          "r9": "0xA1030009",
+          "r10": "0xA103000A",
+          "r11": "0xA103000B",
+          "r12": "0xA103000C",
+          "r13": "0xA103000D",
+          "r14": "0xA103000E",
+          "r15": "0xA103000F",
+          "r16": "0xA1030010",
+          "r17": "0xA1030011",
+          "r18": "0xA1030012",
+          "r19": "0xA1030013",
+          "r20": "0xA1030014",
+          "r21": "0xA1030015",
+          "r22": "0xA1030016",
+          "r23": "0xA1030017",
+          "gp": "0xE4000000",
+          "sp": "0x24010000",
+          "lr": "0x24040000",
+          "r27": "0xB0000027",
+          "r28": "0xB0000028",
+          "r29": "0xB0000029",
+          "sr": "0x80000008",
+          "pc": "0x24040000"
+        },
+        "memory": [
+          {
+            "address": "0x2400FFC0",
+            "hex": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+          },
+          {
+            "address": "0xE40CB488",
+            "hex": "d6d5d5d5"
+          }
+        ],
+        "events": []
+      },
+      "steps": 132
+    },
+    {
+      "id": "high-address-bit-difference",
+      "function": {
+        "entry": "0xCEC00D82",
+        "language": "vc4:LE:32:default"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "r0": "0x4EC006D0",
+          "r1": "0xA1040001",
+          "r2": "0xA1040002",
+          "r3": "0xA1040003",
+          "r4": "0xA1040004",
+          "r5": "0xA1040005",
+          "r6": "0xA1040006",
+          "r7": "0xA1040007",
+          "r8": "0xA1040008",
+          "r9": "0xA1040009",
+          "r10": "0xA104000A",
+          "r11": "0xA104000B",
+          "r12": "0xA104000C",
+          "r13": "0xA104000D",
+          "r14": "0xA104000E",
+          "r15": "0xA104000F",
+          "r16": "0xA1040010",
+          "r17": "0xA1040011",
+          "r18": "0xA1040012",
+          "r19": "0xA1040013",
+          "r20": "0xA1040014",
+          "r21": "0xA1040015",
+          "r22": "0xA1040016",
+          "r23": "0xA1040017",
+          "gp": "0xE4000000",
+          "sp": "0x24010000",
+          "sr": "0x1234567B",
+          "r27": "0xB0000027",
+          "r28": "0xB0000028",
+          "r29": "0xB0000029"
+        },
+        "memory": [
+          {
+            "address": "0x2400FFC0",
+            "size": 128,
+            "fill": "a5"
+          },
+          {
+            "address": "0xE40CB488",
+            "hex": "d1d5d5d5"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24040000",
+        "step_limit": 160,
+        "stubs": [],
+        "mmio_responses": []
+      },
+      "expected": {
+        "registers": {
+          "r0": "0xFFFFFFFF",
+          "r1": "0xCEC01C08",
+          "r2": "0x0000002A",
+          "r3": "0xFFFFFFFF",
+          "r4": "0xCEC01B20",
+          "r5": "0xA1040005",
+          "r6": "0xA1040006",
+          "r7": "0xA1040007",
+          "r8": "0xA1040008",
+          "r9": "0xA1040009",
+          "r10": "0xA104000A",
+          "r11": "0xA104000B",
+          "r12": "0xA104000C",
+          "r13": "0xA104000D",
+          "r14": "0xA104000E",
+          "r15": "0xA104000F",
+          "r16": "0xA1040010",
+          "r17": "0xA1040011",
+          "r18": "0xA1040012",
+          "r19": "0xA1040013",
+          "r20": "0xA1040014",
+          "r21": "0xA1040015",
+          "r22": "0xA1040016",
+          "r23": "0xA1040017",
+          "gp": "0xE4000000",
+          "sp": "0x24010000",
+          "lr": "0x24040000",
+          "r27": "0xB0000027",
+          "r28": "0xB0000028",
+          "r29": "0xB0000029",
+          "sr": "0x1234567B",
+          "pc": "0x24040000"
+        },
+        "memory": [
+          {
+            "address": "0x2400FFC0",
+            "hex": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+          },
+          {
+            "address": "0xE40CB488",
+            "hex": "d1d5d5d5"
+          }
+        ],
+        "events": []
+      },
+      "steps": 132
+    }
+  ]
+}
