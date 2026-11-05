@@ -146,6 +146,63 @@ and its `arm-object.o` dependency under `build/start4/`. Both stay unlinked
 from runtime. These profiles establish no successful first open, acquired
 handle, live initialization or physical synchronization/MMIO behavior.
 
+## ARM first-open mask rejection
+
+[`arm_first_open_masked.h`](arm_first_open_masked.h) exposes one complete
+`arm_first_open_masked` operation from
+[`arm_first_open_masked.c`](arm_first_open_masked.c). The
+[mask-rejection contract](../../docs/bcm2711/arm-first-open-masked.md)
+defines its bounded domain and retained effects. It shares the first-open
+prefix and read-only validation with `arm_first_open_execute`, whose
+table-zero domain and interface remain separate.
+
+The inputs contain the existing parameter/configuration inputs, incoming
+SR, VERSION, secondary and opaque words. The state contains the existing
+first-open state, driver-table identity and four software words in ascending
+address order. The caller also supplies object records, masks, registrar
+object/name/logging, the unchanged handle output, literal plans, observers
+and a separate raw-result destination. Native identities never become
+host pointers or callable tokens.
+
+All twelve parameter combinations are accepted: words 0x80, 0x100, 0x200
+and 0x400 with bytes zero, one and two. Object registration uses its three
+successful profiles; callback registration uses its default or prior-token
+profile. Configuration source, entry SR, opaque input, read result, handle
+and overwritten software words are arbitrary. VERSION has bit 6 set and
+secondary is zero. The real mask predicate must return nonzero for code
+0x5E; low mask bit 30 is therefore set. Masks and their tails are preserved.
+
+The operation uses the actual object/callback computations, driver-open
+registration with absent mask source, and mask predicate. Registrar inputs
+retain their general bounded domain, including capacity without name or
+logging, match without name, arbitrary padding, basename selection and
+truncation. Nested status comes from entry SR and the selected callback
+profile. No nested result is supplied by a provider or exposed to callers.
+
+Five zero function replies, one exact-address MMIO read and the complete
+p16 stream are validated before higher acquire. VERSION, both MMIO writes,
+DI and p16 observations report explicit values. Each observation sees the
+incoming outer result and unchanged handle. Higher release observes every
+retained effect; only then does the operation publish raw one.
+
+Whole-call preflight checks all typed objects and complete declared spans,
+including unused name/logging storage, tails and all plan arrays. It reuses
+the shared object, callback and driver/registrar validation, and evaluates
+the real mask predicate before effects. Host errors preserve all storage
+and emit no events. Clear masks and unresolved service routes are unsupported.
+
+```sh
+python3 -m unittest tests.test_arm_first_open_masked
+make -C src/start4 check-arm-first-open-masked
+```
+
+Tests compare the five complete fixtures, every observation's state,
+general parameters and registrar inputs, conditional validation, all
+caller-span pairs, alignment and arithmetic bounds. The build target
+compiles the composition and shared dependencies under `build/start4/`.
+They remain unlinked from runtime. A completed rejection retains its
+registration effects and does not acquire a handle.
+
 ## ARM configuration control
 
 [`arm_configuration.h`](arm_configuration.h) exposes

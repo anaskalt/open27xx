@@ -8,6 +8,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ### Added
 
+- Freestanding masked first open with shared prefix and helper computations,
+  complete storage preflight, ordered observations and retained rejection effects.
 - Masked first-open composition contract with actual shared registration,
   derived status, ordered retained effects, bounded general inputs and
   five complete synthetic rejections with a separate service prefix.

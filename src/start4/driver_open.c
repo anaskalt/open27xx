@@ -2,8 +2,7 @@
  * SPDX-License-Identifier: GPL-2.0-or-later
  */
 
-#include "driver_open.h"
-#include "suspend_registrar_internal.h"
+#include "driver_open_internal.h"
 
 struct inputs_alignment { char prefix; struct driver_open_inputs value; };
 struct buffer_alignment { char prefix; struct suspend_buffer value; };
@@ -24,12 +23,13 @@ static void write_word(uint8_t *bytes, uint32_t value) {
     bytes[3] = (uint8_t)(value >> 24);
 }
 
-enum suspend_status driver_open_register(
+enum suspend_status driver_open_preflight(
     const struct driver_open_inputs *inputs,
     const struct suspend_buffer *masks, const struct suspend_byte_view *source,
     const struct suspend_buffer *object, const struct suspend_byte_view *name,
     const uint8_t *logging, const struct suspend_p16_read_plan *reads,
-    const struct suspend_registration_observers *observers, uint32_t *raw_result) {
+    const struct suspend_registration_observers *observers, uint32_t *raw_result,
+    struct suspend_registration_prepared *prepared) {
     struct suspend_registration_span spans[] = {
         {inputs, sizeof(*inputs), ALIGNMENT(inputs)},
         {masks, sizeof(*masks), ALIGNMENT(buffer)},
@@ -37,7 +37,6 @@ enum suspend_status driver_open_register(
         {raw_result, sizeof(*raw_result), ALIGNMENT(word)},
         {NULL, 0, 1}, {NULL, 0, 1}};
     struct suspend_registration_inputs registration = {1, UINT32_C(0x0ED004C6), 0, 0};
-    struct suspend_registration_prepared prepared = {{NULL, 0}, {NULL, 0}, 0, 0, 0};
     uint32_t registrar_raw;
     enum suspend_status status = suspend_registration_validate_spans(spans, 4);
     if (status != SUSPEND_OK)
@@ -56,11 +55,18 @@ enum suspend_status driver_open_register(
         spans[5].length = source->length;
     }
     status = suspend_registration_preflight(&registration, object, name, logging,
-        reads, observers, &registrar_raw, spans, sizeof(spans) / sizeof(spans[0]), &prepared);
-    if (status != SUSPEND_OK)
-        return status;
+        reads, observers, &registrar_raw, spans, sizeof(spans) / sizeof(spans[0]), prepared);
+    return status;
+}
 
-    registration.sr = inputs->sr;
+void driver_open_validated(
+    const struct driver_open_inputs *inputs,
+    const struct suspend_buffer *masks, const struct suspend_byte_view *source,
+    const struct suspend_buffer *object, const struct suspend_p16_read_plan *reads,
+    const struct suspend_registration_observers *observers, uint32_t *raw_result,
+    const struct suspend_registration_prepared *prepared) {
+    struct suspend_registration_inputs registration = {1, UINT32_C(0x0ED004C6), 0, inputs->sr};
+    uint32_t registrar_raw;
     if (source != NULL && source->bytes != NULL) {
         uint32_t high = read_word(source->bytes + 4);
         uint32_t low = read_word(source->bytes);
@@ -68,7 +74,21 @@ enum suspend_status driver_open_register(
         write_word(masks->bytes + 4, high);
     }
     suspend_registration_execute_validated(&registration, object, reads, observers,
-                                           &registrar_raw, &prepared);
+                                           &registrar_raw, prepared);
     *raw_result = 0;
+}
+
+enum suspend_status driver_open_register(
+    const struct driver_open_inputs *inputs,
+    const struct suspend_buffer *masks, const struct suspend_byte_view *source,
+    const struct suspend_buffer *object, const struct suspend_byte_view *name,
+    const uint8_t *logging, const struct suspend_p16_read_plan *reads,
+    const struct suspend_registration_observers *observers, uint32_t *raw_result) {
+    struct suspend_registration_prepared prepared = {{NULL, 0}, {NULL, 0}, 0, 0, 0};
+    enum suspend_status status = driver_open_preflight(inputs, masks, source, object,
+        name, logging, reads, observers, raw_result, &prepared);
+    if (status != SUSPEND_OK)
+        return status;
+    driver_open_validated(inputs, masks, source, object, reads, observers, raw_result, &prepared);
     return SUSPEND_OK;
 }
