@@ -10,6 +10,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 - Driver-open mask contract with actual suspend registration, whole-call
   preflight and six complete synthetic callback captures.
+- Freestanding general service word updates with complete storage preflight,
+  explicit VERSION/read/write observations and full-width value arithmetic.
 - General service-word-update contract with full-width values, explicit
   VERSION/MMIO observations and nine complete synthetic calls.
 - Freestanding bounded suspend registration with scalar helper composition,

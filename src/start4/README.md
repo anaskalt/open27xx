@@ -1468,6 +1468,49 @@ rejection. The target builds standalone higher, resource, clock and
 configuration objects with `-Os -ffixed-lr`. Runtime object preparation,
 ownership, synchronization and physical behavior require further contracts.
 
+## Service word update
+
+[`service_word_update.h`](service_word_update.h) exposes `service_word_update`
+from [`service_word_update.c`](service_word_update.c). The
+[scalar contract](../../docs/bcm2711/service-word-update.md) defines its
+general unsigned 32-bit inputs and nine complete synthetic calls.
+
+```c
+service_word_update(request, plan, observer, raw_result);
+```
+
+The four required objects hold the opaque/code/value request, immutable
+VERSION/read/write plan, observer function/context and separate raw result.
+Both plan addresses must match the bank and word selected by VERSION and
+code. The operation clears the selected nibble and ORs the full value
+shifted modulo 2^32; value is not masked to four bits. Opaque is ignored.
+
+Complete preflight checks natural alignment, pointer-span wrap, pairwise
+overlap, the observer function and both plan addresses. Failure emits no
+events and preserves all supplied storage. Success reports full VERSION,
+read address/old word and write address/computed word, in that order.
+VERSION's unused address field is zero. All three observations see the
+incoming result; raw zero is published after the write observer returns.
+`SERVICE_WORD_OK`, `SERVICE_WORD_INVALID`, `SERVICE_WORD_BOUNDS` and
+`SERVICE_WORD_OVERLAP` are host statuses distinct from the raw result.
+
+Callers supply live backing, readability, result writability and lifetime.
+Inputs and configuration remain immutable. Observers return normally,
+preserve API objects, avoid reentry and hardware access, and keep mutable
+bookkeeping and indirect writable storage disjoint from the API objects.
+The opaque context may be null or refer to inputs/result for read-only
+inspection. These observer premises cannot be established by span checks.
+
+```sh
+python3 -m unittest tests.test_service_word_update
+make -C src/start4 check-service-word-update
+```
+
+The isolated compilation target preserves the existing VPU flags and does
+not link this operation into the runtime image. Addresses remain numeric
+observations; the operation performs no hardware read or write and does
+not join the service wrapper, exception entry, dispatcher or return path.
+
 ## Bounded suspend helpers
 
 [`suspend_helpers.h`](suspend_helpers.h) exposes `suspend_lookup`,
