@@ -175,6 +175,9 @@ rejection; absent output does not imply rollback.
 - Lookup completion and final state. Establish the real SWI/vector/trap
   frame/RTI transition and all four lookup outcomes before accepting the
   output index words, final store of one or complete initializer return.
+  The [standalone token lookup](service-token-lookup.md) establishes
+  the scalar table result, including index 10 for token 0xCEC006D0. It
+  does not prove SWI delivery or the wrapper's destination write.
   The standalone [service word body](service-word-update.md) and
   [service initialization](service-initialization.md) remain separate
   evidence. The latter constructs its own frame and completes through

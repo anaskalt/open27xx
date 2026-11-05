@@ -121,6 +121,11 @@ MMIO effects and an actual constructed frame consumed by the pinned RTI
 semantics. Physical exception behavior, SWI linkage and startup arrival
 remain unresolved.
 
+The [service token lookup](bcm2711/service-token-lookup.md) defines exact
+32-bit query comparison against the complete original 42-word table. Five
+standalone calls compare all ordinary registers and unchanged observation
+storage; the connected SWI request and runtime destination store remain open.
+
 The [service word update](bcm2711/service-word-update.md) specifies a complete
 standalone scalar body with general 32-bit inputs, ordered VERSION/read/write
 observations and nine recorded calls. Full-width shifted values can set bits

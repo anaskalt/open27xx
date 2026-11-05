@@ -221,6 +221,9 @@ already have recorded the write, so absent output does not imply rollback.
   The [initialization prefix](driver-initialization.md) clears the first
   lookup destination and prepares its request, but stops before SWI and
   the result store. The cleared word is not a demonstrated lookup result.
+  The [standalone token lookup](service-token-lookup.md) returns index 10
+  for token 0xCEC006D0 from the original table; its ordinary return does
+  not establish that connected request or runtime store.
 - Exception composition. The separate [service initializer](service-initialization.md)
   updates the original table word and completes through its own constructed
   frame at RTI 0xCEC00D80. Establish SWI trap-frame production, vector

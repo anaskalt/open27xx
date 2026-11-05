@@ -8,6 +8,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ### Added
 
+- Service-token lookup contract with the complete 42-word numeric table,
+  general scalar inputs and five complete original-table captures.
 - Service initialization contract with an original ELF word update, ordered
   VERSION/MMIO observations and five complete constructed-frame RTI captures.
 - Source-backed ELF data observations with original-file digest checks,
