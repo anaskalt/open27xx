@@ -1628,3 +1628,61 @@ Tests compare all 16 public calls, full guarded storage and observation
 snapshots. Additional cases cover every count below capacity, arbitrary
 tuple words and SR bits, mixed separators, long names, declared tails,
 repeated final-slot insertion and host invalidity before any observation.
+
+## Driver-open mask registration
+
+[`driver_open.h`](driver_open.h) exposes `driver_open_register` from
+[`driver_open.c`](driver_open.c). The
+[driver-open contract](../../docs/bcm2711/driver-open-masks.md) defines its
+general bounded inputs. The operation remains unlinked from the runtime
+image and performs no physical interrupt or p16 access.
+
+```c
+driver_open_register(inputs, masks, source, object, name, logging,
+                     reads, observers, raw_result);
+```
+
+Inputs contain incoming SR. The required mask destination contains at
+least eight bytes. An absent source descriptor, or null source bytes with
+zero extent, preserves every mask byte. A present source contains at least
+eight bytes. The operation reads its high and low little-endian words
+before storing low and high words to the destination. Arbitrary mask words
+pass through unchanged; source bytes and destination tails are preserved.
+All byte extents are at most `UINT32_MAX` and need no alignment.
+
+The operation then executes the shared suspend registrar with first key
+1, callback token `0x0ED004C6`, cookie zero and incoming SR. The callback
+token remains an opaque identity. Object, name, logging, read plan and
+observer inputs retain the registrar's full bounded domain. Name bytes
+remain caller supplied. Capacity, match and insertion paths retain any
+mask copy. Each completed outer call returns raw zero after discarding
+the registrar's private raw result, including its capacity result.
+
+The standalone registrar and this operation share read-only preflight
+and validated execution. Preflight checks all caller-supplied objects
+and full spans together before any mask store, observation or object
+write. It also resolves tuple lookup and conditional name requirements.
+There is no second lookup or basename algorithm. Typed descriptors,
+inputs, read words and the result require natural alignment. Declared
+tails and unused views remain subject to overflow and overlap checks.
+Host errors preserve every supplied byte and emit no observations.
+
+DI and p16 reads see completed masks and the original registrar object.
+The final p16 write sees completed masks and object stores. Every observer
+sees the incoming outer result; zero is published only after the final
+observer returns. These observations retain the explicit no-interrupt-arrival
+premise. Callers provide live storage without concurrent mutation and
+preserve the observer behavior and indirect-storage requirements in the
+header. No supplied pointer is retained, allocated or freed.
+
+```sh
+python3 -m unittest tests.test_driver_open tests.test_suspend_registrar
+make -C src/start4 check-driver-open
+```
+
+Tests compare all six public calls and complete guarded snapshots at every
+observation boundary. General cases cover all counts below capacity,
+arbitrary records and mask words, each SR bit, unaligned byte views,
+long names, truncation, repeated calls and finite busy streams. Invalid
+cases check complete storage overlap, wrapping spans, malformed read plans
+and reachable registrar requirements before the first mask store.

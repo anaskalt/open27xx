@@ -12,6 +12,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
   preparation and DI observations before the unresolved SWI boundary.
 - General mask-predicate and scalar word-pair shift contracts, with bounded
   host storage, explicit extended-count semantics and 28 complete captures.
+- Freestanding driver-open mask copy and fixed suspend registration with
+  shared whole-call preflight, retained capacity effects and outer raw zero.
 - Driver-open mask contract with actual suspend registration, whole-call
   preflight and six complete synthetic callback captures.
 - Freestanding general service word updates with complete storage preflight,
