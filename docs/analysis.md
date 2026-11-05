@@ -82,24 +82,24 @@ extension; do not emulate vector code.
 ## Bounded startup inspection
 
 `InspectStartupInitialization.java` exports instruction bytes and compiled
-p-code from two fixed ranges in `start4.elf`, raspberrypi/firmware
+p-code from fixed range sets in `start4.elf`, raspberrypi/firmware
 commit `ab5c7f86283ceb58b7adb269cae1d16092a31bf6`, SHA-256
 `38b179897c4514ad11bc915c3fd2d4b68c51e05df2e42240717655ab92d91aeb`.
-The ranges are 182 bytes at 0x0EC3D740, file offset 0x3D140, and two
-bytes at 0x0EC3D7F6, file offset 0x3D1F6. It also inspects the 36-byte
-table at 0x0EDD7870, file offset 0x1D7270.
+The default `initializer` set contains 182 bytes at 0x0EC3D740, file offset
+0x3D140, and two bytes at 0x0EC3D7F6, file offset 0x3D1F6. It also inspects
+the 36-byte table at 0x0EDD7870, file offset 0x1D7270.
 
 The script verifies the complete original file digest, direct file mapping,
 and current-byte equality for each range. Its default `listing` mode
 requires existing instructions at every selected code address and stops
 if an instruction is missing or crosses a range boundary.
 
-An optional final argument `pseudo` selects Ghidra's `PseudoDisassembler`.
+An optional mode argument `pseudo` selects Ghidra's `PseudoDisassembler`.
 Each instruction receives only the remaining bytes of its exact range,
 with a fresh decoder using the current program context. The output records
 the current, default, nondefault and default-disassembly context masks and
-values. Omitted context keys represent null API results. A zero context
-mask marks bits whose values are unknown. No context value is supplied
+values. In the `initializer` set, omitted context keys represent null API
+results. A zero context mask marks bits whose values are unknown. No context value is supplied
 or changed. Unknown instructions, low-bit code modes, delay slots and
 next-instruction dependencies are rejected. Results describe that recorded
 decoder context; they do not establish equivalence to an omitted
@@ -125,6 +125,49 @@ GHIDRA_HEADLESS_MAXMEM=2G /opt/ghidra/support/analyzeHeadless \
 
 Append `pseudo` after the output path to select detached decoding. The
 default mode does not fall back to it when an instruction is missing.
+
+An optional fourth argument selects `initializer` or `arrival`; the third
+argument must then be `listing` or `pseudo`. Both existing argument forms
+and explicit `initializer` retain the same output format. For example,
+append `pseudo arrival` after the output path to inspect the arrival set.
+Unknown modes and range-set names are rejected.
+
+The `arrival` set binds these 204 code bytes and 48 data bytes in the same
+`start4.elf` version and digest:
+
+| Kind | Address | File offset | Bytes |
+| --- | --- | --- | ---: |
+| Code | 0xCEC00200 | 0x7E0 | 92 |
+| Code | 0x0EC2CB90 | 0x2C590 | 54 |
+| Code | 0x0EC2FCCC | 0x2F6CC | 2 |
+| Code | 0x0EC36AEC | 0x364EC | 30 |
+| Code | 0x0EC2FCD0 | 0x2F6D0 | 2 |
+| Code | 0x0EC87EE8 | 0x878E8 | 12 |
+| Code | 0x0EC87F2E | 0x8792E | 12 |
+| Data | 0xCEC00280 | 0x860 | 32 |
+| Data | 0x0EE02C64 | 0x202644 | 4 |
+| Data | 0x0EDE886C | 0x1E824C | 4 |
+| Data | 0x0EE055B0 | 0x204F90 | 4 |
+| Data | 0xCEC02000 | 0x231AA0 | 4 |
+
+The data at 0xCEC02000 belongs to file-backed program header 19, whose
+file and memory sizes are both 16 bytes. Program headers 17 and 18 share
+file offset 0x231AA0 but have zero file size and different virtual addresses.
+The exact address and direct file mapping determine the selected source.
+
+Arrival output adds `range_set: "arrival"` and serializes null values
+explicitly. Each site also records `instruction_context` from the actual
+instruction's base-context register getter, separately from the four
+ProgramContext values in `decoder_context`. In pseudo mode this getter
+reads the returned detached instruction's input context. Present listing
+instructions have the same getter included in the before/after preservation
+snapshot. Values retain their observed masks and stored bits; the script
+does not supply or normalize them.
+
+Both sets retain the same 92-instruction and output limits. Static
+`CALLOTHER` operations include the installed operation name and varnodes
+as output data; the script does not execute them. Static inspection does
+not establish a completed startup path or a processor identity.
 
 ## Scalar observations
 

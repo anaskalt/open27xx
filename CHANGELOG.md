@@ -8,6 +8,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ### Added
 
+- Named startup-arrival inspection ranges with original-file checks,
+  explicit null context values and detached instruction input context.
 - Original-table startup initialization behavior with complete allocation
   clearing, caller state and natural returns in two bounded observations.
 - Bounded startup memory capture with original ELF allocation checks,
