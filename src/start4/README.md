@@ -1578,6 +1578,71 @@ contract describes pinned compiled behavior; extended counts make no
 physical ISA claim. Mask producers, initialization, later services and
 opaque outputs remain separate operations.
 
+## Service token lookup
+
+[`service_token_lookup.h`](service_token_lookup.h) exposes
+`service_token_lookup` from [`service_token_lookup.c`](service_token_lookup.c).
+The [scalar contract](../../docs/bcm2711/service-token-lookup.md) fixes the
+42 numeric tokens and their order. The table is not caller-selected, and
+comparison uses all 32 query bits without alignment or address conversion.
+
+```c
+service_token_lookup(input, result);
+```
+
+Input contains r0 through r23, GP, SP, LR, r27 through r29 and SR. Its r0
+word supplies the query. Incoming PC is implicit at the documented entry.
+Result contains all 31 final scalar register words, final PC, the native
+instruction total and the table-word read count. The counts describe the
+documented scalar behavior, not C instruction execution. The host status
+is separate from the raw result in final r0.
+
+A match at index j produces r0=r3=j, r1=0xCEC01B60+4(j+1), r2=42 and
+r4=query, with j+1 table reads and 7+3j instructions. A miss produces
+r0=r3=0xFFFFFFFF, r1=0xCEC01C08, r2=42 and r4=0xCEC01B20, with 42 reads
+and 132 instructions. Final PC equals incoming LR. All remaining register
+words are preserved, including SR, GP and SP.
+
+Both host objects are required, naturally aligned and disjoint over their
+complete spans. Each pointer plus its object size must fit `uintptr_t`.
+LR must be even and outside the complete source range
+[0xCEC00D82, 0xCEC00DA0) and table range [0xCEC01B60, 0xCEC01C08).
+Every other incoming register word is unrestricted. In particular, SP
+does not require alignment or backing, and a query may equal another
+register or an excluded address without causing a memory access.
+
+Complete read-only preflight precedes result publication. `INVALID`
+reports missing objects, typed misalignment or odd LR. `BOUNDS` reports
+host span wrap. `OVERLAP` reports intersecting host spans or LR in an
+excluded range. If several conditions fail, any corresponding error may
+be returned. Every error preserves all supplied bytes.
+
+The API omits observation-memory arguments: the scalar body reads no
+caller-selected memory and writes no memory. It also omits event arrays
+and callbacks because the event sequence is empty. Its only host write
+is the result object; it has no separate raw-index destination. Tokens,
+query, PC, LR, SP and GP remain numeric words and never become host
+pointers. All 32 final scalar register words, including PC, are exposed;
+no other scalar result is projected away.
+
+Callers supply actual backing, readable input, writable result and
+lifetime. Span checks cannot establish allocation validity. Input remains
+immutable and result has no concurrent access until return. No storage is
+allocated, freed or retained. No hardware access, SWI, RTI, table lifetime,
+service dispatch or connected first-open behavior is established.
+
+```sh
+python3 -m unittest tests.test_service_token_lookup
+make -C src/start4 check-service-token-lookup
+```
+
+The isolated VPU compilation target leaves the helper unlinked from the
+runtime image. Tests compare all 32 scalar results in each of the five
+recorded calls and exercise every token, neighboring values, every query
+bit, full-width inputs and arbitrary incoming scalar state. Additional
+cases check complete LR exclusions, adjacent and overlapping host objects,
+misaligned and wrapping pointers, and unchanged storage on rejection.
+
 ## Service initialization
 
 [`service_initialization.h`](service_initialization.h) exposes

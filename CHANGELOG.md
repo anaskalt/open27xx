@@ -8,6 +8,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ### Added
 
+- Freestanding service-token lookup with complete scalar state, full-width
+  queries, fixed numeric tokens and complete input/output storage preflight.
 - Service-token lookup contract with the complete 42-word numeric table,
   general scalar inputs and five complete original-table captures.
 - Freestanding scalar service initialization with complete input preflight,
