@@ -1578,6 +1578,58 @@ contract describes pinned compiled behavior; extended counts make no
 physical ISA claim. Mask producers, initialization, later services and
 opaque outputs remain separate operations.
 
+## Service initialization
+
+[`service_initialization.h`](service_initialization.h) exposes
+`service_initialization_run` from
+[`service_initialization.c`](service_initialization.c). The
+[scalar behavior and portable policy](../../docs/bcm2711/service-initialization.md)
+define the 20 supported VERSION words, final register and frame state,
+and ordered numeric events.
+
+```c
+service_initialization_run(input, stack, table_word, result);
+```
+
+Input holds one immutable VERSION word and 31 incoming scalar register
+words. Stack describes a mutable byte span and its numeric VPU address.
+Result contains all final registers, PC, instruction total and up to eight
+event records. Each event carries kind, source instruction address, target
+address and transferred word. VERSION events use zero for their unused
+target address. Unused records contain zeros.
+
+With VERSION bit 16 clear, table storage is required and must initially
+hold 0xCEC00DA0; success writes 0xCEC00DA1. With bit 16 set, table storage
+may be null and is never read or written. Both paths write little-endian
+zero and incoming LR into the eight bytes below incoming SP. Stack prefix
+and suffix bytes remain unchanged. Result publication follows those
+stores. The result contains three or eight events; no callback observes
+intermediate state.
+
+Complete preflight checks host alignment, full-span bounds and overlap,
+VERSION, primary table contents, and the full virtual stack/LR domain.
+All source, table and MMIO ranges remain excluded on both branches.
+Supplied unused table storage also participates in host span validation.
+The exclusive virtual stack end may equal 2^32. Every error preserves all
+supplied storage and result. This host policy does not establish rollback
+for the unsupported native path. Host status is separate from final r0.
+
+Callers provide backing, readability, writable output/stack/primary-table
+storage and lifetime, with no concurrent access during the operation.
+Numeric firmware addresses and register values never become host pointers.
+The helper performs no hardware access, RTI, SWI or live initialization.
+
+```sh
+python3 -m unittest tests.test_service_initialization
+make -C src/start4 check-service-initialization
+```
+
+Tests compare the five recorded calls, all 20 supported VERSION words,
+arbitrary incoming scalar state, full stack storage and ordered events.
+Additional cases cover storage boundaries, rejected words, unused table
+storage and address exclusions. The isolated VPU compilation target keeps
+the existing flags and leaves this helper unlinked from the runtime image.
+
 ## Service word update
 
 [`service_word_update.h`](service_word_update.h) exposes `service_word_update`

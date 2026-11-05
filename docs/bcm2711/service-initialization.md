@@ -18,7 +18,9 @@ calls cover the five comparisons and both branches.
 This is distinct from the [driver initializer](driver-initialization.md)
 at 0x0ED005BC. It does not complete that initializer's lookup, produce a
 service index or execute the first-open service wrapper. No portable
-initialization API is specified here.
+hardware initialization follows from these observations. The separate
+[portable API](#portable-api) below reproduces the documented scalar state
+and ordered numeric events in caller-owned storage.
 
 | Entry | File offset | Bytes | Role |
 |---|---|---:|---|
@@ -260,6 +262,86 @@ unsupported VERSION reaching BKPT at 0xCEC002E8. Each produces no completed
 result artifact. The two runtime rejections can follow earlier MMIO or
 stack writes; absent output does not imply rollback. Their instruction
 indices are source-derived, not exported negative runtime counters.
+
+## Portable API
+
+[`service_initialization.h`](../../src/start4/service_initialization.h)
+declares `service_initialization_run(input, stack, table_word, result)`.
+This interface defines a host-storage policy for the scalar behavior above.
+Its input validation and output publication are portable choices, not
+additional observations of vendor execution.
+
+The required input contains VERSION and 31 incoming scalar register words:
+r0 through r23, GP, SP, LR, r27 through r29 and SR. There is no incoming PC
+field: the operation corresponds to the fixed entry described above.
+VERSION is immutable for the call and supplies both VERSION events. Its
+normalized value must match one of the five comparison values, admitting
+all 20 documented words. Other register words are unrestricted except for
+the SP and LR constraints below.
+
+The required stack descriptor contains a mutable byte pointer, a length
+and its numeric VPU start address. The full length is at most UINT32_MAX.
+Its exclusive virtual end may equal 2^32 but may not exceed it. SP must
+be four-byte aligned and at least eight; the full interval [SP-8, SP) must
+fit within the declared span. LR must be even and outside the entire span.
+The entire span and LR exclude every source, table and MMIO region listed
+under [General conditional input domain](#general-conditional-input-domain),
+even on the branch that does not access the table. Stack bytes need not
+have host alignment. A null byte pointer requires zero length, which cannot
+contain a complete frame.
+
+`table_word` refers to a separate caller-owned scalar word representing
+the fixed ELF word at numeric address 0xCEC01E80. With VERSION bit 16 clear,
+it is required, its value must equal the documented original 0xCEC00DA0,
+and success changes it to 0xCEC00DA1. The value check occurs in preflight;
+it does not verify a source file, mapping or digest. With VERSION bit 16
+set, the pointer may be null and its storage is never read or written,
+including during preflight. A supplied unused table word still undergoes
+alignment, span and overlap validation. Already-updated and arbitrary
+primary words are unsupported. Repeated calls therefore require a fresh
+original primary word; the interface makes no live reinitialization claim.
+
+The required result contains all 31 final register words, final PC,
+instruction total, event count and space for eight event records. Each
+record contains kind, source instruction address, numeric target address
+and word. Kinds distinguish VERSION, MMIO write, table read and table write.
+VERSION uses zero for its unused target address and carries the full input
+VERSION word. All other fields follow the ordered-effects tables above.
+Event count is three for bit 16 set and eight for bit 16 clear; unused
+records have all fields zero. The instruction total is 18+2k or 42+2k,
+respectively. Events are returned data, with no callback or external effect.
+
+Success changes only the eight frame bytes in stack storage, the primary
+table word and the result object. The frame is little-endian zero at SP-8
+and incoming LR at SP-4. All stack prefix and suffix bytes remain unchanged.
+The input and stack descriptor remain unchanged. Result publication follows
+the stack and table stores. The interface does not expose intermediate
+register, stack or table states. It returns host status separately from
+the final r0 word and executes no hardware access, VERSION instruction,
+RTI, SWI or first-open operation.
+
+Every typed object requires natural alignment. Full host spans are pairwise
+disjoint: input, stack descriptor, all declared stack bytes, any supplied
+table word and result. The full pointer-plus-length must fit `uintptr_t`,
+including unused storage. All checks complete before any store. Errors
+leave every supplied byte and object unchanged and publish no events.
+This policy does not replay the unsupported vendor path's partial effects
+and does not establish rollback for that path.
+
+| Host status | Rejected condition |
+|---|---|
+| `SERVICE_INITIALIZATION_INVALID` | Missing required object, null bytes with nonzero length, typed misalignment, SP below eight or not four-byte aligned, or odd LR |
+| `SERVICE_INITIALIZATION_UNSUPPORTED` | VERSION outside the 20-word domain or a primary table word different from 0xCEC00DA0 |
+| `SERVICE_INITIALIZATION_BOUNDS` | Host or virtual span wrap, length above UINT32_MAX, or frame outside the stack span |
+| `SERVICE_INITIALIZATION_OVERLAP` | Intersecting host spans, LR inside the virtual stack span, or stack/LR intersection with a forbidden fixed region |
+
+When several conditions fail, any corresponding error may be returned.
+Callers provide actual backing, readable storage, writable stack/result
+and primary table storage, and lifetime through return. Integer checks
+cannot establish allocation validity. Input and descriptors remain
+immutable, and no supplied storage is concurrently accessed during a call.
+No pointer is retained, allocated or freed. Numeric firmware addresses and
+register values never become host pointers.
 
 ## Open questions
 
