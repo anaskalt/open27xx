@@ -10,6 +10,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 - Driver initialization prefixes with actual 96-byte clearing, first lookup
   preparation and DI observations before the unresolved SWI boundary.
+- Freestanding general mask predicate and scalar word-pair shift, with
+  shared computation, complete storage preflight and full-width counts.
 - General mask-predicate and scalar word-pair shift contracts, with bounded
   host storage, explicit extended-count semantics and 28 complete captures.
 - Freestanding driver-open mask copy and fixed suspend registration with

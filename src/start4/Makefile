@@ -6,7 +6,7 @@ JOBS ?= 2
 TOOLCHAIN_PREFIX ?= vc4-elf-
 ARM64_TOOLCHAIN_PREFIX ?= aarch64-linux-gnu-
 
-.PHONY: all fetch check armstub check-armstub-metadata check-boot-info check-arm-control check-memory-capacity check-memory-layout check-resource-request check-clock-request check-clock-driver check-clock-composition check-resource-composition check-arm-start-composition check-arm-object check-arm-mapping check-arm-configuration check-arm-first-open check-suspend-helpers check-suspend-registrar check-service-word-update check-driver-open stage
+.PHONY: all fetch check armstub check-armstub-metadata check-boot-info check-arm-control check-memory-capacity check-memory-layout check-resource-request check-clock-request check-clock-driver check-clock-composition check-resource-composition check-arm-start-composition check-arm-object check-arm-mapping check-arm-configuration check-arm-first-open check-suspend-helpers check-suspend-registrar check-service-word-update check-driver-open check-mask-operations stage
 all:
 	$(PYTHON) ../../tools/start4.py build --jobs $(JOBS) --toolchain-prefix $(TOOLCHAIN_PREFIX)
 
@@ -53,6 +53,11 @@ check-driver-open: check-suspend-registrar
 	mkdir -p ../../build/start4
 	$(TOOLCHAIN_PREFIX)gcc -std=c99 -Os -ffixed-lr -ffreestanding -fno-builtin \
 		-Wall -Wextra -Werror -pedantic -c driver_open.c -o ../../build/start4/driver-open.o
+
+check-mask-operations:
+	mkdir -p ../../build/start4
+	$(TOOLCHAIN_PREFIX)gcc -std=c99 -Os -ffixed-lr -ffreestanding -fno-builtin \
+		-Wall -Wextra -Werror -pedantic -c mask_operations.c -o ../../build/start4/mask-operations.o
 
 check-armstub-metadata:
 	mkdir -p ../../build/start4
