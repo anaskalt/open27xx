@@ -13,7 +13,9 @@ more enter first open at 0x0EC59D24, execute the real object registrar
 and callback-registration helper, and return 0xFFFFFFFF when the selected
 callback-table word is zero. These are complete returned paths with
 explicit synthetic state and external results. They do not establish a
-successful first open or live initialization.
+successful first open or live initialization. The separate
+[mask-rejection composition](arm-first-open-masked.md) follows real driver
+registration and the mask predicate to a complete later raw-one return.
 
 | Site | File offset | Role |
 |---|---|---|
@@ -306,14 +308,13 @@ returns and do not define rollback behavior.
 
 ## Open questions
 
-- Successful first open. Follow the real getter 0x0ED00582 and selected
-  table slots 0x0C/0x14 after successful callback registration, preserving
-  preceding MMIO/software writes and actual output handles. Inspect and
-  execute those bodies before declaring external reply boundaries.
-  The separate [bounded suspend registrar](suspend-registrar.md) composes
-  tuple lookup, basename selection and bounded copy under supplied state
-  and conditional IRQ/p16 observations. Its standalone return does not
-  establish a complete first open.
+- Successful first open. The [mask-rejection composition](arm-first-open-masked.md)
+  follows the real getter 0x0ED00582 and table slots 0x0C/0x14 through actual
+  driver/suspend registration and the mask predicate. Its set-mask route
+  returns raw one; its clear-mask prefix stops before service 0x0ED65284.
+  Resolve the privileged transition and opaque-word producer before claiming
+  successful first open. The standalone registrar's return does not supply
+  a handle or complete the clear-mask path.
 - Runtime state acquisition. Establish the producer of the callback table,
   record clearing, count, configuration source and service index. Supplied
   zero/default tokens do not prove a live first-open state.

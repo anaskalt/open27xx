@@ -268,7 +268,9 @@ does not imply rollback.
   registrar-object initialization or the name's producer and lifetime.
 - Higher caller and opaque output. The first-open call at 0x0EC59E56 supplies
   a null source. Nonnull standalone cases do not establish a higher runtime
-  path. This callback does not write GP+0x3B484 or produce its opaque word;
+  path. The [masked first-open composition](arm-first-open-masked.md) joins
+  the actual null-source caller to a complete later rejection. This callback
+  does not write GP+0x3B484 or produce its opaque word;
   identify its actual producer before claiming a successful first open.
 - Physical synchronization and later services. Resolve the registrar's
   [IRQ questions](vpu-irq.md#open-questions) and later SWI/RTI boundaries

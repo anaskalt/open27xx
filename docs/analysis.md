@@ -95,7 +95,9 @@ function reply plans. The source identity, descriptor, native-cell and
 MMIO guards still apply. VERSION joins the shared event array without
 consuming a device reply or authorizing a memory access. The
 [first-open routes](bcm2711/arm-first-open.md) include three recorded complete
-table-zero returns. Successful open and physical effects remain unresolved.
+table-zero returns. The separate [masked first-open composition](bcm2711/arm-first-open-masked.md)
+joins real driver registration and the predicate to a complete later rejection.
+Successful open and physical effects remain unresolved.
 
 The [mask predicate and word-pair shift](bcm2711/mask-predicate.md) specify
 general scalar inputs with 28 complete synthetic calls. The shift separates
@@ -226,6 +228,9 @@ and literal mutex/service replies.
 The [ARM first-open replay](bcm2711/arm-first-open.md#recorded-cases-and-replay)
 executes three callback-registration calls and three complete table-zero
 first-open returns with actual nested registration and explicit CPU/MMIO inputs.
+The [masked first-open replay](bcm2711/arm-first-open-masked.md#recorded-complete-call-and-service-boundary)
+retains a complete rejection, four further general-domain samples and a
+separate clear-mask service prefix.
 The [driver-open mask replay](bcm2711/driver-open-masks.md#recorded-calls-and-replay)
 executes six complete callbacks with optional mask copying, actual registrar
 composition and retained effects on a capacity return.
