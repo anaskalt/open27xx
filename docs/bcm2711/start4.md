@@ -80,6 +80,9 @@ In `start4.elf` identified above, the
 complete ELF allocations through two recorded calls at 0x0EC3D740.
 The calls retain the original table and addresses; actual startup arrival,
 later state lifetime and other table paths remain outside that result.
+The [conditional startup route](startup-arrival.md) binds the selected
+`start4.elf` entry, service continuation and predecessor hook without
+claiming a complete execution of that route.
 
 ### Header checks
 
@@ -263,4 +266,4 @@ stream must not be applied to an unrelated open ELF.
 - Address aliases and cache behavior. Establish how the 0x0EC00000 and 0xCEC00000 ranges map to memory by checking the VPU memory map and the loader's address handling.
 - Fixup bounds and compatibility. Test malformed/truncated streams with explicit host-side bounds and execute the caller across every supported memory split before defining a complete replacement loader contract.
 - Runtime initialization. Trace references to the ThreadX, VCOS and `config.txt` strings before assigning scheduler behavior or a configuration-loading sequence to this build.
-- Firmware handoff. Record the entry registers, memory layout and required bootloader state for this build through loader analysis and emulation before defining the replacement entry contract.
+- Firmware handoff. The [conditional startup route](startup-arrival.md) resolves selected source dependencies. Record actual entry registers, memory layout and required bootloader state before defining the replacement entry contract.

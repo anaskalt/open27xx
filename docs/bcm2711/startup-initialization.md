@@ -197,9 +197,10 @@ does not supply a live first-open handle or complete the service lifecycle.
 
 ## Open questions
 
-- Startup arrival and lifetime. Establish the real caller, GP, stack and
-  invocation order, then trace subsequent writes before assigning these
-  zero values to later first-open state.
+- Startup arrival and lifetime. The [conditional source route](startup-arrival.md)
+  derives a primary caller with GP 0x0EE04140 and SP 0x0EE33200 after a
+  complete service return. Establish actual VERSION observations, execution
+  and subsequent writes before assigning these zeros to later first-open state.
 - Fixup-adjusted addresses. Compare the parser with admitted adjusted
   tables and destination mappings before extending the original-address
   result to other memory splits or aliases.

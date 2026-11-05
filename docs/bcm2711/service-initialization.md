@@ -188,10 +188,11 @@ measures five selected totals.
 
 ## Caller and remaining first-open boundary
 
-The original entry path at 0xCEC00252 loads the initializer target from
-literal 0xCEC00294. It selects LR from its earlier startup state before
-branching at 0xCEC0025A. The standalone calls explicitly supply L and
-the initial registers instead of claiming that this startup path ran.
+The [conditional startup route](startup-arrival.md#entry-selection) loads
+the initializer target at 0xCEC00252 from literal 0xCEC00294. The entry's
+VERSION bit 16 selects LR 0x0EC2CB90 or 0x0EC2CC28 before the branch at
+0xCEC0025A. The standalone calls explicitly supply L and the initial
+registers; actual entry execution and VERSION consistency remain unresolved.
 
 The updated word names the dispatcher at 0xCEC00DA0 with its low bit set.
 The [service word update](service-word-update.md) separately describes
@@ -357,6 +358,8 @@ register values never become host pointers.
   assigning physical register names or hardware initialization success.
 - Runtime arrival and lifetime. Establish startup invocation, mapping and
   subsequent writes before treating the updated table word as live state.
+  The [source route](startup-arrival.md#service-return-premise) derives entry
+  state conditionally on complete service return and original pointers.
   The five calls all start from the original ELF word; an already-updated
   word and repeated live initialization require separate evidence.
 - Driver index and opaque word. Establish their actual producers and

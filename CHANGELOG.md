@@ -8,6 +8,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ### Added
 
+- Conditional startup arrival with VERSION-selected caller state,
+  original hook pointers, ordered progress writes and bounded stack geometry.
 - Named startup-arrival inspection ranges with original-file checks,
   explicit null context values and detached instruction input context.
 - Original-table startup initialization behavior with complete allocation
