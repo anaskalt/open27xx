@@ -8,6 +8,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ### Added
 
+- Conditional SoC initialization state and portable interface contract.
 - Bounded SoC initialization observations with independent VERSION inputs,
   exact synthetic MMIO reads, complete state, guarded memory access,
   instruction-specific decoder bounds and static decoder-request tracing.
