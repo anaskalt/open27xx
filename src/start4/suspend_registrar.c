@@ -2,7 +2,7 @@
  * SPDX-License-Identifier: GPL-2.0-or-later
  */
 
-#include "suspend_registrar.h"
+#include "suspend_registrar_internal.h"
 
 struct inputs_alignment { char prefix; struct suspend_registration_inputs value; };
 struct buffer_alignment { char prefix; struct suspend_buffer value; };
@@ -13,14 +13,8 @@ struct word_alignment { char prefix; uint32_t value; };
 
 #define ALIGNMENT(name) offsetof(struct name##_alignment, value)
 
-struct span {
-    const void *pointer;
-    size_t length;
-    size_t alignment;
-};
-
-static enum suspend_status validate_spans(const struct span *spans,
-                                         size_t count) {
+enum suspend_status suspend_registration_validate_spans(
+    const struct suspend_registration_span *spans, size_t count) {
     size_t left, right;
     for (left = 0; left < count; ++left) {
         uintptr_t address = (uintptr_t)spans[left].pointer;
@@ -57,12 +51,14 @@ static void write_word(uint8_t *bytes, uint32_t value) {
     bytes[3] = (uint8_t)(value >> 24);
 }
 
-enum suspend_status suspend_register(
+enum suspend_status suspend_registration_preflight(
     const struct suspend_registration_inputs *inputs,
     const struct suspend_buffer *object, const struct suspend_byte_view *name,
     const uint8_t *logging, const struct suspend_p16_read_plan *reads,
-    const struct suspend_registration_observers *observers, uint32_t *raw_result) {
-    struct span spans[] = {
+    const struct suspend_registration_observers *observers, uint32_t *raw_result,
+    const struct suspend_registration_span *extra, size_t extra_count,
+    struct suspend_registration_prepared *prepared) {
+    struct suspend_registration_span spans[10 + SUSPEND_REGISTRATION_EXTRA_SPANS] = {
         {inputs, sizeof(*inputs), ALIGNMENT(inputs)},
         {object, sizeof(*object), ALIGNMENT(buffer)},
         {name, name != NULL ? sizeof(*name) : 0, ALIGNMENT(view)},
@@ -74,11 +70,15 @@ enum suspend_status suspend_register(
     struct suspend_lookup_inputs lookup;
     struct suspend_byte_view records, basename = {NULL, 0};
     struct suspend_buffer destination = {NULL, 0};
-    struct suspend_copy_inputs copy = {22, 0};
-    enum suspend_status status = validate_spans(spans, 7);
-    uint32_t count, found, length, start, raw = UINT32_MAX, copied;
+    enum suspend_status status;
+    uint32_t count, found, length, start, raw = UINT32_MAX;
     size_t index;
     int insert = 0;
+    if (extra_count > SUSPEND_REGISTRATION_EXTRA_SPANS)
+        return SUSPEND_BOUNDS;
+    for (index = 0; index < extra_count; ++index)
+        spans[10 + index] = extra[index];
+    status = suspend_registration_validate_spans(spans, 10 + extra_count);
     if (status != SUSPEND_OK)
         return status;
     if (object->bytes == NULL || reads->words == NULL)
@@ -95,7 +95,7 @@ enum suspend_status suspend_register(
     }
     spans[9].pointer = reads->words;
     spans[9].length = reads->count * sizeof(*reads->words);
-    status = validate_spans(spans, 10);
+    status = suspend_registration_validate_spans(spans, 10 + extra_count);
     if (status != SUSPEND_OK)
         return status;
     if (observers->di == NULL || observers->read == NULL || observers->write == NULL)
@@ -138,21 +138,52 @@ enum suspend_status suspend_register(
         }
     }
 
+    prepared->basename = basename;
+    prepared->destination = destination;
+    prepared->count = count;
+    prepared->raw = raw;
+    prepared->insert = insert;
+    return SUSPEND_OK;
+}
+
+void suspend_registration_execute_validated(
+    const struct suspend_registration_inputs *inputs,
+    const struct suspend_buffer *object, const struct suspend_p16_read_plan *reads,
+    const struct suspend_registration_observers *observers, uint32_t *raw_result,
+    const struct suspend_registration_prepared *prepared) {
+    struct suspend_copy_inputs copy = {22, 0};
+    uint32_t copied;
+    size_t index;
     observers->di(observers->context, inputs->sr, inputs->sr & ~UINT32_C(0x40000000));
     for (index = 0; index < reads->count; ++index)
         observers->read(observers->context, reads->words[index]);
     write_word(object->bytes, inputs->sr);
-    if (insert) {
-        uint8_t *record = object->bytes + 0x1C + (size_t)count * SUSPEND_RECORD_BYTES;
+    if (prepared->insert) {
+        uint8_t *record = object->bytes + 0x1C
+            + (size_t)prepared->count * SUSPEND_RECORD_BYTES;
         /* Preflight establishes the complete nested copy domain before DI. */
-        (void)suspend_copy(&copy, &destination, &basename, &copied);
+        (void)suspend_copy(&copy, &prepared->destination, &prepared->basename, &copied);
         record[0] = (uint8_t)inputs->first;
         write_word(record + 4, inputs->callback);
         write_word(record + 8, inputs->cookie);
-        write_word(object->bytes + 0xB5C, count + 1);
+        write_word(object->bytes + 0xB5C, prepared->count + 1);
         write_word(object->bytes + 0xB74, 0);
     }
     observers->write(observers->context, read_word(object->bytes));
-    *raw_result = raw;
+    *raw_result = prepared->raw;
+}
+
+enum suspend_status suspend_register(
+    const struct suspend_registration_inputs *inputs,
+    const struct suspend_buffer *object, const struct suspend_byte_view *name,
+    const uint8_t *logging, const struct suspend_p16_read_plan *reads,
+    const struct suspend_registration_observers *observers, uint32_t *raw_result) {
+    struct suspend_registration_prepared prepared = {{NULL, 0}, {NULL, 0}, 0, 0, 0};
+    enum suspend_status status = suspend_registration_preflight(
+        inputs, object, name, logging, reads, observers, raw_result, NULL, 0, &prepared);
+    if (status != SUSPEND_OK)
+        return status;
+    suspend_registration_execute_validated(inputs, object, reads, observers,
+                                           raw_result, &prepared);
     return SUSPEND_OK;
 }
