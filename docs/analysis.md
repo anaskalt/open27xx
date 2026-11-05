@@ -76,6 +76,12 @@ extension; do not emulate vector code.
 
 ## Scalar observations
 
+The [source-backed ELF data contract](elf-data-observations.md) permits
+exact scalar reads and writes to declared initialized data regions.
+Original file bytes, mappings, permissions and final observations are
+checked before execution. Ordered events record actual accesses without
+caller overlays or changes to the existing synthetic-memory guards.
+
 The [VERSION input contract](bcm2711/vpu-version.md) defines the optional
 `execution.version_input` object. It supplies one immutable word and ordered,
 unique instruction sites with ordinary destinations `r0` through `r23`.

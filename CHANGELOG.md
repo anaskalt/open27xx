@@ -8,6 +8,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ### Added
 
+- Source-backed ELF data observations with original-file digest checks,
+  exact scalar access plans, complete final observations and host API tests.
+
 - Masked first-open composition contract with actual shared registration,
   derived status, ordered retained effects, bounded general inputs and
   five complete synthetic rejections with a separate service prefix.
