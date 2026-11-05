@@ -84,6 +84,12 @@ The [conditional startup route](startup-arrival.md) binds the selected
 `start4.elf` entry, service continuation and predecessor hook without
 claiming a complete execution of that route.
 
+The [conditional SoC initializer](soc-initialization.md) covers
+`start4.elf` entry 0x0EC6221C when the diagnostic byte at GP+0xCCDB8 is
+0 through 3. Its contract defines complete scalar state and guarded memory
+results for supplied VERSION/MMIO observations. Synthetic comparisons
+do not establish physical initialization or startup reachability.
+
 ### Header checks
 
 In the identified `bootmain`, 0x0008E2A2 takes the image pointer in `r0` and byte length in `r1`. It returns zero for the accepted header and 0xFFFFFFFF for a rejected header. [elf-header.json](../../tests/vectors/bootmain/elf-header.json) records ten cases.
