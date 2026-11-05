@@ -1468,6 +1468,59 @@ rejection. The target builds standalone higher, resource, clock and
 configuration objects with `-Os -ffixed-lr`. Runtime object preparation,
 ownership, synchronization and physical behavior require further contracts.
 
+## Mask predicate and scalar word-pair shift
+
+[`mask_operations.h`](mask_operations.h) exposes `mask_predicate` and
+`mask_shift` from [`mask_operations.c`](mask_operations.c). The
+[scalar contract](../../docs/bcm2711/mask-predicate.md) defines their
+general unsigned inputs and 28 complete synthetic calls.
+
+```c
+mask_predicate(code, masks, raw_result);
+mask_shift(low, high, count, result);
+```
+
+`mask_predicate` selects bit `code - 0x40` for codes 0x40 through 0x7F.
+The immutable `mask_byte_view` contains at least eight bytes: a little-endian
+low word at offset zero and high word at offset four. Both words are read
+with byte access, high before low; unaligned byte storage is valid. The
+separate raw result is zero or one. Every other code returns raw zero
+without reading mask bytes or computing a shift. Those codes accept a null
+view descriptor or a supplied view of any length from zero through
+`UINT32_MAX`, including fewer than eight bytes.
+
+`mask_shift` receives low/high words and count by value and publishes a
+`mask_word_pair` containing low/high results. Counts zero through 63
+perform a logical 64-bit left shift. Every unsigned 32-bit count is valid:
+extended counts follow the contract's wrapped subtraction and explicitly
+masked scalar subshifts. In particular, count 64 returns low zero and the
+original low word as high; it does not produce an all-zero pair. The
+predicate uses the same computation with `(1, 0, code - 0x40)`.
+
+Complete preflight checks required outputs, supplied descriptors, natural
+typed alignment, pointer-plus-size wrap and pairwise overlap. The entire
+declared byte view participates, including unused tails and views on the
+outside-code route. Null bytes require zero length. Empty byte spans may
+alias objects. `MASK_INVALID`, `MASK_BOUNDS` and `MASK_OVERLAP` are host
+errors distinct from either operation's result. All errors preserve every
+supplied byte and output object. Success preserves the complete source
+view and publishes the output only after computation finishes.
+
+Callers provide actual backing, readability, output writability and
+lifetime. Descriptors and mask bytes remain immutable without concurrent
+modification. Integer span checks cannot establish allocation validity.
+
+```sh
+python3 -m unittest tests.test_mask_operations
+make -C src/start4 check-mask-operations
+```
+
+The isolated compilation target preserves the existing VPU flags. These
+operations are not linked into the runtime image. The full-count scalar
+contract describes pinned compiled behavior; extended counts make no
+physical ISA claim. Mask producers, initialization, later services and
+opaque outputs remain separate operations.
+
 ## Service word update
 
 [`service_word_update.h`](service_word_update.h) exposes `service_word_update`
