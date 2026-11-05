@@ -6,7 +6,7 @@ JOBS ?= 2
 TOOLCHAIN_PREFIX ?= vc4-elf-
 ARM64_TOOLCHAIN_PREFIX ?= aarch64-linux-gnu-
 
-.PHONY: all fetch check armstub check-armstub-metadata check-boot-info check-arm-control check-memory-capacity check-memory-layout check-resource-request check-clock-request check-clock-driver check-clock-composition check-resource-composition check-arm-start-composition check-arm-object check-arm-mapping check-arm-configuration check-arm-first-open check-arm-first-open-masked check-suspend-helpers check-suspend-registrar check-service-word-update check-service-initialization check-service-token-lookup check-driver-open check-mask-operations stage
+.PHONY: all fetch check armstub check-armstub-metadata check-boot-info check-arm-control check-memory-capacity check-memory-layout check-resource-request check-clock-request check-clock-driver check-clock-composition check-resource-composition check-arm-start-composition check-arm-object check-arm-mapping check-arm-configuration check-arm-first-open check-arm-first-open-masked check-suspend-helpers check-suspend-registrar check-service-word-update check-service-initialization check-startup-initialization check-service-token-lookup check-driver-open check-mask-operations stage
 all:
 	$(PYTHON) ../../tools/start4.py build --jobs $(JOBS) --toolchain-prefix $(TOOLCHAIN_PREFIX)
 
@@ -58,6 +58,11 @@ check-service-initialization:
 	mkdir -p ../../build/start4
 	$(TOOLCHAIN_PREFIX)gcc -std=c99 -Os -ffixed-lr -ffreestanding -fno-builtin \
 		-Wall -Wextra -Werror -pedantic -c service_initialization.c -o ../../build/start4/service-initialization.o
+
+check-startup-initialization:
+	mkdir -p ../../build/start4
+	$(TOOLCHAIN_PREFIX)gcc -std=c99 -Os -ffixed-lr -ffreestanding -fno-builtin \
+		-Wall -Wextra -Werror -pedantic -c startup_initialization.c -o ../../build/start4/startup-initialization.o
 
 check-service-token-lookup:
 	mkdir -p ../../build/start4
