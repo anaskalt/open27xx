@@ -221,6 +221,9 @@ already have recorded the write, so absent output does not imply rollback.
   The [initialization prefix](driver-initialization.md) clears the first
   lookup destination and prepares its request, but stops before SWI and
   the result store. The cleared word is not a demonstrated lookup result.
-- Exception composition. Establish vector selection, trap-frame production,
-  privilege and return behavior before joining the wrapper, dispatcher,
-  selected body and RTI. Preserve the independent standalone evidence.
+- Exception composition. The separate [service initializer](service-initialization.md)
+  updates the original table word and completes through its own constructed
+  frame at RTI 0xCEC00D80. Establish SWI trap-frame production, vector
+  selection, tag interpretation, privilege and the dispatcher's distinct
+  return at 0xCEC00DCA before joining the wrapper, dispatcher and selected
+  body. Preserve the independent standalone evidence.

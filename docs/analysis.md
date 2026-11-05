@@ -115,6 +115,12 @@ record actual 96-byte clearing, first lookup preparation and DI with fresh
 nested frames. Both stop before SWI; complete initialization and live
 startup ordering remain unresolved.
 
+The [service initialization](bcm2711/service-initialization.md) records five
+complete standalone paths through the original ELF word update, ordered
+MMIO effects and an actual constructed frame consumed by the pinned RTI
+semantics. Physical exception behavior, SWI linkage and startup arrival
+remain unresolved.
+
 The [service word update](bcm2711/service-word-update.md) specifies a complete
 standalone scalar body with general 32-bit inputs, ordered VERSION/read/write
 observations and nine recorded calls. Full-width shifted values can set bits
