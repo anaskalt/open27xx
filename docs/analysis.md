@@ -102,6 +102,11 @@ general scalar inputs with 28 complete synthetic calls. The shift separates
 the logical 64-bit count interval from its pinned compiled behavior for
 all unsigned 32-bit counts. Out-of-range predicate codes read no mask data.
 
+The [driver initialization prefixes](bcm2711/driver-initialization.md)
+record actual 96-byte clearing, first lookup preparation and DI with fresh
+nested frames. Both stop before SWI; complete initialization and live
+startup ordering remain unresolved.
+
 The [service word update](bcm2711/service-word-update.md) specifies a complete
 standalone scalar body with general 32-bit inputs, ordered VERSION/read/write
 observations and nine recorded calls. Full-width shifted values can set bits

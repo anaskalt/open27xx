@@ -1,0 +1,266 @@
+{
+  "schema": 1,
+  "source": {
+    "file": "start4.elf",
+    "repository": "raspberrypi/firmware",
+    "version": "ab5c7f86283ceb58b7adb269cae1d16092a31bf6",
+    "bytes": 2303104,
+    "sha256": "38b179897c4514ad11bc915c3fd2d4b68c51e05df2e42240717655ab92d91aeb"
+  },
+  "cases": [
+    {
+      "id": "status-bit-clear",
+      "function": {
+        "entry": "0x0ED005BC",
+        "language": "vc4:LE:32:default"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "gp": "0xE4000000",
+          "sp": "0x24010000",
+          "sr": "0x000000A5",
+          "r0": "0xA0000000",
+          "r1": "0xA0000001",
+          "r2": "0xA0000002",
+          "r3": "0xA0000003",
+          "r4": "0xA0000004",
+          "r5": "0xA0000005",
+          "r6": "0xA0000006",
+          "r7": "0xA0000007",
+          "r8": "0xA0000008",
+          "r9": "0xA0000009",
+          "r10": "0xA000000A",
+          "r11": "0xA000000B",
+          "r12": "0xA000000C",
+          "r13": "0xA000000D"
+        },
+        "memory": [
+          {
+            "address": "0x2400FFA0",
+            "fill": "a5",
+            "size": 128
+          },
+          {
+            "address": "0xE40CB470",
+            "hex": "d1d1d1d1d1d1d1d1d1d1d1d1d1d1d1d1c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7e2e2e2e2e2e2e2e2e2e2e2e2e2e2e2e2"
+          },
+          {
+            "address": "0xE403B47C",
+            "hex": "d7d7d7d7d7d7d7d7d3d3d3d3e8e8e8e8e8e8e8e8"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x0ED6528E",
+        "step_limit": 200,
+        "stubs": [],
+        "mmio_responses": [],
+        "irq_p16": {
+          "interrupt_arrivals": "none",
+          "operations": [
+            {
+              "kind": "di",
+              "pc": "0x0ED6528C"
+            }
+          ]
+        }
+      },
+      "scope": "Actual driver initialization prefix through scalar clearing and first lookup-wrapper preparation, stopping before SWI0",
+      "limitations": [
+        "Fresh synthetic control storage and caller frames are explicit inputs, not observed live startup state.",
+        "The real scalar fill and both wrappers execute; no computational reply, exception transition or service result is supplied.",
+        "The stop address is also the initial outer LR under the prefix convention; no outer return executes.",
+        "No completed initialization, service index, active-word publication, opaque output, SWI/RTI or physical interrupt behavior is established."
+      ],
+      "expected": {
+        "registers": {
+          "r0": "0x00000000",
+          "r1": "0xCEC006D0",
+          "r2": "0x00000000",
+          "r3": "0x00000000",
+          "r4": "0x00000000",
+          "r5": "0x00000000",
+          "r6": "0x000000A5",
+          "r7": "0xE40CB488",
+          "r8": "0xA0000008",
+          "r9": "0xA0000009",
+          "r10": "0xA000000A",
+          "r11": "0xA000000B",
+          "r12": "0xA000000C",
+          "r13": "0xA000000D",
+          "r14": "0x00000000",
+          "r15": "0x00000000",
+          "r16": "0x00000000",
+          "r17": "0x00000000",
+          "r18": "0x00000000",
+          "r19": "0x00000000",
+          "r20": "0x00000000",
+          "r21": "0x00000000",
+          "r22": "0x00000000",
+          "r23": "0x00000000",
+          "gp": "0xE4000000",
+          "sp": "0x2400FFEC",
+          "lr": "0x0ED652B2",
+          "r27": "0x00000000",
+          "r28": "0x00000000",
+          "r29": "0x00000000",
+          "sr": "0x000000A5",
+          "pc": "0x0ED6528E"
+        },
+        "memory": [
+          {
+            "address": "0x2400FFA0",
+            "hex": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5ffffffff070000a0060000a0de05d00e8e52d60ea5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+          },
+          {
+            "address": "0xE40CB470",
+            "hex": "d1d1d1d1d1d1d1d1d1d1d1d1d1d1d1d1000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000e2e2e2e2e2e2e2e2e2e2e2e2e2e2e2e2"
+          },
+          {
+            "address": "0xE403B47C",
+            "hex": "d7d7d7d7d7d7d7d7d3d3d3d3e8e8e8e8e8e8e8e8"
+          }
+        ],
+        "events": [
+          {
+            "kind": "irq_disable",
+            "pc": "0x0ED6528C",
+            "operation_index": 0,
+            "step": 78,
+            "sr_before": "0x000000A5",
+            "sr_after": "0x000000A5"
+          }
+        ]
+      },
+      "steps": 79
+    },
+    {
+      "id": "status-bit-set",
+      "function": {
+        "entry": "0x0ED005BC",
+        "language": "vc4:LE:32:default"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "gp": "0xE4000000",
+          "sp": "0x24010000",
+          "sr": "0x400000A5",
+          "r0": "0xA0000000",
+          "r1": "0xA0000001",
+          "r2": "0xA0000002",
+          "r3": "0xA0000003",
+          "r4": "0xA0000004",
+          "r5": "0xA0000005",
+          "r6": "0xA0000006",
+          "r7": "0xA0000007",
+          "r8": "0xA0000008",
+          "r9": "0xA0000009",
+          "r10": "0xA000000A",
+          "r11": "0xA000000B",
+          "r12": "0xA000000C",
+          "r13": "0xA000000D"
+        },
+        "memory": [
+          {
+            "address": "0x2400FFA0",
+            "fill": "a5",
+            "size": 128
+          },
+          {
+            "address": "0xE40CB470",
+            "hex": "d1d1d1d1d1d1d1d1d1d1d1d1d1d1d1d10b30557a9fc4e90e33587da2c7ec11365b80a5caef14395e83a8cdf2173c6186abd0f51a3f6489aed3f81d42678cb1d6fb20456a8fb4d9fe23486d92b7dc01264b7095badf04294e7398bde2072c51769bc0e50a2f54799ec3e80d32577ca1c6e2e2e2e2e2e2e2e2e2e2e2e2e2e2e2e2"
+          },
+          {
+            "address": "0xE403B47C",
+            "hex": "d7d7d7d7d7d7d7d7d3d3d3d3e8e8e8e8e8e8e8e8"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x0ED6528E",
+        "step_limit": 200,
+        "stubs": [],
+        "mmio_responses": [],
+        "irq_p16": {
+          "interrupt_arrivals": "none",
+          "operations": [
+            {
+              "kind": "di",
+              "pc": "0x0ED6528C"
+            }
+          ]
+        }
+      },
+      "scope": "Actual driver initialization prefix through scalar clearing and first lookup-wrapper preparation, stopping before SWI0",
+      "limitations": [
+        "Fresh synthetic control storage and caller frames are explicit inputs, not observed live startup state.",
+        "The real scalar fill and both wrappers execute; no computational reply, exception transition or service result is supplied.",
+        "The stop address is also the initial outer LR under the prefix convention; no outer return executes.",
+        "No completed initialization, service index, active-word publication, opaque output, SWI/RTI or physical interrupt behavior is established."
+      ],
+      "expected": {
+        "registers": {
+          "r0": "0x00000000",
+          "r1": "0xCEC006D0",
+          "r2": "0x00000000",
+          "r3": "0x00000000",
+          "r4": "0x00000000",
+          "r5": "0x00000000",
+          "r6": "0x400000A5",
+          "r7": "0xE40CB488",
+          "r8": "0xA0000008",
+          "r9": "0xA0000009",
+          "r10": "0xA000000A",
+          "r11": "0xA000000B",
+          "r12": "0xA000000C",
+          "r13": "0xA000000D",
+          "r14": "0x00000000",
+          "r15": "0x00000000",
+          "r16": "0x00000000",
+          "r17": "0x00000000",
+          "r18": "0x00000000",
+          "r19": "0x00000000",
+          "r20": "0x00000000",
+          "r21": "0x00000000",
+          "r22": "0x00000000",
+          "r23": "0x00000000",
+          "gp": "0xE4000000",
+          "sp": "0x2400FFEC",
+          "lr": "0x0ED652B2",
+          "r27": "0x00000000",
+          "r28": "0x00000000",
+          "r29": "0x00000000",
+          "sr": "0x000000A5",
+          "pc": "0x0ED6528E"
+        },
+        "memory": [
+          {
+            "address": "0x2400FFA0",
+            "hex": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5ffffffff070000a0060000a0de05d00e8e52d60ea5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+          },
+          {
+            "address": "0xE40CB470",
+            "hex": "d1d1d1d1d1d1d1d1d1d1d1d1d1d1d1d1000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000e2e2e2e2e2e2e2e2e2e2e2e2e2e2e2e2"
+          },
+          {
+            "address": "0xE403B47C",
+            "hex": "d7d7d7d7d7d7d7d7d3d3d3d3e8e8e8e8e8e8e8e8"
+          }
+        ],
+        "events": [
+          {
+            "kind": "irq_disable",
+            "pc": "0x0ED6528C",
+            "operation_index": 0,
+            "step": 78,
+            "sr_before": "0x400000A5",
+            "sr_after": "0x000000A5"
+          }
+        ]
+      },
+      "steps": 79
+    }
+  ]
+}
