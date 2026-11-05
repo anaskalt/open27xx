@@ -8,6 +8,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ### Added
 
+- Freestanding conditional SoC initialization with explicit observations,
+  complete scalar and guarded storage results, and atomic input rejection.
 - Conditional SoC initialization state and portable interface contract.
 - Bounded SoC initialization observations with independent VERSION inputs,
   exact synthetic MMIO reads, complete state, guarded memory access,
