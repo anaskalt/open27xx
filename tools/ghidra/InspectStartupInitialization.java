@@ -46,8 +46,56 @@ public class InspectStartupInitialization extends GhidraScript {
         "7440d26c9e005d33d45380214fe4d8536aa5b266f7494c9c2e972be16b542626"
     };
 
-    private void check(boolean condition, String message) {
+    record RangeSet(long[][] ranges, String[] hashes, int codeRanges, boolean arrival) {}
+    record Options(String mode, RangeSet source) {}
+
+    private static final RangeSet INITIALIZER = new RangeSet(RANGES, HASHES, 2, false);
+    private static final RangeSet ARRIVAL = new RangeSet(new long[][] {
+        {0xCEC00200L, 92, 0x7E0},
+        {0x0EC2CB90L, 54, 0x2C590},
+        {0x0EC2FCCCL, 2, 0x2F6CC},
+        {0x0EC36AECL, 30, 0x364EC},
+        {0x0EC2FCD0L, 2, 0x2F6D0},
+        {0x0EC87EE8L, 12, 0x878E8},
+        {0x0EC87F2EL, 12, 0x8792E},
+        {0xCEC00280L, 32, 0x860},
+        {0x0EE02C64L, 4, 0x202644},
+        {0x0EDE886CL, 4, 0x1E824C},
+        {0x0EE055B0L, 4, 0x204F90},
+        {0xCEC02000L, 4, 0x231AA0}
+    }, new String[] {
+        "bd46add3c73cade1f1fcf1137785450f3bc8833bc2f4742d9b48d0e4fdfca8a5",
+        "f7736d845625abac0e22b14420b2a5c620332660bab4146881d5dd2baff5a120",
+        "89389ee14c6495d62c5c4d1ab627f415099e5101e21cc66af492011f88adf1c4",
+        "3e320b280e8fc578c3b6df3b43c3fdf438be4b39dae2a7ed3f5a40a9765d9e34",
+        "89389ee14c6495d62c5c4d1ab627f415099e5101e21cc66af492011f88adf1c4",
+        "6e1f081df5d71a050896bc646cb244f1e7cd14bd6f813e5b70572370682bb65d",
+        "34b575e40de3a25ed3a7ae5512326e15093c49d899a2b58ba0dac8fb2810d3c5",
+        "813b174aea266e1320ef17d8bc4e514e8bb21ae8b7d810f3d5c9e1518041eb6e",
+        "18e883521833e53164252b410f0d7d981de95051a4b04d660852f044bb13f5df",
+        "d73741d437ad0db079de429777fd87f0a169db5223ecb76fd40fc7b6f4b985d6",
+        "0dad4d2f118ec49157ae35927954de925a5dd17a8f759c2c90051f264d1d5831",
+        "c0a694d0d434fedd659912c1858f11a03a90dc3711fdcc2c843478946dabe5d0"
+    }, 7, true);
+    private RangeSet sourceSet = INITIALIZER;
+
+    private static void check(boolean condition, String message) {
         if (!condition) throw new IllegalStateException(message);
+    }
+
+    static Options selectOptions(String[] args) {
+        check(args.length >= 2 && args.length <= 4 && args[0].equals(SOURCE), "Invalid arguments");
+        String mode = args.length >= 3 ? args[2] : "listing";
+        check(mode.equals("listing") || mode.equals("pseudo"), "Invalid decode mode");
+        String name = args.length == 4 ? args[3] : "initializer";
+        check(name.equals("initializer") || name.equals("arrival"), "Invalid range set");
+        return new Options(mode, name.equals("arrival") ? ARRIVAL : INITIALIZER);
+    }
+
+    static String outputJson(JsonObject out, RangeSet source) {
+        GsonBuilder builder = new GsonBuilder().setPrettyPrinting();
+        if (source.arrival()) builder.serializeNulls();
+        return builder.create().toJson(out) + "\n";
     }
 
     private String digest(byte[] bytes) throws Exception {
@@ -64,10 +112,15 @@ public class InspectStartupInitialization extends GhidraScript {
         return out;
     }
 
-    private JsonObject contextAt(Address address) {
+    private Register contextRegister() {
         Register base = currentProgram.getProgramContext().getBaseContextRegister();
         check(base != null && base.getName().equals("contextreg") && base.getBitLength() == 32,
             "Unexpected decoder context register");
+        return base;
+    }
+
+    private JsonObject contextAt(Address address) {
+        Register base = contextRegister();
         JsonObject out = new JsonObject();
         out.add("current", contextValue(currentProgram.getProgramContext().getRegisterValue(base, address)));
         out.add("default", contextValue(currentProgram.getProgramContext().getDefaultValue(base, address)));
@@ -78,9 +131,10 @@ public class InspectStartupInitialization extends GhidraScript {
 
     private JsonArray listingSnapshot() throws Exception {
         JsonArray snapshot = new JsonArray();
-        for (int index = 0; index < 2; index++) {
-            long end = RANGES[index][0] + RANGES[index][1];
-            for (long pc = RANGES[index][0]; pc < end; pc += 2) {
+        for (int index = 0; index < sourceSet.codeRanges(); index++) {
+            long[] range = sourceSet.ranges()[index];
+            long end = range[0] + range[1];
+            for (long pc = range[0]; pc < end; pc += 2) {
                 JsonObject item = new JsonObject();
                 item.addProperty("pc", hex(pc));
                 Instruction instruction = getInstructionAt(toAddr(pc));
@@ -91,6 +145,8 @@ public class InspectStartupInitialization extends GhidraScript {
                     item.addProperty("length", instruction.getLength());
                     item.addProperty("bytes", HexFormat.of().formatHex(instruction.getBytes()));
                     item.addProperty("text", instruction.toString());
+                    if (sourceSet.arrival()) item.add("instruction_context",
+                        contextValue(instruction.getRegisterValue(contextRegister())));
                 }
                 item.add("context", contextAt(toAddr(pc)));
                 snapshot.add(item);
@@ -111,14 +167,14 @@ public class InspectStartupInitialization extends GhidraScript {
     }
 
     private JsonObject inspectRange(int index) throws Exception {
-        long[] spec = RANGES[index];
+        long[] spec = sourceSet.ranges()[index];
         int size = (int)spec[1];
         Address first = toAddr(spec[0]), last = first.addNoWrap(size - 1);
         MemoryBlock block = currentProgram.getMemory().getBlock(first);
         check(block != null && block.contains(last) && block.isInitialized()
             && block.isRead() && block.getType() == MemoryBlockType.DEFAULT
             && !block.isOverlay() && !block.isMapped(), "Invalid block at " + first);
-        if (index < 2) check(block.isExecute(), "Nonexecuting code block at " + first);
+        if (index < sourceSet.codeRanges()) check(block.isExecute(), "Nonexecuting code block at " + first);
         check(block.getSourceInfos().size() <= 16, "Source-info cap exceeded");
         MemoryBlockSourceInfo selected = null;
         for (MemoryBlockSourceInfo info : block.getSourceInfos()) {
@@ -149,12 +205,12 @@ public class InspectStartupInitialization extends GhidraScript {
         check(file.getOriginalBytes(spec[2], original) == size
             && currentProgram.getMemory().getBytes(first, current) == size, "Short range read");
         check(Arrays.equals(original, current), "Current bytes differ at " + first);
-        check(digest(current).equals(HASHES[index]), "Range digest mismatch at " + first);
+        check(digest(current).equals(sourceSet.hashes()[index]), "Range digest mismatch at " + first);
         JsonObject out = new JsonObject();
         out.addProperty("address", hex(spec[0]));
         out.addProperty("bytes", size);
         out.addProperty("file_offset", hex(spec[2]));
-        out.addProperty("sha256", HASHES[index]);
+        out.addProperty("sha256", sourceSet.hashes()[index]);
         out.addProperty("hex", HexFormat.of().formatHex(current));
         out.addProperty("original_file_sha256", SOURCE);
         out.addProperty("original_file_bytes", SOURCE_SIZE);
@@ -171,9 +227,9 @@ public class InspectStartupInitialization extends GhidraScript {
 
     public void run() throws Exception {
         String[] args = getScriptArgs();
-        check((args.length == 2 || args.length == 3) && args[0].equals(SOURCE), "Invalid arguments");
-        String mode = args.length == 3 ? args[2] : "listing";
-        check(mode.equals("listing") || mode.equals("pseudo"), "Invalid decode mode");
+        Options options = selectOptions(args);
+        sourceSet = options.source();
+        String mode = options.mode();
         check(currentProgram.getExecutableSHA256().equals(SOURCE), "Program source mismatch");
         check(currentProgram.getExecutableFormat().equals(ElfLoader.ELF_NAME), "Not ELF");
         check(currentProgram.getLanguageID().toString().equals("vc4:LE:32:default"), "Wrong language");
@@ -188,17 +244,19 @@ public class InspectStartupInitialization extends GhidraScript {
         out.addProperty("language", currentProgram.getLanguageID().toString());
         out.addProperty("compiler", currentProgram.getCompilerSpec().getCompilerSpecID().toString());
         out.addProperty("decode_mode", mode);
+        if (sourceSet.arrival()) out.addProperty("range_set", "arrival");
         check(currentProgram.getRegister("LowBitCodeMode") == null, "Unexpected low-bit code mode");
         JsonArray listingBefore = listingSnapshot();
         out.addProperty("listing_context_before_sha256",
             digest(listingBefore.toString().getBytes(StandardCharsets.UTF_8)));
         JsonArray ranges = new JsonArray();
-        for (int i = 0; i < RANGES.length; i++) ranges.add(inspectRange(i));
+        for (int i = 0; i < sourceSet.ranges().length; i++) ranges.add(inspectRange(i));
         out.add("ranges", ranges);
         JsonArray sites = new JsonArray();
         int operations = 0;
-        for (int index = 0; index < 2; index++) {
-            long start = RANGES[index][0], end = start + RANGES[index][1];
+        for (int index = 0; index < sourceSet.codeRanges(); index++) {
+            long[] spec = sourceSet.ranges()[index];
+            long start = spec[0], end = start + spec[1];
             byte[] range = HexFormat.of().parseHex(ranges.get(index).getAsJsonObject().get("hex").getAsString());
             for (long pc = start; pc < end;) {
                 monitor.checkCancelled();
@@ -230,6 +288,8 @@ public class InspectStartupInitialization extends GhidraScript {
                 site.addProperty("bytes", HexFormat.of().formatHex(bytes));
                 site.addProperty("length", length);
                 site.add("decoder_context", context);
+                if (sourceSet.arrival()) site.add("instruction_context",
+                    contextValue(ins.getRegisterValue(contextRegister())));
                 site.addProperty("text", ins.toString());
                 site.addProperty("fallthrough", ins.getFallThrough() == null ? null : ins.getFallThrough().toString());
                 JsonArray code = new JsonArray();
@@ -251,10 +311,11 @@ public class InspectStartupInitialization extends GhidraScript {
                 pc += length;
             }
         }
-        for (int index = 0; index < RANGES.length; index++) {
-            byte[] now = new byte[(int)RANGES[index][1]];
-            check(currentProgram.getMemory().getBytes(toAddr(RANGES[index][0]), now) == now.length
-                && digest(now).equals(HASHES[index]), "Current range changed during export");
+        for (int index = 0; index < sourceSet.ranges().length; index++) {
+            long[] spec = sourceSet.ranges()[index];
+            byte[] now = new byte[(int)spec[1]];
+            check(currentProgram.getMemory().getBytes(toAddr(spec[0]), now) == now.length
+                && digest(now).equals(sourceSet.hashes()[index]), "Current range changed during export");
         }
         check(listingBefore.equals(listingSnapshot()), "Selected listing or context changed during export");
         out.add("sites", sites);
@@ -262,7 +323,7 @@ public class InspectStartupInitialization extends GhidraScript {
         out.addProperty("pcode_operations", operations);
         out.addProperty("selected_current_bytes_unchanged", true);
         out.addProperty("selected_listing_context_unchanged", true);
-        String json = new GsonBuilder().setPrettyPrinting().create().toJson(out) + "\n";
+        String json = outputJson(out, sourceSet);
         check(json.length() <= 1048576, "Output cap exceeded");
         Files.writeString(output, json, StandardOpenOption.CREATE_NEW);
         println("STARTUP_INITIALIZATION_STATIC_PCODE_OK");
