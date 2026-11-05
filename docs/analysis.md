@@ -126,8 +126,9 @@ GHIDRA_HEADLESS_MAXMEM=2G /opt/ghidra/support/analyzeHeadless \
 Append `pseudo` after the output path to select detached decoding. The
 default mode does not fall back to it when an instruction is missing.
 
-An optional fourth argument selects `initializer` or `arrival`; the third
-argument must then be `listing` or `pseudo`. Both existing argument forms
+An optional fourth argument selects `initializer`, `arrival` or
+`continuation`; the third argument must then be `listing` or `pseudo`.
+The `continuation` set requires `pseudo`. Both existing argument forms
 and explicit `initializer` retain the same output format. For example,
 append `pseudo arrival` after the output path to inspect the arrival set.
 Unknown modes and range-set names are rejected.
@@ -164,10 +165,36 @@ instructions have the same getter included in the before/after preservation
 snapshot. Values retain their observed masks and stored bits; the script
 does not supply or normalize them.
 
-Both sets retain the same 92-instruction and output limits. Static
+The initializer and arrival sets retain the same 92-instruction and output
+limits. Static
 `CALLOTHER` operations include the installed operation name and varnodes
 as output data; the script does not execute them. Static inspection does
 not establish a completed startup path or a processor identity.
+
+Append `pseudo continuation` to inspect at most 16 contiguous instructions
+from 0x0ED4A08C in the same `start4.elf` version and digest. The source
+envelope contains exactly 64 bytes at file offset 0x149A8C, SHA-256
+`7e14b716ed728805159a08dde64a420567b4b5d7b15251cee986cb194c872c8b`.
+The decoder receives no adjacent bytes and follows no targets. The envelope
+does not define a function extent.
+
+The prefix includes a decoded boundary instruction and stops on direct or
+indirect control flow, unsupported instructions or p-code, or a missing or
+nonsequential fallthrough. External-space p-code branches stop inspection
+even when they only skip a predicated instruction to the ordinary next PC.
+Constant-space intra-instruction branches alone do not stop it. Unsupported
+decode dependencies are recorded without extracting p-code. Unknown
+instructions, insufficient source bytes and unknown context produce explicit
+decode-stop records; source, mapping, preservation or other invariant
+failures produce no output.
+
+Continuation output adds `inspection_kind: "bounded_prefix"`,
+`function_complete: false` and a `stop` record with the reason, PC, terminal
+site inclusion and consumed instruction/byte counts. The 16-instruction and
+64-byte limits are incomplete observation boundaries. Context values and
+nulls are explicit as in arrival output. A trailing listing instruction
+that crosses the envelope contributes only bounded metadata and context
+to preservation checks. The initializer and arrival outputs are unchanged.
 
 ## Scalar observations
 

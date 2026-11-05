@@ -8,6 +8,7 @@ import java.nio.file.StandardOpenOption;
 import java.security.MessageDigest;
 import java.util.Arrays;
 import java.util.HexFormat;
+import java.util.Locale;
 
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
@@ -22,12 +23,16 @@ import ghidra.program.database.mem.FileBytes;
 import ghidra.program.model.address.Address;
 import ghidra.program.model.lang.Register;
 import ghidra.program.model.lang.RegisterValue;
+import ghidra.program.model.lang.InsufficientBytesException;
+import ghidra.program.model.lang.UnknownContextException;
+import ghidra.program.model.lang.UnknownInstructionException;
 import ghidra.program.model.listing.Instruction;
 import ghidra.program.model.mem.MemoryBlock;
 import ghidra.program.model.mem.MemoryBlockSourceInfo;
 import ghidra.program.model.mem.MemoryBlockType;
 import ghidra.program.model.pcode.PcodeOp;
 import ghidra.program.model.pcode.Varnode;
+import ghidra.program.model.symbol.FlowType;
 
 // start4.elf, raspberrypi/firmware ab5c7f86283ceb58b7adb269cae1d16092a31bf6.
 // Exact ranges keep this inspection separate from automatic disassembly.
@@ -46,10 +51,10 @@ public class InspectStartupInitialization extends GhidraScript {
         "7440d26c9e005d33d45380214fe4d8536aa5b266f7494c9c2e972be16b542626"
     };
 
-    record RangeSet(long[][] ranges, String[] hashes, int codeRanges, boolean arrival) {}
+    record RangeSet(long[][] ranges, String[] hashes, int codeRanges, boolean arrival, boolean prefix) {}
     record Options(String mode, RangeSet source) {}
 
-    private static final RangeSet INITIALIZER = new RangeSet(RANGES, HASHES, 2, false);
+    private static final RangeSet INITIALIZER = new RangeSet(RANGES, HASHES, 2, false, false);
     private static final RangeSet ARRIVAL = new RangeSet(new long[][] {
         {0xCEC00200L, 92, 0x7E0},
         {0x0EC2CB90L, 54, 0x2C590},
@@ -76,7 +81,12 @@ public class InspectStartupInitialization extends GhidraScript {
         "d73741d437ad0db079de429777fd87f0a169db5223ecb76fd40fc7b6f4b985d6",
         "0dad4d2f118ec49157ae35927954de925a5dd17a8f759c2c90051f264d1d5831",
         "c0a694d0d434fedd659912c1858f11a03a90dc3711fdcc2c843478946dabe5d0"
-    }, 7, true);
+    }, 7, true, false);
+    private static final RangeSet CONTINUATION = new RangeSet(new long[][] {
+        {0x0ED4A08CL, 64, 0x149A8C}
+    }, new String[] {
+        "7e14b716ed728805159a08dde64a420567b4b5d7b15251cee986cb194c872c8b"
+    }, 1, false, true);
     private RangeSet sourceSet = INITIALIZER;
 
     private static void check(boolean condition, String message) {
@@ -88,13 +98,18 @@ public class InspectStartupInitialization extends GhidraScript {
         String mode = args.length >= 3 ? args[2] : "listing";
         check(mode.equals("listing") || mode.equals("pseudo"), "Invalid decode mode");
         String name = args.length == 4 ? args[3] : "initializer";
-        check(name.equals("initializer") || name.equals("arrival"), "Invalid range set");
+        check(name.equals("initializer") || name.equals("arrival") || name.equals("continuation"),
+            "Invalid range set");
+        if (name.equals("continuation")) {
+            check(mode.equals("pseudo"), "Continuation requires pseudo mode");
+            return new Options(mode, CONTINUATION);
+        }
         return new Options(mode, name.equals("arrival") ? ARRIVAL : INITIALIZER);
     }
 
     static String outputJson(JsonObject out, RangeSet source) {
         GsonBuilder builder = new GsonBuilder().setPrettyPrinting();
-        if (source.arrival()) builder.serializeNulls();
+        if (source.arrival() || source.prefix()) builder.serializeNulls();
         return builder.create().toJson(out) + "\n";
     }
 
@@ -225,6 +240,175 @@ public class InspectStartupInitialization extends GhidraScript {
         return out;
     }
 
+    static String prefixLimitReason(int instructions, int bytes) {
+        check(instructions >= 0 && instructions <= 16 && bytes >= 0 && bytes <= 64,
+            "Invalid prefix counters");
+        if (bytes == 64) return "source_window_end";
+        return instructions == 16 ? "instruction_limit" : null;
+    }
+
+    static String prefixStopReason(String mnemonic, FlowType flow, PcodeOp[] code, boolean sequential) {
+        check(mnemonic != null && flow != null && code != null, "Missing instruction metadata");
+        String name = mnemonic.toLowerCase(Locale.ROOT);
+        if (name.startsWith("v") || name.equals("swi") || name.equals("rti")) return "unsupported_instruction";
+        for (PcodeOp op : code) {
+            if (op.getOpcode() == PcodeOp.CALLOTHER || op.getOpcode() == PcodeOp.UNIMPLEMENTED)
+                return "unsupported_pcode";
+        }
+        for (PcodeOp op : code) {
+            int opcode = op.getOpcode();
+            if (opcode == PcodeOp.CALL || opcode == PcodeOp.CALLIND
+                || opcode == PcodeOp.RETURN || opcode == PcodeOp.BRANCHIND) return "pcode_control_flow";
+            if (opcode == PcodeOp.BRANCH || opcode == PcodeOp.CBRANCH) {
+                check(op.getNumInputs() >= 1, "Missing branch target");
+                if (!op.getInput(0).isConstant()) return "pcode_external_control";
+            }
+        }
+        if (flow.isCall() || flow.isJump() || flow.isTerminal() || flow.isOverride()) return "instruction_control_flow";
+        return sequential ? null : "fallthrough_boundary";
+    }
+
+    private JsonArray prefixListingSnapshot(byte[] range) throws Exception {
+        JsonArray snapshot = new JsonArray();
+        long start = sourceSet.ranges()[0][0], end = start + range.length;
+        for (long pc = start; pc < end; pc += 2) {
+            Address address = toAddr(pc);
+            Instruction ins = getInstructionAt(address);
+            JsonObject item = new JsonObject();
+            item.addProperty("pc", hex(pc));
+            item.addProperty("present", ins != null);
+            item.add("context", contextAt(address));
+            if (ins != null) {
+                int length = ins.getLength();
+                check(length >= 2 && length <= 10 && (length & 1) == 0, "Invalid listing length");
+                item.addProperty("length", length);
+                item.add("instruction_context", contextValue(ins.getRegisterValue(contextRegister())));
+                boolean crossing = pc + length > end;
+                item.addProperty("crosses_envelope", crossing);
+                if (!crossing) {
+                    byte[] bytes = Arrays.copyOfRange(range, (int)(pc - start), (int)(pc - start) + length);
+                    check(Arrays.equals(ins.getBytes(), bytes), "Listing bytes differ at " + address);
+                    item.addProperty("bytes", HexFormat.of().formatHex(bytes));
+                    item.addProperty("text", ins.toString());
+                }
+            }
+            snapshot.add(item);
+        }
+        return snapshot;
+    }
+
+    private void inspectPrefix(JsonObject out, Path output) throws Exception {
+        JsonArray ranges = new JsonArray();
+        ranges.add(inspectRange(0));
+        byte[] range = HexFormat.of().parseHex(ranges.get(0).getAsJsonObject().get("hex").getAsString());
+        JsonArray before = prefixListingSnapshot(range);
+        out.addProperty("range_set", "continuation");
+        out.addProperty("inspection_kind", "bounded_prefix");
+        out.addProperty("function_complete", false);
+        out.addProperty("listing_context_before_sha256", digest(before.toString().getBytes(StandardCharsets.UTF_8)));
+        out.add("ranges", ranges);
+        long start = sourceSet.ranges()[0][0], end = start + range.length, pc = start;
+        JsonArray sites = new JsonArray();
+        JsonObject stop = new JsonObject();
+        int operations = 0;
+        String reason;
+        while (true) {
+            monitor.checkCancelled();
+            reason = prefixLimitReason(sites.size(), (int)(pc - start));
+            stop.addProperty("pc", hex(pc));
+            stop.addProperty("terminal_site_included", false);
+            if (reason != null) break;
+            Address address = toAddr(pc);
+            JsonObject context = contextAt(address);
+            Instruction ins;
+            try {
+                ins = new PseudoDisassembler(currentProgram).disassemble(address,
+                    Arrays.copyOfRange(range, (int)(pc - start), range.length));
+            }
+            catch (InsufficientBytesException | UnknownInstructionException | UnknownContextException failure) {
+                check(context.equals(contextAt(address)), "Decoder context changed at " + address);
+                reason = failure instanceof InsufficientBytesException ? "insufficient_source_bytes"
+                    : failure instanceof UnknownContextException ? "unknown_context" : "unknown_instruction";
+                stop.add("decoder_context", context);
+                break;
+            }
+            check(context.equals(contextAt(address)), "Decoder context changed at " + address);
+            if (ins == null) {
+                reason = "unknown_instruction";
+                stop.add("decoder_context", context);
+                break;
+            }
+            check(ins.getAddress().equals(address), "Pseudo decode changed address");
+            int length = ins.getLength();
+            check(length >= 2 && length <= 10 && (length & 1) == 0 && pc + length <= end,
+                "Instruction crosses prefix envelope at " + address);
+            byte[] bytes = ins.getBytes();
+            check(Arrays.equals(bytes, Arrays.copyOfRange(range, (int)(pc - start),
+                (int)(pc - start) + length)), "Instruction bytes differ at " + address);
+            JsonObject site = new JsonObject();
+            site.addProperty("pc", hex(pc));
+            site.addProperty("bytes", HexFormat.of().formatHex(bytes));
+            site.addProperty("length", length);
+            site.add("decoder_context", context);
+            site.add("instruction_context", contextValue(ins.getRegisterValue(contextRegister())));
+            site.addProperty("text", ins.toString());
+            if (ins.getDelaySlotDepth() != 0 || ins.isInDelaySlot() || ins.getPrototype().hasDelaySlots()
+                || ins.getPrototype().hasNext2Dependency()) {
+                site.addProperty("pcode_available", false);
+                site.add("pcode", JsonNull.INSTANCE);
+                reason = "unsupported_decode_dependency";
+            }
+            else {
+                Address fallthrough = ins.getFallThrough();
+                site.addProperty("fallthrough", fallthrough == null ? null : fallthrough.toString());
+                PcodeOp[] code = ins.getPcode();
+                JsonArray emitted = new JsonArray();
+                for (PcodeOp op : code) {
+                    check(++operations <= 4096, "P-code cap exceeded");
+                    check(op.getNumInputs() <= 32, "P-code input cap exceeded");
+                    JsonObject operation = new JsonObject();
+                    operation.addProperty("opcode", op.getMnemonic());
+                    operation.add("output", node(op.getOutput()));
+                    JsonArray inputs = new JsonArray();
+                    for (Varnode n : op.getInputs()) inputs.add(node(n));
+                    operation.add("inputs", inputs);
+                    if (op.getOpcode() == PcodeOp.CALLOTHER) {
+                        check(op.getNumInputs() >= 1, "Missing user operation identifier");
+                        operation.addProperty("userop", currentProgram.getLanguage().getUserDefinedOpName((int)op.getInput(0).getOffset()));
+                    }
+                    emitted.add(operation);
+                }
+                site.addProperty("pcode_available", true);
+                site.add("pcode", emitted);
+                reason = prefixStopReason(ins.getMnemonicString(), ins.getFlowType(), code,
+                    fallthrough != null && fallthrough.equals(address.addNoWrap(length)));
+            }
+            sites.add(site);
+            pc += length;
+            if (reason != null) {
+                stop.addProperty("terminal_site_included", true);
+                break;
+            }
+        }
+        byte[] current = new byte[range.length];
+        check(currentProgram.getMemory().getBytes(toAddr(start), current) == current.length
+            && Arrays.equals(range, current), "Current prefix bytes changed");
+        check(before.equals(prefixListingSnapshot(range)), "Prefix listing or context changed");
+        stop.addProperty("reason", reason);
+        stop.addProperty("instructions", sites.size());
+        stop.addProperty("bytes_consumed", pc - start);
+        out.add("stop", stop);
+        out.add("sites", sites);
+        out.addProperty("instructions", sites.size());
+        out.addProperty("pcode_operations", operations);
+        out.addProperty("selected_current_bytes_unchanged", true);
+        out.addProperty("selected_listing_context_unchanged", true);
+        String json = outputJson(out, sourceSet);
+        check(json.length() <= 1048576, "Output cap exceeded");
+        Files.writeString(output, json, StandardOpenOption.CREATE_NEW);
+        println("STARTUP_CONTINUATION_PREFIX_OK");
+    }
+
     public void run() throws Exception {
         String[] args = getScriptArgs();
         Options options = selectOptions(args);
@@ -246,6 +430,10 @@ public class InspectStartupInitialization extends GhidraScript {
         out.addProperty("decode_mode", mode);
         if (sourceSet.arrival()) out.addProperty("range_set", "arrival");
         check(currentProgram.getRegister("LowBitCodeMode") == null, "Unexpected low-bit code mode");
+        if (sourceSet.prefix()) {
+            inspectPrefix(out, output);
+            return;
+        }
         JsonArray listingBefore = listingSnapshot();
         out.addProperty("listing_context_before_sha256",
             digest(listingBefore.toString().getBytes(StandardCharsets.UTF_8)));

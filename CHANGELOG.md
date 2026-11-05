@@ -8,6 +8,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ### Added
 
+- Bounded startup continuation inspection with explicit prefix boundaries,
+  control-flow stops and complete source and context checks.
 - Freestanding fixed-table startup clearing with complete scalar and stack
   results, exact destination spans and atomic input rejection.
 - Fixed-table startup clear contract with general caller state,
