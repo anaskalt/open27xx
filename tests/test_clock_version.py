@@ -28,6 +28,7 @@ class ClockVersionSchemaTest(unittest.TestCase):
         with tempfile.TemporaryDirectory(prefix="clock-version-", dir=build) as temporary:
             classpath = os.pathsep.join(map(str, jars))
             subprocess.run([javac, "-cp", classpath, "-d", temporary,
+                str(ROOT / "tools/ghidra/ElfDataObservations.java"),
                 str(ROOT / "tools/ghidra/IrqP16Observations.java"),
                 str(ROOT / "tools/ghidra/CaptureClockVectors.java"),
                 str(ROOT / "tests/ClockVersionSchemaTest.java")],

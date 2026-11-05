@@ -279,6 +279,35 @@ public class CaptureClockVectors extends GhidraScript {
             irq.preflight(currentProgram, declaredMemory, stubs.keySet(),
                 version == null ? Set.of() : version.byPc.keySet(), assignments);
         }
+        ElfDataObservations elfData = ElfDataObservations.parse(execution);
+        AddressSet trackedAllowedMemory = new AddressSet(allowedMemory);
+        if (elfData != null) {
+            AddressSet suppliedMemory = new AddressSet(allowedMemory);
+            for (JsonObject stub : stubs.values()) {
+                for (JsonElement element : stub.getAsJsonArray("replies")) {
+                    for (JsonElement value : element.getAsJsonObject().getAsJsonArray("memory")) {
+                        JsonObject region = value.getAsJsonObject();
+                        long start = number(region.get("address"));
+                        int size = bytes(region).length;
+                        check(start <= 0xffffffffL && start + size <= 0x100000000L,
+                            "Wrapping ELF data reply memory span");
+                        if (size > 0) { suppliedMemory.add(toAddr(start), toAddr(start + size - 1)); }
+                    }
+                }
+            }
+            Set<Long> suppliedSites = new java.util.HashSet<>(stubs.keySet());
+            if (version != null) { suppliedSites.addAll(version.byPc.keySet()); }
+            if (irq != null) { suppliedSites.addAll(irq.byPc.keySet()); }
+            check(fixture.has("expected") && fixture.get("expected").isJsonObject()
+                    && fixture.getAsJsonObject("expected").has("memory")
+                    && fixture.getAsJsonObject("expected").get("memory").isJsonArray(),
+                "Missing ELF data final observations");
+            elfData.preflight(currentProgram, currentProgram.getExecutableSHA256(), allowedMemory, suppliedMemory,
+                suppliedSites, fixture.getAsJsonObject("expected").getAsJsonArray("memory"));
+            for (ElfDataObservations.Region region : elfData.regions) {
+                trackedAllowedMemory.add(toAddr(region.address()), toAddr(region.end() - 1));
+            }
+        }
         EmulatorHelper emulator = new EmulatorHelper(currentProgram);
         try {
             if (irq != null) {
@@ -332,6 +361,10 @@ public class CaptureClockVectors extends GhidraScript {
             emulator.enableMemoryWriteTracking(true);
             emulator.getEmulator().addMemoryAccessFilter(new MemoryAccessFilter() {
                 protected void processRead(AddressSpace space, long offset, int size, byte[] values) {
+                    if (elfData != null && executing[0]
+                            && space.equals(currentProgram.getAddressFactory().getDefaultAddressSpace())) {
+                        elfData.observe("read", emulator.getExecutionAddress().getOffset(), offset, size, values, events);
+                    }
                     if (executing[0] && space.isMemorySpace() && offset < CLOCK_CELL + 4 && offset + size > CLOCK_CELL) {
                         check(offset == CLOCK_CELL && size == 4, "Partial clock cell read");
                         check(allowedMemory.contains(toAddr(offset), toAddr(offset + size - 1)), "Undeclared clock cell read");
@@ -360,6 +393,10 @@ public class CaptureClockVectors extends GhidraScript {
                     if (injecting[0] || !space.isMemorySpace() || size == 0) {
                         return;
                     }
+                    boolean elfWrite = elfData != null
+                        && space.equals(currentProgram.getAddressFactory().getDefaultAddressSpace())
+                        && elfData.observe("write",
+                        emulator.getExecutionAddress().getOffset(), offset, size, values, events);
                     if (offset >= 0x7C000000L && offset + size <= 0x80000000L) {
                         boolean declared = false;
                         for (JsonElement allowed : execution.getAsJsonArray("mmio_write_addresses")) {
@@ -382,7 +419,7 @@ public class CaptureClockVectors extends GhidraScript {
                             event.addProperty("hex", HexFormat.of().formatHex(Arrays.copyOf(values, size)));
                             events.add(event);
                         }
-                        check(allowedMemory.contains(space.getAddress(offset), space.getAddress(offset + size - 1)),
+                        check(elfWrite || allowedMemory.contains(space.getAddress(offset), space.getAddress(offset + size - 1)),
                             id + ": write outside declared memory " + hex(offset) + " size " + size);
                     }
                 }
@@ -449,7 +486,14 @@ public class CaptureClockVectors extends GhidraScript {
                         } finally { injecting[0] = false; }
                     }
                 }
-                check(emulator.step(monitor), id + ": " + fault + " at " + hex(pc) + " " + emulator.getLastError());
+                boolean success;
+                if (elfData != null) { elfData.beginInstruction(pc, steps); }
+                try {
+                    success = emulator.step(monitor);
+                } finally {
+                    if (elfData != null) { elfData.endInstruction(); }
+                }
+                check(success, id + ": " + fault + " at " + hex(pc) + " " + emulator.getLastError());
                 check(fault == null, id + ": " + fault + " at " + hex(pc));
                 if (versionInstruction) {
                     check(version.pending == null && version.consumed == site.index + 1,
@@ -465,6 +509,7 @@ public class CaptureClockVectors extends GhidraScript {
             if (irq != null) {
                 irq.finish();
             }
+            if (elfData != null) { elfData.finish(); }
             check(version == null || version.consumed == version.sites.size(), id + ": unused VERSION sites");
             executing[0] = false;
             check(mmioIndex[0] == mmio.size(), id + ": unused MMIO replies");
@@ -476,7 +521,7 @@ public class CaptureClockVectors extends GhidraScript {
                 long start = range.getMinAddress().getOffset();
                 long end = range.getMaxAddress().getOffset();
                 if (range.getMinAddress().isMemoryAddress()) {
-                    check(allowedMemory.contains(range.getMinAddress(), range.getMaxAddress())
+                    check(trackedAllowedMemory.contains(range.getMinAddress(), range.getMaxAddress())
                         || (start >= 0x7C000000L && end < 0x80000000L),
                         id + ": write outside declared memory " + range);
                 }
@@ -491,8 +536,9 @@ public class CaptureClockVectors extends GhidraScript {
                 JsonObject region = element.getAsJsonObject();
                 long address = number(region.get("address"));
                 int size = bytes(region).length;
-                check(synthetic(address, size), "Observations must use synthetic RAM");
-                check(size == 0 || allowedMemory.contains(toAddr(address), toAddr(address + size - 1)),
+                boolean elfObservation = elfData != null && elfData.contains(address, size);
+                check(elfObservation || synthetic(address, size), "Observations must use synthetic RAM");
+                check(elfObservation || size == 0 || allowedMemory.contains(toAddr(address), toAddr(address + size - 1)),
                     "Observation outside declared synthetic memory");
                 JsonObject observation = new JsonObject();
                 observation.addProperty("address", hex(address));
