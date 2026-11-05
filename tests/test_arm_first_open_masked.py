@@ -466,8 +466,24 @@ class ArmFirstOpenMaskedTest(unittest.TestCase):
                 request = Request()
                 request.object(name).length = length
                 self.run_request(request, BOUNDS)
-        for length in (895, WORD_MAX + 1):
+        request = Request()
+        request.arguments[3] = 895
+        self.run_request(request, BOUNDS)
+        if POINTER_MAX > WORD_MAX:
             request = Request()
+            length = WORD_MAX + 1
+            backing = sorted((ctypes.addressof(storage.backing), ctypes.sizeof(storage.backing))
+                             for storage in request.storage.values())
+            address = 1
+            for start, size in backing:
+                if address + length <= start:
+                    break
+                address = max(address, start + size)
+            self.assertLessEqual(address + length, POINTER_MAX)
+            for start, size in backing:
+                self.assertTrue(address + length <= start or start + size <= address)
+            # Isolate the extent limit from overlap without accessing this interval.
+            request.redirect("records", address)
             request.arguments[3] = length
             self.run_request(request, BOUNDS)
         for label, field, value in (("name", "length", WORD_MAX + 1),
