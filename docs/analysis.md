@@ -216,6 +216,9 @@ and literal mutex/service replies.
 The [ARM first-open replay](bcm2711/arm-first-open.md#recorded-cases-and-replay)
 executes three callback-registration calls and three complete table-zero
 first-open returns with actual nested registration and explicit CPU/MMIO inputs.
+The [driver-open mask replay](bcm2711/driver-open-masks.md#recorded-calls-and-replay)
+executes six complete callbacks with optional mask copying, actual registrar
+composition and retained effects on a capacity return.
 The [ARM mapping replay](bcm2711/arm-mapping.md#recorded-cases-and-replay)
 uses two decoder entries and the same recorder for twelve complete
 software-table calls, including the actual fresh-to-repeat state relation.
