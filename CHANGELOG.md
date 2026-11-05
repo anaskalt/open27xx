@@ -10,6 +10,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 - Freestanding service-token lookup with complete scalar state, full-width
   queries, fixed numeric tokens and complete input/output storage preflight.
+- Read-only startup inspection with exact source ranges, original-file
+  mapping checks and explicit listing or detached p-code decoding.
 - Service-token lookup contract with the complete 42-word numeric table,
   general scalar inputs and five complete original-table captures.
 - Freestanding scalar service initialization with complete input preflight,
