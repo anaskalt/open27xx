@@ -8,6 +8,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ### Added
 
+- Bounded SoC initialization observations with independent VERSION inputs,
+  exact synthetic MMIO reads, complete state, guarded memory access,
+  instruction-specific decoder bounds and static decoder-request tracing.
 - Fixed SoC initialization inspection ranges with separate data binding,
   explicit decoder context and unchanged startup inspection modes.
 - Bounded startup continuation inspection with explicit prefix boundaries,

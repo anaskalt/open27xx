@@ -215,6 +215,57 @@ output limits remain in force. Calls, VERSION operations and memory accesses
 are exported as static p-code; no firmware instructions execute. The selected
 ranges do not establish a complete function or control-flow graph.
 
+`CaptureSocInitialization.java` records the call from 0x0EC6221C to the
+terminal return at 0x0EC62370 in the same `start4.elf` version and digest.
+It requires the diagnostic byte at GP+0xCCDB8 to be 0..3 and rejects every
+external call. The source ranges above remain fixed. Six bytes at
+0x0EC62372, file offset 0x61D72, serve only as decoder transport; they are
+not executable sites or runtime data. For admitted instruction length L,
+the decoder may read within [PC,PC+max(8,L+3)). The six-byte instructions
+at 0x0EC62334, 0x0EC6234A and 0x0EC62366 instead admit [PC,PC+13), because
+their displacement patterns refill eight bytes from PC+5. All spans fit
+the same 348-byte source union. The terminal span remains eight bytes.
+
+The request has `schema_version: 1`, `source_sha256`, `tool_sha256`,
+`helper_sha256` and `profiles`. The helper is `StartupZeroObservations.java`.
+Each profile supplies all 32 scalar registers, a 128-byte stack at SP−64,
+seven guarded memory regions, independent ordered `version_inputs` and
+conditional `mmio_inputs`. VERSION inputs name 0x0EC6221E/r4 and, when
+required, 0x0EC62332/r2. The only MMIO input names the four-byte read at
+0x0EC6230E from 0x7E0000B4. Its word is seeded in emulator memory and read
+by the original LOAD; no device is accessed. Register words use eight
+upper-case hex digits with `0x`; memory bytes use lower-case hex strings.
+
+Profiles use the named regions `flags_a`, `flags_b`, `ready`, `processor`,
+`control_mode`, `diagnostic` and `opaque`, with 16, 16, 12, 8, 20, 12 and
+12 bytes respectively. Their GP offsets are 0x1560, 0x16E0, 0x3B890,
+0x3B8AC, 0x3B920, 0xCCDB4 and 0x3B480. Only the declared fields and
+[SP−24,SP) are writable; surrounding bytes are checked as guards.
+
+```sh
+GHIDRA_HEADLESS_MAXMEM=2G /opt/ghidra/support/analyzeHeadless \
+  /work/analysis/projects firmware_a \
+  -process start4.elf -readOnly -noanalysis -max-cpu 1 \
+  -scriptPath tools/ghidra \
+  -postScript CaptureSocInitialization.java \
+  /work/analysis/soc-request.json /work/analysis/soc-observed.json
+```
+
+The recorder accepts at most 50 profiles and 128 instructions per profile.
+It records complete initial/final registers, memory and stack bytes,
+ordered data and VERSION events, separate decoder counters and hashes,
+and explicit context masks. Guard violations, unconsumed observations or
+unexpected accesses fail without a successful output. The 1048576-character
+output contains observations only; compare it separately with expected
+results. Keep requests and outputs outside the tracked tree.
+
+An optional `trace-decoder` argument before the request path records the
+installed decoder's memory requests for the fixed 81 sites without executing
+p-code. It uses the same 348 source bytes and compares each instruction's
+bytes, length, p-code and context with the admitted static result. Each site
+permits at most 32 reads and 512 bytes. The output lists read addresses,
+widths and enclosing spans; it does not establish runtime observations.
+
 ## Scalar observations
 
 The [source-backed ELF data contract](elf-data-observations.md) permits
