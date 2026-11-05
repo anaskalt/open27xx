@@ -2,7 +2,7 @@
  * SPDX-License-Identifier: GPL-2.0-or-later
  */
 
-#include "arm_object.h"
+#include "arm_object_internal.h"
 
 struct span {
     const void *pointer;
@@ -68,26 +68,22 @@ static int matches_profile(const uint8_t *records, unsigned profile) {
     return 1;
 }
 
-enum arm_object_status arm_object_register(
+enum arm_object_status arm_object_register_preflight(
     uint32_t output_present, uint8_t *records, size_t records_length,
     uint32_t *object_output, const struct arm_object_plan *plan,
-    uint32_t *raw_result) {
+    uint32_t *raw_result, unsigned *profile_output) {
     struct span spans[4] = {{records, records_length},
         {object_output, object_output != NULL || output_present ? sizeof(*object_output) : 0},
         {plan, plan != NULL || output_present ? sizeof(*plan) : 0},
         {raw_result, sizeof(*raw_result)}};
     enum arm_object_status status = validate_spans(spans, 4);
     unsigned profile;
-    size_t selected;
-    uint32_t mutex_identity = UINT32_C(0xE40DA4C0), raw = UINT32_MAX;
     if (status != ARM_OBJECT_OK)
         return status;
     if (output_present > 1)
         return ARM_OBJECT_UNSUPPORTED;
-    if (!output_present) {
-        *raw_result = UINT32_MAX;
+    if (!output_present)
         return ARM_OBJECT_OK;
-    }
     if (records == NULL)
         return ARM_OBJECT_INVALID;
     if (records_length < ARM_OBJECT_RECORD_BYTES)
@@ -102,6 +98,19 @@ enum arm_object_status arm_object_register(
     if (plan->acquire == NULL || plan->release == NULL
             || (profile != 2 && plan->diagnostic == NULL))
         return ARM_OBJECT_INVALID;
+    *profile_output = profile;
+    return ARM_OBJECT_OK;
+}
+
+void arm_object_register_validated(
+    uint32_t output_present, uint8_t *records, uint32_t *object_output,
+    const struct arm_object_plan *plan, uint32_t *raw_result) {
+    size_t selected;
+    uint32_t mutex_identity = UINT32_C(0xE40DA4C0), raw = UINT32_MAX;
+    if (!output_present) {
+        *raw_result = UINT32_MAX;
+        return;
+    }
 
     *object_output = 0;
     plan->acquire(plan->context, UINT32_C(0x0ED64D02), &mutex_identity, 1, 0);
@@ -122,6 +131,19 @@ enum arm_object_status arm_object_register(
     }
     plan->release(plan->context, UINT32_C(0x0ED64D3A), &mutex_identity, 1, 0);
     *raw_result = raw;
+}
+
+enum arm_object_status arm_object_register(
+    uint32_t output_present, uint8_t *records, size_t records_length,
+    uint32_t *object_output, const struct arm_object_plan *plan,
+    uint32_t *raw_result) {
+    unsigned profile;
+    enum arm_object_status status = arm_object_register_preflight(
+        output_present, records, records_length, object_output, plan,
+        raw_result, &profile);
+    if (status != ARM_OBJECT_OK)
+        return status;
+    arm_object_register_validated(output_present, records, object_output, plan, raw_result);
     return ARM_OBJECT_OK;
 }
 
