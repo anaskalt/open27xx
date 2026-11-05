@@ -126,9 +126,9 @@ GHIDRA_HEADLESS_MAXMEM=2G /opt/ghidra/support/analyzeHeadless \
 Append `pseudo` after the output path to select detached decoding. The
 default mode does not fall back to it when an instruction is missing.
 
-An optional fourth argument selects `initializer`, `arrival` or
-`continuation`; the third argument must then be `listing` or `pseudo`.
-The `continuation` set requires `pseudo`. Both existing argument forms
+An optional fourth argument selects `initializer`, `arrival`, `continuation`
+or `soc`; the third argument must then be `listing` or `pseudo`.
+The `continuation` and `soc` sets require `pseudo`. Both existing argument forms
 and explicit `initializer` retain the same output format. For example,
 append `pseudo arrival` after the output path to inspect the arrival set.
 Unknown modes and range-set names are rejected.
@@ -195,6 +195,25 @@ site inclusion and consumed instruction/byte counts. The 16-instruction and
 nulls are explicit as in arrival output. A trailing listing instruction
 that crosses the envelope contributes only bounded metadata and context
 to preservation checks. The initializer and arrival outputs are unchanged.
+
+Append `pseudo soc` to inspect these fixed ranges in the same `start4.elf`
+version and digest:
+
+| Kind | Address | File offset | Bytes |
+| --- | --- | --- | ---: |
+| Code | 0x0EC6221C | 0x61C1C | 22 |
+| Code | 0x0EC6227C | 0x61C7C | 182 |
+| Code | 0x0EC62332 | 0x61D32 | 64 |
+| Uninterpreted data | 0x0EC62232 | 0x61C32 | 74 |
+
+The decoder visits only the three code ranges, in address order, with no
+target following. The 74-byte gap is bound as data and remains undecoded.
+Output adds `range_set: "soc"`, `inspection_kind: "fixed_ranges"`,
+`function_complete: false` and each range's `kind`. Context values and nulls
+are explicit as in arrival output. The 92-instruction, 4096-operation and
+output limits remain in force. Calls, VERSION operations and memory accesses
+are exported as static p-code; no firmware instructions execute. The selected
+ranges do not establish a complete function or control-flow graph.
 
 ## Scalar observations
 

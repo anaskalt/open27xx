@@ -8,6 +8,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ### Added
 
+- Fixed SoC initialization inspection ranges with separate data binding,
+  explicit decoder context and unchanged startup inspection modes.
 - Bounded startup continuation inspection with explicit prefix boundaries,
   control-flow stops and complete source and context checks.
 - Freestanding fixed-table startup clearing with complete scalar and stack

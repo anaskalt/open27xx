@@ -87,6 +87,17 @@ public class InspectStartupInitialization extends GhidraScript {
     }, new String[] {
         "7e14b716ed728805159a08dde64a420567b4b5d7b15251cee986cb194c872c8b"
     }, 1, false, true);
+    private static final RangeSet SOC = new RangeSet(new long[][] {
+        {0x0EC6221CL, 22, 0x61C1C},
+        {0x0EC6227CL, 182, 0x61C7C},
+        {0x0EC62332L, 64, 0x61D32},
+        {0x0EC62232L, 74, 0x61C32}
+    }, new String[] {
+        "73839f44927b7f4732e9b30e5be6b7071a8d9c978ed1a9bdaca0462b4f6628f7",
+        "233e2362d8d3e991aef4c1232861d6965eee43793f5fc653cfdc2c1482267349",
+        "3049de857385368f7e0ddce054581921a1fa9895858265bed2e3d65f3a6fc995",
+        "d6acbd437cd60a2e08e85dfe5cc12ce35f2726c159501c4e1f36d011aefa9e6d"
+    }, 3, false, false);
     private RangeSet sourceSet = INITIALIZER;
 
     private static void check(boolean condition, String message) {
@@ -98,18 +109,23 @@ public class InspectStartupInitialization extends GhidraScript {
         String mode = args.length >= 3 ? args[2] : "listing";
         check(mode.equals("listing") || mode.equals("pseudo"), "Invalid decode mode");
         String name = args.length == 4 ? args[3] : "initializer";
-        check(name.equals("initializer") || name.equals("arrival") || name.equals("continuation"),
+        check(name.equals("initializer") || name.equals("arrival") || name.equals("continuation")
+            || name.equals("soc"),
             "Invalid range set");
         if (name.equals("continuation")) {
             check(mode.equals("pseudo"), "Continuation requires pseudo mode");
             return new Options(mode, CONTINUATION);
+        }
+        if (name.equals("soc")) {
+            check(mode.equals("pseudo"), "SoC inspection requires pseudo mode");
+            return new Options(mode, SOC);
         }
         return new Options(mode, name.equals("arrival") ? ARRIVAL : INITIALIZER);
     }
 
     static String outputJson(JsonObject out, RangeSet source) {
         GsonBuilder builder = new GsonBuilder().setPrettyPrinting();
-        if (source.arrival() || source.prefix()) builder.serializeNulls();
+        if (source.arrival() || source.prefix() || source == SOC) builder.serializeNulls();
         return builder.create().toJson(out) + "\n";
     }
 
@@ -160,7 +176,7 @@ public class InspectStartupInitialization extends GhidraScript {
                     item.addProperty("length", instruction.getLength());
                     item.addProperty("bytes", HexFormat.of().formatHex(instruction.getBytes()));
                     item.addProperty("text", instruction.toString());
-                    if (sourceSet.arrival()) item.add("instruction_context",
+                    if (sourceSet.arrival() || sourceSet == SOC) item.add("instruction_context",
                         contextValue(instruction.getRegisterValue(contextRegister())));
                 }
                 item.add("context", contextAt(toAddr(pc)));
@@ -237,6 +253,8 @@ public class InspectStartupInitialization extends GhidraScript {
         out.addProperty("read", block.isRead());
         out.addProperty("write", block.isWrite());
         out.addProperty("execute", block.isExecute());
+        if (sourceSet == SOC) out.addProperty("kind",
+            index < sourceSet.codeRanges() ? "code" : "uninterpreted_data");
         return out;
     }
 
@@ -429,6 +447,11 @@ public class InspectStartupInitialization extends GhidraScript {
         out.addProperty("compiler", currentProgram.getCompilerSpec().getCompilerSpecID().toString());
         out.addProperty("decode_mode", mode);
         if (sourceSet.arrival()) out.addProperty("range_set", "arrival");
+        if (sourceSet == SOC) {
+            out.addProperty("range_set", "soc");
+            out.addProperty("inspection_kind", "fixed_ranges");
+            out.addProperty("function_complete", false);
+        }
         check(currentProgram.getRegister("LowBitCodeMode") == null, "Unexpected low-bit code mode");
         if (sourceSet.prefix()) {
             inspectPrefix(out, output);
@@ -476,7 +499,7 @@ public class InspectStartupInitialization extends GhidraScript {
                 site.addProperty("bytes", HexFormat.of().formatHex(bytes));
                 site.addProperty("length", length);
                 site.add("decoder_context", context);
-                if (sourceSet.arrival()) site.add("instruction_context",
+                if (sourceSet.arrival() || sourceSet == SOC) site.add("instruction_context",
                     contextValue(ins.getRegisterValue(contextRegister())));
                 site.addProperty("text", ins.toString());
                 site.addProperty("fallthrough", ins.getFallThrough() == null ? null : ins.getFallThrough().toString());
@@ -514,6 +537,6 @@ public class InspectStartupInitialization extends GhidraScript {
         String json = outputJson(out, sourceSet);
         check(json.length() <= 1048576, "Output cap exceeded");
         Files.writeString(output, json, StandardOpenOption.CREATE_NEW);
-        println("STARTUP_INITIALIZATION_STATIC_PCODE_OK");
+        println(sourceSet == SOC ? "SOC_INITIALIZATION_STATIC_PCODE_OK" : "STARTUP_INITIALIZATION_STATIC_PCODE_OK");
     }
 }
