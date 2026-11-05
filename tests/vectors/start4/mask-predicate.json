@@ -1,0 +1,2680 @@
+{
+  "schema": 1,
+  "source": {
+    "repository": "raspberrypi/firmware",
+    "file": "start4.elf",
+    "version": "ab5c7f86283ceb58b7adb269cae1d16092a31bf6",
+    "bytes": 2303104,
+    "sha256": "38b179897c4514ad11bc915c3fd2d4b68c51e05df2e42240717655ab92d91aeb"
+  },
+  "cases": [
+    {
+      "id": "validator-outside-00000000",
+      "function": {
+        "entry": "0x0ED00640",
+        "language": "vc4:LE:32:default"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "gp": "0xE4000000",
+          "sp": "0x24010000",
+          "sr": "0x400000A5",
+          "r0": "0x00000000",
+          "r1": "0xA0000001",
+          "r2": "0xA0000002",
+          "r3": "0xA0000003",
+          "r4": "0xA0000004",
+          "r5": "0xA0000005",
+          "r6": "0xA0000006",
+          "r7": "0xA0000007",
+          "r8": "0xA0000008",
+          "r9": "0xA0000009",
+          "r10": "0xA000000A",
+          "r11": "0xA000000B",
+          "r12": "0xA000000C",
+          "r13": "0xA000000D"
+        },
+        "memory": [
+          {
+            "address": "0x2400FFC0",
+            "fill": "a5",
+            "size": 96
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24040000",
+        "step_limit": 100,
+        "stubs": [],
+        "mmio_responses": []
+      },
+      "scope": "Complete validator outside admitted code interval",
+      "limitations": [
+        "Input registers, masks and fresh caller storage are synthetic software premises, not runtime initialization.",
+        "The validator executes its actual nested scalar helper without a computational stub.",
+        "Direct helper counts outside0..63 are separate pinned-pcode diagnostics, not a C-language shift contract or physical ISA claim.",
+        "No IRQ, p16, VERSION, MMIO, SWI, RTI or opaque-handle producer is supplied."
+      ],
+      "expected": {
+        "registers": {
+          "r0": "0x00000000",
+          "r1": "0xA0000001",
+          "r2": "0x00000000",
+          "r3": "0xA0000003",
+          "r4": "0xA0000004",
+          "r5": "0xA0000005",
+          "r6": "0xA0000006",
+          "r7": "0xA0000007",
+          "r8": "0xA0000008",
+          "r9": "0xA0000009",
+          "r10": "0xA000000A",
+          "r11": "0xA000000B",
+          "r12": "0xA000000C",
+          "r13": "0xA000000D",
+          "r14": "0x00000000",
+          "r15": "0x00000000",
+          "r16": "0x00000000",
+          "r17": "0x00000000",
+          "r18": "0x00000000",
+          "r19": "0x00000000",
+          "r20": "0x00000000",
+          "r21": "0x00000000",
+          "r22": "0x00000000",
+          "r23": "0x00000000",
+          "gp": "0xE4000000",
+          "sp": "0x24010000",
+          "lr": "0x24040000",
+          "r27": "0x00000000",
+          "r28": "0x00000000",
+          "r29": "0x00000000",
+          "sr": "0x400000A6",
+          "pc": "0x24040000"
+        },
+        "memory": [
+          {
+            "address": "0x2400FFC0",
+            "hex": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a500000424a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+          }
+        ],
+        "events": []
+      },
+      "steps": 6
+    },
+    {
+      "id": "validator-outside-0000003f",
+      "function": {
+        "entry": "0x0ED00640",
+        "language": "vc4:LE:32:default"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "gp": "0xE4000000",
+          "sp": "0x24010000",
+          "sr": "0x400000A5",
+          "r0": "0x0000003F",
+          "r1": "0xA0000001",
+          "r2": "0xA0000002",
+          "r3": "0xA0000003",
+          "r4": "0xA0000004",
+          "r5": "0xA0000005",
+          "r6": "0xA0000006",
+          "r7": "0xA0000007",
+          "r8": "0xA0000008",
+          "r9": "0xA0000009",
+          "r10": "0xA000000A",
+          "r11": "0xA000000B",
+          "r12": "0xA000000C",
+          "r13": "0xA000000D"
+        },
+        "memory": [
+          {
+            "address": "0x2400FFC0",
+            "fill": "a5",
+            "size": 96
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24040000",
+        "step_limit": 100,
+        "stubs": [],
+        "mmio_responses": []
+      },
+      "scope": "Complete validator outside admitted code interval",
+      "limitations": [
+        "Input registers, masks and fresh caller storage are synthetic software premises, not runtime initialization.",
+        "The validator executes its actual nested scalar helper without a computational stub.",
+        "Direct helper counts outside0..63 are separate pinned-pcode diagnostics, not a C-language shift contract or physical ISA claim.",
+        "No IRQ, p16, VERSION, MMIO, SWI, RTI or opaque-handle producer is supplied."
+      ],
+      "expected": {
+        "registers": {
+          "r0": "0x00000000",
+          "r1": "0xA0000001",
+          "r2": "0x0000003F",
+          "r3": "0xA0000003",
+          "r4": "0xA0000004",
+          "r5": "0xA0000005",
+          "r6": "0xA0000006",
+          "r7": "0xA0000007",
+          "r8": "0xA0000008",
+          "r9": "0xA0000009",
+          "r10": "0xA000000A",
+          "r11": "0xA000000B",
+          "r12": "0xA000000C",
+          "r13": "0xA000000D",
+          "r14": "0x00000000",
+          "r15": "0x00000000",
+          "r16": "0x00000000",
+          "r17": "0x00000000",
+          "r18": "0x00000000",
+          "r19": "0x00000000",
+          "r20": "0x00000000",
+          "r21": "0x00000000",
+          "r22": "0x00000000",
+          "r23": "0x00000000",
+          "gp": "0xE4000000",
+          "sp": "0x24010000",
+          "lr": "0x24040000",
+          "r27": "0x00000000",
+          "r28": "0x00000000",
+          "r29": "0x00000000",
+          "sr": "0x400000A6",
+          "pc": "0x24040000"
+        },
+        "memory": [
+          {
+            "address": "0x2400FFC0",
+            "hex": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a500000424a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+          }
+        ],
+        "events": []
+      },
+      "steps": 6
+    },
+    {
+      "id": "validator-outside-00000080",
+      "function": {
+        "entry": "0x0ED00640",
+        "language": "vc4:LE:32:default"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "gp": "0xE4000000",
+          "sp": "0x24010000",
+          "sr": "0x400000A5",
+          "r0": "0x00000080",
+          "r1": "0xA0000001",
+          "r2": "0xA0000002",
+          "r3": "0xA0000003",
+          "r4": "0xA0000004",
+          "r5": "0xA0000005",
+          "r6": "0xA0000006",
+          "r7": "0xA0000007",
+          "r8": "0xA0000008",
+          "r9": "0xA0000009",
+          "r10": "0xA000000A",
+          "r11": "0xA000000B",
+          "r12": "0xA000000C",
+          "r13": "0xA000000D"
+        },
+        "memory": [
+          {
+            "address": "0x2400FFC0",
+            "fill": "a5",
+            "size": 96
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24040000",
+        "step_limit": 100,
+        "stubs": [],
+        "mmio_responses": []
+      },
+      "scope": "Complete validator outside admitted code interval",
+      "limitations": [
+        "Input registers, masks and fresh caller storage are synthetic software premises, not runtime initialization.",
+        "The validator executes its actual nested scalar helper without a computational stub.",
+        "Direct helper counts outside0..63 are separate pinned-pcode diagnostics, not a C-language shift contract or physical ISA claim.",
+        "No IRQ, p16, VERSION, MMIO, SWI, RTI or opaque-handle producer is supplied."
+      ],
+      "expected": {
+        "registers": {
+          "r0": "0x00000000",
+          "r1": "0xA0000001",
+          "r2": "0x00000080",
+          "r3": "0xA0000003",
+          "r4": "0xA0000004",
+          "r5": "0xA0000005",
+          "r6": "0xA0000006",
+          "r7": "0xA0000007",
+          "r8": "0xA0000008",
+          "r9": "0xA0000009",
+          "r10": "0xA000000A",
+          "r11": "0xA000000B",
+          "r12": "0xA000000C",
+          "r13": "0xA000000D",
+          "r14": "0x00000000",
+          "r15": "0x00000000",
+          "r16": "0x00000000",
+          "r17": "0x00000000",
+          "r18": "0x00000000",
+          "r19": "0x00000000",
+          "r20": "0x00000000",
+          "r21": "0x00000000",
+          "r22": "0x00000000",
+          "r23": "0x00000000",
+          "gp": "0xE4000000",
+          "sp": "0x24010000",
+          "lr": "0x24040000",
+          "r27": "0x00000000",
+          "r28": "0x00000000",
+          "r29": "0x00000000",
+          "sr": "0x400000A8",
+          "pc": "0x24040000"
+        },
+        "memory": [
+          {
+            "address": "0x2400FFC0",
+            "hex": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a500000424a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+          }
+        ],
+        "events": []
+      },
+      "steps": 8
+    },
+    {
+      "id": "validator-outside-80000000",
+      "function": {
+        "entry": "0x0ED00640",
+        "language": "vc4:LE:32:default"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "gp": "0xE4000000",
+          "sp": "0x24010000",
+          "sr": "0x400000A5",
+          "r0": "0x80000000",
+          "r1": "0xA0000001",
+          "r2": "0xA0000002",
+          "r3": "0xA0000003",
+          "r4": "0xA0000004",
+          "r5": "0xA0000005",
+          "r6": "0xA0000006",
+          "r7": "0xA0000007",
+          "r8": "0xA0000008",
+          "r9": "0xA0000009",
+          "r10": "0xA000000A",
+          "r11": "0xA000000B",
+          "r12": "0xA000000C",
+          "r13": "0xA000000D"
+        },
+        "memory": [
+          {
+            "address": "0x2400FFC0",
+            "fill": "a5",
+            "size": 96
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24040000",
+        "step_limit": 100,
+        "stubs": [],
+        "mmio_responses": []
+      },
+      "scope": "Complete validator outside admitted code interval",
+      "limitations": [
+        "Input registers, masks and fresh caller storage are synthetic software premises, not runtime initialization.",
+        "The validator executes its actual nested scalar helper without a computational stub.",
+        "Direct helper counts outside0..63 are separate pinned-pcode diagnostics, not a C-language shift contract or physical ISA claim.",
+        "No IRQ, p16, VERSION, MMIO, SWI, RTI or opaque-handle producer is supplied."
+      ],
+      "expected": {
+        "registers": {
+          "r0": "0x00000000",
+          "r1": "0xA0000001",
+          "r2": "0x80000000",
+          "r3": "0xA0000003",
+          "r4": "0xA0000004",
+          "r5": "0xA0000005",
+          "r6": "0xA0000006",
+          "r7": "0xA0000007",
+          "r8": "0xA0000008",
+          "r9": "0xA0000009",
+          "r10": "0xA000000A",
+          "r11": "0xA000000B",
+          "r12": "0xA000000C",
+          "r13": "0xA000000D",
+          "r14": "0x00000000",
+          "r15": "0x00000000",
+          "r16": "0x00000000",
+          "r17": "0x00000000",
+          "r18": "0x00000000",
+          "r19": "0x00000000",
+          "r20": "0x00000000",
+          "r21": "0x00000000",
+          "r22": "0x00000000",
+          "r23": "0x00000000",
+          "gp": "0xE4000000",
+          "sp": "0x24010000",
+          "lr": "0x24040000",
+          "r27": "0x00000000",
+          "r28": "0x00000000",
+          "r29": "0x00000000",
+          "sr": "0x400000A1",
+          "pc": "0x24040000"
+        },
+        "memory": [
+          {
+            "address": "0x2400FFC0",
+            "hex": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a500000424a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+          }
+        ],
+        "events": []
+      },
+      "steps": 8
+    },
+    {
+      "id": "validator-outside-ffffffff",
+      "function": {
+        "entry": "0x0ED00640",
+        "language": "vc4:LE:32:default"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "gp": "0xE4000000",
+          "sp": "0x24010000",
+          "sr": "0x400000A5",
+          "r0": "0xFFFFFFFF",
+          "r1": "0xA0000001",
+          "r2": "0xA0000002",
+          "r3": "0xA0000003",
+          "r4": "0xA0000004",
+          "r5": "0xA0000005",
+          "r6": "0xA0000006",
+          "r7": "0xA0000007",
+          "r8": "0xA0000008",
+          "r9": "0xA0000009",
+          "r10": "0xA000000A",
+          "r11": "0xA000000B",
+          "r12": "0xA000000C",
+          "r13": "0xA000000D"
+        },
+        "memory": [
+          {
+            "address": "0x2400FFC0",
+            "fill": "a5",
+            "size": 96
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24040000",
+        "step_limit": 100,
+        "stubs": [],
+        "mmio_responses": []
+      },
+      "scope": "Complete validator outside admitted code interval",
+      "limitations": [
+        "Input registers, masks and fresh caller storage are synthetic software premises, not runtime initialization.",
+        "The validator executes its actual nested scalar helper without a computational stub.",
+        "Direct helper counts outside0..63 are separate pinned-pcode diagnostics, not a C-language shift contract or physical ISA claim.",
+        "No IRQ, p16, VERSION, MMIO, SWI, RTI or opaque-handle producer is supplied."
+      ],
+      "expected": {
+        "registers": {
+          "r0": "0x00000000",
+          "r1": "0xA0000001",
+          "r2": "0xFFFFFFFF",
+          "r3": "0xA0000003",
+          "r4": "0xA0000004",
+          "r5": "0xA0000005",
+          "r6": "0xA0000006",
+          "r7": "0xA0000007",
+          "r8": "0xA0000008",
+          "r9": "0xA0000009",
+          "r10": "0xA000000A",
+          "r11": "0xA000000B",
+          "r12": "0xA000000C",
+          "r13": "0xA000000D",
+          "r14": "0x00000000",
+          "r15": "0x00000000",
+          "r16": "0x00000000",
+          "r17": "0x00000000",
+          "r18": "0x00000000",
+          "r19": "0x00000000",
+          "r20": "0x00000000",
+          "r21": "0x00000000",
+          "r22": "0x00000000",
+          "r23": "0x00000000",
+          "gp": "0xE4000000",
+          "sp": "0x24010000",
+          "lr": "0x24040000",
+          "r27": "0x00000000",
+          "r28": "0x00000000",
+          "r29": "0x00000000",
+          "sr": "0x400000A4",
+          "pc": "0x24040000"
+        },
+        "memory": [
+          {
+            "address": "0x2400FFC0",
+            "hex": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a500000424a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+          }
+        ],
+        "events": []
+      },
+      "steps": 8
+    },
+    {
+      "id": "validator-40-clear",
+      "function": {
+        "entry": "0x0ED00640",
+        "language": "vc4:LE:32:default"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "gp": "0xE4000000",
+          "sp": "0x24010000",
+          "sr": "0x400000A5",
+          "r0": "0x00000040",
+          "r1": "0xA0000001",
+          "r2": "0xA0000002",
+          "r3": "0xA0000003",
+          "r4": "0xA0000004",
+          "r5": "0xA0000005",
+          "r6": "0xA0000006",
+          "r7": "0xA0000007",
+          "r8": "0xA0000008",
+          "r9": "0xA0000009",
+          "r10": "0xA000000A",
+          "r11": "0xA000000B",
+          "r12": "0xA000000C",
+          "r13": "0xA000000D"
+        },
+        "memory": [
+          {
+            "address": "0x2400FFC0",
+            "fill": "a5",
+            "size": 96
+          },
+          {
+            "address": "0xE40CB490",
+            "hex": "d1d1d1d1d1d1d1d1feffffffffffffffe2e2e2e2e2e2e2e2"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24040000",
+        "step_limit": 100,
+        "stubs": [],
+        "mmio_responses": []
+      },
+      "scope": "Complete validator with actual64-bit shift and explicit two-word mask",
+      "limitations": [
+        "Input registers, masks and fresh caller storage are synthetic software premises, not runtime initialization.",
+        "The validator executes its actual nested scalar helper without a computational stub.",
+        "Direct helper counts outside0..63 are separate pinned-pcode diagnostics, not a C-language shift contract or physical ISA claim.",
+        "No IRQ, p16, VERSION, MMIO, SWI, RTI or opaque-handle producer is supplied."
+      ],
+      "expected": {
+        "registers": {
+          "r0": "0x00000000",
+          "r1": "0x00000000",
+          "r2": "0x00000000",
+          "r3": "0xFFFFFFFF",
+          "r4": "0xFFFFFFFE",
+          "r5": "0xA0000005",
+          "r6": "0xA0000006",
+          "r7": "0xA0000007",
+          "r8": "0xA0000008",
+          "r9": "0xA0000009",
+          "r10": "0xA000000A",
+          "r11": "0xA000000B",
+          "r12": "0xA000000C",
+          "r13": "0xA000000D",
+          "r14": "0x00000000",
+          "r15": "0x00000000",
+          "r16": "0x00000000",
+          "r17": "0x00000000",
+          "r18": "0x00000000",
+          "r19": "0x00000000",
+          "r20": "0x00000000",
+          "r21": "0x00000000",
+          "r22": "0x00000000",
+          "r23": "0x00000000",
+          "gp": "0xE4000000",
+          "sp": "0x24010000",
+          "lr": "0x0ED0065C",
+          "r27": "0x00000000",
+          "r28": "0x00000000",
+          "r29": "0x00000000",
+          "sr": "0x400000A8",
+          "pc": "0x24040000"
+        },
+        "memory": [
+          {
+            "address": "0x2400FFC0",
+            "hex": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a500000424a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+          },
+          {
+            "address": "0xE40CB490",
+            "hex": "d1d1d1d1d1d1d1d1feffffffffffffffe2e2e2e2e2e2e2e2"
+          }
+        ],
+        "events": []
+      },
+      "steps": 27
+    },
+    {
+      "id": "validator-40-set",
+      "function": {
+        "entry": "0x0ED00640",
+        "language": "vc4:LE:32:default"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "gp": "0xE4000000",
+          "sp": "0x24010000",
+          "sr": "0x400000A5",
+          "r0": "0x00000040",
+          "r1": "0xA0000001",
+          "r2": "0xA0000002",
+          "r3": "0xA0000003",
+          "r4": "0xA0000004",
+          "r5": "0xA0000005",
+          "r6": "0xA0000006",
+          "r7": "0xA0000007",
+          "r8": "0xA0000008",
+          "r9": "0xA0000009",
+          "r10": "0xA000000A",
+          "r11": "0xA000000B",
+          "r12": "0xA000000C",
+          "r13": "0xA000000D"
+        },
+        "memory": [
+          {
+            "address": "0x2400FFC0",
+            "fill": "a5",
+            "size": 96
+          },
+          {
+            "address": "0xE40CB490",
+            "hex": "d1d1d1d1d1d1d1d10100000000000000e2e2e2e2e2e2e2e2"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24040000",
+        "step_limit": 100,
+        "stubs": [],
+        "mmio_responses": []
+      },
+      "scope": "Complete validator with actual64-bit shift and explicit two-word mask",
+      "limitations": [
+        "Input registers, masks and fresh caller storage are synthetic software premises, not runtime initialization.",
+        "The validator executes its actual nested scalar helper without a computational stub.",
+        "Direct helper counts outside0..63 are separate pinned-pcode diagnostics, not a C-language shift contract or physical ISA claim.",
+        "No IRQ, p16, VERSION, MMIO, SWI, RTI or opaque-handle producer is supplied."
+      ],
+      "expected": {
+        "registers": {
+          "r0": "0x00000001",
+          "r1": "0x00000001",
+          "r2": "0x00000000",
+          "r3": "0x00000000",
+          "r4": "0x00000001",
+          "r5": "0xA0000005",
+          "r6": "0xA0000006",
+          "r7": "0xA0000007",
+          "r8": "0xA0000008",
+          "r9": "0xA0000009",
+          "r10": "0xA000000A",
+          "r11": "0xA000000B",
+          "r12": "0xA000000C",
+          "r13": "0xA000000D",
+          "r14": "0x00000000",
+          "r15": "0x00000000",
+          "r16": "0x00000000",
+          "r17": "0x00000000",
+          "r18": "0x00000000",
+          "r19": "0x00000000",
+          "r20": "0x00000000",
+          "r21": "0x00000000",
+          "r22": "0x00000000",
+          "r23": "0x00000000",
+          "gp": "0xE4000000",
+          "sp": "0x24010000",
+          "lr": "0x0ED0065C",
+          "r27": "0x00000000",
+          "r28": "0x00000000",
+          "r29": "0x00000000",
+          "sr": "0x400000A0",
+          "pc": "0x24040000"
+        },
+        "memory": [
+          {
+            "address": "0x2400FFC0",
+            "hex": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a500000424a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+          },
+          {
+            "address": "0xE40CB490",
+            "hex": "d1d1d1d1d1d1d1d10100000000000000e2e2e2e2e2e2e2e2"
+          }
+        ],
+        "events": []
+      },
+      "steps": 26
+    },
+    {
+      "id": "validator-5f-clear",
+      "function": {
+        "entry": "0x0ED00640",
+        "language": "vc4:LE:32:default"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "gp": "0xE4000000",
+          "sp": "0x24010000",
+          "sr": "0x400000A5",
+          "r0": "0x0000005F",
+          "r1": "0xA0000001",
+          "r2": "0xA0000002",
+          "r3": "0xA0000003",
+          "r4": "0xA0000004",
+          "r5": "0xA0000005",
+          "r6": "0xA0000006",
+          "r7": "0xA0000007",
+          "r8": "0xA0000008",
+          "r9": "0xA0000009",
+          "r10": "0xA000000A",
+          "r11": "0xA000000B",
+          "r12": "0xA000000C",
+          "r13": "0xA000000D"
+        },
+        "memory": [
+          {
+            "address": "0x2400FFC0",
+            "fill": "a5",
+            "size": 96
+          },
+          {
+            "address": "0xE40CB490",
+            "hex": "d1d1d1d1d1d1d1d1ffffff7fffffffffe2e2e2e2e2e2e2e2"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24040000",
+        "step_limit": 100,
+        "stubs": [],
+        "mmio_responses": []
+      },
+      "scope": "Complete validator with actual64-bit shift and explicit two-word mask",
+      "limitations": [
+        "Input registers, masks and fresh caller storage are synthetic software premises, not runtime initialization.",
+        "The validator executes its actual nested scalar helper without a computational stub.",
+        "Direct helper counts outside0..63 are separate pinned-pcode diagnostics, not a C-language shift contract or physical ISA claim.",
+        "No IRQ, p16, VERSION, MMIO, SWI, RTI or opaque-handle producer is supplied."
+      ],
+      "expected": {
+        "registers": {
+          "r0": "0x00000000",
+          "r1": "0x00000000",
+          "r2": "0x0000001F",
+          "r3": "0xFFFFFFFF",
+          "r4": "0x7FFFFFFF",
+          "r5": "0xA0000005",
+          "r6": "0xA0000006",
+          "r7": "0xA0000007",
+          "r8": "0xA0000008",
+          "r9": "0xA0000009",
+          "r10": "0xA000000A",
+          "r11": "0xA000000B",
+          "r12": "0xA000000C",
+          "r13": "0xA000000D",
+          "r14": "0x00000000",
+          "r15": "0x00000000",
+          "r16": "0x00000000",
+          "r17": "0x00000000",
+          "r18": "0x00000000",
+          "r19": "0x00000000",
+          "r20": "0x00000000",
+          "r21": "0x00000000",
+          "r22": "0x00000000",
+          "r23": "0x00000000",
+          "gp": "0xE4000000",
+          "sp": "0x24010000",
+          "lr": "0x0ED0065C",
+          "r27": "0x00000000",
+          "r28": "0x00000000",
+          "r29": "0x00000000",
+          "sr": "0x400000A8",
+          "pc": "0x24040000"
+        },
+        "memory": [
+          {
+            "address": "0x2400FFC0",
+            "hex": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a500000424a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+          },
+          {
+            "address": "0xE40CB490",
+            "hex": "d1d1d1d1d1d1d1d1ffffff7fffffffffe2e2e2e2e2e2e2e2"
+          }
+        ],
+        "events": []
+      },
+      "steps": 33
+    },
+    {
+      "id": "validator-5f-set",
+      "function": {
+        "entry": "0x0ED00640",
+        "language": "vc4:LE:32:default"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "gp": "0xE4000000",
+          "sp": "0x24010000",
+          "sr": "0x400000A5",
+          "r0": "0x0000005F",
+          "r1": "0xA0000001",
+          "r2": "0xA0000002",
+          "r3": "0xA0000003",
+          "r4": "0xA0000004",
+          "r5": "0xA0000005",
+          "r6": "0xA0000006",
+          "r7": "0xA0000007",
+          "r8": "0xA0000008",
+          "r9": "0xA0000009",
+          "r10": "0xA000000A",
+          "r11": "0xA000000B",
+          "r12": "0xA000000C",
+          "r13": "0xA000000D"
+        },
+        "memory": [
+          {
+            "address": "0x2400FFC0",
+            "fill": "a5",
+            "size": 96
+          },
+          {
+            "address": "0xE40CB490",
+            "hex": "d1d1d1d1d1d1d1d10000008000000000e2e2e2e2e2e2e2e2"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24040000",
+        "step_limit": 100,
+        "stubs": [],
+        "mmio_responses": []
+      },
+      "scope": "Complete validator with actual64-bit shift and explicit two-word mask",
+      "limitations": [
+        "Input registers, masks and fresh caller storage are synthetic software premises, not runtime initialization.",
+        "The validator executes its actual nested scalar helper without a computational stub.",
+        "Direct helper counts outside0..63 are separate pinned-pcode diagnostics, not a C-language shift contract or physical ISA claim.",
+        "No IRQ, p16, VERSION, MMIO, SWI, RTI or opaque-handle producer is supplied."
+      ],
+      "expected": {
+        "registers": {
+          "r0": "0x00000001",
+          "r1": "0x80000000",
+          "r2": "0x0000001F",
+          "r3": "0x00000000",
+          "r4": "0x80000000",
+          "r5": "0xA0000005",
+          "r6": "0xA0000006",
+          "r7": "0xA0000007",
+          "r8": "0xA0000008",
+          "r9": "0xA0000009",
+          "r10": "0xA000000A",
+          "r11": "0xA000000B",
+          "r12": "0xA000000C",
+          "r13": "0xA000000D",
+          "r14": "0x00000000",
+          "r15": "0x00000000",
+          "r16": "0x00000000",
+          "r17": "0x00000000",
+          "r18": "0x00000000",
+          "r19": "0x00000000",
+          "r20": "0x00000000",
+          "r21": "0x00000000",
+          "r22": "0x00000000",
+          "r23": "0x00000000",
+          "gp": "0xE4000000",
+          "sp": "0x24010000",
+          "lr": "0x0ED0065C",
+          "r27": "0x00000000",
+          "r28": "0x00000000",
+          "r29": "0x00000000",
+          "sr": "0x400000A4",
+          "pc": "0x24040000"
+        },
+        "memory": [
+          {
+            "address": "0x2400FFC0",
+            "hex": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a500000424a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+          },
+          {
+            "address": "0xE40CB490",
+            "hex": "d1d1d1d1d1d1d1d10000008000000000e2e2e2e2e2e2e2e2"
+          }
+        ],
+        "events": []
+      },
+      "steps": 32
+    },
+    {
+      "id": "validator-60-clear",
+      "function": {
+        "entry": "0x0ED00640",
+        "language": "vc4:LE:32:default"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "gp": "0xE4000000",
+          "sp": "0x24010000",
+          "sr": "0x400000A5",
+          "r0": "0x00000060",
+          "r1": "0xA0000001",
+          "r2": "0xA0000002",
+          "r3": "0xA0000003",
+          "r4": "0xA0000004",
+          "r5": "0xA0000005",
+          "r6": "0xA0000006",
+          "r7": "0xA0000007",
+          "r8": "0xA0000008",
+          "r9": "0xA0000009",
+          "r10": "0xA000000A",
+          "r11": "0xA000000B",
+          "r12": "0xA000000C",
+          "r13": "0xA000000D"
+        },
+        "memory": [
+          {
+            "address": "0x2400FFC0",
+            "fill": "a5",
+            "size": 96
+          },
+          {
+            "address": "0xE40CB490",
+            "hex": "d1d1d1d1d1d1d1d1fffffffffeffffffe2e2e2e2e2e2e2e2"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24040000",
+        "step_limit": 100,
+        "stubs": [],
+        "mmio_responses": []
+      },
+      "scope": "Complete validator with actual64-bit shift and explicit two-word mask",
+      "limitations": [
+        "Input registers, masks and fresh caller storage are synthetic software premises, not runtime initialization.",
+        "The validator executes its actual nested scalar helper without a computational stub.",
+        "Direct helper counts outside0..63 are separate pinned-pcode diagnostics, not a C-language shift contract or physical ISA claim.",
+        "No IRQ, p16, VERSION, MMIO, SWI, RTI or opaque-handle producer is supplied."
+      ],
+      "expected": {
+        "registers": {
+          "r0": "0x00000000",
+          "r1": "0x00000000",
+          "r2": "0x00000020",
+          "r3": "0xFFFFFFFE",
+          "r4": "0xFFFFFFFF",
+          "r5": "0xA0000005",
+          "r6": "0xA0000006",
+          "r7": "0xA0000007",
+          "r8": "0xA0000008",
+          "r9": "0xA0000009",
+          "r10": "0xA000000A",
+          "r11": "0xA000000B",
+          "r12": "0xA000000C",
+          "r13": "0xA000000D",
+          "r14": "0x00000000",
+          "r15": "0x00000000",
+          "r16": "0x00000000",
+          "r17": "0x00000000",
+          "r18": "0x00000000",
+          "r19": "0x00000000",
+          "r20": "0x00000000",
+          "r21": "0x00000000",
+          "r22": "0x00000000",
+          "r23": "0x00000000",
+          "gp": "0xE4000000",
+          "sp": "0x24010000",
+          "lr": "0x0ED0065C",
+          "r27": "0x00000000",
+          "r28": "0x00000000",
+          "r29": "0x00000000",
+          "sr": "0x400000A8",
+          "pc": "0x24040000"
+        },
+        "memory": [
+          {
+            "address": "0x2400FFC0",
+            "hex": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a500000424a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+          },
+          {
+            "address": "0xE40CB490",
+            "hex": "d1d1d1d1d1d1d1d1fffffffffeffffffe2e2e2e2e2e2e2e2"
+          }
+        ],
+        "events": []
+      },
+      "steps": 28
+    },
+    {
+      "id": "validator-60-set",
+      "function": {
+        "entry": "0x0ED00640",
+        "language": "vc4:LE:32:default"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "gp": "0xE4000000",
+          "sp": "0x24010000",
+          "sr": "0x400000A5",
+          "r0": "0x00000060",
+          "r1": "0xA0000001",
+          "r2": "0xA0000002",
+          "r3": "0xA0000003",
+          "r4": "0xA0000004",
+          "r5": "0xA0000005",
+          "r6": "0xA0000006",
+          "r7": "0xA0000007",
+          "r8": "0xA0000008",
+          "r9": "0xA0000009",
+          "r10": "0xA000000A",
+          "r11": "0xA000000B",
+          "r12": "0xA000000C",
+          "r13": "0xA000000D"
+        },
+        "memory": [
+          {
+            "address": "0x2400FFC0",
+            "fill": "a5",
+            "size": 96
+          },
+          {
+            "address": "0xE40CB490",
+            "hex": "d1d1d1d1d1d1d1d10000000001000000e2e2e2e2e2e2e2e2"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24040000",
+        "step_limit": 100,
+        "stubs": [],
+        "mmio_responses": []
+      },
+      "scope": "Complete validator with actual64-bit shift and explicit two-word mask",
+      "limitations": [
+        "Input registers, masks and fresh caller storage are synthetic software premises, not runtime initialization.",
+        "The validator executes its actual nested scalar helper without a computational stub.",
+        "Direct helper counts outside0..63 are separate pinned-pcode diagnostics, not a C-language shift contract or physical ISA claim.",
+        "No IRQ, p16, VERSION, MMIO, SWI, RTI or opaque-handle producer is supplied."
+      ],
+      "expected": {
+        "registers": {
+          "r0": "0x00000001",
+          "r1": "0x00000001",
+          "r2": "0x00000020",
+          "r3": "0x00000001",
+          "r4": "0x00000000",
+          "r5": "0xA0000005",
+          "r6": "0xA0000006",
+          "r7": "0xA0000007",
+          "r8": "0xA0000008",
+          "r9": "0xA0000009",
+          "r10": "0xA000000A",
+          "r11": "0xA000000B",
+          "r12": "0xA000000C",
+          "r13": "0xA000000D",
+          "r14": "0x00000000",
+          "r15": "0x00000000",
+          "r16": "0x00000000",
+          "r17": "0x00000000",
+          "r18": "0x00000000",
+          "r19": "0x00000000",
+          "r20": "0x00000000",
+          "r21": "0x00000000",
+          "r22": "0x00000000",
+          "r23": "0x00000000",
+          "gp": "0xE4000000",
+          "sp": "0x24010000",
+          "lr": "0x0ED0065C",
+          "r27": "0x00000000",
+          "r28": "0x00000000",
+          "r29": "0x00000000",
+          "sr": "0x400000A0",
+          "pc": "0x24040000"
+        },
+        "memory": [
+          {
+            "address": "0x2400FFC0",
+            "hex": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a500000424a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+          },
+          {
+            "address": "0xE40CB490",
+            "hex": "d1d1d1d1d1d1d1d10000000001000000e2e2e2e2e2e2e2e2"
+          }
+        ],
+        "events": []
+      },
+      "steps": 27
+    },
+    {
+      "id": "validator-7f-clear",
+      "function": {
+        "entry": "0x0ED00640",
+        "language": "vc4:LE:32:default"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "gp": "0xE4000000",
+          "sp": "0x24010000",
+          "sr": "0x400000A5",
+          "r0": "0x0000007F",
+          "r1": "0xA0000001",
+          "r2": "0xA0000002",
+          "r3": "0xA0000003",
+          "r4": "0xA0000004",
+          "r5": "0xA0000005",
+          "r6": "0xA0000006",
+          "r7": "0xA0000007",
+          "r8": "0xA0000008",
+          "r9": "0xA0000009",
+          "r10": "0xA000000A",
+          "r11": "0xA000000B",
+          "r12": "0xA000000C",
+          "r13": "0xA000000D"
+        },
+        "memory": [
+          {
+            "address": "0x2400FFC0",
+            "fill": "a5",
+            "size": 96
+          },
+          {
+            "address": "0xE40CB490",
+            "hex": "d1d1d1d1d1d1d1d1ffffffffffffff7fe2e2e2e2e2e2e2e2"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24040000",
+        "step_limit": 100,
+        "stubs": [],
+        "mmio_responses": []
+      },
+      "scope": "Complete validator with actual64-bit shift and explicit two-word mask",
+      "limitations": [
+        "Input registers, masks and fresh caller storage are synthetic software premises, not runtime initialization.",
+        "The validator executes its actual nested scalar helper without a computational stub.",
+        "Direct helper counts outside0..63 are separate pinned-pcode diagnostics, not a C-language shift contract or physical ISA claim.",
+        "No IRQ, p16, VERSION, MMIO, SWI, RTI or opaque-handle producer is supplied."
+      ],
+      "expected": {
+        "registers": {
+          "r0": "0x00000000",
+          "r1": "0x00000000",
+          "r2": "0x0000003F",
+          "r3": "0x7FFFFFFF",
+          "r4": "0xFFFFFFFF",
+          "r5": "0xA0000005",
+          "r6": "0xA0000006",
+          "r7": "0xA0000007",
+          "r8": "0xA0000008",
+          "r9": "0xA0000009",
+          "r10": "0xA000000A",
+          "r11": "0xA000000B",
+          "r12": "0xA000000C",
+          "r13": "0xA000000D",
+          "r14": "0x00000000",
+          "r15": "0x00000000",
+          "r16": "0x00000000",
+          "r17": "0x00000000",
+          "r18": "0x00000000",
+          "r19": "0x00000000",
+          "r20": "0x00000000",
+          "r21": "0x00000000",
+          "r22": "0x00000000",
+          "r23": "0x00000000",
+          "gp": "0xE4000000",
+          "sp": "0x24010000",
+          "lr": "0x0ED0065C",
+          "r27": "0x00000000",
+          "r28": "0x00000000",
+          "r29": "0x00000000",
+          "sr": "0x400000A8",
+          "pc": "0x24040000"
+        },
+        "memory": [
+          {
+            "address": "0x2400FFC0",
+            "hex": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a500000424a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+          },
+          {
+            "address": "0xE40CB490",
+            "hex": "d1d1d1d1d1d1d1d1ffffffffffffff7fe2e2e2e2e2e2e2e2"
+          }
+        ],
+        "events": []
+      },
+      "steps": 28
+    },
+    {
+      "id": "validator-7f-set",
+      "function": {
+        "entry": "0x0ED00640",
+        "language": "vc4:LE:32:default"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "gp": "0xE4000000",
+          "sp": "0x24010000",
+          "sr": "0x400000A5",
+          "r0": "0x0000007F",
+          "r1": "0xA0000001",
+          "r2": "0xA0000002",
+          "r3": "0xA0000003",
+          "r4": "0xA0000004",
+          "r5": "0xA0000005",
+          "r6": "0xA0000006",
+          "r7": "0xA0000007",
+          "r8": "0xA0000008",
+          "r9": "0xA0000009",
+          "r10": "0xA000000A",
+          "r11": "0xA000000B",
+          "r12": "0xA000000C",
+          "r13": "0xA000000D"
+        },
+        "memory": [
+          {
+            "address": "0x2400FFC0",
+            "fill": "a5",
+            "size": 96
+          },
+          {
+            "address": "0xE40CB490",
+            "hex": "d1d1d1d1d1d1d1d10000000000000080e2e2e2e2e2e2e2e2"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24040000",
+        "step_limit": 100,
+        "stubs": [],
+        "mmio_responses": []
+      },
+      "scope": "Complete validator with actual64-bit shift and explicit two-word mask",
+      "limitations": [
+        "Input registers, masks and fresh caller storage are synthetic software premises, not runtime initialization.",
+        "The validator executes its actual nested scalar helper without a computational stub.",
+        "Direct helper counts outside0..63 are separate pinned-pcode diagnostics, not a C-language shift contract or physical ISA claim.",
+        "No IRQ, p16, VERSION, MMIO, SWI, RTI or opaque-handle producer is supplied."
+      ],
+      "expected": {
+        "registers": {
+          "r0": "0x00000001",
+          "r1": "0x80000000",
+          "r2": "0x0000003F",
+          "r3": "0x80000000",
+          "r4": "0x00000000",
+          "r5": "0xA0000005",
+          "r6": "0xA0000006",
+          "r7": "0xA0000007",
+          "r8": "0xA0000008",
+          "r9": "0xA0000009",
+          "r10": "0xA000000A",
+          "r11": "0xA000000B",
+          "r12": "0xA000000C",
+          "r13": "0xA000000D",
+          "r14": "0x00000000",
+          "r15": "0x00000000",
+          "r16": "0x00000000",
+          "r17": "0x00000000",
+          "r18": "0x00000000",
+          "r19": "0x00000000",
+          "r20": "0x00000000",
+          "r21": "0x00000000",
+          "r22": "0x00000000",
+          "r23": "0x00000000",
+          "gp": "0xE4000000",
+          "sp": "0x24010000",
+          "lr": "0x0ED0065C",
+          "r27": "0x00000000",
+          "r28": "0x00000000",
+          "r29": "0x00000000",
+          "sr": "0x400000A4",
+          "pc": "0x24040000"
+        },
+        "memory": [
+          {
+            "address": "0x2400FFC0",
+            "hex": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a500000424a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+          },
+          {
+            "address": "0xE40CB490",
+            "hex": "d1d1d1d1d1d1d1d10000000000000080e2e2e2e2e2e2e2e2"
+          }
+        ],
+        "events": []
+      },
+      "steps": 27
+    },
+    {
+      "id": "shift64-count-0",
+      "function": {
+        "entry": "0x0EC2FCAA",
+        "language": "vc4:LE:32:default"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "gp": "0xE4000000",
+          "sp": "0x24010000",
+          "sr": "0x400000A5",
+          "r0": "0x89ABCDEF",
+          "r1": "0x76543210",
+          "r2": "0x00000000",
+          "r3": "0xA0000003",
+          "r4": "0xA0000004",
+          "r5": "0xA0000005",
+          "r6": "0xA0000006",
+          "r7": "0xA0000007",
+          "r8": "0xA0000008",
+          "r9": "0xA0000009",
+          "r10": "0xA000000A",
+          "r11": "0xA000000B",
+          "r12": "0xA000000C",
+          "r13": "0xA000000D"
+        },
+        "memory": [
+          {
+            "address": "0x2400FFC0",
+            "fill": "a5",
+            "size": 96
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24040000",
+        "step_limit": 100,
+        "stubs": [],
+        "mmio_responses": []
+      },
+      "scope": "Complete scalar helper in ordinary64-bit shift domain0..63",
+      "limitations": [
+        "Input registers, masks and fresh caller storage are synthetic software premises, not runtime initialization.",
+        "The validator executes its actual nested scalar helper without a computational stub.",
+        "Direct helper counts outside0..63 are separate pinned-pcode diagnostics, not a C-language shift contract or physical ISA claim.",
+        "No IRQ, p16, VERSION, MMIO, SWI, RTI or opaque-handle producer is supplied."
+      ],
+      "expected": {
+        "registers": {
+          "r0": "0x89ABCDEF",
+          "r1": "0x76543210",
+          "r2": "0x00000000",
+          "r3": "0xFFFFFFE0",
+          "r4": "0xA0000004",
+          "r5": "0xA0000005",
+          "r6": "0xA0000006",
+          "r7": "0xA0000007",
+          "r8": "0xA0000008",
+          "r9": "0xA0000009",
+          "r10": "0xA000000A",
+          "r11": "0xA000000B",
+          "r12": "0xA000000C",
+          "r13": "0xA000000D",
+          "r14": "0x00000000",
+          "r15": "0x00000000",
+          "r16": "0x00000000",
+          "r17": "0x00000000",
+          "r18": "0x00000000",
+          "r19": "0x00000000",
+          "r20": "0x00000000",
+          "r21": "0x00000000",
+          "r22": "0x00000000",
+          "r23": "0x00000000",
+          "gp": "0xE4000000",
+          "sp": "0x24010000",
+          "lr": "0x24040000",
+          "r27": "0x00000000",
+          "r28": "0x00000000",
+          "r29": "0x00000000",
+          "sr": "0x400000A8",
+          "pc": "0x24040000"
+        },
+        "memory": [
+          {
+            "address": "0x2400FFC0",
+            "hex": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+          }
+        ],
+        "events": []
+      },
+      "steps": 6
+    },
+    {
+      "id": "shift64-count-1",
+      "function": {
+        "entry": "0x0EC2FCAA",
+        "language": "vc4:LE:32:default"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "gp": "0xE4000000",
+          "sp": "0x24010000",
+          "sr": "0x400000A5",
+          "r0": "0x89ABCDEF",
+          "r1": "0x76543210",
+          "r2": "0x00000001",
+          "r3": "0xA0000003",
+          "r4": "0xA0000004",
+          "r5": "0xA0000005",
+          "r6": "0xA0000006",
+          "r7": "0xA0000007",
+          "r8": "0xA0000008",
+          "r9": "0xA0000009",
+          "r10": "0xA000000A",
+          "r11": "0xA000000B",
+          "r12": "0xA000000C",
+          "r13": "0xA000000D"
+        },
+        "memory": [
+          {
+            "address": "0x2400FFC0",
+            "fill": "a5",
+            "size": 96
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24040000",
+        "step_limit": 100,
+        "stubs": [],
+        "mmio_responses": []
+      },
+      "scope": "Complete scalar helper in ordinary64-bit shift domain0..63",
+      "limitations": [
+        "Input registers, masks and fresh caller storage are synthetic software premises, not runtime initialization.",
+        "The validator executes its actual nested scalar helper without a computational stub.",
+        "Direct helper counts outside0..63 are separate pinned-pcode diagnostics, not a C-language shift contract or physical ISA claim.",
+        "No IRQ, p16, VERSION, MMIO, SWI, RTI or opaque-handle producer is supplied."
+      ],
+      "expected": {
+        "registers": {
+          "r0": "0x13579BDE",
+          "r1": "0xECA86421",
+          "r2": "0x00000001",
+          "r3": "0x0000001F",
+          "r4": "0x00000001",
+          "r5": "0xA0000005",
+          "r6": "0xA0000006",
+          "r7": "0xA0000007",
+          "r8": "0xA0000008",
+          "r9": "0xA0000009",
+          "r10": "0xA000000A",
+          "r11": "0xA000000B",
+          "r12": "0xA000000C",
+          "r13": "0xA000000D",
+          "r14": "0x00000000",
+          "r15": "0x00000000",
+          "r16": "0x00000000",
+          "r17": "0x00000000",
+          "r18": "0x00000000",
+          "r19": "0x00000000",
+          "r20": "0x00000000",
+          "r21": "0x00000000",
+          "r22": "0x00000000",
+          "r23": "0x00000000",
+          "gp": "0xE4000000",
+          "sp": "0x24010000",
+          "lr": "0x24040000",
+          "r27": "0x00000000",
+          "r28": "0x00000000",
+          "r29": "0x00000000",
+          "sr": "0x400000A0",
+          "pc": "0x24040000"
+        },
+        "memory": [
+          {
+            "address": "0x2400FFC0",
+            "hex": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+          }
+        ],
+        "events": []
+      },
+      "steps": 12
+    },
+    {
+      "id": "shift64-count-31",
+      "function": {
+        "entry": "0x0EC2FCAA",
+        "language": "vc4:LE:32:default"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "gp": "0xE4000000",
+          "sp": "0x24010000",
+          "sr": "0x400000A5",
+          "r0": "0x89ABCDEF",
+          "r1": "0x76543210",
+          "r2": "0x0000001F",
+          "r3": "0xA0000003",
+          "r4": "0xA0000004",
+          "r5": "0xA0000005",
+          "r6": "0xA0000006",
+          "r7": "0xA0000007",
+          "r8": "0xA0000008",
+          "r9": "0xA0000009",
+          "r10": "0xA000000A",
+          "r11": "0xA000000B",
+          "r12": "0xA000000C",
+          "r13": "0xA000000D"
+        },
+        "memory": [
+          {
+            "address": "0x2400FFC0",
+            "fill": "a5",
+            "size": 96
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24040000",
+        "step_limit": 100,
+        "stubs": [],
+        "mmio_responses": []
+      },
+      "scope": "Complete scalar helper in ordinary64-bit shift domain0..63",
+      "limitations": [
+        "Input registers, masks and fresh caller storage are synthetic software premises, not runtime initialization.",
+        "The validator executes its actual nested scalar helper without a computational stub.",
+        "Direct helper counts outside0..63 are separate pinned-pcode diagnostics, not a C-language shift contract or physical ISA claim.",
+        "No IRQ, p16, VERSION, MMIO, SWI, RTI or opaque-handle producer is supplied."
+      ],
+      "expected": {
+        "registers": {
+          "r0": "0x80000000",
+          "r1": "0x44D5E6F7",
+          "r2": "0x0000001F",
+          "r3": "0x00000001",
+          "r4": "0x44D5E6F7",
+          "r5": "0xA0000005",
+          "r6": "0xA0000006",
+          "r7": "0xA0000007",
+          "r8": "0xA0000008",
+          "r9": "0xA0000009",
+          "r10": "0xA000000A",
+          "r11": "0xA000000B",
+          "r12": "0xA000000C",
+          "r13": "0xA000000D",
+          "r14": "0x00000000",
+          "r15": "0x00000000",
+          "r16": "0x00000000",
+          "r17": "0x00000000",
+          "r18": "0x00000000",
+          "r19": "0x00000000",
+          "r20": "0x00000000",
+          "r21": "0x00000000",
+          "r22": "0x00000000",
+          "r23": "0x00000000",
+          "gp": "0xE4000000",
+          "sp": "0x24010000",
+          "lr": "0x24040000",
+          "r27": "0x00000000",
+          "r28": "0x00000000",
+          "r29": "0x00000000",
+          "sr": "0x400000A0",
+          "pc": "0x24040000"
+        },
+        "memory": [
+          {
+            "address": "0x2400FFC0",
+            "hex": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+          }
+        ],
+        "events": []
+      },
+      "steps": 12
+    },
+    {
+      "id": "shift64-count-32",
+      "function": {
+        "entry": "0x0EC2FCAA",
+        "language": "vc4:LE:32:default"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "gp": "0xE4000000",
+          "sp": "0x24010000",
+          "sr": "0x400000A5",
+          "r0": "0x89ABCDEF",
+          "r1": "0x76543210",
+          "r2": "0x00000020",
+          "r3": "0xA0000003",
+          "r4": "0xA0000004",
+          "r5": "0xA0000005",
+          "r6": "0xA0000006",
+          "r7": "0xA0000007",
+          "r8": "0xA0000008",
+          "r9": "0xA0000009",
+          "r10": "0xA000000A",
+          "r11": "0xA000000B",
+          "r12": "0xA000000C",
+          "r13": "0xA000000D"
+        },
+        "memory": [
+          {
+            "address": "0x2400FFC0",
+            "fill": "a5",
+            "size": 96
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24040000",
+        "step_limit": 100,
+        "stubs": [],
+        "mmio_responses": []
+      },
+      "scope": "Complete scalar helper in ordinary64-bit shift domain0..63",
+      "limitations": [
+        "Input registers, masks and fresh caller storage are synthetic software premises, not runtime initialization.",
+        "The validator executes its actual nested scalar helper without a computational stub.",
+        "Direct helper counts outside0..63 are separate pinned-pcode diagnostics, not a C-language shift contract or physical ISA claim.",
+        "No IRQ, p16, VERSION, MMIO, SWI, RTI or opaque-handle producer is supplied."
+      ],
+      "expected": {
+        "registers": {
+          "r0": "0x00000000",
+          "r1": "0x89ABCDEF",
+          "r2": "0x00000020",
+          "r3": "0x00000000",
+          "r4": "0xA0000004",
+          "r5": "0xA0000005",
+          "r6": "0xA0000006",
+          "r7": "0xA0000007",
+          "r8": "0xA0000008",
+          "r9": "0xA0000009",
+          "r10": "0xA000000A",
+          "r11": "0xA000000B",
+          "r12": "0xA000000C",
+          "r13": "0xA000000D",
+          "r14": "0x00000000",
+          "r15": "0x00000000",
+          "r16": "0x00000000",
+          "r17": "0x00000000",
+          "r18": "0x00000000",
+          "r19": "0x00000000",
+          "r20": "0x00000000",
+          "r21": "0x00000000",
+          "r22": "0x00000000",
+          "r23": "0x00000000",
+          "gp": "0xE4000000",
+          "sp": "0x24010000",
+          "lr": "0x24040000",
+          "r27": "0x00000000",
+          "r28": "0x00000000",
+          "r29": "0x00000000",
+          "sr": "0x400000A8",
+          "pc": "0x24040000"
+        },
+        "memory": [
+          {
+            "address": "0x2400FFC0",
+            "hex": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+          }
+        ],
+        "events": []
+      },
+      "steps": 7
+    },
+    {
+      "id": "shift64-count-33",
+      "function": {
+        "entry": "0x0EC2FCAA",
+        "language": "vc4:LE:32:default"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "gp": "0xE4000000",
+          "sp": "0x24010000",
+          "sr": "0x400000A5",
+          "r0": "0x89ABCDEF",
+          "r1": "0x76543210",
+          "r2": "0x00000021",
+          "r3": "0xA0000003",
+          "r4": "0xA0000004",
+          "r5": "0xA0000005",
+          "r6": "0xA0000006",
+          "r7": "0xA0000007",
+          "r8": "0xA0000008",
+          "r9": "0xA0000009",
+          "r10": "0xA000000A",
+          "r11": "0xA000000B",
+          "r12": "0xA000000C",
+          "r13": "0xA000000D"
+        },
+        "memory": [
+          {
+            "address": "0x2400FFC0",
+            "fill": "a5",
+            "size": 96
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24040000",
+        "step_limit": 100,
+        "stubs": [],
+        "mmio_responses": []
+      },
+      "scope": "Complete scalar helper in ordinary64-bit shift domain0..63",
+      "limitations": [
+        "Input registers, masks and fresh caller storage are synthetic software premises, not runtime initialization.",
+        "The validator executes its actual nested scalar helper without a computational stub.",
+        "Direct helper counts outside0..63 are separate pinned-pcode diagnostics, not a C-language shift contract or physical ISA claim.",
+        "No IRQ, p16, VERSION, MMIO, SWI, RTI or opaque-handle producer is supplied."
+      ],
+      "expected": {
+        "registers": {
+          "r0": "0x00000000",
+          "r1": "0x13579BDE",
+          "r2": "0x00000021",
+          "r3": "0x00000001",
+          "r4": "0xA0000004",
+          "r5": "0xA0000005",
+          "r6": "0xA0000006",
+          "r7": "0xA0000007",
+          "r8": "0xA0000008",
+          "r9": "0xA0000009",
+          "r10": "0xA000000A",
+          "r11": "0xA000000B",
+          "r12": "0xA000000C",
+          "r13": "0xA000000D",
+          "r14": "0x00000000",
+          "r15": "0x00000000",
+          "r16": "0x00000000",
+          "r17": "0x00000000",
+          "r18": "0x00000000",
+          "r19": "0x00000000",
+          "r20": "0x00000000",
+          "r21": "0x00000000",
+          "r22": "0x00000000",
+          "r23": "0x00000000",
+          "gp": "0xE4000000",
+          "sp": "0x24010000",
+          "lr": "0x24040000",
+          "r27": "0x00000000",
+          "r28": "0x00000000",
+          "r29": "0x00000000",
+          "sr": "0x400000A0",
+          "pc": "0x24040000"
+        },
+        "memory": [
+          {
+            "address": "0x2400FFC0",
+            "hex": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+          }
+        ],
+        "events": []
+      },
+      "steps": 7
+    },
+    {
+      "id": "shift64-count-63",
+      "function": {
+        "entry": "0x0EC2FCAA",
+        "language": "vc4:LE:32:default"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "gp": "0xE4000000",
+          "sp": "0x24010000",
+          "sr": "0x400000A5",
+          "r0": "0x89ABCDEF",
+          "r1": "0x76543210",
+          "r2": "0x0000003F",
+          "r3": "0xA0000003",
+          "r4": "0xA0000004",
+          "r5": "0xA0000005",
+          "r6": "0xA0000006",
+          "r7": "0xA0000007",
+          "r8": "0xA0000008",
+          "r9": "0xA0000009",
+          "r10": "0xA000000A",
+          "r11": "0xA000000B",
+          "r12": "0xA000000C",
+          "r13": "0xA000000D"
+        },
+        "memory": [
+          {
+            "address": "0x2400FFC0",
+            "fill": "a5",
+            "size": 96
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24040000",
+        "step_limit": 100,
+        "stubs": [],
+        "mmio_responses": []
+      },
+      "scope": "Complete scalar helper in ordinary64-bit shift domain0..63",
+      "limitations": [
+        "Input registers, masks and fresh caller storage are synthetic software premises, not runtime initialization.",
+        "The validator executes its actual nested scalar helper without a computational stub.",
+        "Direct helper counts outside0..63 are separate pinned-pcode diagnostics, not a C-language shift contract or physical ISA claim.",
+        "No IRQ, p16, VERSION, MMIO, SWI, RTI or opaque-handle producer is supplied."
+      ],
+      "expected": {
+        "registers": {
+          "r0": "0x00000000",
+          "r1": "0x80000000",
+          "r2": "0x0000003F",
+          "r3": "0x0000001F",
+          "r4": "0xA0000004",
+          "r5": "0xA0000005",
+          "r6": "0xA0000006",
+          "r7": "0xA0000007",
+          "r8": "0xA0000008",
+          "r9": "0xA0000009",
+          "r10": "0xA000000A",
+          "r11": "0xA000000B",
+          "r12": "0xA000000C",
+          "r13": "0xA000000D",
+          "r14": "0x00000000",
+          "r15": "0x00000000",
+          "r16": "0x00000000",
+          "r17": "0x00000000",
+          "r18": "0x00000000",
+          "r19": "0x00000000",
+          "r20": "0x00000000",
+          "r21": "0x00000000",
+          "r22": "0x00000000",
+          "r23": "0x00000000",
+          "gp": "0xE4000000",
+          "sp": "0x24010000",
+          "lr": "0x24040000",
+          "r27": "0x00000000",
+          "r28": "0x00000000",
+          "r29": "0x00000000",
+          "sr": "0x400000A0",
+          "pc": "0x24040000"
+        },
+        "memory": [
+          {
+            "address": "0x2400FFC0",
+            "hex": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+          }
+        ],
+        "events": []
+      },
+      "steps": 7
+    },
+    {
+      "id": "shift64-zero-words",
+      "function": {
+        "entry": "0x0EC2FCAA",
+        "language": "vc4:LE:32:default"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "gp": "0xE4000000",
+          "sp": "0x24010000",
+          "sr": "0x400000A5",
+          "r0": "0x00000000",
+          "r1": "0x00000000",
+          "r2": "0x0000001F",
+          "r3": "0xA0000003",
+          "r4": "0xA0000004",
+          "r5": "0xA0000005",
+          "r6": "0xA0000006",
+          "r7": "0xA0000007",
+          "r8": "0xA0000008",
+          "r9": "0xA0000009",
+          "r10": "0xA000000A",
+          "r11": "0xA000000B",
+          "r12": "0xA000000C",
+          "r13": "0xA000000D"
+        },
+        "memory": [
+          {
+            "address": "0x2400FFC0",
+            "fill": "a5",
+            "size": 96
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24040000",
+        "step_limit": 100,
+        "stubs": [],
+        "mmio_responses": []
+      },
+      "scope": "Complete scalar helper in ordinary64-bit shift domain0..63",
+      "limitations": [
+        "Input registers, masks and fresh caller storage are synthetic software premises, not runtime initialization.",
+        "The validator executes its actual nested scalar helper without a computational stub.",
+        "Direct helper counts outside0..63 are separate pinned-pcode diagnostics, not a C-language shift contract or physical ISA claim.",
+        "No IRQ, p16, VERSION, MMIO, SWI, RTI or opaque-handle producer is supplied."
+      ],
+      "expected": {
+        "registers": {
+          "r0": "0x00000000",
+          "r1": "0x00000000",
+          "r2": "0x0000001F",
+          "r3": "0x00000001",
+          "r4": "0x00000000",
+          "r5": "0xA0000005",
+          "r6": "0xA0000006",
+          "r7": "0xA0000007",
+          "r8": "0xA0000008",
+          "r9": "0xA0000009",
+          "r10": "0xA000000A",
+          "r11": "0xA000000B",
+          "r12": "0xA000000C",
+          "r13": "0xA000000D",
+          "r14": "0x00000000",
+          "r15": "0x00000000",
+          "r16": "0x00000000",
+          "r17": "0x00000000",
+          "r18": "0x00000000",
+          "r19": "0x00000000",
+          "r20": "0x00000000",
+          "r21": "0x00000000",
+          "r22": "0x00000000",
+          "r23": "0x00000000",
+          "gp": "0xE4000000",
+          "sp": "0x24010000",
+          "lr": "0x24040000",
+          "r27": "0x00000000",
+          "r28": "0x00000000",
+          "r29": "0x00000000",
+          "sr": "0x400000A0",
+          "pc": "0x24040000"
+        },
+        "memory": [
+          {
+            "address": "0x2400FFC0",
+            "hex": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+          }
+        ],
+        "events": []
+      },
+      "steps": 12
+    },
+    {
+      "id": "shift64-ones-words",
+      "function": {
+        "entry": "0x0EC2FCAA",
+        "language": "vc4:LE:32:default"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "gp": "0xE4000000",
+          "sp": "0x24010000",
+          "sr": "0x400000A5",
+          "r0": "0xFFFFFFFF",
+          "r1": "0xFFFFFFFF",
+          "r2": "0x00000001",
+          "r3": "0xA0000003",
+          "r4": "0xA0000004",
+          "r5": "0xA0000005",
+          "r6": "0xA0000006",
+          "r7": "0xA0000007",
+          "r8": "0xA0000008",
+          "r9": "0xA0000009",
+          "r10": "0xA000000A",
+          "r11": "0xA000000B",
+          "r12": "0xA000000C",
+          "r13": "0xA000000D"
+        },
+        "memory": [
+          {
+            "address": "0x2400FFC0",
+            "fill": "a5",
+            "size": 96
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24040000",
+        "step_limit": 100,
+        "stubs": [],
+        "mmio_responses": []
+      },
+      "scope": "Complete scalar helper in ordinary64-bit shift domain0..63",
+      "limitations": [
+        "Input registers, masks and fresh caller storage are synthetic software premises, not runtime initialization.",
+        "The validator executes its actual nested scalar helper without a computational stub.",
+        "Direct helper counts outside0..63 are separate pinned-pcode diagnostics, not a C-language shift contract or physical ISA claim.",
+        "No IRQ, p16, VERSION, MMIO, SWI, RTI or opaque-handle producer is supplied."
+      ],
+      "expected": {
+        "registers": {
+          "r0": "0xFFFFFFFE",
+          "r1": "0xFFFFFFFF",
+          "r2": "0x00000001",
+          "r3": "0x0000001F",
+          "r4": "0x00000001",
+          "r5": "0xA0000005",
+          "r6": "0xA0000006",
+          "r7": "0xA0000007",
+          "r8": "0xA0000008",
+          "r9": "0xA0000009",
+          "r10": "0xA000000A",
+          "r11": "0xA000000B",
+          "r12": "0xA000000C",
+          "r13": "0xA000000D",
+          "r14": "0x00000000",
+          "r15": "0x00000000",
+          "r16": "0x00000000",
+          "r17": "0x00000000",
+          "r18": "0x00000000",
+          "r19": "0x00000000",
+          "r20": "0x00000000",
+          "r21": "0x00000000",
+          "r22": "0x00000000",
+          "r23": "0x00000000",
+          "gp": "0xE4000000",
+          "sp": "0x24010000",
+          "lr": "0x24040000",
+          "r27": "0x00000000",
+          "r28": "0x00000000",
+          "r29": "0x00000000",
+          "sr": "0x400000A0",
+          "pc": "0x24040000"
+        },
+        "memory": [
+          {
+            "address": "0x2400FFC0",
+            "hex": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+          }
+        ],
+        "events": []
+      },
+      "steps": 12
+    },
+    {
+      "id": "shift-pinned-count-00000040",
+      "function": {
+        "entry": "0x0EC2FCAA",
+        "language": "vc4:LE:32:default"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "gp": "0xE4000000",
+          "sp": "0x24010000",
+          "sr": "0x400000A5",
+          "r0": "0x89ABCDEF",
+          "r1": "0x76543210",
+          "r2": "0x00000040",
+          "r3": "0xA0000003",
+          "r4": "0xA0000004",
+          "r5": "0xA0000005",
+          "r6": "0xA0000006",
+          "r7": "0xA0000007",
+          "r8": "0xA0000008",
+          "r9": "0xA0000009",
+          "r10": "0xA000000A",
+          "r11": "0xA000000B",
+          "r12": "0xA000000C",
+          "r13": "0xA000000D"
+        },
+        "memory": [
+          {
+            "address": "0x2400FFC0",
+            "fill": "a5",
+            "size": 96
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24040000",
+        "step_limit": 100,
+        "stubs": [],
+        "mmio_responses": []
+      },
+      "scope": "Extended diagnostic of pinned compiled scalar width/count behavior",
+      "limitations": [
+        "Input registers, masks and fresh caller storage are synthetic software premises, not runtime initialization.",
+        "The validator executes its actual nested scalar helper without a computational stub.",
+        "Direct helper counts outside0..63 are separate pinned-pcode diagnostics, not a C-language shift contract or physical ISA claim.",
+        "No IRQ, p16, VERSION, MMIO, SWI, RTI or opaque-handle producer is supplied."
+      ],
+      "expected": {
+        "registers": {
+          "r0": "0x00000000",
+          "r1": "0x89ABCDEF",
+          "r2": "0x00000040",
+          "r3": "0x00000020",
+          "r4": "0xA0000004",
+          "r5": "0xA0000005",
+          "r6": "0xA0000006",
+          "r7": "0xA0000007",
+          "r8": "0xA0000008",
+          "r9": "0xA0000009",
+          "r10": "0xA000000A",
+          "r11": "0xA000000B",
+          "r12": "0xA000000C",
+          "r13": "0xA000000D",
+          "r14": "0x00000000",
+          "r15": "0x00000000",
+          "r16": "0x00000000",
+          "r17": "0x00000000",
+          "r18": "0x00000000",
+          "r19": "0x00000000",
+          "r20": "0x00000000",
+          "r21": "0x00000000",
+          "r22": "0x00000000",
+          "r23": "0x00000000",
+          "gp": "0xE4000000",
+          "sp": "0x24010000",
+          "lr": "0x24040000",
+          "r27": "0x00000000",
+          "r28": "0x00000000",
+          "r29": "0x00000000",
+          "sr": "0x400000A0",
+          "pc": "0x24040000"
+        },
+        "memory": [
+          {
+            "address": "0x2400FFC0",
+            "hex": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+          }
+        ],
+        "events": []
+      },
+      "steps": 7
+    },
+    {
+      "id": "shift-pinned-count-00000041",
+      "function": {
+        "entry": "0x0EC2FCAA",
+        "language": "vc4:LE:32:default"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "gp": "0xE4000000",
+          "sp": "0x24010000",
+          "sr": "0x400000A5",
+          "r0": "0x89ABCDEF",
+          "r1": "0x76543210",
+          "r2": "0x00000041",
+          "r3": "0xA0000003",
+          "r4": "0xA0000004",
+          "r5": "0xA0000005",
+          "r6": "0xA0000006",
+          "r7": "0xA0000007",
+          "r8": "0xA0000008",
+          "r9": "0xA0000009",
+          "r10": "0xA000000A",
+          "r11": "0xA000000B",
+          "r12": "0xA000000C",
+          "r13": "0xA000000D"
+        },
+        "memory": [
+          {
+            "address": "0x2400FFC0",
+            "fill": "a5",
+            "size": 96
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24040000",
+        "step_limit": 100,
+        "stubs": [],
+        "mmio_responses": []
+      },
+      "scope": "Extended diagnostic of pinned compiled scalar width/count behavior",
+      "limitations": [
+        "Input registers, masks and fresh caller storage are synthetic software premises, not runtime initialization.",
+        "The validator executes its actual nested scalar helper without a computational stub.",
+        "Direct helper counts outside0..63 are separate pinned-pcode diagnostics, not a C-language shift contract or physical ISA claim.",
+        "No IRQ, p16, VERSION, MMIO, SWI, RTI or opaque-handle producer is supplied."
+      ],
+      "expected": {
+        "registers": {
+          "r0": "0x00000000",
+          "r1": "0x13579BDE",
+          "r2": "0x00000041",
+          "r3": "0x00000021",
+          "r4": "0xA0000004",
+          "r5": "0xA0000005",
+          "r6": "0xA0000006",
+          "r7": "0xA0000007",
+          "r8": "0xA0000008",
+          "r9": "0xA0000009",
+          "r10": "0xA000000A",
+          "r11": "0xA000000B",
+          "r12": "0xA000000C",
+          "r13": "0xA000000D",
+          "r14": "0x00000000",
+          "r15": "0x00000000",
+          "r16": "0x00000000",
+          "r17": "0x00000000",
+          "r18": "0x00000000",
+          "r19": "0x00000000",
+          "r20": "0x00000000",
+          "r21": "0x00000000",
+          "r22": "0x00000000",
+          "r23": "0x00000000",
+          "gp": "0xE4000000",
+          "sp": "0x24010000",
+          "lr": "0x24040000",
+          "r27": "0x00000000",
+          "r28": "0x00000000",
+          "r29": "0x00000000",
+          "sr": "0x400000A0",
+          "pc": "0x24040000"
+        },
+        "memory": [
+          {
+            "address": "0x2400FFC0",
+            "hex": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+          }
+        ],
+        "events": []
+      },
+      "steps": 7
+    },
+    {
+      "id": "shift-pinned-count-7fffffff",
+      "function": {
+        "entry": "0x0EC2FCAA",
+        "language": "vc4:LE:32:default"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "gp": "0xE4000000",
+          "sp": "0x24010000",
+          "sr": "0x400000A5",
+          "r0": "0x89ABCDEF",
+          "r1": "0x76543210",
+          "r2": "0x7FFFFFFF",
+          "r3": "0xA0000003",
+          "r4": "0xA0000004",
+          "r5": "0xA0000005",
+          "r6": "0xA0000006",
+          "r7": "0xA0000007",
+          "r8": "0xA0000008",
+          "r9": "0xA0000009",
+          "r10": "0xA000000A",
+          "r11": "0xA000000B",
+          "r12": "0xA000000C",
+          "r13": "0xA000000D"
+        },
+        "memory": [
+          {
+            "address": "0x2400FFC0",
+            "fill": "a5",
+            "size": 96
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24040000",
+        "step_limit": 100,
+        "stubs": [],
+        "mmio_responses": []
+      },
+      "scope": "Extended diagnostic of pinned compiled scalar width/count behavior",
+      "limitations": [
+        "Input registers, masks and fresh caller storage are synthetic software premises, not runtime initialization.",
+        "The validator executes its actual nested scalar helper without a computational stub.",
+        "Direct helper counts outside0..63 are separate pinned-pcode diagnostics, not a C-language shift contract or physical ISA claim.",
+        "No IRQ, p16, VERSION, MMIO, SWI, RTI or opaque-handle producer is supplied."
+      ],
+      "expected": {
+        "registers": {
+          "r0": "0x00000000",
+          "r1": "0x80000000",
+          "r2": "0x7FFFFFFF",
+          "r3": "0x7FFFFFDF",
+          "r4": "0xA0000004",
+          "r5": "0xA0000005",
+          "r6": "0xA0000006",
+          "r7": "0xA0000007",
+          "r8": "0xA0000008",
+          "r9": "0xA0000009",
+          "r10": "0xA000000A",
+          "r11": "0xA000000B",
+          "r12": "0xA000000C",
+          "r13": "0xA000000D",
+          "r14": "0x00000000",
+          "r15": "0x00000000",
+          "r16": "0x00000000",
+          "r17": "0x00000000",
+          "r18": "0x00000000",
+          "r19": "0x00000000",
+          "r20": "0x00000000",
+          "r21": "0x00000000",
+          "r22": "0x00000000",
+          "r23": "0x00000000",
+          "gp": "0xE4000000",
+          "sp": "0x24010000",
+          "lr": "0x24040000",
+          "r27": "0x00000000",
+          "r28": "0x00000000",
+          "r29": "0x00000000",
+          "sr": "0x400000A0",
+          "pc": "0x24040000"
+        },
+        "memory": [
+          {
+            "address": "0x2400FFC0",
+            "hex": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+          }
+        ],
+        "events": []
+      },
+      "steps": 7
+    },
+    {
+      "id": "shift-pinned-count-80000000",
+      "function": {
+        "entry": "0x0EC2FCAA",
+        "language": "vc4:LE:32:default"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "gp": "0xE4000000",
+          "sp": "0x24010000",
+          "sr": "0x400000A5",
+          "r0": "0x89ABCDEF",
+          "r1": "0x76543210",
+          "r2": "0x80000000",
+          "r3": "0xA0000003",
+          "r4": "0xA0000004",
+          "r5": "0xA0000005",
+          "r6": "0xA0000006",
+          "r7": "0xA0000007",
+          "r8": "0xA0000008",
+          "r9": "0xA0000009",
+          "r10": "0xA000000A",
+          "r11": "0xA000000B",
+          "r12": "0xA000000C",
+          "r13": "0xA000000D"
+        },
+        "memory": [
+          {
+            "address": "0x2400FFC0",
+            "fill": "a5",
+            "size": 96
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24040000",
+        "step_limit": 100,
+        "stubs": [],
+        "mmio_responses": []
+      },
+      "scope": "Extended diagnostic of pinned compiled scalar width/count behavior",
+      "limitations": [
+        "Input registers, masks and fresh caller storage are synthetic software premises, not runtime initialization.",
+        "The validator executes its actual nested scalar helper without a computational stub.",
+        "Direct helper counts outside0..63 are separate pinned-pcode diagnostics, not a C-language shift contract or physical ISA claim.",
+        "No IRQ, p16, VERSION, MMIO, SWI, RTI or opaque-handle producer is supplied."
+      ],
+      "expected": {
+        "registers": {
+          "r0": "0x00000000",
+          "r1": "0x89ABCDEF",
+          "r2": "0x80000000",
+          "r3": "0x7FFFFFE0",
+          "r4": "0xA0000004",
+          "r5": "0xA0000005",
+          "r6": "0xA0000006",
+          "r7": "0xA0000007",
+          "r8": "0xA0000008",
+          "r9": "0xA0000009",
+          "r10": "0xA000000A",
+          "r11": "0xA000000B",
+          "r12": "0xA000000C",
+          "r13": "0xA000000D",
+          "r14": "0x00000000",
+          "r15": "0x00000000",
+          "r16": "0x00000000",
+          "r17": "0x00000000",
+          "r18": "0x00000000",
+          "r19": "0x00000000",
+          "r20": "0x00000000",
+          "r21": "0x00000000",
+          "r22": "0x00000000",
+          "r23": "0x00000000",
+          "gp": "0xE4000000",
+          "sp": "0x24010000",
+          "lr": "0x24040000",
+          "r27": "0x00000000",
+          "r28": "0x00000000",
+          "r29": "0x00000000",
+          "sr": "0x400000A0",
+          "pc": "0x24040000"
+        },
+        "memory": [
+          {
+            "address": "0x2400FFC0",
+            "hex": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+          }
+        ],
+        "events": []
+      },
+      "steps": 7
+    },
+    {
+      "id": "shift-pinned-count-8000001f",
+      "function": {
+        "entry": "0x0EC2FCAA",
+        "language": "vc4:LE:32:default"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "gp": "0xE4000000",
+          "sp": "0x24010000",
+          "sr": "0x400000A5",
+          "r0": "0x89ABCDEF",
+          "r1": "0x76543210",
+          "r2": "0x8000001F",
+          "r3": "0xA0000003",
+          "r4": "0xA0000004",
+          "r5": "0xA0000005",
+          "r6": "0xA0000006",
+          "r7": "0xA0000007",
+          "r8": "0xA0000008",
+          "r9": "0xA0000009",
+          "r10": "0xA000000A",
+          "r11": "0xA000000B",
+          "r12": "0xA000000C",
+          "r13": "0xA000000D"
+        },
+        "memory": [
+          {
+            "address": "0x2400FFC0",
+            "fill": "a5",
+            "size": 96
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24040000",
+        "step_limit": 100,
+        "stubs": [],
+        "mmio_responses": []
+      },
+      "scope": "Extended diagnostic of pinned compiled scalar width/count behavior",
+      "limitations": [
+        "Input registers, masks and fresh caller storage are synthetic software premises, not runtime initialization.",
+        "The validator executes its actual nested scalar helper without a computational stub.",
+        "Direct helper counts outside0..63 are separate pinned-pcode diagnostics, not a C-language shift contract or physical ISA claim.",
+        "No IRQ, p16, VERSION, MMIO, SWI, RTI or opaque-handle producer is supplied."
+      ],
+      "expected": {
+        "registers": {
+          "r0": "0x00000000",
+          "r1": "0x80000000",
+          "r2": "0x8000001F",
+          "r3": "0x7FFFFFFF",
+          "r4": "0xA0000004",
+          "r5": "0xA0000005",
+          "r6": "0xA0000006",
+          "r7": "0xA0000007",
+          "r8": "0xA0000008",
+          "r9": "0xA0000009",
+          "r10": "0xA000000A",
+          "r11": "0xA000000B",
+          "r12": "0xA000000C",
+          "r13": "0xA000000D",
+          "r14": "0x00000000",
+          "r15": "0x00000000",
+          "r16": "0x00000000",
+          "r17": "0x00000000",
+          "r18": "0x00000000",
+          "r19": "0x00000000",
+          "r20": "0x00000000",
+          "r21": "0x00000000",
+          "r22": "0x00000000",
+          "r23": "0x00000000",
+          "gp": "0xE4000000",
+          "sp": "0x24010000",
+          "lr": "0x24040000",
+          "r27": "0x00000000",
+          "r28": "0x00000000",
+          "r29": "0x00000000",
+          "sr": "0x400000A0",
+          "pc": "0x24040000"
+        },
+        "memory": [
+          {
+            "address": "0x2400FFC0",
+            "hex": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+          }
+        ],
+        "events": []
+      },
+      "steps": 7
+    },
+    {
+      "id": "shift-pinned-count-80000020",
+      "function": {
+        "entry": "0x0EC2FCAA",
+        "language": "vc4:LE:32:default"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "gp": "0xE4000000",
+          "sp": "0x24010000",
+          "sr": "0x400000A5",
+          "r0": "0x89ABCDEF",
+          "r1": "0x76543210",
+          "r2": "0x80000020",
+          "r3": "0xA0000003",
+          "r4": "0xA0000004",
+          "r5": "0xA0000005",
+          "r6": "0xA0000006",
+          "r7": "0xA0000007",
+          "r8": "0xA0000008",
+          "r9": "0xA0000009",
+          "r10": "0xA000000A",
+          "r11": "0xA000000B",
+          "r12": "0xA000000C",
+          "r13": "0xA000000D"
+        },
+        "memory": [
+          {
+            "address": "0x2400FFC0",
+            "fill": "a5",
+            "size": 96
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24040000",
+        "step_limit": 100,
+        "stubs": [],
+        "mmio_responses": []
+      },
+      "scope": "Extended diagnostic of pinned compiled scalar width/count behavior",
+      "limitations": [
+        "Input registers, masks and fresh caller storage are synthetic software premises, not runtime initialization.",
+        "The validator executes its actual nested scalar helper without a computational stub.",
+        "Direct helper counts outside0..63 are separate pinned-pcode diagnostics, not a C-language shift contract or physical ISA claim.",
+        "No IRQ, p16, VERSION, MMIO, SWI, RTI or opaque-handle producer is supplied."
+      ],
+      "expected": {
+        "registers": {
+          "r0": "0x89ABCDEF",
+          "r1": "0xFFFFFFFF",
+          "r2": "0x80000020",
+          "r3": "0x80000000",
+          "r4": "0x89ABCDEF",
+          "r5": "0xA0000005",
+          "r6": "0xA0000006",
+          "r7": "0xA0000007",
+          "r8": "0xA0000008",
+          "r9": "0xA0000009",
+          "r10": "0xA000000A",
+          "r11": "0xA000000B",
+          "r12": "0xA000000C",
+          "r13": "0xA000000D",
+          "r14": "0x00000000",
+          "r15": "0x00000000",
+          "r16": "0x00000000",
+          "r17": "0x00000000",
+          "r18": "0x00000000",
+          "r19": "0x00000000",
+          "r20": "0x00000000",
+          "r21": "0x00000000",
+          "r22": "0x00000000",
+          "r23": "0x00000000",
+          "gp": "0xE4000000",
+          "sp": "0x24010000",
+          "lr": "0x24040000",
+          "r27": "0x00000000",
+          "r28": "0x00000000",
+          "r29": "0x00000000",
+          "sr": "0x400000A4",
+          "pc": "0x24040000"
+        },
+        "memory": [
+          {
+            "address": "0x2400FFC0",
+            "hex": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+          }
+        ],
+        "events": []
+      },
+      "steps": 12
+    },
+    {
+      "id": "shift-pinned-count-ffffffff",
+      "function": {
+        "entry": "0x0EC2FCAA",
+        "language": "vc4:LE:32:default"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "gp": "0xE4000000",
+          "sp": "0x24010000",
+          "sr": "0x400000A5",
+          "r0": "0x89ABCDEF",
+          "r1": "0x76543210",
+          "r2": "0xFFFFFFFF",
+          "r3": "0xA0000003",
+          "r4": "0xA0000004",
+          "r5": "0xA0000005",
+          "r6": "0xA0000006",
+          "r7": "0xA0000007",
+          "r8": "0xA0000008",
+          "r9": "0xA0000009",
+          "r10": "0xA000000A",
+          "r11": "0xA000000B",
+          "r12": "0xA000000C",
+          "r13": "0xA000000D"
+        },
+        "memory": [
+          {
+            "address": "0x2400FFC0",
+            "fill": "a5",
+            "size": 96
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24040000",
+        "step_limit": 100,
+        "stubs": [],
+        "mmio_responses": []
+      },
+      "scope": "Extended diagnostic of pinned compiled scalar width/count behavior",
+      "limitations": [
+        "Input registers, masks and fresh caller storage are synthetic software premises, not runtime initialization.",
+        "The validator executes its actual nested scalar helper without a computational stub.",
+        "Direct helper counts outside0..63 are separate pinned-pcode diagnostics, not a C-language shift contract or physical ISA claim.",
+        "No IRQ, p16, VERSION, MMIO, SWI, RTI or opaque-handle producer is supplied."
+      ],
+      "expected": {
+        "registers": {
+          "r0": "0x80000000",
+          "r1": "0x44D5E6F7",
+          "r2": "0xFFFFFFFF",
+          "r3": "0x00000021",
+          "r4": "0x44D5E6F7",
+          "r5": "0xA0000005",
+          "r6": "0xA0000006",
+          "r7": "0xA0000007",
+          "r8": "0xA0000008",
+          "r9": "0xA0000009",
+          "r10": "0xA000000A",
+          "r11": "0xA000000B",
+          "r12": "0xA000000C",
+          "r13": "0xA000000D",
+          "r14": "0x00000000",
+          "r15": "0x00000000",
+          "r16": "0x00000000",
+          "r17": "0x00000000",
+          "r18": "0x00000000",
+          "r19": "0x00000000",
+          "r20": "0x00000000",
+          "r21": "0x00000000",
+          "r22": "0x00000000",
+          "r23": "0x00000000",
+          "gp": "0xE4000000",
+          "sp": "0x24010000",
+          "lr": "0x24040000",
+          "r27": "0x00000000",
+          "r28": "0x00000000",
+          "r29": "0x00000000",
+          "sr": "0x400000A4",
+          "pc": "0x24040000"
+        },
+        "memory": [
+          {
+            "address": "0x2400FFC0",
+            "hex": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+          }
+        ],
+        "events": []
+      },
+      "steps": 12
+    }
+  ]
+}

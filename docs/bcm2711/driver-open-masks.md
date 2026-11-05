@@ -29,6 +29,10 @@ For a nonzero pointer, the callback performs these accesses in order:
 | 3 | 0x0ED00688 | Write low word to GP+0xCB498 |
 | 4 | 0x0ED0068E | Write high word to GP+0xCB49C |
 
+The separate [mask predicate](mask-predicate.md) at 0x0ED00640 reads these
+words for codes 0x40 through 0x7F. It does not perform registration or
+produce mask contents.
+
 Both source words are loaded before either destination store. Their values
 are arbitrary unsigned 32-bit words; no bit mask or normalization applies.
 The copy precedes every registrar path, including its capacity return.

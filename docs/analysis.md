@@ -97,6 +97,11 @@ consuming a device reply or authorizing a memory access. The
 [first-open routes](bcm2711/arm-first-open.md) include three recorded complete
 table-zero returns. Successful open and physical effects remain unresolved.
 
+The [mask predicate and word-pair shift](bcm2711/mask-predicate.md) specify
+general scalar inputs with 28 complete synthetic calls. The shift separates
+the logical 64-bit count interval from its pinned compiled behavior for
+all unsigned 32-bit counts. Out-of-range predicate codes read no mask data.
+
 The [service word update](bcm2711/service-word-update.md) specifies a complete
 standalone scalar body with general 32-bit inputs, ordered VERSION/read/write
 observations and nine recorded calls. Full-width shifted values can set bits
