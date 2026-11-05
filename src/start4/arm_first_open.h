@@ -103,10 +103,11 @@ enum arm_first_open_status arm_first_open_execute(
  * raw publication follows the read observation and callback state writes.
  *
  * Preflight checks all required pointers, complete spans, address/size wrap,
- * pairwise overlap, exact initial domains and every reachable observer and
- * reply/read before any effect. INVALID covers missing storage or observers,
- * BOUNDS covers short records/plans and wrap, UNSUPPORTED covers other domains
- * or extra plan entries, and OVERLAP covers intersecting declared objects.
+ * pairwise overlap, natural alignment, exact initial domains and every
+ * reachable observer and reply/read before any effect. INVALID covers missing
+ * storage or observers and misaligned typed objects. BOUNDS covers short
+ * records/plans and wrap, UNSUPPORTED covers other domains or extra plan
+ * entries, and OVERLAP covers intersecting declared objects.
  * Every host error preserves all objects and emits nothing. A completed raw
  * 0xFFFFFFFF is OK with retained effects, not a host error or rollback.
  *

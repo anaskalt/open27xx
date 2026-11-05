@@ -67,6 +67,17 @@ def pointer(guard):
                        ctypes.POINTER(type(guard)._fields_[1][1]))
 
 
+def misaligned_copy(source, kind, count=1):
+    alignment = ctypes.alignment(kind._type_)
+    size = ctypes.sizeof(kind._type_) * count
+    storage = (ctypes.c_uint8 * (size + 2 * alignment))()
+    ctypes.memset(storage, 0xB6, ctypes.sizeof(storage))
+    address = ctypes.addressof(storage)
+    offset = alignment - address % alignment + 1
+    ctypes.memmove(address + offset, source, size)
+    return storage, ctypes.cast(address + offset, kind)
+
+
 def fixture_bytes(case, phase, address, size):
     for region in case[phase]["memory"]:
         start = int(region["address"], 0)
@@ -253,6 +264,18 @@ class ArmFirstOpenTest(unittest.TestCase):
             self.assertEqual(self.registration(0x5E, 0x0EC5716E, *arguments), OVERLAP)
             self.assertEqual([word.value for word in words], before)
 
+    def test_registration_rejects_each_misaligned_word_without_effects(self):
+        for position in range(3):
+            with self.subTest(position=position):
+                guards = [guarded(Word(value)) for value in (0, 0xA5A5A5A5, SENTINEL)]
+                arguments = [pointer(guard) for guard in guards]
+                storage, arguments[position] = misaligned_copy(arguments[position], WordPointer)
+                self.assertNotEqual(ctypes.cast(arguments[position], ctypes.c_void_p).value
+                                    % ctypes.alignment(Word), 0)
+                before = [bytes(guard) for guard in guards], bytes(storage)
+                self.assertEqual(self.registration(0x5E, 0x0EC5716E, *arguments), INVALID)
+                self.assertEqual(([bytes(guard) for guard in guards], bytes(storage)), before)
+
     def test_complete_first_open_fixtures_and_every_observer_snapshot(self):
         self.assertEqual(self.fixtures["arm-first-open"][0],
                          "937f35212d420b4c3918b661466d6144152c88ef2180c69da348a15208aa4ce9")
@@ -324,6 +347,39 @@ class ArmFirstOpenTest(unittest.TestCase):
                 request = self.request(index)
                 setattr(getattr(request, plan), field, kind())
                 self.run_request(request, INVALID)
+
+    def test_each_typed_object_requires_alignment_before_any_effect(self):
+        for index in range(3):
+            for position in (0, 1, 4, 5, 6, 7, 8, 9, 10, 11):
+                with self.subTest(profile=index, position=position):
+                    request = self.request(index)
+                    arguments = request.arguments()
+                    kind = self.function.argtypes[position]
+                    storage, arguments[position] = misaligned_copy(arguments[position], kind)
+                    self.assertNotEqual(ctypes.cast(arguments[position], ctypes.c_void_p).value
+                                        % ctypes.alignment(kind._type_), 0)
+                    before = bytes(storage)
+                    self.run_request(request, INVALID, arguments)
+                    self.assertEqual(bytes(storage), before)
+                    self.assertEqual((request.snapshots, request.contexts, request.bookkeeping.value),
+                                     ([], [], 0))
+
+    def test_each_plan_array_requires_alignment_before_any_effect(self):
+        for index in range(3):
+            for plan_name, field, kind in (("replies", "words", WordPointer),
+                                           ("reads", "entries", ctypes.POINTER(Read))):
+                with self.subTest(profile=index, plan=plan_name):
+                    request = self.request(index)
+                    plan = getattr(request, plan_name)
+                    storage, unaligned = misaligned_copy(getattr(plan, field), kind, plan.count)
+                    self.assertNotEqual(ctypes.cast(unaligned, ctypes.c_void_p).value
+                                        % ctypes.alignment(kind._type_), 0)
+                    setattr(plan, field, unaligned)
+                    before = bytes(storage)
+                    self.run_request(request, INVALID)
+                    self.assertEqual(bytes(storage), before)
+                    self.assertEqual((request.snapshots, request.contexts, request.bookkeeping.value),
+                                     ([], [], 0))
 
     def test_exact_initial_domains_including_nested_record_tail(self):
         for index in range(3):

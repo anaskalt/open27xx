@@ -131,6 +131,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ### Fixed
 
+- Reject misaligned typed storage before callback registration or first-open
+  field access and effects, including supplied unused words and plan arrays.
 - Run macOS CI on Intel runners to avoid ARM64 allocation failures.
 - Initialize clock and resource composition validation buffers so optimized
   GCC builds pass with uninitialized-value warnings treated as errors.
