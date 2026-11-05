@@ -14,7 +14,9 @@ Two complete calls with different caller registers, stacks and memory poisons
 clear all 1015688 destination bytes and return through the saved caller
 address. These calls establish the fixed original-table behavior under the
 pinned Ghidra semantics below. They do not establish actual startup arrival
-or a general initialization-table API.
+or a general initialization-table API. The broader caller-state domain below
+follows from the fixed source semantics; the two calls remain its concrete
+execution witnesses.
 
 ## Source ranges and table
 
@@ -127,6 +129,72 @@ These are two complete caller profiles, not a proof for arbitrary register,
 stack or destination inputs. The stack ordering follows the pinned
 VideoCoreIV [`data/languages/vc4.slaspec` multi-register definitions](https://github.com/aleph-void/ghidra-videocore4/blob/db09a308c2db6a31ba5e060e6b763713f77e4f7b/data/languages/vc4.slaspec#L730-L813).
 
+## General conditional input domain
+
+The same fixed path admits every 32-bit value for incoming r0 through r23,
+r27 through r29 and SR under the pinned semantics. GP remains 0x0EE04140,
+the entry remains 0x0EC3D740, and the source and table retain the exact
+original bytes above. This domain does not accept another table, version,
+destination or decoder context.
+
+Let S and L be incoming SP and LR. The stack has ordinary byte storage
+containing the full interval [S-24, S). S is four-byte aligned and at least
+24; its frame arithmetic does not wrap. The complete declared stack span
+is disjoint from the three destination allocations, the four code ranges
+and the table. Destination and stack bytes may vary independently and need
+not be uniform or nonzero. Source/table bytes and all storage remain free
+from concurrent modification through return. The portable policy below
+further restricts L and validates the host storage.
+
+The source establishes independence from those incoming values as follows:
+
+1. At 0x0EC3D740, the entry saves incoming LR and r6 through r9 before
+   reusing them. At 0x0EC3D742 and 0x0EC3D74E, GP alone determines the
+   bound 0x0EDD7894 and table base 0x0EDD7870. Incoming r0 through r5 are
+   overwritten before they can affect this path.
+2. At 0x0EC3D754 through 0x0EC3D786, the original signature/version bytes
+   determine the comparison operands. Each of the four comparisons that
+   writes SR replaces all four low bits before any following SR-dependent
+   branch. The last SR writer compares version 2 with 3 at 0x0EC3D782. It sets
+   Z=0, N=1, C=1 and V=0 while preserving the upper 28 bits. Later
+   comparisons and loop conditions use temporary values without changing SR.
+3. At 0x0EC3D7B2 through 0x0EC3D7F4, the original records supply every
+   cursor, destination and signed length. The fixed negative records do not
+   select the indirect-call path. Each fill receives a positive byte count
+   of at least eight; its destination and byte count are multiples of four.
+   Alignment and tail-byte paths are therefore skipped. After k word stores,
+   the fill's pointer is destination+4k and its remaining count is byte count-4k.
+   At byte count/4 stores, the pointer reaches the allocation end and the
+   remaining count is zero.
+   None of these intervals wraps. No destination byte is loaded.
+4. The original zero pair selects completion. Every stack load at
+   0x0EC3D77C reads a word already saved by the entry. The separate
+   destinations cannot overwrite those saved words. No other initial
+   stack byte is consumed. Registers r10 through r23 and r27 through
+   r29 are untouched by the selected instructions.
+
+The resulting state relation is:
+
+| Output | Value |
+| --- | --- |
+| All three destination allocations | Every byte zero |
+| r0, r1, r2, r4 | 0x00000000 |
+| r3 | 0x0EF2A858 |
+| r5 | 0x0EDD7870 |
+| r6 through r23, GP, SP, r27 through r29 | Incoming values |
+| LR | 0x0EC3D77A |
+| SR | `(incoming SR & 0xFFFFFFF0) \| 0x00000006` |
+| PC | L |
+
+The five retained stack words contain incoming LR/r6/r7/r8/r9 at
+S-4/S-8/S-12/S-16/S-20 respectively, in little-endian order. Every other
+declared stack byte remains unchanged, including the reserved four bytes
+at S-24. The saved 20 bytes must be separate from the destination writes
+to restore arbitrary incoming registers. Excluding the entire declared
+stack span also preserves arbitrary prefix, suffix and reserved bytes.
+The final PC is a data result at the return boundary; no instruction at L
+is fetched by this contract.
+
 ## Calls and counts
 
 The helper calls and returns execute normally. Each fill enters
@@ -194,6 +262,77 @@ does not produce a service index through its unresolved SWI path.
 The opaque first-open word's later value requires the actual invocation
 order, intervening writes and address mapping. The observed clear alone
 does not supply a live first-open handle or complete the service lifecycle.
+
+## Portable API
+
+`startup_initialization_run(input, destinations, stack, result)` operates
+on caller-owned storage for the fixed original table. Its validation and
+output-publication rules are host policy, not additional vendor behavior.
+
+All four object pointers are required and naturally aligned. Input contains
+31 incoming scalar register words: r0 through r23, GP, SP, LR, r27 through
+r29 and SR. Entry PC is implicit. GP must be 0x0EE04140. Other register
+values follow the general conditional domain above. There is no VERSION,
+source-table or record input.
+
+`destinations` contains exactly three mutable byte-span descriptors, in
+original table order. Each descriptor contains a byte pointer and length.
+Their required lengths are 2352, 2048 and 1011288 bytes, respectively.
+The numeric VPU addresses are the fixed allocation starts above and are
+not caller-supplied fields. All three byte pointers are required, including
+when a malformed descriptor has length zero. Byte storage need not have
+host alignment. Adjacent buffers are permitted; intersecting buffers are not.
+
+`stack` contains a mutable byte pointer, length and numeric VPU start
+address. Its byte pointer is required and needs no host alignment. Length
+is at most UINT32_MAX. The exclusive virtual end may equal 2^32 but may not
+exceed it. SP must be four-byte aligned and at least 24, and [SP-24, SP)
+must fit within the span. The entire virtual span excludes all three
+destination allocations, four code ranges and the 36-byte table listed
+above. Half-open ranges that meet only at an endpoint do not overlap.
+
+LR must be even and outside the entire virtual stack span and all those
+fixed destination, code and table ranges. These are conservative host
+stop-token checks. The vendor body saves the supplied word and returns
+through it without performing these validations; this interface does not
+define execution at the return target.
+
+Every full host pointer-plus-length must fit uintptr_t. The following host
+spans are pairwise disjoint: input, the complete destinations descriptor
+object, the stack descriptor, all three complete destination byte spans,
+the complete declared stack byte span and result. Input and descriptors
+remain immutable. All checks finish before any store. Numeric VPU addresses
+and register values never become host pointers.
+
+Result contains all 31 final scalar register words and final PC, with the
+values in the state relation above. Success returns
+`STARTUP_INITIALIZATION_OK` (0), separately from the final r0 word.
+Success changes only the three complete destination buffers, the five saved
+stack words and result. It preserves every other
+stack byte and publishes result after the memory effects. The API does not
+expose intermediate state, an event stream, instruction counts, callbacks
+or physical store timing.
+
+| Host status | Rejected condition |
+| --- | --- |
+| `STARTUP_INITIALIZATION_INVALID` | Null required object or byte pointer, typed-object misalignment, SP below 24 or not four-byte aligned, or odd LR |
+| `STARTUP_INITIALIZATION_UNSUPPORTED` | GP differs from 0x0EE04140 |
+| `STARTUP_INITIALIZATION_BOUNDS` | Host or virtual span wrap, stack length above UINT32_MAX, wrong destination length, or frame outside the stack span |
+| `STARTUP_INITIALIZATION_OVERLAP` | Intersecting host spans, stack intersection with a fixed destination/code/table range, or LR inside the stack or a forbidden fixed range |
+
+If several conditions fail, any applicable error may be returned. Rejection
+leaves every supplied byte and object unchanged. This preflight policy does
+not reproduce partial effects of unsupported vendor paths: the vendor
+stores its frame before checking the table header and provides no matching
+rollback guarantee.
+
+Callers provide actual backing, readable input/descriptors and stack,
+writable stack/destination bytes and result, and lifetime through return.
+Integer checks cannot establish allocation validity. No supplied storage
+is concurrently accessed during
+the call. No pointer is retained, allocated or freed. The operation performs
+no hardware access, INI parsing for other records, address fixups or service
+transition.
 
 ## Open questions
 
