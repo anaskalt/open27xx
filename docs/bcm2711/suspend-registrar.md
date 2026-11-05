@@ -23,6 +23,10 @@ software call. They do not establish physical lock acquisition, runtime
 object initialization or a successful [first open](arm-first-open.md).
 All tuple words are opaque identities. No callback token is invoked.
 
+The [driver-open callback](driver-open-masks.md) composes this registrar
+with an optional two-word mask copy and an outer raw-zero return. Its
+whole-call preflight precedes all mask and object writes.
+
 ## State and input domain
 
 The native entry receives a first key, callback token, cookie and name
