@@ -98,6 +98,17 @@ public class InspectStartupInitialization extends GhidraScript {
         "3049de857385368f7e0ddce054581921a1fa9895858265bed2e3d65f3a6fc995",
         "d6acbd437cd60a2e08e85dfe5cc12ce35f2726c159501c4e1f36d011aefa9e6d"
     }, 3, false, false);
+    private static final RangeSet POST_SOC = new RangeSet(new long[][] {
+        {0x0EC3689EL, 32, 0x3629E},
+        {0x0EC3694EL, 2, 0x3634E},
+        {0x0EC9BB62L, 52, 0x9B562},
+        {0x0EE055B8L, 4, 0x204F98}
+    }, new String[] {
+        "9f4cbfbe1383bd4a93393214d46f572318cac55fc97269c07f5e8b315963613b",
+        "ffd2b38b328fe2e10d03587fb8dad5dd902305255aa5d7ec9e6a56ea6c0bdc62",
+        "d687c5ef87eb345471664e27a0db02facb5cf99860f1925ea6afae02853d352b",
+        "1912c8284cab3593631677b89ce67380dce7acb80673b046d3812391643254f7"
+    }, 3, false, false);
     private RangeSet sourceSet = INITIALIZER;
 
     private static void check(boolean condition, String message) {
@@ -110,7 +121,7 @@ public class InspectStartupInitialization extends GhidraScript {
         check(mode.equals("listing") || mode.equals("pseudo"), "Invalid decode mode");
         String name = args.length == 4 ? args[3] : "initializer";
         check(name.equals("initializer") || name.equals("arrival") || name.equals("continuation")
-            || name.equals("soc"),
+            || name.equals("soc") || name.equals("post-soc"),
             "Invalid range set");
         if (name.equals("continuation")) {
             check(mode.equals("pseudo"), "Continuation requires pseudo mode");
@@ -120,13 +131,23 @@ public class InspectStartupInitialization extends GhidraScript {
             check(mode.equals("pseudo"), "SoC inspection requires pseudo mode");
             return new Options(mode, SOC);
         }
+        if (name.equals("post-soc")) {
+            check(mode.equals("pseudo"), "Post-SoC inspection requires pseudo mode");
+            return new Options(mode, POST_SOC);
+        }
         return new Options(mode, name.equals("arrival") ? ARRIVAL : INITIALIZER);
     }
 
     static String outputJson(JsonObject out, RangeSet source) {
         GsonBuilder builder = new GsonBuilder().setPrettyPrinting();
-        if (source.arrival() || source.prefix() || source == SOC) builder.serializeNulls();
+        if (source.arrival() || source.prefix() || source == SOC || source == POST_SOC) builder.serializeNulls();
         return builder.create().toJson(out) + "\n";
+    }
+
+    static void validatePcode(RangeSet source, PcodeOp[] operations) {
+        if (source != POST_SOC) return;
+        for (PcodeOp operation : operations)
+            check(operation.getOpcode() != PcodeOp.UNIMPLEMENTED, "Unimplemented post-SoC p-code");
     }
 
     private String digest(byte[] bytes) throws Exception {
@@ -176,7 +197,7 @@ public class InspectStartupInitialization extends GhidraScript {
                     item.addProperty("length", instruction.getLength());
                     item.addProperty("bytes", HexFormat.of().formatHex(instruction.getBytes()));
                     item.addProperty("text", instruction.toString());
-                    if (sourceSet.arrival() || sourceSet == SOC) item.add("instruction_context",
+                    if (sourceSet.arrival() || sourceSet == SOC || sourceSet == POST_SOC) item.add("instruction_context",
                         contextValue(instruction.getRegisterValue(contextRegister())));
                 }
                 item.add("context", contextAt(toAddr(pc)));
@@ -253,7 +274,7 @@ public class InspectStartupInitialization extends GhidraScript {
         out.addProperty("read", block.isRead());
         out.addProperty("write", block.isWrite());
         out.addProperty("execute", block.isExecute());
-        if (sourceSet == SOC) out.addProperty("kind",
+        if (sourceSet == SOC || sourceSet == POST_SOC) out.addProperty("kind",
             index < sourceSet.codeRanges() ? "code" : "uninterpreted_data");
         return out;
     }
@@ -447,8 +468,8 @@ public class InspectStartupInitialization extends GhidraScript {
         out.addProperty("compiler", currentProgram.getCompilerSpec().getCompilerSpecID().toString());
         out.addProperty("decode_mode", mode);
         if (sourceSet.arrival()) out.addProperty("range_set", "arrival");
-        if (sourceSet == SOC) {
-            out.addProperty("range_set", "soc");
+        if (sourceSet == SOC || sourceSet == POST_SOC) {
+            out.addProperty("range_set", sourceSet == SOC ? "soc" : "post-soc");
             out.addProperty("inspection_kind", "fixed_ranges");
             out.addProperty("function_complete", false);
         }
@@ -499,12 +520,14 @@ public class InspectStartupInitialization extends GhidraScript {
                 site.addProperty("bytes", HexFormat.of().formatHex(bytes));
                 site.addProperty("length", length);
                 site.add("decoder_context", context);
-                if (sourceSet.arrival() || sourceSet == SOC) site.add("instruction_context",
+                if (sourceSet.arrival() || sourceSet == SOC || sourceSet == POST_SOC) site.add("instruction_context",
                     contextValue(ins.getRegisterValue(contextRegister())));
                 site.addProperty("text", ins.toString());
                 site.addProperty("fallthrough", ins.getFallThrough() == null ? null : ins.getFallThrough().toString());
+                PcodeOp[] pcode = ins.getPcode();
+                validatePcode(sourceSet, pcode);
                 JsonArray code = new JsonArray();
-                for (PcodeOp op : ins.getPcode()) {
+                for (PcodeOp op : pcode) {
                     check(++operations <= 4096, "P-code cap exceeded");
                     check(op.getNumInputs() <= 32, "P-code input cap exceeded");
                     JsonObject operation = new JsonObject();
@@ -537,6 +560,7 @@ public class InspectStartupInitialization extends GhidraScript {
         String json = outputJson(out, sourceSet);
         check(json.length() <= 1048576, "Output cap exceeded");
         Files.writeString(output, json, StandardOpenOption.CREATE_NEW);
-        println(sourceSet == SOC ? "SOC_INITIALIZATION_STATIC_PCODE_OK" : "STARTUP_INITIALIZATION_STATIC_PCODE_OK");
+        println(sourceSet == POST_SOC ? "STARTUP_AFTER_SOC_STATIC_PCODE_OK"
+            : sourceSet == SOC ? "SOC_INITIALIZATION_STATIC_PCODE_OK" : "STARTUP_INITIALIZATION_STATIC_PCODE_OK");
     }
 }

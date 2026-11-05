@@ -215,10 +215,28 @@ output limits remain in force. Calls, VERSION operations and memory accesses
 are exported as static p-code; no firmware instructions execute. The selected
 ranges do not establish a complete function or control-flow graph.
 
+Append `pseudo post-soc` to inspect the following startup handoff ranges
+in the same `start4.elf` version and digest:
+
+| Kind | Address | File offset | Bytes |
+| --- | --- | --- | ---: |
+| Code | 0x0EC3689E | 0x3629E | 32 |
+| Code | 0x0EC3694E | 0x3634E | 2 |
+| Code | 0x0EC9BB62 | 0x9B562 | 52 |
+| Uninterpreted data | 0x0EE055B8 | 0x204F98 | 4 |
+
+This set uses `range_set: "post-soc"`, explicit context/null values and
+the same fixed-range metadata and caps. It rejects `UNIMPLEMENTED`
+p-code before writing an output. Decoding ends at 0x0EC368BE,
+0x0EC36950 and 0x0EC9BB96; no call or branch target is followed.
+The data word remains undecoded. No firmware instruction executes.
+These ranges do not establish caller arrival, saved-frame validity,
+live pointer preservation or a completed driver return.
+
 `CaptureSocInitialization.java` records the call from 0x0EC6221C to the
 terminal return at 0x0EC62370 in the same `start4.elf` version and digest.
 It requires the diagnostic byte at GP+0xCCDB8 to be 0..3 and rejects every
-external call. The source ranges above remain fixed. Six bytes at
+external call. The SoC initialization ranges above remain fixed. Six bytes at
 0x0EC62372, file offset 0x61D72, serve only as decoder transport; they are
 not executable sites or runtime data. For admitted instruction length L,
 the decoder may read within [PC,PC+max(8,L+3)). The six-byte instructions
