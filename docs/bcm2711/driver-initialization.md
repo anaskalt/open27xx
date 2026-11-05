@@ -175,8 +175,11 @@ rejection; absent output does not imply rollback.
 - Lookup completion and final state. Establish the real SWI/vector/trap
   frame/RTI transition and all four lookup outcomes before accepting the
   output index words, final store of one or complete initializer return.
-  The standalone [service word body](service-word-update.md) remains
-  separate evidence.
+  The standalone [service word body](service-word-update.md) and
+  [service initialization](service-initialization.md) remain separate
+  evidence. The latter constructs its own frame and completes through
+  pinned RTI semantics; it does not prove SWI trap-frame production or
+  this driver initializer's lookup result.
 - Opaque first-open word. Identify its actual producer and lifetime;
   the observed clearing span excludes GP+0x3B484. Neither initialization
   prefix nor [driver-open callback](driver-open-masks.md) produces it.

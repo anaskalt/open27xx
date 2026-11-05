@@ -1,0 +1,984 @@
+{
+  "schema": 1,
+  "source": {
+    "file": "start4.elf",
+    "repository": "raspberrypi/firmware",
+    "version": "ab5c7f86283ceb58b7adb269cae1d16092a31bf6",
+    "bytes": 2303104,
+    "sha256": "38b179897c4514ad11bc915c3fd2d4b68c51e05df2e42240717655ab92d91aeb"
+  },
+  "cases": [
+    {
+      "id": "first-version-primary",
+      "function": {
+        "entry": "0xCEC002A0",
+        "language": "vc4:LE:32:default"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "r0": "0xA0000000",
+          "r1": "0xA0000001",
+          "r2": "0xA0000002",
+          "r3": "0xA0000003",
+          "r4": "0xA0000004",
+          "r5": "0xA0000005",
+          "r6": "0xA0000006",
+          "r7": "0xA0000007",
+          "r8": "0xA0000008",
+          "r9": "0xA0000009",
+          "r10": "0xA000000A",
+          "r11": "0xA000000B",
+          "r12": "0xA000000C",
+          "r13": "0xA000000D",
+          "r14": "0xA000000E",
+          "r15": "0xA000000F",
+          "r16": "0xA0000010",
+          "r17": "0xA0000011",
+          "r18": "0xA0000012",
+          "r19": "0xA0000013",
+          "r20": "0xA0000014",
+          "r21": "0xA0000015",
+          "r22": "0xA0000016",
+          "r23": "0xA0000017",
+          "gp": "0xE4000000",
+          "sp": "0x24010000",
+          "sr": "0x00000000",
+          "r27": "0xB0000027",
+          "r28": "0xB0000028",
+          "r29": "0xB0000029"
+        },
+        "memory": [
+          {
+            "address": "0x2400FFC0",
+            "fill": "a5",
+            "size": 128
+          },
+          {
+            "address": "0xE403B484",
+            "hex": "d3d3d3d3"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24040000",
+        "step_limit": 150,
+        "stubs": [],
+        "mmio_responses": [],
+        "mmio_write_addresses": [
+          "0x7E002030",
+          "0x7EE0003C",
+          "0x7EE00040"
+        ],
+        "version_input": {
+          "word": "0x04000162",
+          "sites": [
+            {
+              "pc": "0xCEC002A0",
+              "destination": "r0"
+            },
+            {
+              "pc": "0xCEC002EA",
+              "destination": "r0"
+            }
+          ]
+        },
+        "elf_data": {
+          "regions": [
+            {
+              "address": "0xCEC01E80",
+              "size": 4,
+              "file_offset": "0x00000660",
+              "sha256": "fabeeb78a36193b6aebc55fd2e1654b76fb9f134526b8cdc8c20bc3c43a60f69"
+            }
+          ],
+          "operations": [
+            {
+              "kind": "read",
+              "pc": "0xCEC00DDC",
+              "address": "0xCEC01E80",
+              "size": 4
+            },
+            {
+              "kind": "write",
+              "pc": "0xCEC00DE2",
+              "address": "0xCEC01E80",
+              "size": 4
+            }
+          ]
+        }
+      },
+      "scope": "Complete standalone scalar initialization with original source-backed data, actual software-built return frame and installed RTI p-code",
+      "limitations": [
+        "VERSION words, incoming registers, fresh stack and opaque storage are explicit synthetic software inputs, not observed processor state.",
+        "The ordinary supplied LR is an external return address. Original instructions produce both frame words consumed by RTI; no exception frame or control result is supplied.",
+        "The primary route reads and writes the actual original ELF vector word through a source-bound observation plan. No caller vector bytes, guard overlays or already-tagged initial variant are supplied.",
+        "The secondary route does not access the vector word and declares no ELF data region. Physical meaning of the VERSION branch or vector tag is unresolved.",
+        "MMIO stores produce actual event bytes without initialized peripheral backing, supplied read values or hardware reset assumptions.",
+        "Only installed scalar p-code behavior is studied. Physical RTI privilege, stack-bank, interrupt-arrival and device semantics remain unresolved.",
+        "No SWI/dispatcher transition, higher first-open completion, service-index production or opaque-handle production executes."
+      ],
+      "expected": {
+        "registers": {
+          "r0": "0x00000000",
+          "r1": "0x7EE0003C",
+          "r2": "0x7EE00040",
+          "r3": "0xA0000003",
+          "r4": "0xA0000004",
+          "r5": "0x24040000",
+          "r6": "0xA0000006",
+          "r7": "0xA0000007",
+          "r8": "0xA0000008",
+          "r9": "0xA0000009",
+          "r10": "0xA000000A",
+          "r11": "0xA000000B",
+          "r12": "0xA000000C",
+          "r13": "0xA000000D",
+          "r14": "0xA000000E",
+          "r15": "0xA000000F",
+          "r16": "0xA0000010",
+          "r17": "0xA0000011",
+          "r18": "0xA0000012",
+          "r19": "0xA0000013",
+          "r20": "0xA0000014",
+          "r21": "0xA0000015",
+          "r22": "0xA0000016",
+          "r23": "0xA0000017",
+          "gp": "0xE4000000",
+          "sp": "0x24010000",
+          "lr": "0x24040000",
+          "r27": "0xB0000027",
+          "r28": "0xB0000028",
+          "r29": "0xB0000029",
+          "sr": "0x00000000",
+          "pc": "0x24040000"
+        },
+        "memory": [
+          {
+            "address": "0x2400FFC0",
+            "hex": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a50000000000000424a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+          },
+          {
+            "address": "0xE403B484",
+            "hex": "d3d3d3d3"
+          },
+          {
+            "address": "0xCEC01E80",
+            "hex": "a10dc0ce"
+          }
+        ],
+        "events": [
+          {
+            "kind": "version",
+            "pc": "0xCEC002A0",
+            "destination": "r0",
+            "value": "0x04000162",
+            "site_index": 0,
+            "step": 0
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0xCEC002BA",
+            "address": "0x7E002030",
+            "hex": "001ec0ce"
+          },
+          {
+            "kind": "version",
+            "pc": "0xCEC002EA",
+            "destination": "r0",
+            "value": "0x04000162",
+            "site_index": 1,
+            "step": 11
+          },
+          {
+            "kind": "elf_data_read",
+            "pc": "0xCEC00DDC",
+            "address": "0xCEC01E80",
+            "hex": "a00dc0ce",
+            "operation_index": 0,
+            "step": 21
+          },
+          {
+            "kind": "elf_data_write",
+            "pc": "0xCEC00DE2",
+            "address": "0xCEC01E80",
+            "hex": "a10dc0ce",
+            "operation_index": 1,
+            "step": 23
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0xCEC00DF6",
+            "address": "0x7EE0003C",
+            "hex": "0000c00e"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0xCEC00E02",
+            "address": "0x7EE00040",
+            "hex": "ff1fc00e"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0xCEC00E0C",
+            "address": "0x7EE0003C",
+            "hex": "0100c00e"
+          }
+        ]
+      },
+      "steps": 42
+    },
+    {
+      "id": "second-version-secondary-bit3",
+      "function": {
+        "entry": "0xCEC002A0",
+        "language": "vc4:LE:32:default"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "r0": "0xA0010000",
+          "r1": "0xA0010001",
+          "r2": "0xA0010002",
+          "r3": "0xA0010003",
+          "r4": "0xA0010004",
+          "r5": "0xA0010005",
+          "r6": "0xA0010006",
+          "r7": "0xA0010007",
+          "r8": "0xA0010008",
+          "r9": "0xA0010009",
+          "r10": "0xA001000A",
+          "r11": "0xA001000B",
+          "r12": "0xA001000C",
+          "r13": "0xA001000D",
+          "r14": "0xA001000E",
+          "r15": "0xA001000F",
+          "r16": "0xA0010010",
+          "r17": "0xA0010011",
+          "r18": "0xA0010012",
+          "r19": "0xA0010013",
+          "r20": "0xA0010014",
+          "r21": "0xA0010015",
+          "r22": "0xA0010016",
+          "r23": "0xA0010017",
+          "gp": "0xE4000000",
+          "sp": "0x24010000",
+          "sr": "0x400000A5",
+          "r27": "0xB0000027",
+          "r28": "0xB0000028",
+          "r29": "0xB0000029"
+        },
+        "memory": [
+          {
+            "address": "0x2400FFC0",
+            "fill": "a5",
+            "size": 128
+          },
+          {
+            "address": "0xE403B484",
+            "hex": "d2d3d3d3"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24040000",
+        "step_limit": 150,
+        "stubs": [],
+        "mmio_responses": [],
+        "mmio_write_addresses": [
+          "0x7E002830"
+        ],
+        "version_input": {
+          "word": "0x04010169",
+          "sites": [
+            {
+              "pc": "0xCEC002A0",
+              "destination": "r0"
+            },
+            {
+              "pc": "0xCEC002EA",
+              "destination": "r0"
+            }
+          ]
+        }
+      },
+      "scope": "Complete standalone scalar initialization with original source-backed data, actual software-built return frame and installed RTI p-code",
+      "limitations": [
+        "VERSION words, incoming registers, fresh stack and opaque storage are explicit synthetic software inputs, not observed processor state.",
+        "The ordinary supplied LR is an external return address. Original instructions produce both frame words consumed by RTI; no exception frame or control result is supplied.",
+        "The primary route reads and writes the actual original ELF vector word through a source-bound observation plan. No caller vector bytes, guard overlays or already-tagged initial variant are supplied.",
+        "The secondary route does not access the vector word and declares no ELF data region. Physical meaning of the VERSION branch or vector tag is unresolved.",
+        "MMIO stores produce actual event bytes without initialized peripheral backing, supplied read values or hardware reset assumptions.",
+        "Only installed scalar p-code behavior is studied. Physical RTI privilege, stack-bank, interrupt-arrival and device semantics remain unresolved.",
+        "No SWI/dispatcher transition, higher first-open completion, service-index production or opaque-handle production executes."
+      ],
+      "expected": {
+        "registers": {
+          "r0": "0x00000000",
+          "r1": "0x7E002830",
+          "r2": "0xCEC01E00",
+          "r3": "0xA0010003",
+          "r4": "0xA0010004",
+          "r5": "0xA0010005",
+          "r6": "0xA0010006",
+          "r7": "0xA0010007",
+          "r8": "0xA0010008",
+          "r9": "0xA0010009",
+          "r10": "0xA001000A",
+          "r11": "0xA001000B",
+          "r12": "0xA001000C",
+          "r13": "0xA001000D",
+          "r14": "0xA001000E",
+          "r15": "0xA001000F",
+          "r16": "0xA0010010",
+          "r17": "0xA0010011",
+          "r18": "0xA0010012",
+          "r19": "0xA0010013",
+          "r20": "0xA0010014",
+          "r21": "0xA0010015",
+          "r22": "0xA0010016",
+          "r23": "0xA0010017",
+          "gp": "0xE4000000",
+          "sp": "0x24010000",
+          "lr": "0x24040000",
+          "r27": "0xB0000027",
+          "r28": "0xB0000028",
+          "r29": "0xB0000029",
+          "sr": "0x00000000",
+          "pc": "0x24040000"
+        },
+        "memory": [
+          {
+            "address": "0x2400FFC0",
+            "hex": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a50000000000000424a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+          },
+          {
+            "address": "0xE403B484",
+            "hex": "d2d3d3d3"
+          }
+        ],
+        "events": [
+          {
+            "kind": "version",
+            "pc": "0xCEC002A0",
+            "destination": "r0",
+            "value": "0x04010169",
+            "site_index": 0,
+            "step": 0
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0xCEC002BA",
+            "address": "0x7E002830",
+            "hex": "001ec0ce"
+          },
+          {
+            "kind": "version",
+            "pc": "0xCEC002EA",
+            "destination": "r0",
+            "value": "0x04010169",
+            "site_index": 1,
+            "step": 12
+          }
+        ]
+      },
+      "steps": 20
+    },
+    {
+      "id": "third-version-primary-bit3",
+      "function": {
+        "entry": "0xCEC002A0",
+        "language": "vc4:LE:32:default"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "r0": "0xA0020000",
+          "r1": "0xA0020001",
+          "r2": "0xA0020002",
+          "r3": "0xA0020003",
+          "r4": "0xA0020004",
+          "r5": "0xA0020005",
+          "r6": "0xA0020006",
+          "r7": "0xA0020007",
+          "r8": "0xA0020008",
+          "r9": "0xA0020009",
+          "r10": "0xA002000A",
+          "r11": "0xA002000B",
+          "r12": "0xA002000C",
+          "r13": "0xA002000D",
+          "r14": "0xA002000E",
+          "r15": "0xA002000F",
+          "r16": "0xA0020010",
+          "r17": "0xA0020011",
+          "r18": "0xA0020012",
+          "r19": "0xA0020013",
+          "r20": "0xA0020014",
+          "r21": "0xA0020015",
+          "r22": "0xA0020016",
+          "r23": "0xA0020017",
+          "gp": "0xE4000000",
+          "sp": "0x24010000",
+          "sr": "0xFFFFFFFF",
+          "r27": "0xB0000027",
+          "r28": "0xB0000028",
+          "r29": "0xB0000029"
+        },
+        "memory": [
+          {
+            "address": "0x2400FFC0",
+            "fill": "a5",
+            "size": 128
+          },
+          {
+            "address": "0xE403B484",
+            "hex": "d1d3d3d3"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24040000",
+        "step_limit": 150,
+        "stubs": [],
+        "mmio_responses": [],
+        "mmio_write_addresses": [
+          "0x7E002030",
+          "0x7EE0003C",
+          "0x7EE00040"
+        ],
+        "version_input": {
+          "word": "0x04000168",
+          "sites": [
+            {
+              "pc": "0xCEC002A0",
+              "destination": "r0"
+            },
+            {
+              "pc": "0xCEC002EA",
+              "destination": "r0"
+            }
+          ]
+        },
+        "elf_data": {
+          "regions": [
+            {
+              "address": "0xCEC01E80",
+              "size": 4,
+              "file_offset": "0x00000660",
+              "sha256": "fabeeb78a36193b6aebc55fd2e1654b76fb9f134526b8cdc8c20bc3c43a60f69"
+            }
+          ],
+          "operations": [
+            {
+              "kind": "read",
+              "pc": "0xCEC00DDC",
+              "address": "0xCEC01E80",
+              "size": 4
+            },
+            {
+              "kind": "write",
+              "pc": "0xCEC00DE2",
+              "address": "0xCEC01E80",
+              "size": 4
+            }
+          ]
+        }
+      },
+      "scope": "Complete standalone scalar initialization with original source-backed data, actual software-built return frame and installed RTI p-code",
+      "limitations": [
+        "VERSION words, incoming registers, fresh stack and opaque storage are explicit synthetic software inputs, not observed processor state.",
+        "The ordinary supplied LR is an external return address. Original instructions produce both frame words consumed by RTI; no exception frame or control result is supplied.",
+        "The primary route reads and writes the actual original ELF vector word through a source-bound observation plan. No caller vector bytes, guard overlays or already-tagged initial variant are supplied.",
+        "The secondary route does not access the vector word and declares no ELF data region. Physical meaning of the VERSION branch or vector tag is unresolved.",
+        "MMIO stores produce actual event bytes without initialized peripheral backing, supplied read values or hardware reset assumptions.",
+        "Only installed scalar p-code behavior is studied. Physical RTI privilege, stack-bank, interrupt-arrival and device semantics remain unresolved.",
+        "No SWI/dispatcher transition, higher first-open completion, service-index production or opaque-handle production executes."
+      ],
+      "expected": {
+        "registers": {
+          "r0": "0x00000000",
+          "r1": "0x7EE0003C",
+          "r2": "0x7EE00040",
+          "r3": "0xA0020003",
+          "r4": "0xA0020004",
+          "r5": "0x24040000",
+          "r6": "0xA0020006",
+          "r7": "0xA0020007",
+          "r8": "0xA0020008",
+          "r9": "0xA0020009",
+          "r10": "0xA002000A",
+          "r11": "0xA002000B",
+          "r12": "0xA002000C",
+          "r13": "0xA002000D",
+          "r14": "0xA002000E",
+          "r15": "0xA002000F",
+          "r16": "0xA0020010",
+          "r17": "0xA0020011",
+          "r18": "0xA0020012",
+          "r19": "0xA0020013",
+          "r20": "0xA0020014",
+          "r21": "0xA0020015",
+          "r22": "0xA0020016",
+          "r23": "0xA0020017",
+          "gp": "0xE4000000",
+          "sp": "0x24010000",
+          "lr": "0x24040000",
+          "r27": "0xB0000027",
+          "r28": "0xB0000028",
+          "r29": "0xB0000029",
+          "sr": "0x00000000",
+          "pc": "0x24040000"
+        },
+        "memory": [
+          {
+            "address": "0x2400FFC0",
+            "hex": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a50000000000000424a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+          },
+          {
+            "address": "0xE403B484",
+            "hex": "d1d3d3d3"
+          },
+          {
+            "address": "0xCEC01E80",
+            "hex": "a10dc0ce"
+          }
+        ],
+        "events": [
+          {
+            "kind": "version",
+            "pc": "0xCEC002A0",
+            "destination": "r0",
+            "value": "0x04000168",
+            "site_index": 0,
+            "step": 0
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0xCEC002BA",
+            "address": "0x7E002030",
+            "hex": "001ec0ce"
+          },
+          {
+            "kind": "version",
+            "pc": "0xCEC002EA",
+            "destination": "r0",
+            "value": "0x04000168",
+            "site_index": 1,
+            "step": 15
+          },
+          {
+            "kind": "elf_data_read",
+            "pc": "0xCEC00DDC",
+            "address": "0xCEC01E80",
+            "hex": "a00dc0ce",
+            "operation_index": 0,
+            "step": 25
+          },
+          {
+            "kind": "elf_data_write",
+            "pc": "0xCEC00DE2",
+            "address": "0xCEC01E80",
+            "hex": "a10dc0ce",
+            "operation_index": 1,
+            "step": 27
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0xCEC00DF6",
+            "address": "0x7EE0003C",
+            "hex": "0000c00e"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0xCEC00E02",
+            "address": "0x7EE00040",
+            "hex": "ff1fc00e"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0xCEC00E0C",
+            "address": "0x7EE0003C",
+            "hex": "0100c00e"
+          }
+        ]
+      },
+      "steps": 46
+    },
+    {
+      "id": "fourth-version-secondary",
+      "function": {
+        "entry": "0xCEC002A0",
+        "language": "vc4:LE:32:default"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "r0": "0xA0030000",
+          "r1": "0xA0030001",
+          "r2": "0xA0030002",
+          "r3": "0xA0030003",
+          "r4": "0xA0030004",
+          "r5": "0xA0030005",
+          "r6": "0xA0030006",
+          "r7": "0xA0030007",
+          "r8": "0xA0030008",
+          "r9": "0xA0030009",
+          "r10": "0xA003000A",
+          "r11": "0xA003000B",
+          "r12": "0xA003000C",
+          "r13": "0xA003000D",
+          "r14": "0xA003000E",
+          "r15": "0xA003000F",
+          "r16": "0xA0030010",
+          "r17": "0xA0030011",
+          "r18": "0xA0030012",
+          "r19": "0xA0030013",
+          "r20": "0xA0030014",
+          "r21": "0xA0030015",
+          "r22": "0xA0030016",
+          "r23": "0xA0030017",
+          "gp": "0xE4000000",
+          "sp": "0x24010000",
+          "sr": "0x80000008",
+          "r27": "0xB0000027",
+          "r28": "0xB0000028",
+          "r29": "0xB0000029"
+        },
+        "memory": [
+          {
+            "address": "0x2400FFC0",
+            "fill": "a5",
+            "size": 128
+          },
+          {
+            "address": "0xE403B484",
+            "hex": "d0d3d3d3"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24040000",
+        "step_limit": 150,
+        "stubs": [],
+        "mmio_responses": [],
+        "mmio_write_addresses": [
+          "0x7E002830"
+        ],
+        "version_input": {
+          "word": "0x04010140",
+          "sites": [
+            {
+              "pc": "0xCEC002A0",
+              "destination": "r0"
+            },
+            {
+              "pc": "0xCEC002EA",
+              "destination": "r0"
+            }
+          ]
+        }
+      },
+      "scope": "Complete standalone scalar initialization with original source-backed data, actual software-built return frame and installed RTI p-code",
+      "limitations": [
+        "VERSION words, incoming registers, fresh stack and opaque storage are explicit synthetic software inputs, not observed processor state.",
+        "The ordinary supplied LR is an external return address. Original instructions produce both frame words consumed by RTI; no exception frame or control result is supplied.",
+        "The primary route reads and writes the actual original ELF vector word through a source-bound observation plan. No caller vector bytes, guard overlays or already-tagged initial variant are supplied.",
+        "The secondary route does not access the vector word and declares no ELF data region. Physical meaning of the VERSION branch or vector tag is unresolved.",
+        "MMIO stores produce actual event bytes without initialized peripheral backing, supplied read values or hardware reset assumptions.",
+        "Only installed scalar p-code behavior is studied. Physical RTI privilege, stack-bank, interrupt-arrival and device semantics remain unresolved.",
+        "No SWI/dispatcher transition, higher first-open completion, service-index production or opaque-handle production executes."
+      ],
+      "expected": {
+        "registers": {
+          "r0": "0x00000000",
+          "r1": "0x7E002830",
+          "r2": "0xCEC01E00",
+          "r3": "0xA0030003",
+          "r4": "0xA0030004",
+          "r5": "0xA0030005",
+          "r6": "0xA0030006",
+          "r7": "0xA0030007",
+          "r8": "0xA0030008",
+          "r9": "0xA0030009",
+          "r10": "0xA003000A",
+          "r11": "0xA003000B",
+          "r12": "0xA003000C",
+          "r13": "0xA003000D",
+          "r14": "0xA003000E",
+          "r15": "0xA003000F",
+          "r16": "0xA0030010",
+          "r17": "0xA0030011",
+          "r18": "0xA0030012",
+          "r19": "0xA0030013",
+          "r20": "0xA0030014",
+          "r21": "0xA0030015",
+          "r22": "0xA0030016",
+          "r23": "0xA0030017",
+          "gp": "0xE4000000",
+          "sp": "0x24010000",
+          "lr": "0x24040000",
+          "r27": "0xB0000027",
+          "r28": "0xB0000028",
+          "r29": "0xB0000029",
+          "sr": "0x00000000",
+          "pc": "0x24040000"
+        },
+        "memory": [
+          {
+            "address": "0x2400FFC0",
+            "hex": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a50000000000000424a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+          },
+          {
+            "address": "0xE403B484",
+            "hex": "d0d3d3d3"
+          }
+        ],
+        "events": [
+          {
+            "kind": "version",
+            "pc": "0xCEC002A0",
+            "destination": "r0",
+            "value": "0x04010140",
+            "site_index": 0,
+            "step": 0
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0xCEC002BA",
+            "address": "0x7E002830",
+            "hex": "001ec0ce"
+          },
+          {
+            "kind": "version",
+            "pc": "0xCEC002EA",
+            "destination": "r0",
+            "value": "0x04010140",
+            "site_index": 1,
+            "step": 16
+          }
+        ]
+      },
+      "steps": 24
+    },
+    {
+      "id": "fifth-version-primary",
+      "function": {
+        "entry": "0xCEC002A0",
+        "language": "vc4:LE:32:default"
+      },
+      "setup": {
+        "register_default": "0x00000000",
+        "registers": {
+          "r0": "0xA0040000",
+          "r1": "0xA0040001",
+          "r2": "0xA0040002",
+          "r3": "0xA0040003",
+          "r4": "0xA0040004",
+          "r5": "0xA0040005",
+          "r6": "0xA0040006",
+          "r7": "0xA0040007",
+          "r8": "0xA0040008",
+          "r9": "0xA0040009",
+          "r10": "0xA004000A",
+          "r11": "0xA004000B",
+          "r12": "0xA004000C",
+          "r13": "0xA004000D",
+          "r14": "0xA004000E",
+          "r15": "0xA004000F",
+          "r16": "0xA0040010",
+          "r17": "0xA0040011",
+          "r18": "0xA0040012",
+          "r19": "0xA0040013",
+          "r20": "0xA0040014",
+          "r21": "0xA0040015",
+          "r22": "0xA0040016",
+          "r23": "0xA0040017",
+          "gp": "0xE4000000",
+          "sp": "0x24010000",
+          "sr": "0x1234567B",
+          "r27": "0xB0000027",
+          "r28": "0xB0000028",
+          "r29": "0xB0000029"
+        },
+        "memory": [
+          {
+            "address": "0x2400FFC0",
+            "fill": "a5",
+            "size": 128
+          },
+          {
+            "address": "0xE403B484",
+            "hex": "d7d3d3d3"
+          }
+        ]
+      },
+      "execution": {
+        "return_address": "0x24040000",
+        "step_limit": 150,
+        "stubs": [],
+        "mmio_responses": [],
+        "mmio_write_addresses": [
+          "0x7E002030",
+          "0x7EE0003C",
+          "0x7EE00040"
+        ],
+        "version_input": {
+          "word": "0x0400010C",
+          "sites": [
+            {
+              "pc": "0xCEC002A0",
+              "destination": "r0"
+            },
+            {
+              "pc": "0xCEC002EA",
+              "destination": "r0"
+            }
+          ]
+        },
+        "elf_data": {
+          "regions": [
+            {
+              "address": "0xCEC01E80",
+              "size": 4,
+              "file_offset": "0x00000660",
+              "sha256": "fabeeb78a36193b6aebc55fd2e1654b76fb9f134526b8cdc8c20bc3c43a60f69"
+            }
+          ],
+          "operations": [
+            {
+              "kind": "read",
+              "pc": "0xCEC00DDC",
+              "address": "0xCEC01E80",
+              "size": 4
+            },
+            {
+              "kind": "write",
+              "pc": "0xCEC00DE2",
+              "address": "0xCEC01E80",
+              "size": 4
+            }
+          ]
+        }
+      },
+      "scope": "Complete standalone scalar initialization with original source-backed data, actual software-built return frame and installed RTI p-code",
+      "limitations": [
+        "VERSION words, incoming registers, fresh stack and opaque storage are explicit synthetic software inputs, not observed processor state.",
+        "The ordinary supplied LR is an external return address. Original instructions produce both frame words consumed by RTI; no exception frame or control result is supplied.",
+        "The primary route reads and writes the actual original ELF vector word through a source-bound observation plan. No caller vector bytes, guard overlays or already-tagged initial variant are supplied.",
+        "The secondary route does not access the vector word and declares no ELF data region. Physical meaning of the VERSION branch or vector tag is unresolved.",
+        "MMIO stores produce actual event bytes without initialized peripheral backing, supplied read values or hardware reset assumptions.",
+        "Only installed scalar p-code behavior is studied. Physical RTI privilege, stack-bank, interrupt-arrival and device semantics remain unresolved.",
+        "No SWI/dispatcher transition, higher first-open completion, service-index production or opaque-handle production executes."
+      ],
+      "expected": {
+        "registers": {
+          "r0": "0x00000000",
+          "r1": "0x7EE0003C",
+          "r2": "0x7EE00040",
+          "r3": "0xA0040003",
+          "r4": "0xA0040004",
+          "r5": "0x24040000",
+          "r6": "0xA0040006",
+          "r7": "0xA0040007",
+          "r8": "0xA0040008",
+          "r9": "0xA0040009",
+          "r10": "0xA004000A",
+          "r11": "0xA004000B",
+          "r12": "0xA004000C",
+          "r13": "0xA004000D",
+          "r14": "0xA004000E",
+          "r15": "0xA004000F",
+          "r16": "0xA0040010",
+          "r17": "0xA0040011",
+          "r18": "0xA0040012",
+          "r19": "0xA0040013",
+          "r20": "0xA0040014",
+          "r21": "0xA0040015",
+          "r22": "0xA0040016",
+          "r23": "0xA0040017",
+          "gp": "0xE4000000",
+          "sp": "0x24010000",
+          "lr": "0x24040000",
+          "r27": "0xB0000027",
+          "r28": "0xB0000028",
+          "r29": "0xB0000029",
+          "sr": "0x00000000",
+          "pc": "0x24040000"
+        },
+        "memory": [
+          {
+            "address": "0x2400FFC0",
+            "hex": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a50000000000000424a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+          },
+          {
+            "address": "0xE403B484",
+            "hex": "d7d3d3d3"
+          },
+          {
+            "address": "0xCEC01E80",
+            "hex": "a10dc0ce"
+          }
+        ],
+        "events": [
+          {
+            "kind": "version",
+            "pc": "0xCEC002A0",
+            "destination": "r0",
+            "value": "0x0400010C",
+            "site_index": 0,
+            "step": 0
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0xCEC002BA",
+            "address": "0x7E002030",
+            "hex": "001ec0ce"
+          },
+          {
+            "kind": "version",
+            "pc": "0xCEC002EA",
+            "destination": "r0",
+            "value": "0x0400010C",
+            "site_index": 1,
+            "step": 19
+          },
+          {
+            "kind": "elf_data_read",
+            "pc": "0xCEC00DDC",
+            "address": "0xCEC01E80",
+            "hex": "a00dc0ce",
+            "operation_index": 0,
+            "step": 29
+          },
+          {
+            "kind": "elf_data_write",
+            "pc": "0xCEC00DE2",
+            "address": "0xCEC01E80",
+            "hex": "a10dc0ce",
+            "operation_index": 1,
+            "step": 31
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0xCEC00DF6",
+            "address": "0x7EE0003C",
+            "hex": "0000c00e"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0xCEC00E02",
+            "address": "0x7EE00040",
+            "hex": "ff1fc00e"
+          },
+          {
+            "kind": "mmio_write",
+            "pc": "0xCEC00E0C",
+            "address": "0x7EE0003C",
+            "hex": "0100c00e"
+          }
+        ]
+      },
+      "steps": 50
+    }
+  ]
+}
