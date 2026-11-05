@@ -8,6 +8,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ### Added
 
+- Freestanding fixed-table startup clearing with complete scalar and stack
+  results, exact destination spans and atomic input rejection.
 - Fixed-table startup clear contract with general caller state,
   exact allocation storage and complete preflight and return effects.
 - Conditional startup arrival with VERSION-selected caller state,

@@ -1643,6 +1643,59 @@ bit, full-width inputs and arbitrary incoming scalar state. Additional
 cases check complete LR exclusions, adjacent and overlapping host objects,
 misaligned and wrapping pointers, and unchanged storage on rejection.
 
+## Startup initialization
+
+[`startup_initialization.h`](startup_initialization.h) exposes
+`startup_initialization_run` from
+[`startup_initialization.c`](startup_initialization.c). The
+[fixed-table contract](../../docs/bcm2711/startup-initialization.md)
+defines the admitted scalar state, three destination buffers and retained
+stack frame.
+
+```c
+startup_initialization_run(input, destinations, stack, result);
+```
+
+Input contains 31 scalar register words. GP must be 0x0EE04140.
+Destinations contains three byte-pointer/length pairs, in the fixed table
+order, with lengths 2352, 2048 and 1011288 bytes. Stack contains a byte
+pointer, length and numeric VPU start address. SP is four-byte aligned,
+at least 24 and has its full 24-byte frame inside that stack span.
+
+Success zeroes all three destination buffers and saves incoming LR and
+r6 through r9 at SP-4 through SP-20 in little-endian order. Every other
+stack byte remains unchanged, including the reserved word at SP-24.
+Result contains all final register words and PC and is published after
+the memory effects. Host status is separate from final r0. No event
+stream, instruction counts, callbacks or intermediate state are exposed.
+
+All four objects and byte pointers are required. Typed objects are
+naturally aligned; byte storage may be unaligned. Complete preflight
+checks host span bounds and pairwise disjointness, exact destination
+lengths, GP, the virtual stack span and LR. Adjacent spans are permitted.
+The virtual stack end may equal 2^32. The whole stack span and even LR
+exclude the fixed source, table and destination ranges; LR also lies
+outside the stack. Rejection preserves every supplied byte and object.
+
+Callers supply backing, readable input/descriptors and stack, writable
+stack/destination bytes and result, and lifetime with no concurrent access
+during the call. Numeric addresses never become host pointers. The helper
+performs no hardware access, address fixups, general table parsing or
+service transition. The documented conditional result does not establish
+startup arrival or a live first-open handle.
+
+```sh
+python3 -m unittest tests.test_startup_initialization
+make -C src/start4 check-startup-initialization
+```
+
+Tests compare both documented profiles and complete destination, stack
+and scalar state for arbitrary input bytes and all incoming SR low nibbles.
+Additional cases check frame boundaries, unaligned byte storage, adjacent
+spans, all virtual exclusions, host overlap and unchanged storage on
+rejection. The isolated VPU compilation target uses the existing flags
+and leaves the helper unlinked from the runtime image.
+
 ## Service initialization
 
 [`service_initialization.h`](service_initialization.h) exposes
