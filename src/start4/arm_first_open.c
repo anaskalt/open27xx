@@ -4,9 +4,22 @@
 
 #include "arm_first_open.h"
 
+#include <stddef.h>
+
+struct inputs_alignment { char prefix; struct arm_first_open_inputs value; };
+struct state_alignment { char prefix; struct arm_first_open_state value; };
+struct replies_alignment { char prefix; struct arm_first_open_reply_plan value; };
+struct reads_alignment { char prefix; struct arm_first_open_read_plan value; };
+struct observers_alignment { char prefix; struct arm_first_open_observers value; };
+struct read_alignment { char prefix; struct arm_first_open_read value; };
+struct word_alignment { char prefix; uint32_t value; };
+
+#define ALIGNMENT(name) offsetof(struct name##_alignment, value)
+
 struct span {
     const void *pointer;
     size_t length;
+    size_t alignment;
 };
 
 static enum arm_first_open_status validate_spans(const struct span *spans,
@@ -30,14 +43,19 @@ static enum arm_first_open_status validate_spans(const struct span *spans,
                 return ARM_FIRST_OPEN_OVERLAP;
         }
     }
+    for (left = 0; left < count; ++left)
+        if ((uintptr_t)spans[left].pointer % spans[left].alignment != 0)
+            return ARM_FIRST_OPEN_INVALID;
     return ARM_FIRST_OPEN_OK;
 }
 
 enum arm_first_open_status arm_callback_register(
     uint32_t code, uint32_t new_callback, uint32_t *selected_callback,
     uint32_t *old_callback, uint32_t *raw_result) {
-    struct span spans[] = {{selected_callback, sizeof(*selected_callback)},
-        {old_callback, sizeof(*old_callback)}, {raw_result, sizeof(*raw_result)}};
+    struct span spans[] = {
+        {selected_callback, sizeof(*selected_callback), ALIGNMENT(word)},
+        {old_callback, sizeof(*old_callback), ALIGNMENT(word)},
+        {raw_result, sizeof(*raw_result), ALIGNMENT(word)}};
     enum arm_first_open_status status = validate_spans(spans, 3);
     uint32_t selected, raw;
     if (status != ARM_FIRST_OPEN_OK)
@@ -71,13 +89,18 @@ enum arm_first_open_status arm_first_open_execute(
     const struct arm_first_open_reply_plan *replies,
     const struct arm_first_open_read_plan *reads,
     const struct arm_first_open_observers *observers, uint32_t *raw_result) {
-    struct span spans[13] = {{inputs, sizeof(*inputs)}, {state, sizeof(*state)},
-        {records, records_length}, {cpu_word, sizeof(*cpu_word)},
-        {secondary_word, secondary_word != NULL ? sizeof(*secondary_word) : 0},
-        {service_index, service_index != NULL ? sizeof(*service_index) : 0},
-        {handle_output, sizeof(*handle_output)}, {replies, sizeof(*replies)},
-        {reads, sizeof(*reads)}, {observers, sizeof(*observers)},
-        {raw_result, sizeof(*raw_result)}, {NULL, 0}, {NULL, 0}};
+    struct span spans[13] = {
+        {inputs, sizeof(*inputs), ALIGNMENT(inputs)},
+        {state, sizeof(*state), ALIGNMENT(state)},
+        {records, records_length, 1}, {cpu_word, sizeof(*cpu_word), ALIGNMENT(word)},
+        {secondary_word, secondary_word != NULL ? sizeof(*secondary_word) : 0, ALIGNMENT(word)},
+        {service_index, service_index != NULL ? sizeof(*service_index) : 0, ALIGNMENT(word)},
+        {handle_output, sizeof(*handle_output), ALIGNMENT(word)},
+        {replies, sizeof(*replies), ALIGNMENT(replies)},
+        {reads, sizeof(*reads), ALIGNMENT(reads)},
+        {observers, sizeof(*observers), ALIGNMENT(observers)},
+        {raw_result, sizeof(*raw_result), ALIGNMENT(word)},
+        {NULL, 0, ALIGNMENT(word)}, {NULL, 0, ALIGNMENT(read)}};
     enum arm_first_open_status status = validate_spans(spans, 11);
     struct arm_object_plan registrar;
     const struct arm_first_open_read *read;
