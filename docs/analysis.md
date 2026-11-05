@@ -1,5 +1,10 @@
 # Headless firmware analysis
 
+The [startup memory recorder](startup-zero-observations.md) binds exact
+original ELF allocations, detached instruction sites and two synthetic
+caller profiles. It records complete memory observations and separate
+runtime-data and decoder-transport streams.
+
 `tools/ghidra/analyze.py` imports four inputs into a fresh Ghidra project,
 runs automatic analysis and exports JSON inventories. It requires Python
 3.9 or later, Ghidra 12.2 and the VideoCoreIV extension release

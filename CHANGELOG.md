@@ -8,6 +8,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ### Added
 
+- Bounded startup memory capture with original ELF allocation checks,
+  separate decoder/data streams and complete poisoned-memory observations.
 - Freestanding service-token lookup with complete scalar state, full-width
   queries, fixed numeric tokens and complete input/output storage preflight.
 - Read-only startup inspection with exact source ranges, original-file
