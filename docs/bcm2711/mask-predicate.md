@@ -253,4 +253,6 @@ emulated effects.
   claim beyond the pinned compiled behavior.
 - Later service and opaque output. Resolve the caller's exception and
   service transition, together with the opaque-word producer, before
-  claiming a successful first open. This predicate has no such effects.
+  claiming a successful first open. The [masked first-open composition](arm-first-open-masked.md)
+  joins this predicate to actual registration and a complete raw-one rejection;
+  it preserves the unresolved clear-mask service boundary.

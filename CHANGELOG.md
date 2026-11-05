@@ -8,6 +8,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ### Added
 
+- Masked first-open composition contract with actual shared registration,
+  derived status, ordered retained effects, bounded general inputs and
+  five complete synthetic rejections with a separate service prefix.
+
 - Driver initialization prefixes with actual 96-byte clearing, first lookup
   preparation and DI observations before the unresolved SWI boundary.
 - Freestanding general mask predicate and scalar word-pair shift, with
