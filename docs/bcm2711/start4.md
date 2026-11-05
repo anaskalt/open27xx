@@ -75,6 +75,12 @@ store in `.text.bootloader_state` and the supplied-record parser in `start4.elf`
 Its vectors cover copy bounds, cached records and allocation zeroing. Record
 production and complete platform initialization remain outside that contract.
 
+In `start4.elf` identified above, the
+[original-table startup initializer](startup-initialization.md) clears three
+complete ELF allocations through two recorded calls at 0x0EC3D740.
+The calls retain the original table and addresses; actual startup arrival,
+later state lifetime and other table paths remain outside that result.
+
 ### Header checks
 
 In the identified `bootmain`, 0x0008E2A2 takes the image pointer in `r0` and byte length in `r1`. It returns zero for the accepted header and 0xFFFFFFFF for a rejected header. [elf-header.json](../../tests/vectors/bootmain/elf-header.json) records ten cases.

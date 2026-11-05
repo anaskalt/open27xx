@@ -8,6 +8,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ### Added
 
+- Original-table startup initialization behavior with complete allocation
+  clearing, caller state and natural returns in two bounded observations.
 - Bounded startup memory capture with original ELF allocation checks,
   separate decoder/data streams and complete poisoned-memory observations.
 - Freestanding service-token lookup with complete scalar state, full-width

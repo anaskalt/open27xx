@@ -186,6 +186,9 @@ rejection; absent output does not imply rollback.
 - Opaque first-open word. Identify its actual producer and lifetime;
   the observed clearing span excludes GP+0x3B484. Neither initialization
   prefix nor [driver-open callback](driver-open-masks.md) produces it.
+  Separate [original-table startup calls](startup-initialization.md#relation-to-first-open-state)
+  clear this word with GP 0x0EE04140. Establish startup ordering,
+  intervening writes and address mapping before using that zero at first open.
 - Physical interrupt behavior. Resolve the [IRQ questions](vpu-irq.md#open-questions)
   separately. A supplied no-arrival condition and observed SR change do
   not establish real interrupt delivery, exclusion or hardware state.
